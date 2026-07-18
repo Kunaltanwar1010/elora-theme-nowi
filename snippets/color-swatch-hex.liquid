@@ -1,0 +1,36 @@
+{% comment %}
+  Returns hex color code for a given color label.
+  Used for color swatches in filter UIs.
+
+  Accepts:
+  - color_label: {String} The color name (e.g., "Black", "Navy Blue")
+
+  Usage:
+  {%- capture swatch_color -%}{%- render 'color-swatch-hex', color_label: value.label -%}{%- endcapture -%}
+
+  This snippet looks up the color from Shopify's Color metaobjects (shopify--color-pattern).
+{% endcomment %}
+
+{%- liquid
+  assign color_lower = color_label | downcase | strip
+  assign found_color = null
+
+  # Access Shopify's standard Color metaobjects
+  assign color_metaobjects = shop.metaobjects['shopify--color-pattern'].values
+
+  for color_obj in color_metaobjects
+    assign obj_label_lower = color_obj.label | downcase | strip
+    if obj_label_lower == color_lower
+      # Field handle is lowercase 'color' (type: Color)
+      assign found_color = color_obj.color
+      break
+    endif
+  endfor
+
+  # Output found color or multicolor gradient
+  if found_color != blank
+    echo found_color
+  elsif color_lower == 'multicolor' or color_lower == 'multi'
+    echo 'conic-gradient(from 0deg, red, yellow, lime, cyan, blue, magenta, red)'
+  endif
+-%}

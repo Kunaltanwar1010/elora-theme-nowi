@@ -1,0 +1,224 @@
+{% comment %}
+  Renders a styled address form
+
+  Accepts:
+  - form: {Object} Form Liquid object (required)
+  - form_id: {String} Unique form identifier (required)
+  - is_new: {Boolean} Whether this is a new address form (default: false)
+
+  Usage:
+  {%- form 'customer_address', customer.new_address -%}
+    {% render 'account-address-form', form: form, form_id: 'new', is_new: true %}
+  {%- endform -%}
+{% endcomment %}
+
+{%- liquid
+  assign form_suffix = form_id | default: 'new'
+  assign is_new_form = is_new | default: false
+-%}
+
+<input type="hidden" name="return_to" value="{{ routes.account_addresses_url }}">
+
+<div class="space-y-4">
+  <!-- Name Row -->
+  <div class="grid grid-cols-2 gap-3">
+    <div>
+      <label for="AddressFirstName_{{ form_suffix }}" class="block text-[14px] font-medium text-gray-700 mb-1.5">
+        {{ 'customer.addresses.first_name' | t }}
+      </label>
+      <input
+        type="text"
+        id="AddressFirstName_{{ form_suffix }}"
+        name="address[first_name]"
+        value="{{ form.first_name }}"
+        autocomplete="given-name"
+        class="w-full px-4 py-3 text-[16px] border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 outline-none transition-all"
+      >
+    </div>
+    <div>
+      <label for="AddressLastName_{{ form_suffix }}" class="block text-[14px] font-medium text-gray-700 mb-1.5">
+        {{ 'customer.addresses.last_name' | t }}
+      </label>
+      <input
+        type="text"
+        id="AddressLastName_{{ form_suffix }}"
+        name="address[last_name]"
+        value="{{ form.last_name }}"
+        autocomplete="family-name"
+        class="w-full px-4 py-3 text-[16px] border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 outline-none transition-all"
+      >
+    </div>
+  </div>
+
+  <!-- Company -->
+  <div>
+    <label for="AddressCompany_{{ form_suffix }}" class="block text-[14px] font-medium text-gray-700 mb-1.5">
+      {{ 'customer.addresses.company' | t }} <span class="text-gray-400 font-normal">(optional)</span>
+    </label>
+    <input
+      type="text"
+      id="AddressCompany_{{ form_suffix }}"
+      name="address[company]"
+      value="{{ form.company }}"
+      autocomplete="organization"
+      class="w-full px-4 py-3 text-[16px] border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 outline-none transition-all"
+    >
+  </div>
+
+  <!-- Address Line 1 -->
+  <div>
+    <label for="AddressAddress1_{{ form_suffix }}" class="block text-[14px] font-medium text-gray-700 mb-1.5">
+      {{ 'customer.addresses.address1' | t }} <span class="text-red-500">*</span>
+    </label>
+    <input
+      type="text"
+      id="AddressAddress1_{{ form_suffix }}"
+      name="address[address1]"
+      value="{{ form.address1 }}"
+      autocomplete="address-line1"
+      required
+      class="w-full px-4 py-3 text-[16px] border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 outline-none transition-all"
+    >
+  </div>
+
+  <!-- Address Line 2 -->
+  <div>
+    <label for="AddressAddress2_{{ form_suffix }}" class="block text-[14px] font-medium text-gray-700 mb-1.5">
+      {{ 'customer.addresses.address2' | t }} <span class="text-gray-400 font-normal">(optional)</span>
+    </label>
+    <input
+      type="text"
+      id="AddressAddress2_{{ form_suffix }}"
+      name="address[address2]"
+      value="{{ form.address2 }}"
+      autocomplete="address-line2"
+      class="w-full px-4 py-3 text-[16px] border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 outline-none transition-all"
+    >
+  </div>
+
+  <!-- City & Postal Code Row -->
+  <div class="grid grid-cols-2 gap-3">
+    <div>
+      <label for="AddressCity_{{ form_suffix }}" class="block text-[14px] font-medium text-gray-700 mb-1.5">
+        {{ 'customer.addresses.city' | t }} <span class="text-red-500">*</span>
+      </label>
+      <input
+        type="text"
+        id="AddressCity_{{ form_suffix }}"
+        name="address[city]"
+        value="{{ form.city }}"
+        autocomplete="address-level2"
+        required
+        class="w-full px-4 py-3 text-[16px] border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 outline-none transition-all"
+      >
+    </div>
+    <div>
+      <label for="AddressZip_{{ form_suffix }}" class="block text-[14px] font-medium text-gray-700 mb-1.5">
+        {{ 'customer.addresses.zip' | t }}
+      </label>
+      <input
+        type="text"
+        id="AddressZip_{{ form_suffix }}"
+        name="address[zip]"
+        value="{{ form.zip }}"
+        autocapitalize="characters"
+        autocomplete="postal-code"
+        class="w-full px-4 py-3 text-[16px] border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 outline-none transition-all"
+      >
+    </div>
+  </div>
+
+  <!-- Country -->
+  <div>
+    <label for="AddressCountry_{{ form_suffix }}" class="block text-[14px] font-medium text-gray-700 mb-1.5">
+      {{ 'customer.addresses.country' | t }} <span class="text-red-500">*</span>
+    </label>
+    <div class="relative">
+      <select
+        id="AddressCountry_{{ form_suffix }}"
+        name="address[country]"
+        data-address-country-select
+        data-default="{{ form.country }}"
+        data-form-id="{{ form_suffix }}"
+        autocomplete="country"
+        class="w-full px-4 py-3 text-[16px] border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 outline-none transition-all appearance-none bg-white cursor-pointer pr-10"
+      >
+        {{ all_country_option_tags }}
+      </select>
+      <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- Province -->
+  <div id="AddressProvinceContainer_{{ form_suffix }}" style="display: none;">
+    <label for="AddressProvince_{{ form_suffix }}" class="block text-[14px] font-medium text-gray-700 mb-1.5">
+      {{ 'customer.addresses.province' | t }}
+    </label>
+    <div class="relative">
+      <select
+        id="AddressProvince_{{ form_suffix }}"
+        name="address[province]"
+        data-default="{{ form.province }}"
+        autocomplete="address-level1"
+        class="w-full px-4 py-3 text-[16px] border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 outline-none transition-all appearance-none bg-white cursor-pointer pr-10"
+      ></select>
+      <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- Phone -->
+  <div>
+    <label for="AddressPhone_{{ form_suffix }}" class="block text-[14px] font-medium text-gray-700 mb-1.5">
+      {{ 'customer.addresses.phone' | t }} <span class="text-gray-400 font-normal">(optional)</span>
+    </label>
+    <input
+      type="tel"
+      id="AddressPhone_{{ form_suffix }}"
+      name="address[phone]"
+      value="{{ form.phone }}"
+      autocomplete="tel"
+      class="w-full px-4 py-3 text-[16px] border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900 outline-none transition-all"
+    >
+  </div>
+
+  <!-- Default Checkbox -->
+  <div class="flex items-center gap-3 pt-2">
+    <input
+      type="checkbox"
+      id="address_default_address_{{ form_suffix }}"
+      name="address[default]"
+      value="1"
+      {% if form.id == customer.default_address.id %}checked{% endif %}
+      class="w-5 h-5 rounded border-gray-300 text-gray-900 focus:ring-gray-900 cursor-pointer"
+    >
+    <label for="address_default_address_{{ form_suffix }}" class="text-[15px] text-gray-700 cursor-pointer">
+      {{ 'customer.addresses.set_default' | t }}
+    </label>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="flex gap-3 pt-4">
+    <button
+      type="submit"
+      class="address-form-submit flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-gray-900 text-white text-[15px] font-medium hover:bg-gray-800 transition-colors"
+      data-submit-text="{%- if is_new_form -%}{{ 'customer.addresses.add' | t }}{%- else -%}{{ 'customer.addresses.update' | t }}{%- endif -%}"
+    >
+      {%- if is_new_form -%}
+        {{ 'customer.addresses.add' | t }}
+      {%- else -%}
+        {{ 'customer.addresses.update' | t }}
+      {%- endif -%}
+    </button>
+    <button
+      type="button"
+      class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-gray-100 text-gray-700 text-[15px] font-medium hover:bg-gray-200 transition-colors cancel-form-btn"
+      data-form-id="{{ form_suffix }}"
+    >
+      {{ 'customer.addresses.cancel' | t }}
+    </button>
+  </div>
+</div>

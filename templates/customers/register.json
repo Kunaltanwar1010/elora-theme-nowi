@@ -1,0 +1,46 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-register",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "razorpay_sso_login_ea7paK": {
+      "type": "razorpay-sso-login",
+      "name": "Razorpay SSO Login",
+      "settings": {
+        "heading": "Login",
+        "description": "Sign in for a seamless shopping experience.",
+        "button_text": "Click to Login",
+        "footer_text": "🔒 Secure login powered by Razorpay",
+        "show_icon": true,
+        "icon_emoji": "🔐",
+        "heading_color": "#0b1220",
+        "button_bg_color": "#ffbf00",
+        "button_text_color": "#242833",
+        "section_bg_color": "#ffffff",
+        "enable_card_style": true,
+        "max_width": "small",
+        "show_alt_login_link": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "main",
+    "razorpay_sso_login_ea7paK"
+  ]
+}

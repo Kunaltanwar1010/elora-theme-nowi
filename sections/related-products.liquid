@@ -1,0 +1,207 @@
+{{ 'section-related-products.css' | asset_url | stylesheet_tag }}
+{{ 'component-collection-product-card-modern.css' | asset_url | stylesheet_tag }}
+{{ 'component-quick-buy.css' | asset_url | stylesheet_tag }}
+{%- comment -%} quick-buy.js loaded globally in theme.liquid {%- endcomment -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .related-products .product-grid {
+      grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr)) !important;
+    }
+    .section-{{ section.id }}-padding .skeleton-grid {
+      grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr)) !important;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <product-recommendations
+    class="related-products page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.products_to_show }}"
+    data-section-id="{{ section.id }}"
+    data-product-id="{{ product.id }}"
+  >
+    {% if recommendations.performed and recommendations.products_count > 0 %}
+      <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
+        {{ section.settings.heading }}
+      </h2>
+      <ul
+        class="product-grid"
+        role="list"
+        style="display: grid; grid-template-columns: repeat({{ section.settings.columns_mobile }}, minmax(0, 1fr)); gap: {{ settings.modern_card_gap | default: 15 }}px;"
+      >
+        {% for recommendation in recommendations.products %}
+          <li>
+            {% render 'collection-product-card-modern',
+              product: recommendation,
+              title_color: settings.modern_card_title_color,
+              title_font_size: settings.modern_card_title_font_size,
+              title_font_weight: settings.modern_card_title_font_weight,
+              price_color: settings.modern_card_price_color,
+              price_font_size: settings.modern_card_price_font_size,
+              price_font_weight: settings.modern_card_price_font_weight,
+              original_price_color: settings.modern_card_original_price_color,
+              original_price_font_size: settings.modern_card_original_price_font_size,
+              discount_bg_color: settings.modern_card_discount_bg_color,
+              discount_text_color: settings.modern_card_discount_text_color,
+              inline_discount_color: settings.modern_card_inline_discount_color,
+              discount_font_size: settings.modern_card_discount_font_size,
+              enable_quick_buy: section.settings.enable_quick_buy,
+              quick_buy_button_color: settings.modern_card_quick_buy_button_color,
+              quick_buy_button_text_color: settings.modern_card_quick_buy_button_text_color,
+              quick_buy_variant_font_size: settings.modern_card_quick_buy_variant_font_size
+            %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="related-products__loader">
+        <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
+          {{ section.settings.heading }}
+        </h2>
+        <div class="loading-spinner-wrapper">
+          <svg class="spinner" viewBox="0 0 50 50">
+            <circle class="spinner-path" cx="25" cy="25" r="20" fill="none" stroke-width="4"></circle>
+          </svg>
+          <p class="loading-text">Loading recommendations...</p>
+        </div>
+      </div>
+    {% endif %}
+  </product-recommendations>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.related-products.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.related-products.settings.paragraph__1.content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "t:sections.related-products.settings.paragraph__1.default",
+      "label": "t:sections.related-products.settings.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "hxl",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "hxxl",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.related-products.settings.products_to_show.label"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.related-products.settings.columns_desktop.label"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "default": "2",
+      "label": "t:sections.related-products.settings.columns_mobile.label",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.related-products.settings.columns_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.related-products.settings.columns_mobile.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Quick Buy"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_buy",
+      "default": true,
+      "label": "Enable quick buy button",
+      "info": "Shows a shopping bag icon on product images. Colors are controlled in Theme Settings > Modern Product Card."
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

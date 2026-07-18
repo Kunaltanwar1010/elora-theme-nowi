@@ -1,0 +1,97 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "collection_top_bar_4VeaEd": {
+      "type": "collection-top-bar",
+      "name": "Collection Top Bar",
+      "settings": {
+        "collection_handle": "",
+        "custom_title": "",
+        "title_font_size": 16,
+        "title_font_weight": "500",
+        "show_back_button": true,
+        "show_account": false,
+        "show_search": true,
+        "show_wishlist": true,
+        "show_cart": true,
+        "background_color": "#ffffff"
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "disabled": true,
+      "settings": {
+        "products_per_page": 36,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "enable_filtering": true,
+        "filter_type": "vertical",
+        "enable_sorting": true,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "collection_grid_PjLQLC": {
+      "type": "collection-grid",
+      "name": "Collection Grid",
+      "settings": {
+        "collection": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "show_collection_title": false,
+        "custom_title": "",
+        "heading_font_size": 24,
+        "heading_font_weight": "500",
+        "heading_text_transform": "",
+        "heading_alignment": "text-center",
+        "heading_color": "#0b1220",
+        "show_collection_description": false,
+        "products_to_show": 50,
+        "columns_mobile": 2,
+        "columns_desktop": 4,
+        "enable_pagination": false,
+        "enable_infinite_scroll": true,
+        "show_view_all": false,
+        "enable_quick_buy": false,
+        "show_in_all_categories": true,
+        "category_only_show_for": "men"
+      }
+    },
+    "collection_sort_filter_bar_xqtEnT": {
+      "type": "collection-sort-filter-bar",
+      "name": "Collection Sort/Filter",
+      "settings": {}
+    }
+  },
+  "order": [
+    "banner",
+    "collection_top_bar_4VeaEd",
+    "product-grid",
+    "collection_grid_PjLQLC",
+    "collection_sort_filter_bar_xqtEnT"
+  ]
+}

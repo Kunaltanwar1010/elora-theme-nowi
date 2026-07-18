@@ -1,0 +1,255 @@
+.trending-carousel-section {
+  width: 100%;
+}
+
+.trending-carousel-section .container {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .trending-carousel-section .container {
+    padding: 0 3.2rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .trending-carousel-section .container {
+    padding: 0 1.5rem;
+  }
+}
+
+
+.trending-title {
+  letter-spacing: 1px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Carousel */
+.trending-swiper {
+  position: relative;
+}
+
+.trending-swiper .swiper-slide {
+  height: auto;
+}
+
+/* Grid (for 2 or fewer items) */
+.trending-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 1024px) {
+  .trending-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+/* Card Link Wrapper */
+.trending-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
+
+/* Card Styles */
+.trending-card {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 2/3;
+  background: #f0f0f0;
+  transition: transform 0.3s ease;
+  height: 100%;
+}
+
+@media (hover: hover) and (min-width: 769px) {
+  .trending-card-link:hover .trending-card {
+    transform: translateY(-4px);
+  }
+}
+
+.trending-card-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e0e0e0;
+  color: #999;
+  font-size: 14px;
+}
+
+/* Overlay */
+.trending-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0) 60%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  transition: opacity 0.3s ease, background 0.3s ease;
+}
+
+@media (hover: hover) and (min-width: 769px) {
+  .trending-card-link:hover .trending-card-overlay {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.2) 100%
+    );
+  }
+}
+
+.trending-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trending-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.3;
+}
+
+.trending-card-button {
+  display: inline-block;
+  align-self: flex-start;
+  background: white;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 12px;
+  transition: all 0.3s ease;
+  border: 2px solid white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@media (hover: hover) and (min-width: 769px) {
+  .trending-card-link:hover .trending-card-button {
+    background: transparent;
+    color: white;
+  }
+}
+
+/* Navigation Buttons */
+.trending-button-prev,
+.trending-button-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.trending-button-prev:hover,
+.trending-button-next:hover {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.trending-button-prev::after,
+.trending-button-next::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid black;
+  border-right: 2px solid black;
+}
+
+.trending-button-prev::after {
+  transform: rotate(-135deg);
+  margin-left: 2px;
+}
+
+.trending-button-next::after {
+  transform: rotate(45deg);
+  margin-right: 2px;
+}
+
+.trending-button-prev {
+  left: -20px;
+}
+
+.trending-button-next {
+  right: -20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .trending-card-title {
+    font-size: 14px;
+  }
+
+  .trending-card-overlay {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0) 50%
+    );
+  }
+
+  /* Hide navigation arrows on mobile for cleaner swipe experience */
+  .trending-button-prev,
+  .trending-button-next {
+    display: none;
+  }
+
+  .trending-header {
+    padding-bottom: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .trending-header {
+    padding-bottom: 30px;
+  }
+}
+
+/* Center heading on all screen sizes */
+.trending-header {
+  text-align: center;
+}

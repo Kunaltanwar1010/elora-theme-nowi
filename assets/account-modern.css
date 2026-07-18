@@ -1,0 +1,1082 @@
+/**
+ * Nowi Account Pages - Modern Editorial Design System
+ * A sophisticated, fashion-forward aesthetic using navy + neutral gray
+ */
+
+/* ==========================================================================
+   1. DESIGN TOKENS (CSS Custom Properties)
+   ========================================================================== */
+
+.account-modern,
+.order-modern,
+.addresses-modern {
+  /* Font size reset - counteract theme.liquid's 62.5% */
+  font-size: 16px;
+
+  /* Backgrounds */
+  --account-bg-page: #FFFFFF;
+  --account-bg-card: #FFFFFF;
+  --account-bg-secondary: #F5F5F5;
+  --account-bg-tertiary: #EBEBEB;
+
+  /* Text - Navy Scale */
+  --account-text-primary: #0B1220;
+  --account-text-secondary: #495060;
+  --account-text-muted: #838A9C;
+  --account-text-light: #A4ABBE;
+
+  /* Primary Actions - Navy */
+  --account-btn-primary-bg: #0B1220;
+  --account-btn-primary-text: #FFFFFF;
+  --account-btn-primary-hover: #2B3241;
+
+  /* Secondary Actions */
+  --account-btn-secondary-bg: transparent;
+  --account-btn-secondary-border: #E5E5E5;
+  --account-btn-secondary-text: #0B1220;
+  --account-btn-secondary-hover: #FAFAFA;
+
+  /* Accent - Yellow (minimal use) */
+  --account-accent: #FFBF00;
+  --account-accent-soft: #FFF8E1;
+  --account-accent-text: #0B1220;
+
+  /* Borders */
+  --account-border-light: #F0F0F0;
+  --account-border-medium: #E5E5E5;
+  --account-border-strong: #D4D4D4;
+
+  /* Shadows - Layered for depth */
+  --account-shadow-sm: 0 1px 2px rgba(11, 18, 32, 0.04), 0 2px 4px rgba(11, 18, 32, 0.02);
+  --account-shadow-md: 0 2px 4px rgba(11, 18, 32, 0.04), 0 4px 8px rgba(11, 18, 32, 0.04);
+  --account-shadow-lg: 0 4px 8px rgba(11, 18, 32, 0.04), 0 8px 16px rgba(11, 18, 32, 0.06), 0 16px 32px rgba(11, 18, 32, 0.04);
+  --account-shadow-xl: 0 8px 16px rgba(11, 18, 32, 0.06), 0 24px 48px rgba(11, 18, 32, 0.08);
+
+  /* Status Colors */
+  --account-status-success: #059669;
+  --account-status-success-bg: #ECFDF5;
+  --account-status-warning: #D97706;
+  --account-status-warning-bg: #FFFBEB;
+  --account-status-error: #DC2626;
+  --account-status-error-bg: #FEF2F2;
+  --account-status-info: #0891B2;
+  --account-status-info-bg: #ECFEFF;
+
+  /* Transitions */
+  --account-transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --account-transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --account-transition-slow: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   2. TYPOGRAPHY SYSTEM
+   Using px values to avoid 62.5% root font-size issue (see CLAUDE.md)
+   Scale: Section 16/18px, Card 15/16px, Body 14/15px, Secondary 13/14px, Label 12/13px
+   ========================================================================== */
+
+/* Display - Large hero text */
+.account-display {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--account-text-primary);
+}
+
+@media (min-width: 768px) {
+  .account-display {
+    font-size: 32px;
+  }
+}
+
+/* H1 - Section titles (16px mobile, 18px desktop) */
+.account-h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--account-text-primary);
+}
+
+@media (min-width: 768px) {
+  .account-h1 {
+    font-size: 18px;
+  }
+}
+
+/* H2 - Card titles (15px mobile, 16px desktop) */
+.account-h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--account-text-primary);
+}
+
+@media (min-width: 768px) {
+  .account-h2 {
+    font-size: 16px;
+  }
+}
+
+/* H3 - Subsection titles (14px) */
+.account-h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--account-text-primary);
+}
+
+/* Body Large (15px) */
+.account-body-lg {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--account-text-secondary);
+}
+
+/* Body (14px mobile, 15px desktop) */
+.account-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--account-text-secondary);
+}
+
+@media (min-width: 768px) {
+  .account-body {
+    font-size: 15px;
+  }
+}
+
+/* Body Small / Secondary (13px mobile, 14px desktop) */
+.account-body-sm {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--account-text-muted);
+}
+
+@media (min-width: 768px) {
+  .account-body-sm {
+    font-size: 14px;
+  }
+}
+
+/* Caption - Labels (12px mobile, 13px desktop) */
+.account-caption {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--account-text-muted);
+}
+
+@media (min-width: 768px) {
+  .account-caption {
+    font-size: 13px;
+  }
+}
+
+/* Overline - Small metadata (11px) */
+.account-overline {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: var(--account-text-light);
+}
+
+/* ==========================================================================
+   3. CARD SYSTEM
+   ========================================================================== */
+
+/* Base Card */
+.account-card {
+  background: var(--account-bg-card);
+  border: 1px solid var(--account-border-medium);
+  border-radius: 1.25rem;
+  box-shadow: var(--account-shadow-md);
+  transition: box-shadow var(--account-transition-base), transform var(--account-transition-base);
+}
+
+/* Elevated Card */
+.account-card-elevated {
+  box-shadow: var(--account-shadow-lg);
+}
+
+/* Interactive Card - Has hover states */
+.account-card-interactive {
+  cursor: pointer;
+}
+
+.account-card-interactive:hover {
+  box-shadow: var(--account-shadow-lg);
+  transform: translateY(-2px);
+}
+
+.account-card-interactive:active {
+  transform: translateY(0);
+  box-shadow: var(--account-shadow-md);
+}
+
+/* Card with accent top border */
+.account-card-accent {
+  position: relative;
+  overflow: hidden;
+}
+
+.account-card-accent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--account-text-primary) 0%, var(--account-text-secondary) 100%);
+}
+
+/* Card Sections */
+.account-card-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--account-border-light);
+}
+
+.account-card-body {
+  padding: 1.25rem;
+}
+
+.account-card-footer {
+  padding: 0.875rem 1.25rem;
+  background: var(--account-bg-secondary);
+  border-top: 1px solid var(--account-border-light);
+}
+
+/* ==========================================================================
+   4. BUTTON SYSTEM
+   ========================================================================== */
+
+/* Base Button */
+.account-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all var(--account-transition-fast);
+  text-decoration: none;
+  border: none;
+}
+
+.account-btn:active {
+  transform: scale(0.97);
+}
+
+/* Primary Button - Navy */
+.account-btn-primary {
+  background: var(--account-btn-primary-bg);
+  color: var(--account-btn-primary-text);
+  box-shadow: 0 1px 2px rgba(11, 18, 32, 0.1);
+}
+
+.account-btn-primary:hover {
+  background: var(--account-btn-primary-hover);
+  box-shadow: 0 2px 4px rgba(11, 18, 32, 0.15);
+}
+
+/* Secondary Button - Outlined */
+.account-btn-secondary {
+  background: var(--account-btn-secondary-bg);
+  color: var(--account-btn-secondary-text);
+  border: 1px solid var(--account-btn-secondary-border);
+}
+
+.account-btn-secondary:hover {
+  background: var(--account-btn-secondary-hover);
+  border-color: var(--account-border-strong);
+}
+
+/* Ghost Button - Text only */
+.account-btn-ghost {
+  background: transparent;
+  color: var(--account-text-secondary);
+  padding: 0.5rem 0.75rem;
+}
+
+.account-btn-ghost:hover {
+  color: var(--account-text-primary);
+  background: rgba(11, 18, 32, 0.04);
+}
+
+/* Accent Button - Yellow (use sparingly) */
+.account-btn-accent {
+  background: var(--account-accent);
+  color: var(--account-accent-text);
+  box-shadow: 0 1px 2px rgba(255, 191, 0, 0.2);
+}
+
+.account-btn-accent:hover {
+  background: #E6AC00;
+  box-shadow: 0 2px 4px rgba(255, 191, 0, 0.3);
+}
+
+/* Button Sizes */
+.account-btn-sm {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.account-btn-lg {
+  padding: 14px 28px;
+  font-size: 15px;
+}
+
+/* Button Loading State */
+.account-btn-loading {
+  position: relative;
+  color: transparent !important;
+  pointer-events: none;
+}
+
+.account-btn-loading::after {
+  content: '';
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: accountSpin 0.6s linear infinite;
+}
+
+.account-btn-primary.account-btn-loading::after {
+  border-color: rgba(255, 255, 255, 0.3);
+  border-right-color: white;
+}
+
+/* ==========================================================================
+   5. PAGE LAYOUT
+   ========================================================================== */
+
+/* Page Background */
+.account-modern,
+.order-modern,
+.addresses-modern {
+  background: var(--account-bg-page);
+  min-height: 100vh;
+}
+
+/* Layout Container */
+.account-page-layout {
+  display: block;
+}
+
+/* Sidebar - Hidden on mobile */
+.account-sidebar {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .account-page-layout {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .account-sidebar {
+    display: block;
+    width: 240px;
+    flex-shrink: 0;
+  }
+
+  /* Hide mobile back button when sidebar is visible */
+  .addresses-modern .mobile-back-btn,
+  .order-modern .mobile-back-btn {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   6. SIDEBAR
+   ========================================================================== */
+
+.account-sidebar__nav {
+  position: sticky;
+  top: 100px;
+  background: var(--account-bg-card);
+  border-radius: 1.25rem;
+  border: 1px solid var(--account-border-light);
+  box-shadow: var(--account-shadow-md);
+  overflow: hidden;
+}
+
+/* Sidebar Profile */
+.account-sidebar__profile {
+  padding: 1.25rem;
+  background: linear-gradient(180deg, var(--account-bg-secondary) 0%, transparent 100%);
+  border-bottom: 1px solid var(--account-border-light);
+}
+
+.account-sidebar__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--account-text-primary) 0%, #374151 100%);
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--account-shadow-sm);
+}
+
+/* Sidebar Links */
+.account-sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--account-text-secondary);
+  text-decoration: none;
+  transition: all var(--account-transition-fast);
+  position: relative;
+}
+
+.account-sidebar__link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background: var(--account-text-primary);
+  border-radius: 0 2px 2px 0;
+  transition: height var(--account-transition-fast);
+}
+
+.account-sidebar__link:hover {
+  background: var(--account-bg-secondary);
+  color: var(--account-text-primary);
+}
+
+.account-sidebar__link.is-active {
+  background: var(--account-bg-tertiary);
+  color: var(--account-text-primary);
+  font-weight: 600;
+}
+
+.account-sidebar__link.is-active::before {
+  height: 24px;
+  background: var(--account-accent);
+}
+
+.account-sidebar__link .icon {
+  width: 20px;
+  height: 20px;
+  color: currentColor;
+  opacity: 0.7;
+  transition: opacity var(--account-transition-fast);
+}
+
+.account-sidebar__link:hover .icon,
+.account-sidebar__link.is-active .icon {
+  opacity: 1;
+}
+
+.account-sidebar__link .count {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--account-bg-tertiary);
+  color: var(--account-text-muted);
+}
+
+.account-sidebar__link.is-active .count {
+  background: var(--account-text-primary);
+  color: white;
+}
+
+/* Logout Link */
+.account-sidebar__link--logout {
+  border-top: 1px solid var(--account-border-light);
+  color: var(--account-status-error);
+}
+
+.account-sidebar__link--logout:hover {
+  background: var(--account-status-error-bg);
+  color: #B91C1C;
+}
+
+/* ==========================================================================
+   7. FILTER TABS
+   ========================================================================== */
+
+.order-filter-tabs {
+  display: flex;
+  gap: 0.375rem;
+  padding: 0.375rem;
+  background: var(--account-bg-secondary);
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.order-filter-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.order-filter-tab {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--account-text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--account-transition-fast);
+  position: relative;
+}
+
+.order-filter-tab:hover {
+  color: var(--account-text-secondary);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.order-filter-tab[data-active="true"] {
+  color: var(--account-text-primary);
+  background: var(--account-bg-card);
+  box-shadow: var(--account-shadow-sm);
+  font-weight: 600;
+}
+
+/* Underline indicator on active tab */
+.order-filter-tab[data-active="true"]::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 2px;
+  background: var(--account-text-primary);
+  border-radius: 1px;
+}
+
+/* Tab count badge */
+.order-filter-tab .tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  margin-left: 6px;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--account-bg-tertiary);
+  color: var(--account-text-muted);
+}
+
+.order-filter-tab[data-active="true"] .tab-count {
+  background: var(--account-text-primary);
+  color: white;
+}
+
+/* Hide filtered orders */
+[data-order-card][data-filtered="true"] {
+  display: none;
+}
+
+/* Empty state for filtered results */
+.order-filter-empty {
+  display: none;
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--account-text-muted);
+}
+
+.order-filter-empty.visible {
+  display: block;
+}
+
+/* ==========================================================================
+   8. STATUS BADGES
+   ========================================================================== */
+
+.account-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border-radius: 9999px;
+}
+
+.account-badge-success {
+  background: var(--account-status-success-bg);
+  color: var(--account-status-success);
+}
+
+.account-badge-warning {
+  background: var(--account-status-warning-bg);
+  color: var(--account-status-warning);
+}
+
+.account-badge-error {
+  background: var(--account-status-error-bg);
+  color: var(--account-status-error);
+}
+
+.account-badge-info {
+  background: var(--account-status-info-bg);
+  color: var(--account-status-info);
+}
+
+.account-badge-neutral {
+  background: var(--account-bg-tertiary);
+  color: var(--account-text-secondary);
+}
+
+/* Yellow badge - for special highlights like "Delivered" */
+.account-badge-accent {
+  background: var(--account-accent-soft);
+  color: #B7860A;
+}
+
+/* ==========================================================================
+   9. PROFILE CARD - Hero Style
+   ========================================================================== */
+
+.account-profile-hero {
+  position: relative;
+  height: 5rem;
+  background: linear-gradient(135deg, var(--account-text-primary) 0%, #2B3241 50%, #495060 100%);
+  overflow: hidden;
+}
+
+/* Subtle pattern overlay */
+.account-profile-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='1' cy='1' r='1'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 20px 20px;
+}
+
+/* Avatar with ring */
+.account-avatar-ring {
+  width: 5rem;
+  height: 5rem;
+  padding: 3px;
+  background: var(--account-bg-card);
+  border-radius: 50%;
+  box-shadow: var(--account-shadow-lg);
+}
+
+.account-avatar-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--account-text-primary) 0%, #374151 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+}
+
+/* Verified badge */
+.account-avatar-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: var(--account-accent);
+  border: 2px solid var(--account-bg-card);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-avatar-badge svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--account-text-primary);
+}
+
+/* ==========================================================================
+   10. ORDER CARD
+   ========================================================================== */
+
+/* Order Header */
+.account-order-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--account-border-light);
+}
+
+/* Product Row */
+.account-product-row {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  transition: background-color var(--account-transition-fast);
+}
+
+.account-product-row:hover {
+  background: rgba(245, 241, 232, 0.5);
+}
+
+/* Product Image */
+.account-product-image {
+  width: 4rem;
+  aspect-ratio: 3/4;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: var(--account-bg-secondary);
+  box-shadow: var(--account-shadow-sm);
+  flex-shrink: 0;
+  transition: box-shadow var(--account-transition-fast), transform var(--account-transition-fast);
+}
+
+.account-product-row:hover .account-product-image {
+  box-shadow: var(--account-shadow-md);
+}
+
+.account-product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--account-transition-base);
+}
+
+.account-product-row:hover .account-product-image img {
+  transform: scale(1.05);
+}
+
+/* Order Actions */
+.account-order-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--account-bg-card);
+  border-top: 1px solid var(--account-border-medium);
+}
+
+@media (min-width: 640px) {
+  .account-product-image {
+    width: 5rem;
+  }
+}
+
+/* ==========================================================================
+   11. ADDRESS CARD
+   ========================================================================== */
+
+.account-address-default {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+/* Edit form slide animation */
+.edit-address-form {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.edit-address-form:not(.hidden) {
+  max-height: 1500px;
+}
+
+/* Address card editing state */
+[data-address-card].editing {
+  box-shadow: var(--account-shadow-lg);
+  height: auto !important;
+  overflow: visible;
+}
+
+/* ==========================================================================
+   12. FORM ELEMENTS
+   ========================================================================== */
+
+.account-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: var(--account-text-primary);
+  background: var(--account-bg-card);
+  border: 1px solid var(--account-border-medium);
+  border-radius: 12px;
+  transition: all var(--account-transition-fast);
+}
+
+.account-input:focus {
+  outline: none;
+  border-color: var(--account-text-primary);
+  box-shadow: 0 0 0 3px rgba(11, 18, 32, 0.08);
+}
+
+.account-input::placeholder {
+  color: var(--account-text-light);
+}
+
+/* Checkbox */
+.account-checkbox {
+  accent-color: var(--account-text-primary);
+}
+
+/* ==========================================================================
+   13. MODAL
+   ========================================================================== */
+
+.account-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 18, 32, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 9998;
+  opacity: 0;
+  transition: opacity var(--account-transition-fast);
+}
+
+.account-modal-backdrop.is-visible {
+  opacity: 1;
+}
+
+.account-modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background: var(--account-bg-card);
+  border-radius: 1.5rem;
+  box-shadow: var(--account-shadow-xl);
+  z-index: 9999;
+  opacity: 0;
+  transition: transform var(--account-transition-base), opacity var(--account-transition-base);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.account-modal-content.is-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+#EditProfileModalContent {
+  box-shadow: var(--account-shadow-xl);
+}
+
+/* Delete Confirmation Modal */
+#DeleteConfirmModal [data-modal-backdrop] {
+  transition: opacity 0.2s ease-out;
+}
+
+#DeleteConfirmModal.hidden [data-modal-backdrop] {
+  opacity: 0;
+}
+
+#DeleteConfirmModal > div:last-child > div {
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+#DeleteConfirmModal.hidden > div:last-child > div {
+  transform: scale(0.95);
+  opacity: 0;
+}
+
+/* ==========================================================================
+   14. ANIMATIONS & MICRO-INTERACTIONS
+   ========================================================================== */
+
+/* Spin animation */
+@keyframes accountSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: accountSpin 1s linear infinite;
+}
+
+/* Pulse animation */
+@keyframes accountPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse {
+  animation: accountPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Slide up animation for modals/drawers */
+@keyframes accountSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: accountSlideUp 0.3s ease-out forwards;
+}
+
+/* Arrow hover slide */
+.account-arrow-icon {
+  transition: transform var(--account-transition-fast);
+}
+
+.group:hover .account-arrow-icon {
+  transform: translateX(4px);
+}
+
+/* Touch feedback */
+@media (hover: none) {
+  .account-btn:active,
+  .reorder-btn:active,
+  .edit-address-btn:active,
+  .delete-address-btn:active {
+    transform: scale(0.97);
+  }
+}
+
+/* ==========================================================================
+   15. UTILITIES
+   ========================================================================== */
+
+/* Line clamp */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Order page address formatting */
+.order-modern address {
+  font-style: normal;
+}
+
+/* Order page line clamp */
+.order-modern .line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Focus visible for accessibility */
+.account-btn:focus-visible,
+.order-filter-tab:focus-visible,
+.account-sidebar__link:focus-visible {
+  outline: 2px solid var(--account-text-primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   16. RESPONSIVE ADJUSTMENTS
+   ========================================================================== */
+
+/* Ensure touch targets are at least 44px */
+@media (hover: none) {
+  .account-btn,
+  .order-filter-tab {
+    min-height: 44px;
+  }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .account-card,
+  .account-btn,
+  .order-filter-tab,
+  .account-product-image img {
+    transition: none;
+  }
+
+  .account-card-interactive:hover {
+    transform: none;
+  }
+
+  .animate-spin,
+  .animate-pulse {
+    animation: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .account-card {
+    border-width: 2px;
+  }
+
+  .account-btn-primary {
+    border: 2px solid var(--account-text-primary);
+  }
+}
+
+/* Safe area for notched devices */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .account-modern,
+  .order-modern,
+  .addresses-modern {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

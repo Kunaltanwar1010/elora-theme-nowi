@@ -1,0 +1,211 @@
+/* assets/component-category-carousel.css */
+
+
+.category-carousel-section {
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.category-carousel-section .container {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .category-carousel-section .container {
+    padding: 0 3.2rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .category-carousel-section .container {
+    padding: 0 1.5rem;
+  }
+}
+
+/* Carousel */
+.category-swiper {
+  position: relative;
+  overflow: visible;
+  padding: 16px 0 20px;
+}
+
+.category-swiper .swiper-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.category-swiper .swiper-slide {
+  width: auto !important;
+  height: auto;
+}
+
+/* Card Link Wrapper */
+.category-carousel-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+  transition: transform 0.2s ease;
+}
+
+.category-carousel-link:active {
+  transform: scale(0.95);
+}
+
+/* Completely redesigned card styles to match compact reference design */
+.category-carousel-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  width: 120px;
+}
+
+/* Updated image container to have the soft pink glow effect */
+.category-carousel-image {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: visible; /* Allow glow to spread if needed, but hidden keeps it contained */
+  overflow: hidden;
+  /* Soft pink radial gradient background */
+  background: radial-gradient(circle, rgba(255, 192, 203, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* Circular shape for the glow/container */
+}
+
+.category-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image fills the circle */
+  display: block;
+  /* If using cutout images, object-fit: contain; and border-radius: 0; on image might be better,
+     but cover is safer for general use. */
+  border-radius: 50%;
+}
+
+.category-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(255, 192, 203, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
+  color: #999;
+  border-radius: 50%;
+}
+
+/* Simplified label styling for compact design */
+.category-carousel-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.category-carousel-label {
+  text-align: center;
+  width: 100%;
+}
+
+.category-label-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+  display: block;
+  white-space: nowrap;
+}
+
+/* Added subtitle styling */
+.category-carousel-subtitle {
+  text-align: center;
+  width: 100%;
+}
+
+.category-subtitle-text {
+  font-size: 12px;
+  font-weight: 400;
+  color: #333;
+  display: block;
+  white-space: nowrap;
+}
+
+/* Updated responsive breakpoints for compact mobile-first design */
+@media (max-width: 480px) {
+  .category-swiper .swiper-wrapper {
+    padding: 0;
+  }
+
+  .category-carousel-card {
+    width: 100px;
+  }
+
+  .category-carousel-image {
+    width: 80px;
+    height: 80px;
+  }
+
+  .category-label-text {
+    font-size: 13px;
+  }
+
+  .category-subtitle-text {
+    font-size: 11px;
+  }
+}
+
+@media (min-width: 768px) {
+  .category-swiper .swiper-wrapper {
+    padding: 0;
+  }
+
+  .category-carousel-card {
+    width: 130px;
+  }
+
+  .category-carousel-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .category-label-text {
+    font-size: 15px;
+  }
+
+  .category-subtitle-text {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .category-carousel-card {
+    width: 140px;
+  }
+
+  .category-carousel-image {
+    width: 110px;
+    height: 110px;
+  }
+
+  .category-label-text {
+    font-size: 14px;
+  }
+}
+
+/* Hide category carousel on desktop */
+@media (min-width: 990px) {
+  .category-carousel-section {
+    display: none;
+  }
+}

@@ -1,0 +1,401 @@
+{% comment %}
+  Desktop Filter Sidebar - Left push sidebar for filters
+  Desktop only (hidden on mobile via CSS)
+
+  Accepts:
+  - collection: {Object} Collection object with filters
+  - search: {Object} Search object with filters (alternative to collection)
+
+  Usage:
+  {% render 'desktop-filter-sidebar', collection: collection %}
+  {% render 'desktop-filter-sidebar', search: search %}
+{% endcomment %}
+
+{%- liquid
+  # Determine filter source
+  if collection
+    assign filters = collection.filters
+  elsif search
+    assign filters = search.filters
+  endif
+-%}
+
+{% if filters.size > 0 %}
+{%- comment -%} Track first visible filter since we skip availability {%- endcomment -%}
+{%- assign first_visible_filter = nil -%}
+{%- for filter in filters -%}
+  {%- assign filter_label_lower = filter.label | downcase -%}
+  {%- unless filter_label_lower contains 'availability' or filter_label_lower contains 'in stock' or filter_label_lower contains 'available' -%}
+    {%- if first_visible_filter == nil -%}
+      {%- assign first_visible_filter = filter.label | handleize -%}
+    {%- endif -%}
+  {%- endunless -%}
+{%- endfor -%}
+
+<div class="desktop-filter-sidebar" id="desktop-filter-sidebar" data-desktop-filter-sidebar>
+  <!-- Sidebar Header -->
+  <div class="desktop-filter-sidebar__header">
+    <div class="desktop-filter-sidebar__title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="4" y1="7" x2="20" y2="7" stroke-linecap="round"/>
+        <circle cx="9" cy="7" r="2" fill="white"/>
+        <line x1="4" y1="17" x2="20" y2="17" stroke-linecap="round"/>
+        <circle cx="15" cy="17" r="2" fill="white"/>
+      </svg>
+      <span>Filters</span>
+    </div>
+    <button type="button" class="desktop-filter-sidebar__close" data-close-sidebar aria-label="Close filters">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Sidebar Content -->
+  <div class="desktop-filter-sidebar__content">
+    <!-- Filter Categories Navigation -->
+    <nav class="desktop-filter-sidebar__nav">
+      {% for filter in filters %}
+        {%- liquid
+          assign filter_label_lower = filter.label | downcase
+          if filter_label_lower contains 'availability' or filter_label_lower contains 'in stock' or filter_label_lower contains 'available'
+            continue
+          endif
+          assign filter_handle = filter.label | handleize
+          assign is_first = false
+          if filter_handle == first_visible_filter
+            assign is_first = true
+          endif
+        -%}
+        <button
+          type="button"
+          class="desktop-filter-sidebar__category {% if is_first %}is-active{% endif %}"
+          data-sidebar-category="{{ filter_handle }}"
+        >
+          <span>{{ filter.label }}</span>
+          <span class="desktop-filter-sidebar__category-count" data-sidebar-count="{{ filter_handle }}"></span>
+        </button>
+      {% endfor %}
+    </nav>
+
+    <!-- Filter Options -->
+    <div class="desktop-filter-sidebar__options">
+      {% for filter in filters %}
+        {%- liquid
+          assign filter_label_lower = filter.label | downcase
+          if filter_label_lower contains 'availability' or filter_label_lower contains 'in stock' or filter_label_lower contains 'available'
+            continue
+          endif
+          assign filter_handle = filter.label | handleize
+          assign is_first = false
+          if filter_handle == first_visible_filter
+            assign is_first = true
+          endif
+          assign is_color = false
+          if filter_label_lower contains 'color' or filter_label_lower contains 'colour'
+            assign is_color = true
+          endif
+        -%}
+
+        <div class="desktop-filter-sidebar__section {% if is_first %}is-active{% endif %}" data-sidebar-section="{{ filter_handle }}">
+          {% case filter.type %}
+            {% when 'boolean', 'list' %}
+              {% if is_color %}
+                <!-- Color Swatches -->
+                <div class="desktop-filter-sidebar__colors">
+                  {% for value in filter.values %}
+                    {%- capture swatch_color -%}{%- render 'color-swatch-hex', color_label: value.label -%}{%- endcapture -%}
+                    <label
+                      class="desktop-filter-sidebar__color {% if value.active %}is-selected{% endif %} {% if value.count == 0 and value.active == false %}is-disabled{% endif %}"
+                      data-sidebar-option="{{ filter.label | handleize }}"
+                      data-sidebar-value="{{ value.value }}"
+                    >
+                      <input
+                        type="checkbox"
+                        name="{{ value.param_name }}"
+                        value="{{ value.value }}"
+                        {% if value.active %}checked{% endif %}
+                        {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                        class="sr-only"
+                      >
+                      <span class="desktop-filter-sidebar__color-swatch" style="background: {{ swatch_color }};"></span>
+                      <span class="desktop-filter-sidebar__color-label">{{ value.label }}</span>
+                    </label>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <!-- Checkbox List -->
+                <div class="desktop-filter-sidebar__list">
+                  {% for value in filter.values %}
+                    <label
+                      class="desktop-filter-sidebar__option {% if value.count == 0 and value.active == false %}is-disabled{% endif %}"
+                      data-sidebar-option="{{ filter.label | handleize }}"
+                      data-sidebar-value="{{ value.value }}"
+                    >
+                      <input
+                        type="checkbox"
+                        name="{{ value.param_name }}"
+                        value="{{ value.value }}"
+                        {% if value.active %}checked{% endif %}
+                        {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                      >
+                      <span class="desktop-filter-sidebar__option-label">{{ value.label }}</span>
+                      <span class="desktop-filter-sidebar__option-count">({{ value.count }})</span>
+                    </label>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+            {% when 'price_range' %}
+              <!-- Price Range -->
+              <div class="desktop-filter-sidebar__price">
+                <div class="desktop-filter-sidebar__price-inputs">
+                  <div class="desktop-filter-sidebar__price-field">
+                    <span class="desktop-filter-sidebar__price-currency">{{ cart.currency.symbol }}</span>
+                    <input
+                      type="number"
+                      name="{{ filter.min_value.param_name }}"
+                      value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                      min="0"
+                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                      placeholder="Min"
+                      data-sidebar-price-min
+                    >
+                  </div>
+                  <span class="desktop-filter-sidebar__price-separator">to</span>
+                  <div class="desktop-filter-sidebar__price-field">
+                    <span class="desktop-filter-sidebar__price-currency">{{ cart.currency.symbol }}</span>
+                    <input
+                      type="number"
+                      name="{{ filter.max_value.param_name }}"
+                      value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                      min="0"
+                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                      placeholder="Max"
+                      data-sidebar-price-max
+                    >
+                  </div>
+                </div>
+              </div>
+          {% endcase %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Sidebar Footer - Just Clear All since filters auto-apply -->
+  <div class="desktop-filter-sidebar__footer">
+    <button type="button" class="desktop-filter-sidebar__clear-all" data-sidebar-clear>
+      Clear All Filters
+    </button>
+  </div>
+</div>
+
+<script>
+  // Desktop Filter Sidebar - Auto-apply filters with AJAX
+  (function() {
+    const sidebar = document.getElementById('desktop-filter-sidebar');
+    if (!sidebar) return;
+
+    const closeBtn = sidebar.querySelector('[data-close-sidebar]');
+    const categoryBtns = sidebar.querySelectorAll('[data-sidebar-category]');
+    const sections = sidebar.querySelectorAll('[data-sidebar-section]');
+    const clearBtn = sidebar.querySelector('[data-sidebar-clear]');
+
+    let isLoading = false;
+
+    // Toggle sidebar (called from header bar filter button)
+    window.openDesktopFilterSidebar = function() {
+      sidebar.classList.toggle('is-open');
+    };
+
+    // Close sidebar
+    function closeSidebar() {
+      sidebar.classList.remove('is-open');
+    }
+
+    // Close button
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeSidebar);
+    }
+
+    // Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sidebar.classList.contains('is-open')) {
+        closeSidebar();
+      }
+    });
+
+    // Category navigation
+    categoryBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const category = btn.dataset.sidebarCategory;
+
+        // Update active category
+        categoryBtns.forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+
+        // Show corresponding section
+        sections.forEach(section => {
+          if (section.dataset.sidebarSection === category) {
+            section.classList.add('is-active');
+          } else {
+            section.classList.remove('is-active');
+          }
+        });
+      });
+    });
+
+    // Build filter URL from current sidebar state
+    function buildFilterUrl() {
+      const url = new URL(window.location.href);
+
+      // Clear existing filter params
+      const keysToDelete = [];
+      url.searchParams.forEach((value, key) => {
+        if (key.startsWith('filter.')) {
+          keysToDelete.push(key);
+        }
+      });
+      keysToDelete.forEach(key => url.searchParams.delete(key));
+
+      // Add checked filters
+      sidebar.querySelectorAll('input[type="checkbox"]:checked').forEach(input => {
+        url.searchParams.append(input.name, input.value);
+      });
+
+      // Add price range
+      const minPrice = sidebar.querySelector('[data-sidebar-price-min]');
+      const maxPrice = sidebar.querySelector('[data-sidebar-price-max]');
+      if (minPrice && minPrice.value) {
+        url.searchParams.set(minPrice.name, minPrice.value + '00');
+      }
+      if (maxPrice && maxPrice.value) {
+        url.searchParams.set(maxPrice.name, maxPrice.value + '00');
+      }
+
+      return url;
+    }
+
+    // Apply filters via AJAX
+    async function applyFiltersAjax() {
+      if (isLoading) return;
+      isLoading = true;
+
+      const url = buildFilterUrl();
+
+      // Show loading state on product grid
+      const productGrid = document.querySelector('#ProductGridContainer') || document.querySelector('.product-grid-container');
+      if (productGrid) {
+        productGrid.style.opacity = '0.5';
+        productGrid.style.pointerEvents = 'none';
+      }
+
+      try {
+        // Fetch the new page content
+        const response = await fetch(url.toString(), {
+          headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        // Update product grid
+        const newProductGrid = doc.querySelector('#ProductGridContainer') || doc.querySelector('.product-grid-container');
+        if (productGrid && newProductGrid) {
+          productGrid.innerHTML = newProductGrid.innerHTML;
+          productGrid.style.opacity = '1';
+          productGrid.style.pointerEvents = '';
+        }
+
+        // Update product count if exists
+        const productCount = document.querySelector('[data-product-count]');
+        const newProductCount = doc.querySelector('[data-product-count]');
+        if (productCount && newProductCount) {
+          productCount.textContent = newProductCount.textContent;
+        }
+
+        // Update URL without reload
+        window.history.pushState({}, '', url.toString());
+
+        // Re-initialize infinite scroll if present
+        if (window.initInfiniteScroll) {
+          window.initInfiniteScroll();
+        }
+
+        // Dispatch event for other components
+        document.dispatchEvent(new CustomEvent('filters:applied', { detail: { url: url.toString() } }));
+
+      } catch (error) {
+        console.error('Filter AJAX error:', error);
+        // Fallback to full page reload
+        window.location.href = url.toString();
+      } finally {
+        isLoading = false;
+        if (productGrid) {
+          productGrid.style.opacity = '1';
+          productGrid.style.pointerEvents = '';
+        }
+      }
+    }
+
+    // Handle checkbox/color changes - auto apply with AJAX
+    sidebar.querySelectorAll('input[type="checkbox"]').forEach(input => {
+      input.addEventListener('change', () => {
+        updateCategoryCounts();
+        applyFiltersAjax();
+      });
+    });
+
+    // Handle price range changes with debounce
+    let priceDebounce;
+    sidebar.querySelectorAll('[data-sidebar-price-min], [data-sidebar-price-max]').forEach(input => {
+      input.addEventListener('change', () => {
+        clearTimeout(priceDebounce);
+        priceDebounce = setTimeout(applyFiltersAjax, 500);
+      });
+    });
+
+    // Update category counts
+    function updateCategoryCounts() {
+      categoryBtns.forEach(btn => {
+        const category = btn.dataset.sidebarCategory;
+        const countEl = btn.querySelector('[data-sidebar-count]');
+        const section = sidebar.querySelector(`[data-sidebar-section="${category}"]`);
+
+        if (section && countEl) {
+          const checkedCount = section.querySelectorAll('input[type="checkbox"]:checked').length;
+          if (checkedCount > 0) {
+            countEl.textContent = checkedCount;
+            countEl.style.display = 'inline';
+          } else {
+            countEl.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    // Clear all filters with AJAX
+    if (clearBtn) {
+      clearBtn.addEventListener('click', async () => {
+        // Uncheck all checkboxes
+        sidebar.querySelectorAll('input[type="checkbox"]').forEach(input => {
+          input.checked = false;
+        });
+        // Clear price inputs
+        sidebar.querySelectorAll('input[type="number"]').forEach(input => {
+          input.value = '';
+        });
+        updateCategoryCounts();
+        await applyFiltersAjax();
+      });
+    }
+
+    // Initialize counts on load
+    updateCategoryCounts();
+  })();
+</script>
+{% endif %}

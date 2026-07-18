@@ -1,0 +1,168 @@
+{% comment %}
+  Renders a quick buy modal for adding products to cart directly from collection pages
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+  - collection: {Object} Collection object for URL context (optional)
+  - variant_font_size: {Number} Variant option font size in px (default: 14)
+  - use_buy_now: {Boolean} Show Buy Now button with Razorpay checkout instead of Add to Cart (default: false)
+
+  Note: Button colors are controlled via Theme Settings > Checkout Buttons
+
+  Usage:
+  {% render 'quick-buy-modal', product: product, collection: collection %}
+  {% render 'quick-buy-modal', product: product, use_buy_now: true %}
+{% endcomment %}
+
+{%- liquid
+  assign variant_font_size = variant_font_size | default: 14
+  assign use_buy_now = use_buy_now | default: false
+  assign modal_id = 'QuickBuyModal-' | append: product.id
+  assign form_id = 'QuickBuyForm-' | append: product.id
+-%}
+
+<div class="quick-buy-modal-overlay" id="{{ modal_id }}" data-product-id="{{ product.id }}">
+  <div class="quick-buy-modal-content">
+    {%- comment -%} Close button {%- endcomment -%}
+    <button type="button" class="quick-buy-modal-close" aria-label="Close modal" onclick="closeQuickBuyModal('{{ modal_id }}')">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 5L15 15M15 5L5 15" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    {%- comment -%} Product info header {%- endcomment -%}
+    <div class="quick-buy-product-info">
+      <div class="quick-buy-product-image">
+        {% if product.featured_image %}
+          {{ product.featured_image | image_url: width: 120 | image_tag:
+            loading: 'lazy',
+            class: 'quick-buy-img'
+          }}
+        {% endif %}
+      </div>
+      <div class="quick-buy-product-details">
+        <h3 class="quick-buy-product-title">{{ product.title | escape }}</h3>
+        <div class="quick-buy-product-price">
+          <span class="quick-buy-price-current" data-quick-buy-price>{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}</span>
+          {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+            <span class="quick-buy-price-compare" data-quick-buy-compare-price>{{ product.selected_or_first_available_variant.compare_at_price | money_without_trailing_zeros }}</span>
+          {% else %}
+            <span class="quick-buy-price-compare" data-quick-buy-compare-price style="display: none;"></span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} Variant picker form - uses Shopify form for payment button support {%- endcomment -%}
+    {%- form 'product', product, id: form_id, class: 'quick-buy-form', data-type: 'add-to-cart-form' -%}
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" class="quick-buy-variant-id product-variant-id">
+      <input type="hidden" name="quantity" value="1">
+
+      {%- unless product.has_only_default_variant -%}
+        <div class="quick-buy-variants">
+          {%- for option in product.options_with_values -%}
+            <div class="quick-buy-option-group" data-option-index="{{ forloop.index0 }}">
+              <label class="quick-buy-option-label" style="font-size: {{ variant_font_size }}px;">
+                {{ option.name }}
+              </label>
+              <div class="quick-buy-option-values {% if option.name == 'Color' or option.name == 'Colour' %}quick-buy-color-swatches{% else %}quick-buy-size-buttons{% endif %}">
+                {%- for value in option.values -%}
+                  {%- liquid
+                    # Check if any variant with this option value is available
+                    assign option_disabled = true
+                    assign current_option_position = forloop.parentloop.index
+                    assign option_index = current_option_position | minus: 1
+                    for variant in product.variants
+                      assign variant_option_value = variant.options[option_index]
+                      if variant_option_value == value and variant.available
+                        assign option_disabled = false
+                        break
+                      endif
+                    endfor
+                    
+                    assign is_color = false
+                    if option.name == 'Color' or option.name == 'Colour'
+                      assign is_color = true
+                    endif
+                    
+                    assign swatch_style = ''
+                    if is_color and value.swatch
+                      if value.swatch.color
+                        assign swatch_style = 'background-color: rgb(' | append: value.swatch.color.rgb | append: ');'
+                      elsif value.swatch.image
+                        assign image_url = value.swatch.image | image_url: width: 50
+                        assign swatch_style = 'background-image: url(' | append: image_url | append: '); background-size: cover;'
+                      endif
+                    endif
+
+                    # Build the complete style string
+                    assign button_style = 'font-size: ' | append: variant_font_size | append: 'px;'
+                    if swatch_style != blank
+                      assign button_style = button_style | append: ' ' | append: swatch_style
+                    endif
+                  -%}
+                  
+                  <button
+                    type="button"
+                    class="quick-buy-option-btn {% if value.selected %}selected{% endif %} {% if option_disabled %}disabled{% endif %} {% if is_color %}quick-buy-color-swatch{% endif %}"
+                    data-option-index="{{ forloop.parentloop.index0 }}"
+                    data-option-value="{{ value | escape }}"
+                    {% if option_disabled %}disabled{% endif %}
+                    style="{{ button_style }}"
+                    {% if is_color %}title="{{ value | escape }}"{% endif %}
+                    onclick="selectQuickBuyOption(this, '{{ product.id }}')"
+                  >
+                    {% unless is_color %}{{ value | escape }}{% endunless %}
+                    {% if is_color and value.selected %}<span class="quick-buy-check">✓</span>{% endif %}
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endunless -%}
+
+      {%- if use_buy_now -%}
+        {%- comment -%} Buy Now button with Razorpay express checkout {%- endcomment -%}
+        {%- if product.available -%}
+          <div class="quick-buy-payment-button">
+            {{ form | payment_button }}
+          </div>
+        {%- else -%}
+          <button type="button" class="quick-buy-add-btn button--cta" disabled>
+            <span class="quick-buy-add-text">Sold Out</span>
+          </button>
+        {%- endif -%}
+      {%- else -%}
+        {%- comment -%} Add to cart button {%- endcomment -%}
+        <button
+          type="button"
+          class="quick-buy-add-btn button--cta"
+          onclick="addToCartQuickBuy('{{ product.id }}', '{{ modal_id }}')"
+          {% unless product.available %}disabled{% endunless %}
+        >
+          <span class="quick-buy-add-text">
+            {%- if product.available -%}
+              Add to Cart
+            {%- else -%}
+              Sold Out
+            {%- endif -%}
+          </span>
+          <span class="quick-buy-loading-spinner" style="display: none;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
+              <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round">
+                <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
+              </path>
+            </svg>
+          </span>
+        </button>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</div>
+
+{%- comment -%} Variant data for JS {%- endcomment -%}
+<script type="application/json" id="QuickBuyVariants-{{ product.id }}">
+  {{ product.variants | json }}
+</script>

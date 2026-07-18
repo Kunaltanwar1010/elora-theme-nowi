@@ -1,0 +1,68 @@
+{% comment %}
+  Renders related product swatches as product images
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+  - show_current: {Boolean} Show current product as selected (default: false)
+
+  Usage:
+  {% render 'product-color-swatches', product: product, show_current: false %}
+
+  Metafields required:
+  - custom.related_colors: List of Products - links to related color variants
+{% endcomment %}
+
+{%- liquid
+  assign related_colors = product.metafields.custom.related_colors.value
+
+  assign display_current = false
+  if show_current == true
+    assign display_current = true
+  endif
+-%}
+
+{%- if related_colors.size > 0 -%}
+  <div class="product-color-swatches">
+    <div class="product-color-swatches__label">
+      <span class="form__label">More Colors</span>
+    </div>
+
+    <div class="product-color-swatches__list">
+      {%- comment -%} Show current product first if enabled {%- endcomment -%}
+      {%- if display_current -%}
+        <div class="product-color-swatch product-color-swatch--current">
+          <span class="product-color-swatch__link" aria-current="page">
+            <img
+              src="{{ product.featured_image | image_url: width: 200 }}"
+              alt="{{ product.title | escape }}"
+              width="80"
+              height="100"
+              loading="lazy"
+              class="product-color-swatch__image"
+            >
+          </span>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Loop through related color products {%- endcomment -%}
+      {%- for related_product in related_colors -%}
+        <div class="product-color-swatch">
+          <a
+            href="{{ related_product.url }}"
+            class="product-color-swatch__link"
+            aria-label="View {{ related_product.title }}"
+          >
+            <img
+              src="{{ related_product.featured_image | image_url: width: 200 }}"
+              alt="{{ related_product.title | escape }}"
+              width="80"
+              height="100"
+              loading="lazy"
+              class="product-color-swatch__image"
+            >
+          </a>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}

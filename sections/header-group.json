@@ -1,0 +1,86 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "header": {
+      "type": "header",
+      "blocks": {
+        "swish_formerly_wishlist_king_wishlist_link_block_jch4Bh": {
+          "type": "shopify://apps/swish-formerly-wishlist-king/blocks/wishlist-link-block/194f5011-a43c-4b22-b12e-eaf20dc4506a",
+          "settings": {
+            "icon_color": "#000000",
+            "icon_size": 22,
+            "icon_stroke_width": 1,
+            "counter_style": "solid_accent_2",
+            "counter_mode": "hide_when_zero",
+            "counter_position": "bottom-end",
+            "counter_offset_vertical": 5,
+            "counter_offset_horizontal": 0,
+            "counter_size": 17,
+            "counter_font_size": 9,
+            "counter_border_width": 0
+          }
+        }
+      },
+      "block_order": [
+        "swish_formerly_wishlist_king_wishlist_link_block_jch4Bh"
+      ],
+      "disabled": true,
+      "settings": {
+        "logo_position": "top-left",
+        "mobile_logo_position": "center",
+        "menu": "main-menu",
+        "menu_type_desktop": "dropdown",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": true,
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "scheme-1",
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "enable_customer_avatar": false,
+        "enable_search_icon": true,
+        "enable_cart_icon": true,
+        "enable_wishlist": true,
+        "margin_bottom": 0,
+        "padding_top": 4,
+        "padding_bottom": 4
+      }
+    },
+    "header_custom_dAGVrR": {
+      "type": "header-custom",
+      "name": "Header Custom",
+      "settings": {
+        "menu": "main-menu",
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "show_search": true,
+        "show_wishlist": true,
+        "show_account": true,
+        "show_cart": true,
+        "show_mobile_collections": false,
+        "collection_1": "christmas-collection",
+        "collection_2": "winter-essential",
+        "collection_3": "women-new-arrivals",
+        "collection_4": "",
+        "collection_5": "",
+        "collection_6": "",
+        "color_scheme": "",
+        "background_color": "#ffffff",
+        "show_line_separator": true
+      }
+    }
+  },
+  "order": [
+    "header",
+    "header_custom_dAGVrR"
+  ]
+}

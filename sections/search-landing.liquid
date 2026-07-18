@@ -1,0 +1,351 @@
+{% comment %}
+  Search Landing Section - Myntra-style search page
+{% endcomment %}
+
+{{ 'section-search-landing.css' | asset_url | stylesheet_tag }}
+{{ 'component-collection-product-card-modern.css' | asset_url | stylesheet_tag }}
+{{ 'component-desktop-sort-filter.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'search-landing.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'infinite-scroll.js' | asset_url }}" defer="defer"></script>
+
+<search-landing class="search-landing-page" data-max-recent="{{ section.settings.recent_searches_max | default: 5 }}">
+  {%- liquid
+    assign featured_collection = collections[section.settings.featured_collection]
+    assign products_count = section.settings.featured_products_count | default: 8
+  -%}
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <div class="search-bar-inner">
+      <button type="button" onclick="handleSearchBackClick()" class="back-btn" aria-label="Go back">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+
+      <predictive-search data-loading-text="Loading...">
+        <form action="{{ routes.search_url }}" method="get" role="search" class="search-input-wrap">
+          <input
+            type="search"
+            name="q"
+            value="{{ search.terms | escape }}"
+            placeholder="What are you looking for"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+          >
+          <input type="hidden" name="options[prefix]" value="last">
+
+          <div class="search-actions">
+            <button
+              type="reset"
+              class="reset__button{% if search.terms == blank %} hidden{% endif %}"
+              aria-label="Clear search"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 6L6 18M6 6l12 12"/>
+              </svg>
+            </button>
+
+            <button type="submit" class="search-btn" aria-label="Search">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="11" cy="11" r="7"/>
+                <path d="M21 21l-4.35-4.35"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <span class="predictive-search-status visually-hidden" role="status"></span>
+        <div id="predictive-search-results" class="predictive-search--inline" data-predictive-search></div>
+      </predictive-search>
+    </div>
+  </div>
+
+  {%- if search.performed -%}
+    <!-- Search Results View -->
+    <div class="search-content search-results-view">
+      <section class="search-section">
+        <div class="section-header">
+          <h2>Results for "{{ search.terms }}"</h2>
+          <span class="results-count" data-product-count>{{ search.results_count }} items</span>
+        </div>
+
+        {%- if search.results_count > 0 -%}
+          <!-- Product grid container -->
+          <div class="search-with-filters">
+            <!-- Active Filters Display -->
+            {% if search.filters.size > 0 %}
+            <div class="active-filters-bar" style="margin-bottom: 1rem; display: none;" data-active-filters>
+              <div class="active-filters-list" data-filters-list>
+                <!-- Filter chips will be dynamically inserted here -->
+              </div>
+            </div>
+            {% endif %}
+
+            <!-- Desktop Inline Sort/Filter Bar - Sticky on scroll -->
+            {% render 'desktop-sort-filter-bar',
+              has_filters: search.filters.size > 0,
+              title: 'Search Results',
+              show_back_button: true,
+              current_sort: search.sort_by
+            %}
+
+            <!-- Desktop Filter Layout - Sidebar + Grid -->
+            <div class="desktop-filter-layout">
+              {% render 'desktop-filter-sidebar', search: search %}
+
+              {%- paginate search.results by 20 -%}
+                <div class="product-grid-container" id="ProductGridContainer">
+                <infinite-scroll
+                  data-next-page="{% if paginate.next %}{{ paginate.next.url }}{% endif %}"
+                  data-threshold="100">
+                  <ul
+                    class="product-grid search-results-grid"
+                    role="list"
+                    data-infinite-scroll-container
+                  >
+                    {%- for item in search.results -%}
+                      {%- if item.object_type == 'product' -%}
+                        <li>
+                          {%- render 'collection-product-card-modern',
+                            product: item,
+                            enable_quick_buy: false
+                          -%}
+                        </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ul>
+
+                  {%- if paginate.next -%}
+                    <div class="mt-8 text-center">
+                      <div data-infinite-scroll-spinner class="hidden">
+                        {%- render 'loading-spinner' -%}
+                      </div>
+                      <button
+                        type="button"
+                        data-infinite-scroll-button
+                        class="inline-block px-6 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors">
+                        Load More
+                      </button>
+                    </div>
+                  {%- endif -%}
+                </infinite-scroll>
+              </div>
+            {%- endpaginate -%}
+          </div><!-- Close desktop-filter-layout -->
+        </div><!-- Close search-with-filters -->
+        {%- else -%}
+          <div class="no-results">
+            <p>No products found for "{{ search.terms }}"</p>
+            <p>Try a different search term or browse our collections.</p>
+          </div>
+        {%- endif -%}
+      </section>
+    </div>
+  {%- else -%}
+    <!-- Default View -->
+    <div data-default-view class="search-content">
+      <!-- Recent Searches -->
+      <section data-recent-section class="search-section hidden">
+        <div class="section-header">
+          <h2>Recent Search</h2>
+          <button type="button" data-clear-all class="clear-all-btn hidden">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+            </svg>
+          </button>
+        </div>
+        <div data-recent-searches class="recent-searches"></div>
+      </section>
+
+      <!-- Suggestion Chips -->
+      {%- assign has_suggestions = false -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'suggestion_chip' -%}
+          {%- assign has_suggestions = true -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if has_suggestions -%}
+        <section class="search-section suggestions-section">
+          <h2>You Might Want To Search</h2>
+          <div class="suggestion-chips">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'suggestion_chip' -%}
+                <a
+                  href="{{ routes.search_url }}?q={{ block.settings.search_term | url_encode }}"
+                  class="suggestion-chip"
+                >
+                  {{ block.settings.label }}
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </section>
+      {%- endif -%}
+
+      <!-- Trending -->
+      {%- assign has_trending = false -%}
+      {%- assign trending_index = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'trending_item' -%}
+          {%- assign has_trending = true -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if has_trending -%}
+        <section class="search-section">
+          <h2>Trending</h2>
+          <div class="trending-list">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'trending_item' -%}
+                {%- assign trending_index = trending_index | plus: 1 -%}
+                {%- assign trending_product = all_products[block.settings.product] -%}
+                {%- if trending_product != blank -%}
+                  <a href="{{ trending_product.url }}" class="trending-item">
+                    <span class="rank">{{ trending_index }}</span>
+                    <div class="thumb">
+                      {%- if trending_product.featured_image -%}
+                        <img
+                          src="{{ trending_product.featured_image | image_url: width: 112 }}"
+                          alt="{{ trending_product.title | escape }}"
+                          loading="lazy"
+                          width="56"
+                          height="56"
+                        >
+                      {%- endif -%}
+                    </div>
+                    <span class="title">{{ trending_product.title }}</span>
+                  </a>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </section>
+      {%- endif -%}
+
+      <!-- Featured Collection -->
+      {%- if featured_collection != blank -%}
+        <section class="search-section featured-collection-section">
+          <div class="section-header">
+            <h2>{{ featured_collection.title }}</h2>
+            <a href="{{ featured_collection.url }}" class="view-all-link">View All</a>
+          </div>
+          <ul class="product-grid" role="list">
+            {%- for product in featured_collection.products limit: products_count -%}
+              <li>
+                {%- render 'collection-product-card-modern',
+                  product: product,
+                  collection: featured_collection,
+                  enable_quick_buy: false
+                -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </section>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</search-landing>
+
+{%- comment -%} Include sort/filter bar for search results {%- endcomment -%}
+{%- if search.performed and search.results_count > 0 -%}
+  {%- render 'search-sort-filter-bar', target_results: search -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Search Landing",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Recent Searches"
+    },
+    {
+      "type": "range",
+      "id": "recent_searches_max",
+      "label": "Max Recent Searches",
+      "min": 3,
+      "max": 10,
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Featured Collection"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "featured_products_count",
+      "min": 4,
+      "max": 12,
+      "step": 2,
+      "default": 8,
+      "label": "Products to Show"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "suggestion_chip",
+      "name": "Suggestion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Dresses"
+        },
+        {
+          "type": "text",
+          "id": "search_term",
+          "label": "Search Term"
+        }
+      ]
+    },
+    {
+      "type": "trending_item",
+      "name": "Trending Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search Landing",
+      "blocks": [
+        { "type": "suggestion_chip", "settings": { "label": "Dresses", "search_term": "dresses" } },
+        { "type": "suggestion_chip", "settings": { "label": "Tops", "search_term": "tops" } },
+        { "type": "suggestion_chip", "settings": { "label": "Jeans", "search_term": "jeans" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+  (function () {
+    // Handle back button click - use browser history for proper back navigation
+    window.handleSearchBackClick = function () {
+      // Check if there's browser history to go back to
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        // Fallback to homepage if no history
+        window.location.href = '/';
+      }
+    };
+  })();
+</script>

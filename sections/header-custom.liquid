@@ -1,0 +1,617 @@
+{% comment %}
+  Custom Header Section
+  - Mobile: Hamburger menu, logo, icons
+  - Desktop: Logo left, mega menu navigation center, icons right
+  - Sticky header with show/hide on scroll
+  - Responsive design for all screen sizes
+{% endcomment %}
+
+<link
+  rel="stylesheet"
+  href="{{ 'component-cart-drawer.css' | asset_url }}"
+>
+<link
+  rel="stylesheet"
+  href="{{ 'component-header-custom.css' | asset_url }}"
+>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+{%- comment -%} cart-drawer.js is loaded in theme.liquid {%- endcomment -%}
+<script src="{{ 'header-custom.js' | asset_url }}" defer="defer"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<style>
+  /* Dynamic Liquid-based styles */
+  .section-header-custom {
+    background-color: {{ section.settings.background_color | default: '#ffffff' }};
+    {% if section.settings.show_line_separator %}border-bottom: 1px solid rgba(0, 0, 0, 0.06);{% endif %}
+  }
+
+  .header-custom {
+    background-color: {{ section.settings.background_color | default: '#ffffff' }} !important;
+  }
+</style>
+
+<div class="header-custom" data-section-id="{{ section.id }}">
+  <header class="header-custom-inner">
+    <!-- MOBILE: Left section - Hamburger + Search (hidden on desktop) -->
+    <div class="header-custom-left">
+      <button
+        type="button"
+        class="header-custom-menu-toggle"
+        aria-label="Open menu"
+        onclick="toggleMobileMenu()"
+      >
+        <span class="svg-wrapper">
+          {{- 'icon-hamburger.svg' | inline_asset_content -}}
+        </span>
+      </button>
+
+      <!-- Search on mobile -->
+      {% if section.settings.show_search %}
+        <a
+          href="{{ routes.search_url }}"
+          class="header__icon header__icon--search link focus-inset mobile-search-icon"
+          aria-label="{{ 'general.search.search' | t }}"
+        >
+          <span class="svg-wrapper">
+            {{- 'icon-search.svg' | inline_asset_content -}}
+          </span>
+        </a>
+      {% endif %}
+    </div>
+
+    <!-- MOBILE: Logo (center, hidden on desktop) -->
+    <div class="header-custom-logo-mobile">
+      <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        {%- if settings.logo != blank -%}
+          <img
+            src="{{ settings.logo | image_url: width: 150 }}"
+            alt="{{ shop.name }}"
+            width="{{ settings.logo_width }}"
+            height="auto"
+            loading="eager"
+          >
+        {%- else -%}
+          <span style="font-size: 18px; font-weight: 600;">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+    <!-- DESKTOP: Logo (left, hidden on mobile) -->
+    <div class="header-custom-logo-desktop">
+      <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        {%- if settings.logo != blank -%}
+          <img
+            src="{{ settings.logo | image_url: width: 200 }}"
+            alt="{{ shop.name }}"
+            width="{{ settings.logo_width }}"
+            height="auto"
+            loading="eager"
+          >
+        {%- else -%}
+          <span style="font-size: 20px; font-weight: 600;">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+    <!-- DESKTOP: Navigation (center, hidden on mobile) -->
+    <nav class="header-custom-nav">
+      {%- if section.settings.menu != blank -%}
+        {%- assign main_menu = linklists[section.settings.menu] -%}
+        {% for link in main_menu.links %}
+          <div class="nav-item">
+            <a href="{{ link.url }}">{{ link.title }}</a>
+            {% if link.links.size > 0 %}
+              <div class="nav-dropdown">
+                {% for child_link in link.links %}
+                  <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {%- endif -%}
+    </nav>
+
+    <!-- MOBILE: Right section - Icons (hidden on desktop, replaced by header__icons) -->
+    <div class="header-custom-right">
+      <!-- Icons are displayed via header__icons on both mobile and desktop -->
+    </div>
+
+    <!-- Header Icons (desktop only) -->
+    <div class="header__icons">
+      <!-- Country/Language Selector (Desktop only) -->
+      {%- liquid
+        assign show_localization = false
+        if section.settings.enable_country_selector and localization.available_countries.size > 1
+          assign show_localization = true
+        endif
+        if section.settings.enable_language_selector and localization.available_languages.size > 1
+          assign show_localization = true
+        endif
+      -%}
+
+      {%- if show_localization -%}
+        <div class="desktop-localization-wrapper">
+          {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+            <localization-form class="small-hide medium-hide" data-prevent-hide>
+              {%- form 'localization', id: 'HeaderCountryForm', class: 'localization-form' -%}
+                <div>
+                  <h2 class="visually-hidden" id="HeaderCountryLabel">{{ 'localization.country_label' | t }}</h2>
+                  {%- render 'country-localization', localPosition: 'HeaderCountry' -%}
+                </div>
+              {%- endform -%}
+            </localization-form>
+          {% endif %}
+
+          {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+            <localization-form class="small-hide medium-hide" data-prevent-hide>
+              {%- form 'localization', id: 'HeaderLanguageForm', class: 'localization-form' -%}
+                <div>
+                  <h2 class="visually-hidden" id="HeaderLanguageLabel">{{ 'localization.language_label' | t }}</h2>
+                  {%- render 'language-localization', localPosition: 'HeaderLanguage' -%}
+                </div>
+              {%- endform -%}
+            </localization-form>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <!-- Search -->
+      {% if section.settings.show_search %}
+        <a
+          href="{{ routes.search_url }}"
+          class="header__icon header__icon--search link focus-inset desktop-search-icon"
+          aria-label="{{ 'general.search.search' | t }}"
+        >
+          <span class="svg-wrapper">
+            {{- 'icon-search.svg' | inline_asset_content -}}
+          </span>
+        </a>
+      {% endif %}
+
+      <!-- Account -->
+      {% if section.settings.show_account %}
+        <a
+          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+          class="header__icon header__icon--account link focus-inset"
+          aria-label="Account"
+        >
+          <span class="svg-wrapper">
+            {{- 'icon-account.svg' | inline_asset_content -}}
+          </span>
+        </a>
+      {% endif %}
+
+      <!-- Wishlist -->
+      {% if section.settings.show_wishlist %}
+        <div
+          class="header__icon header__icon--wishlist"
+          style="--icon-size: 22px; --icon-fill: transparent; --icon-stroke: #000000; --icon-stroke-width: 1px;"
+        >
+          <script
+            type="module"
+            src="https://cdn.shopify.com/extensions/019a6435-2700-705e-910c-5eafab3282ce/swish-app-216/assets/block-wishlist-link.js"
+          ></script>
+          <wishlist-link-block wk-skip="" wk-headless="">
+            <a href="/apps/wishlist" class="wk-button" rel="noopener noreferrer nofollow" aria-label="Wishlist">
+              <span class="wk-icon">
+                <svg viewBox="0 0 64 64">
+                  <path d="M32.012,59.616c-1.119-.521-2.365-1.141-3.707-1.859a79.264,79.264,0,0,1-11.694-7.614C6.316,42,.266,32.6.254,22.076,0.244,12.358,7.871,4.506,17.232,4.5a16.661,16.661,0,0,1,11.891,4.99l2.837,2.889,2.827-2.9a16.639,16.639,0,0,1,11.874-5.02h0c9.368-.01,17.008,7.815,17.021,17.539,0.015,10.533-6.022,19.96-16.312,28.128a79.314,79.314,0,0,1-11.661,7.63C34.369,58.472,33.127,59.094,32.012,59.616Z"></path>
+                </svg>
+              </span>
+            </a>
+          </wishlist-link-block>
+        </div>
+      {% endif %}
+
+      <!-- Cart -->
+      {% if section.settings.show_cart %}
+        <button
+          type="button"
+          class="header__icon header__icon--cart link focus-inset"
+          aria-label="{{ 'templates.cart.cart' | t }}"
+          onclick="document.querySelector('cart-drawer').open()"
+        >
+          <span class="svg-wrapper">
+            {%- if cart == empty -%}
+              {{- 'icon-cart-empty.svg' | inline_asset_content -}}
+            {%- else -%}
+              {{- 'icon-cart.svg' | inline_asset_content -}}
+            {%- endif -%}
+          </span>
+          <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+          {%- if cart != empty -%}
+            <div class="cart-count-bubble">
+              {%- if cart.item_count < 100 -%}
+                <span aria-hidden="true">{{ cart.item_count }}</span>
+              {%- endif -%}
+              <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+            </div>
+          {%- endif -%}
+        </button>
+      {% endif %}
+    </div>
+  </header>
+</div>
+
+<script>
+  // Initialize sticky header with section ID
+  if (window.initHeaderCustom) {
+    window.initHeaderCustom('{{ section.id }}');
+  }
+</script>
+
+<!-- Mobile Menu Drawer -->
+<div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+<div class="mobile-menu-drawer">
+  <div class="mobile-menu-header">
+    <span style="font-weight: 600;">Menu</span>
+    <button
+      type="button"
+      class="mobile-menu-close"
+      aria-label="Close menu"
+      onclick="toggleMobileMenu()"
+    >
+      <span class="svg-wrapper">
+        {{- 'icon-close.svg' | inline_asset_content -}}
+      </span>
+    </button>
+  </div>
+
+  <div class="mobile-menu-scroll-content">
+    <div class="mobile-menu-links">
+      <!-- Navigation Links -->
+      {%- if section.settings.menu != blank -%}
+        {%- assign main_menu = linklists[section.settings.menu] -%}
+        {%- assign first_submenu_found = false -%}
+        {% for link in main_menu.links %}
+          <div class="mobile-menu-item">
+            {% if link.links.size > 0 %}
+              {%- assign is_first_submenu = false -%}
+              {%- if first_submenu_found == false -%}
+                {%- assign is_first_submenu = true -%}
+                {%- assign first_submenu_found = true -%}
+              {%- endif -%}
+              <button
+                type="button"
+                class="mobile-menu-toggle {% if is_first_submenu %}open{% endif %}"
+                onclick="toggleMobileSubmenu(this)"
+              >
+                <span>{{ link.title }}</span>
+                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </button>
+              <div
+                class="mobile-submenu {% if is_first_submenu %}open{% endif %}"
+                data-total-items="{{ link.links.size }}"
+              >
+                {% for child_link in link.links %}
+                  <a
+                    href="{{ child_link.url }}"
+                    class="{% if forloop.index > 4 %}submenu-item-hidden{% endif %}"
+                    data-item-index="{{ forloop.index }}"
+                  >
+                    {{- child_link.title -}}
+                  </a>
+                {% endfor %}
+                {% if link.links.size > 4 %}
+                  <button type="button" class="view-more-btn" onclick="toggleViewMore(this)">
+                    <span class="view-more-text">View More ({{ link.links.size | minus: 4 }})</span>
+                    <span class="view-less-text" style="display: none;">View Less</span>
+                    <svg class="view-more-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                  </button>
+                {% endif %}
+              </div>
+            {% else %}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {%- endif -%}
+    </div>
+
+  <!-- Featured Collections Carousel (Mobile Only) -->
+  {% if section.settings.show_mobile_collections %}
+    <div class="mobile-collections-section">
+      <div class="mobile-collections-header">
+        <span>Shop by Collection</span>
+      </div>
+      <div class="swiper mobile-collections-swiper">
+        <div class="swiper-wrapper">
+          {% if section.settings.collection_1 != blank %}
+            {% assign collection_1 = collections[section.settings.collection_1] %}
+            <div class="swiper-slide">
+              <a href="{{ collection_1.url }}" class="collection-card">
+                {% if collection_1.featured_image %}
+                  <div class="collection-image">
+                    <img
+                      src="{{ collection_1.featured_image | image_url: width: 300 }}"
+                      alt="{{ collection_1.title }}"
+                      loading="lazy"
+                    >
+                  </div>
+                {% endif %}
+                <span class="collection-title">{{ collection_1.title }}</span>
+              </a>
+            </div>
+          {% endif %}
+          {% if section.settings.collection_2 != blank %}
+            {% assign collection_2 = collections[section.settings.collection_2] %}
+            <div class="swiper-slide">
+              <a href="{{ collection_2.url }}" class="collection-card">
+                {% if collection_2.featured_image %}
+                  <div class="collection-image">
+                    <img
+                      src="{{ collection_2.featured_image | image_url: width: 300 }}"
+                      alt="{{ collection_2.title }}"
+                      loading="lazy"
+                    >
+                  </div>
+                {% endif %}
+                <span class="collection-title">{{ collection_2.title }}</span>
+              </a>
+            </div>
+          {% endif %}
+          {% if section.settings.collection_3 != blank %}
+            {% assign collection_3 = collections[section.settings.collection_3] %}
+            <div class="swiper-slide">
+              <a href="{{ collection_3.url }}" class="collection-card">
+                {% if collection_3.featured_image %}
+                  <div class="collection-image">
+                    <img
+                      src="{{ collection_3.featured_image | image_url: width: 300 }}"
+                      alt="{{ collection_3.title }}"
+                      loading="lazy"
+                    >
+                  </div>
+                {% endif %}
+                <span class="collection-title">{{ collection_3.title }}</span>
+              </a>
+            </div>
+          {% endif %}
+          {% if section.settings.collection_4 != blank %}
+            {% assign collection_4 = collections[section.settings.collection_4] %}
+            <div class="swiper-slide">
+              <a href="{{ collection_4.url }}" class="collection-card">
+                {% if collection_4.featured_image %}
+                  <div class="collection-image">
+                    <img
+                      src="{{ collection_4.featured_image | image_url: width: 300 }}"
+                      alt="{{ collection_4.title }}"
+                      loading="lazy"
+                    >
+                  </div>
+                {% endif %}
+                <span class="collection-title">{{ collection_4.title }}</span>
+              </a>
+            </div>
+          {% endif %}
+          {% if section.settings.collection_5 != blank %}
+            {% assign collection_5 = collections[section.settings.collection_5] %}
+            <div class="swiper-slide">
+              <a href="{{ collection_5.url }}" class="collection-card">
+                {% if collection_5.featured_image %}
+                  <div class="collection-image">
+                    <img
+                      src="{{ collection_5.featured_image | image_url: width: 300 }}"
+                      alt="{{ collection_5.title }}"
+                      loading="lazy"
+                    >
+                  </div>
+                {% endif %}
+                <span class="collection-title">{{ collection_5.title }}</span>
+              </a>
+            </div>
+          {% endif %}
+          {% if section.settings.collection_6 != blank %}
+            {% assign collection_6 = collections[section.settings.collection_6] %}
+            <div class="swiper-slide">
+              <a href="{{ collection_6.url }}" class="collection-card">
+                {% if collection_6.featured_image %}
+                  <div class="collection-image">
+                    <img
+                      src="{{ collection_6.featured_image | image_url: width: 300 }}"
+                      alt="{{ collection_6.title }}"
+                      loading="lazy"
+                    >
+                  </div>
+                {% endif %}
+                <span class="collection-title">{{ collection_6.title }}</span>
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  </div><!-- end mobile-menu-scroll-content -->
+
+  <!-- Account Link at Bottom (Mobile Only) -->
+  {% if section.settings.show_account %}
+    <div class="mobile-menu-bottom">
+      <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}">
+        <span class="svg-wrapper">
+          {{- 'icon-account.svg' | inline_asset_content -}}
+        </span>
+        <span>Account</span>
+      </a>
+    </div>
+  {% endif %}
+</div>
+
+{%- comment -%} cart-drawer is rendered in theme.liquid {%- endcomment -%}
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    {% if settings.logo %}
+      "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
+    {% endif %}
+    "sameAs": [
+      {{ settings.social_twitter_link | json }},
+      {{ settings.social_facebook_link | json }},
+      {{ settings.social_pinterest_link | json }},
+      {{ settings.social_instagram_link | json }},
+      {{ settings.social_tiktok_link | json }},
+      {{ settings.social_tumblr_link | json }},
+      {{ settings.social_snapchat_link | json }},
+      {{ settings.social_youtube_link | json }},
+      {{ settings.social_vimeo_link | json }}
+    ],
+    "url": {{ request.origin | append: page.url | json }}
+  }
+</script>
+
+{%- if request.page_type == 'index' -%}
+  {% assign potential_action_target = request.origin | append: routes.search_url | append: '?q={search_term_string}' %}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ potential_action_target | json }},
+        "query-input": "required name=search_term_string"
+      },
+      "url": {{ request.origin | append: page.url | json }}
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Header Custom",
+  "class": "section-header-custom",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu",
+      "info": "Select a menu from Navigation settings"
+    },
+    {
+      "type": "header",
+      "content": "Localization"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_country_selector",
+      "label": "Enable Country/Region Selector",
+      "default": false,
+      "info": "To add countries/regions, go to your market settings in admin."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_language_selector",
+      "label": "Enable Language Selector",
+      "default": false,
+      "info": "To add languages, go to your language settings in admin."
+    },
+    {
+      "type": "header",
+      "content": "Header Icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show Search Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Show Wishlist Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Show Account Icon",
+      "default": true,
+      "info": "Desktop: Shows in header. Mobile: Shows in sidebar menu."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "Show Cart Icon",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Mobile Menu Collections"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_mobile_collections",
+      "label": "Show Collections Carousel",
+      "default": false,
+      "info": "Display horizontal scrolling collections in mobile menu"
+    },
+    {
+      "type": "collection",
+      "id": "collection_1",
+      "label": "Collection 1"
+    },
+    {
+      "type": "collection",
+      "id": "collection_2",
+      "label": "Collection 2"
+    },
+    {
+      "type": "collection",
+      "id": "collection_3",
+      "label": "Collection 3"
+    },
+    {
+      "type": "collection",
+      "id": "collection_4",
+      "label": "Collection 4"
+    },
+    {
+      "type": "collection",
+      "id": "collection_5",
+      "label": "Collection 5"
+    },
+    {
+      "type": "collection",
+      "id": "collection_6",
+      "label": "Collection 6"
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_line_separator",
+      "label": "Show Bottom Border",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header Custom"
+    }
+  ]
+}
+{% endschema %}

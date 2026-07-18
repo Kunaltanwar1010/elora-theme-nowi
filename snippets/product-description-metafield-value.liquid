@@ -1,0 +1,101 @@
+{% comment %}
+  Renders a metafield value, handling different types:
+  - Single values
+  - Lists/Arrays
+  - Metaobject references
+  - Metaobject lists
+
+  Accepts:
+  - metafield: {Object} Metafield object
+  - as_tags: {Boolean} Render values as tag pills (default: false)
+  - as_list: {Boolean} Render values as list items (default: false)
+
+  Usage:
+  {% render 'product-description-metafield-value', metafield: product.metafields.custom.color, as_tags: true %}
+{% endcomment %}
+
+{%- liquid
+  assign as_tags = as_tags | default: false
+  assign as_list = as_list | default: false
+
+  # Get the actual value
+  if metafield.value != blank
+    assign field_value = metafield.value
+  else
+    assign field_value = metafield
+  endif
+
+  # Check if it's empty
+  if field_value == blank
+    break
+  endif
+
+  # Determine if it's a list/array
+  assign is_list = false
+  assign field_type = field_value | json | slice: 0
+  if field_type == '['
+    assign is_list = true
+  endif
+-%}
+
+{%- if is_list -%}
+  {%- comment -%} Handle array/list values {%- endcomment -%}
+  {%- for item in field_value -%}
+    {%- liquid
+      # Check if item is a metaobject (has system.handle or other properties)
+      assign item_value = null
+
+      # Try to get display value from metaobject
+      if item.name != blank
+        assign item_value = item.name
+      elsif item.title != blank
+        assign item_value = item.title
+      elsif item.label != blank
+        assign item_value = item.label
+      elsif item.value != blank
+        assign item_value = item.value
+      else
+        assign item_value = item
+      endif
+    -%}
+
+    {%- if item_value != blank -%}
+      {%- if as_tags -%}
+        <span class="pda-tag">{{ item_value }}</span>
+      {%- elsif as_list -%}
+        <li>{{ item_value }}</li>
+      {%- else -%}
+        {{ item_value }}
+        {%- unless forloop.last -%}, {% endunless -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- else -%}
+  {%- comment -%} Handle single value {%- endcomment -%}
+  {%- liquid
+    assign display_value = null
+
+    # Try to get display value from metaobject
+    if field_value.name != blank
+      assign display_value = field_value.name
+    elsif field_value.title != blank
+      assign display_value = field_value.title
+    elsif field_value.label != blank
+      assign display_value = field_value.label
+    elsif field_value.value != blank
+      assign display_value = field_value.value
+    else
+      assign display_value = field_value
+    endif
+  -%}
+
+  {%- if display_value != blank -%}
+    {%- if as_tags -%}
+      <span class="pda-tag">{{ display_value }}</span>
+    {%- elsif as_list -%}
+      <li>{{ display_value }}</li>
+    {%- else -%}
+      {{ display_value }}
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}

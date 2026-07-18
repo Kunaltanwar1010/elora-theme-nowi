@@ -1,0 +1,68 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "collection_top_bar_krpb7C": {
+      "type": "collection-top-bar",
+      "name": "Collection Top Bar",
+      "settings": {
+        "collection_handle": "india-collection",
+        "custom_title": "Bestsellers",
+        "title_font_size": 17,
+        "title_font_weight": "600",
+        "show_back_button": true,
+        "show_account": true,
+        "show_search": true,
+        "show_wishlist": true,
+        "show_cart": true,
+        "background_color": "#ffffff"
+      }
+    },
+    "collection_grid_crUr6h": {
+      "type": "collection-grid",
+      "name": "Collection Grid",
+      "settings": {
+        "collection": "india-collection",
+        "padding_top": 20,
+        "padding_bottom": 15,
+        "show_collection_title": true,
+        "custom_title": "Bestsellers",
+        "heading_font_size": 32,
+        "heading_font_weight": "700",
+        "heading_text_transform": "",
+        "heading_alignment": "text-center",
+        "heading_color": "#1f2937",
+        "show_collection_description": false,
+        "products_to_show": 36,
+        "columns_mobile": 2,
+        "columns_desktop": 3,
+        "enable_pagination": false,
+        "enable_infinite_scroll": true,
+        "show_view_all": true,
+        "enable_quick_buy": true,
+        "show_in_all_categories": true,
+        "category_only_show_for": "men"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "collection_top_bar_krpb7C",
+    "collection_grid_crUr6h"
+  ]
+}

@@ -1,0 +1,190 @@
+{% comment %}
+  Renders delivery information section with pincode checker
+
+  Accepts:
+  - block: {Object} Block object with settings (required)
+  - product: {Object} Product Liquid object (optional) - used for TAT metafield
+
+  Usage:
+  {% render 'delivery-info', block: block, product: product %}
+{% endcomment %}
+
+{{ 'component-delivery-info.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign show_cod = true
+  if block.settings.show_cod == false
+    assign show_cod = false
+  endif
+  assign show_non_returnable = block.settings.show_non_returnable
+
+  # Calculate delivery days based on product TAT metafield + 5-7 days
+  assign tat_value = product.metafields.custom.tat.value | default: 0 | plus: 0
+  assign min_delivery_days = tat_value | plus: 4
+  assign max_delivery_days = tat_value | plus: 7
+-%}
+
+<div class="delivery-info" {{ block.shopify_attributes }}>
+  {%- comment -%} Main Heading {%- endcomment -%}
+  <div class="delivery-info__main-heading">
+    <h3>Delivery Info</h3>
+  </div>
+
+  <div class="delivery-info__content">
+
+  {%- comment -%} Pincode Checker {%- endcomment -%}
+  <div class="delivery-info__pincode-wrapper">
+    <input
+      type="text"
+      class="delivery-info__pincode-input"
+      placeholder="Enter a pincode to check"
+      maxlength="6"
+      pattern="[0-9]{6}"
+      inputmode="numeric"
+      id="delivery-pincode-{{ block.id }}"
+      aria-label="Enter pincode"
+    />
+    <button
+      type="button"
+      class="delivery-info__check-btn"
+      id="delivery-check-btn-{{ block.id }}"
+      onclick="checkDelivery_{{ block.id | replace: '-', '_' }}()"
+      disabled
+    >
+      Check
+    </button>
+  </div>
+
+  {%- comment -%} Delivery Details {%- endcomment -%}
+  <div class="delivery-info__details">
+    {%- comment -%} Free Delivery Info {%- endcomment -%}
+    <div class="delivery-info__item">
+      <svg class="delivery-info__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13 16V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h1m8-1a1 1 0 0 1-1 1H9m4-1V8a1 1 0 0 1 1-1h2.586a1 1 0 0 1 .707.293l3.414 3.414a1 1 0 0 1 .293.707V16a1 1 0 0 1-1 1h-1m-6-1a1 1 0 0 0 1 1h1M5 17a2 2 0 1 0 4 0m-4 0a2 2 0 1 1 4 0m-4 0v-5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="delivery-info__text">
+        Free Delivery over ₹599
+      </div>
+    </div>
+
+    {%- comment -%} Easy Return Info {%- endcomment -%}
+    <div class="delivery-info__item">
+      <svg class="delivery-info__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 14l-4-4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M5 10h11a4 4 0 0 1 0 8h-1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="delivery-info__text">
+        7 Days Easy Return with Pick Up
+        <a href="https://nowi.fashion/policies/refund-policy" class="delivery-info__link" target="_blank" rel="noopener">Read More</a>
+      </div>
+    </div>
+
+    {%- comment -%} Non-returnable Notice {%- endcomment -%}
+    {%- if show_non_returnable -%}
+      <div class="delivery-info__item">
+        <svg class="delivery-info__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 8V12M12 16H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="delivery-info__text">
+          This item is non returnable
+          <a href="{{ block.settings.return_policy_url | default: '/policies/refund-policy' }}" class="delivery-info__link">read more</a>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} COD Notice {%- endcomment -%}
+    {%- if show_cod -%}
+      <div class="delivery-info__item" id="cod-item-{{ block.id }}">
+        <svg class="delivery-info__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M12 12H15M12 16H15M9 12H9.01M9 16H9.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="delivery-info__text" id="cod-message-{{ block.id }}">
+          Enter pincode to check COD availability
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+  </div>
+</div>
+
+{%- assign block_id_safe = block.id | replace: '-', '_' -%}
+<script>
+  function checkDelivery_{{ block_id_safe }}() {
+    const input = document.getElementById('delivery-pincode-{{ block.id }}');
+    const btn = document.getElementById('delivery-check-btn-{{ block.id }}');
+    const codMessageEl = document.getElementById('cod-message-{{ block.id }}');
+    const pincode = input.value.trim();
+
+    // Basic validation
+    if (pincode.length !== 6 || !/^\d+$/.test(pincode)) {
+      return;
+    }
+
+    // Show loading state on button
+    btn.disabled = true;
+    btn.textContent = 'Checking...';
+    btn.classList.add('delivery-info__check-btn--loading');
+
+    // Show loading state on COD message
+    if (codMessageEl) {
+      codMessageEl.textContent = 'Checking COD availability...';
+    }
+
+    // Simulate API call (replace with actual delivery check API)
+    setTimeout(() => {
+      // Update COD availability (for now, show available for all pincodes)
+      // You can integrate with actual COD check API here
+      if (codMessageEl) {
+        codMessageEl.innerHTML = '<strong style="color: #2e7d32;">Cash on Delivery available</strong> for this pincode';
+      }
+
+      // Restore button state
+      btn.textContent = 'Check';
+      btn.disabled = false;
+      btn.classList.remove('delivery-info__check-btn--loading');
+
+      // Store pincode for future use
+      sessionStorage.setItem('delivery-pincode', pincode);
+
+      // Notify ETA timeline of confirmed delivery
+      document.dispatchEvent(new CustomEvent('delivery:pincode-checked', {
+        detail: { pincode: pincode, minDays: {{ min_delivery_days }}, maxDays: {{ max_delivery_days }} }
+      }));
+    }, 500);
+  }
+
+  // Get elements
+  const inputEl_{{ block_id_safe }} = document.getElementById('delivery-pincode-{{ block.id }}');
+  const checkBtn_{{ block_id_safe }} = document.getElementById('delivery-check-btn-{{ block.id }}');
+
+  // Update button state based on input
+  function updateButtonState_{{ block_id_safe }}() {
+    const pincode = inputEl_{{ block_id_safe }}.value.trim();
+    const isValid = pincode.length === 6 && /^\d+$/.test(pincode);
+    checkBtn_{{ block_id_safe }}.disabled = !isValid;
+  }
+
+  if (inputEl_{{ block_id_safe }}) {
+    // Listen for input changes
+    inputEl_{{ block_id_safe }}.addEventListener('input', updateButtonState_{{ block_id_safe }});
+
+    // Allow Enter key to trigger check
+    inputEl_{{ block_id_safe }}.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' && !checkBtn_{{ block_id_safe }}.disabled) {
+        checkDelivery_{{ block_id_safe }}();
+      }
+    });
+  }
+
+  // Restore saved pincode on page load
+  window.addEventListener('DOMContentLoaded', function() {
+    const savedPincode = sessionStorage.getItem('delivery-pincode');
+    const savedInputEl = document.getElementById('delivery-pincode-{{ block.id }}');
+    if (savedPincode && savedInputEl) {
+      savedInputEl.value = savedPincode;
+      updateButtonState_{{ block_id_safe }}();
+      checkDelivery_{{ block_id_safe }}();
+    }
+  });
+</script>

@@ -1,0 +1,580 @@
+{%- liquid
+  assign collection_handle = section.settings.collection
+  assign products_to_show = section.settings.products_to_show
+  assign columns_mobile = section.settings.columns_mobile
+  assign columns_desktop = section.settings.columns_desktop
+  assign enable_pagination = section.settings.enable_pagination
+  assign enable_infinite_scroll = section.settings.enable_infinite_scroll
+
+  if collection_handle != blank
+    assign target_collection = collections[collection_handle]
+  else
+    assign target_collection = collection
+  endif
+
+
+  assign custom_title = section.settings.custom_title
+  assign heading_font_size = section.settings.heading_font_size
+  assign heading_font_weight = section.settings.heading_font_weight
+  assign heading_text_transform = section.settings.heading_text_transform
+  assign heading_alignment = section.settings.heading_alignment
+
+  # Check if we're on a collection page template
+  assign is_collection_page = false
+  if template.name == 'collection'
+    assign is_collection_page = true
+  endif
+
+  # Quick Buy settings (colors from global theme settings)
+  assign enable_quick_buy = section.settings.enable_quick_buy
+-%}
+
+{{ 'component-quick-buy.css' | asset_url | stylesheet_tag }}
+{{ 'component-collection-product-card-modern.css' | asset_url | stylesheet_tag }}
+{{ 'component-desktop-sort-filter.css' | asset_url | stylesheet_tag }}
+{%- comment -%} Collection scripts (moved from global theme.liquid — only needed on collection/search pages) {%- endcomment -%}
+<script src="{{ 'collection-filter-ajax.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'collection-filter-ui.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'infinite-scroll.js' | asset_url }}" defer="defer"></script>
+
+{% render 'category-visibility-wrapper',
+  show_in_all_categories: section.settings.show_in_all_categories,
+  category_only_show_for: section.settings.category_only_show_for,
+  tag_type: 'open'
+%}
+
+<div class="collection-grid-section px-4" data-section-id="{{ section.id }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
+  <div class="max-w-8xl mx-auto" style="max-width: var(--page-width);">
+
+    {% if section.settings.show_collection_title %}
+      {% assign display_title = custom_title | default: target_collection.title %}
+      {% if display_title != blank %}
+        <h2 class="pb-6 {{ heading_alignment }} {{ heading_text_transform }}"
+            style="font-size: {{ heading_font_size }}px; font-weight: {{ heading_font_weight }}; color: {{ section.settings.heading_color }};">
+          {{ display_title }}
+        </h2>
+      {% endif %}
+    {% endif %}
+
+    {% if section.settings.show_collection_description and target_collection.description != blank %}
+      <div class="text-gray-600 mb-8 max-w-3xl">
+        {{ target_collection.description }}
+      </div>
+    {% endif %}
+
+    {% if target_collection %}
+      <!-- Product grid container -->
+      <div class="collection-with-filters">
+        <!-- PRODUCT GRID -->
+        <div style="flex: 1; min-width: 0;">
+          <!-- Active Filters Display (outside ProductGridContainer so it persists) -->
+          {% if is_collection_page and target_collection.filters.size > 0 %}
+          <div class="active-filters-bar" style="margin-bottom: 1rem; display: none;" data-active-filters>
+            <style>
+              .active-filters-bar {
+                padding: 0;
+              }
+              .active-filters-bar.has-filters {
+                display: block !important;
+              }
+              .active-filters-list {
+                display: flex;
+                flex-wrap: nowrap;
+                gap: 0.5rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                padding-bottom: 0.5rem;
+              }
+              .active-filters-list::-webkit-scrollbar {
+                display: none;
+              }
+              .filter-chip {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem 1rem;
+                background: #f3f4f6;
+                border: none;
+                border-radius: 16px;
+                font-size: 1.2rem;
+                color: #374151;
+                flex-shrink: 0;
+                white-space: nowrap;
+              }
+              .filter-chip:hover {
+                background: #e5e7eb;
+              }
+              .filter-chip-remove {
+                width: 1.4rem;
+                height: 1.4rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                border-radius: 50%;
+                background: #d1d5db;
+              }
+              .filter-chip-remove:hover {
+                background: #ef4444;
+                color: #fff;
+              }
+              .filter-chip-remove svg {
+                width: 0.8rem;
+                height: 0.8rem;
+              }
+            </style>
+            <div class="active-filters-list" data-filters-list>
+              <!-- Filter chips will be dynamically inserted here -->
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- Desktop Inline Sort/Filter Bar - Sticky on scroll -->
+          {% if is_collection_page %}
+            {% render 'desktop-sort-filter-bar',
+              has_filters: target_collection.filters.size > 0,
+              title: target_collection.title,
+              show_back_button: true,
+              current_sort: target_collection.sort_by
+            %}
+          {% endif %}
+
+          <!-- Desktop Filter Layout - Sidebar + Grid -->
+          <div class="desktop-filter-layout">
+            {% if is_collection_page %}
+              {% render 'desktop-filter-sidebar', collection: target_collection %}
+            {% endif %}
+
+            <!-- ProductGridContainer wraps only the product grid that gets replaced by AJAX -->
+            <div class="product-grid-container" id="ProductGridContainer">
+          <div id="product-grid" data-id="{{ section.id }}" class="collection">
+      {% if enable_infinite_scroll %}
+        {%- comment -%} Infinite Scroll Mode {%- endcomment -%}
+        {% paginate target_collection.products by products_to_show %}
+          {% if target_collection.products_count == 0 %}
+            <p class="text-center text-gray-500 py-12">
+              No products found in this collection.
+            </p>
+          {% else %}
+            <infinite-scroll
+              data-next-page="{% if paginate.next %}{{ paginate.next.url }}{% endif %}"
+              data-collection-handle="{{ target_collection.handle }}"
+              data-threshold="1500">
+              <ul class="grid cols-desktop-{{ columns_desktop }}"
+                style="display: grid; grid-template-columns: repeat({{ columns_mobile }}, minmax(0, 1fr)); gap: {{ settings.modern_card_gap | default: 16 }}px;"
+                role="list"
+                data-infinite-scroll-container>
+                {% for product in target_collection.products %}
+                  <li>
+                    {% render 'collection-product-card-modern',
+                      product: product,
+                      collection: target_collection,
+                      title_color: settings.modern_card_title_color,
+                      title_font_size: settings.modern_card_title_font_size,
+                      title_font_weight: settings.modern_card_title_font_weight,
+                      price_color: settings.modern_card_price_color,
+                      price_font_size: settings.modern_card_price_font_size,
+                      price_font_weight: settings.modern_card_price_font_weight,
+                      original_price_color: settings.modern_card_original_price_color,
+                      original_price_font_size: settings.modern_card_original_price_font_size,
+                      discount_bg_color: settings.modern_card_discount_bg_color,
+                      discount_text_color: settings.modern_card_discount_text_color,
+                      inline_discount_color: settings.modern_card_inline_discount_color,
+                      discount_font_size: settings.modern_card_discount_font_size,
+                      enable_quick_buy: enable_quick_buy,
+                      quick_buy_button_color: settings.modern_card_quick_buy_button_color,
+                      quick_buy_button_text_color: settings.modern_card_quick_buy_button_text_color,
+                      quick_buy_variant_font_size: settings.modern_card_quick_buy_variant_font_size
+                    %}
+                  </li>
+                {% endfor %}
+              </ul>
+
+              {% if paginate.next %}
+                <div class="mt-8 text-center">
+                  <div data-infinite-scroll-spinner class="hidden">
+                    {% render 'loading-spinner' %}
+                  </div>
+                  <button
+                    type="button"
+                    data-infinite-scroll-button
+                    class="inline-block px-6 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors">
+                    Load More
+                  </button>
+                </div>
+              {% endif %}
+            </infinite-scroll>
+          {% endif %}
+        {% endpaginate %}
+      {% elsif enable_pagination %}
+        {% paginate target_collection.products by products_to_show %}
+          {% if target_collection.products_count == 0 %}
+            <p class="text-center text-gray-500 py-12">
+              No products found in this collection.
+            </p>
+          {% else %}
+            <ul class="grid cols-desktop-{{ columns_desktop }}"
+              style="display: grid; grid-template-columns: repeat({{ columns_mobile }}, minmax(0, 1fr)); gap: {{ settings.modern_card_gap | default: 16 }}px;"
+              role="list">
+              {% for product in target_collection.products %}
+                <li>
+                  {% render 'collection-product-card-modern',
+                    product: product,
+                    collection: target_collection,
+                    title_color: settings.modern_card_title_color,
+                    title_font_size: settings.modern_card_title_font_size,
+                    title_font_weight: settings.modern_card_title_font_weight,
+                    price_color: settings.modern_card_price_color,
+                    price_font_size: settings.modern_card_price_font_size,
+                    price_font_weight: settings.modern_card_price_font_weight,
+                    original_price_color: settings.modern_card_original_price_color,
+                    original_price_font_size: settings.modern_card_original_price_font_size,
+                    discount_bg_color: settings.modern_card_discount_bg_color,
+                    discount_text_color: settings.modern_card_discount_text_color,
+                    inline_discount_color: settings.modern_card_inline_discount_color,
+                    discount_font_size: settings.modern_card_discount_font_size,
+                    enable_quick_buy: enable_quick_buy,
+                    quick_buy_button_color: settings.modern_card_quick_buy_button_color,
+                    quick_buy_button_text_color: settings.modern_card_quick_buy_button_text_color,
+                    quick_buy_variant_font_size: settings.modern_card_quick_buy_variant_font_size
+                  %}
+                </li>
+              {% endfor %}
+            </ul>
+
+            {% if paginate.pages > 1 %}
+              <div class="mt-8">
+                {% render 'pagination', paginate: paginate %}
+              </div>
+            {% endif %}
+          {% endif %}
+        {% endpaginate %}
+      {% else %}
+        {%- comment -%} No pagination - show limited number of products {%- endcomment -%}
+        {% if target_collection.products_count == 0 %}
+          <p class="text-center text-gray-500 py-12">
+            No products found in this collection.
+          </p>
+        {% else %}
+          <ul class="grid cols-desktop-{{ columns_desktop }}"
+            style="display: grid; grid-template-columns: repeat({{ columns_mobile }}, minmax(0, 1fr)); gap: {{ settings.modern_card_gap | default: 16 }}px;"
+            role="list">
+            {% for product in target_collection.products limit: products_to_show %}
+              <li>
+                {% render 'collection-product-card-modern',
+                  product: product,
+                  collection: target_collection,
+                  title_color: settings.modern_card_title_color,
+                  title_font_size: settings.modern_card_title_font_size,
+                  title_font_weight: settings.modern_card_title_font_weight,
+                  price_color: settings.modern_card_price_color,
+                  price_font_size: settings.modern_card_price_font_size,
+                  price_font_weight: settings.modern_card_price_font_weight,
+                  original_price_color: settings.modern_card_original_price_color,
+                  original_price_font_size: settings.modern_card_original_price_font_size,
+                  discount_bg_color: settings.modern_card_discount_bg_color,
+                  discount_text_color: settings.modern_card_discount_text_color,
+                  inline_discount_color: settings.modern_card_inline_discount_color,
+                  discount_font_size: settings.modern_card_discount_font_size,
+                  enable_quick_buy: enable_quick_buy,
+                  quick_buy_button_color: settings.modern_card_quick_buy_button_color,
+                  quick_buy_button_text_color: settings.modern_card_quick_buy_button_text_color,
+                  quick_buy_variant_font_size: settings.modern_card_quick_buy_variant_font_size
+                %}
+              </li>
+            {% endfor %}
+          </ul>
+
+          {% if section.settings.show_view_all and target_collection.products_count > products_to_show %}
+            <div class="text-center mt-8">
+              <a href="{{ target_collection.url }}" class="inline-block px-6 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors">
+                View All {{ target_collection.title }}
+              </a>
+            </div>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+          </div><!-- Close collection -->
+        </div><!-- Close product-grid-container -->
+          </div><!-- Close desktop-filter-layout -->
+        </div><!-- Close product grid wrapper -->
+      </div><!-- Close collection-with-filters -->
+    {% else %}
+      <p class="text-center text-gray-500 py-12">
+        Please select a collection in the theme editor.
+      </p>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  /* Product grid container */
+  .collection-with-filters {
+    display: block;
+  }
+
+  .product-grid-container {
+    width: 100%;
+  }
+
+  /* Desktop: Responsive column grid */
+  @media (min-width: 768px) {
+    .cols-desktop-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    .cols-desktop-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    .cols-desktop-4 { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+    .cols-desktop-5 { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
+    .cols-desktop-6 { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; }
+  }
+
+  /* When filter sidebar is open, show 2 products per row */
+  @media (min-width: 990px) {
+    .desktop-filter-layout:has(.desktop-filter-sidebar.is-open) .grid[class*="cols-desktop"] {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+  }
+
+  /* Infinite Scroll Styles */
+  infinite-scroll {
+    display: block;
+  }
+
+  infinite-scroll [data-infinite-scroll-spinner] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+  }
+
+  infinite-scroll [data-infinite-scroll-spinner].hidden {
+    display: none;
+  }
+
+  infinite-scroll [data-infinite-scroll-button] {
+    cursor: pointer;
+  }
+
+  infinite-scroll [data-infinite-scroll-button].hidden {
+    display: none;
+  }
+
+  /* Loading state for AJAX filtering */
+  .collection.loading {
+    opacity: 0.5;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+</style>
+{% render 'category-visibility-wrapper', tag_type: 'close' %}
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "enabled_on": {
+    "templates": ["*"]
+  },
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Select a collection to display. Leave empty to use the current collection on collection pages."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_title",
+      "label": "Show heading",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "custom_title",
+      "label": "Custom heading text",
+      "info": "Leave empty to use collection title. Add custom text to override."
+    },
+    {
+      "type": "header",
+      "content": "Heading Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 16,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading font size",
+      "default": 32
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading font weight",
+      "options": [
+        { "value": "400", "label": "Normal (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semibold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "select",
+      "id": "heading_text_transform",
+      "label": "Text transform",
+      "options": [
+        { "value": "", "label": "None" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "lowercase", "label": "Lowercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Text alignment",
+      "options": [
+        { "value": "text-left", "label": "Left" },
+        { "value": "text-center", "label": "Center" },
+        { "value": "text-right", "label": "Right" }
+      ],
+      "default": "text-left"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#1F2937"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "label": "Show collection description",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 50,
+      "step": 2,
+      "label": "Products to show",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "label": "Columns (mobile)",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Columns (desktop)",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_pagination",
+      "label": "Enable pagination",
+      "default": true,
+      "info": "Enable pagination for collection pages. Disable to show a fixed number of products with 'View All' button."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_infinite_scroll",
+      "label": "Enable infinite scroll",
+      "default": false,
+      "info": "Automatically load more products when scrolling to the bottom. Overrides pagination when enabled."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' button",
+      "default": true,
+      "info": "Only shown when pagination is disabled and there are more products than displayed."
+    },
+    {
+      "type": "header",
+      "content": "Quick Buy"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_buy",
+      "label": "Enable quick buy button",
+      "default": true,
+      "info": "Shows a shopping bag icon on product images. Colors are controlled in Theme Settings > Modern Product Card."
+    },
+    {
+      "type": "header",
+      "content": "Category visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_in_all_categories",
+      "label": "Show in all categories",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "category_only_show_for",
+      "label": "Show only for",
+      "options": [
+        {
+          "value": "men",
+          "label": "Men"
+        },
+        {
+          "value": "women",
+          "label": "Women"
+        }
+      ],
+      "default": "men",
+      "info": "Used when the section should appear for a single category."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Grid",
+      "settings": {
+        "products_to_show": 8,
+        "columns_mobile": 2,
+        "columns_desktop": 4,
+        "enable_pagination": false,
+        "show_view_all": true,
+        "enable_quick_buy": true
+      }
+    }
+  ]
+}
+{% endschema %}

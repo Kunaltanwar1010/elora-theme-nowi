@@ -1,0 +1,334 @@
+{%- comment -%}
+  Renders a Razorpay Magic SSO login section
+
+  Usage:
+  Add this section to any page via the theme editor.
+  Primarily designed for the login page (/account/login).
+
+  Section Settings:
+  - Content: heading, description, button text, footer text
+  - Colors: heading, button, background
+  - Visual: icon toggle, card style
+  - Spacing: padding top/bottom
+{%- endcomment -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .razorpay-sso-container-{{ section.id }} {
+    background-color: {{ section.settings.section_bg_color | default: '#ffffff' }};
+  }
+
+  .razorpay-sso-heading-{{ section.id }} {
+    color: {{ section.settings.heading_color | default: '#000000' }};
+  }
+
+  .razorpay-sso-button-{{ section.id }} {
+    background-color: {{ section.settings.button_bg_color | default: '#3b82f6' }};
+    color: {{ section.settings.button_text_color | default: '#ffffff' }} !important;
+    text-decoration: none !important;
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .razorpay-sso-button-{{ section.id }}:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    color: {{ section.settings.button_text_color | default: '#ffffff' }} !important;
+    text-decoration: none !important;
+  }
+
+  .razorpay-sso-button-{{ section.id }}:active {
+    transform: scale(0.98);
+  }
+
+  .razorpay-sso-button-{{ section.id }}:visited {
+    color: {{ section.settings.button_text_color | default: '#ffffff' }} !important;
+  }
+
+  {%- if section.settings.max_width == 'small' -%}
+    .razorpay-sso-max-width-{{ section.id }} {
+      max-width: 28rem;
+    }
+  {%- elsif section.settings.max_width == 'medium' -%}
+    .razorpay-sso-max-width-{{ section.id }} {
+      max-width: 32rem;
+    }
+  {%- elsif section.settings.max_width == 'large' -%}
+    .razorpay-sso-max-width-{{ section.id }} {
+      max-width: 36rem;
+    }
+  {%- endif -%}
+  /* Increase card widths on larger screens for a more balanced desktop layout */
+  @media screen and (min-width: 1024px) {
+    {%- if section.settings.max_width == 'small' -%}
+      .razorpay-sso-max-width-{{ section.id }} { max-width: 40rem; }
+    {%- elsif section.settings.max_width == 'medium' -%}
+      .razorpay-sso-max-width-{{ section.id }} { max-width: 48rem; }
+    {%- elsif section.settings.max_width == 'large' -%}
+      .razorpay-sso-max-width-{{ section.id }} { max-width: 56rem; }
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<div class="razorpay-sso-container-{{ section.id }} section-{{ section.id }}-padding min-h-screen flex items-center md:items-center justify-center px-4">
+  <div class="razorpay-sso-max-width-{{ section.id }} w-full mx-auto">
+    <div class="{% if section.settings.enable_card_style %}border border-gray-200 shadow-xl{% endif %} rounded-2xl p-8 md:p-12 lg:p-16 bg-white">
+      {%- if section.settings.show_icon -%}
+        <div class="text-center mb-6 md:mb-8">
+          <div class="inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 bg-linear-to-br from-blue-50 to-indigo-50 rounded-full">
+            <span class="text-5xl md:text-6xl" role="img" aria-label="Login icon">
+              {{ section.settings.icon_emoji | default: '🔐' }}
+            </span>
+          </div>
+        </div>
+      {%- endif -%}
+
+      <h1 class="razorpay-sso-heading-{{ section.id }} text-3xl md:text-5xl lg:text-6xl font-bold text-center mb-4 md:mb-6 tracking-tight leading-tight">
+        {{ section.settings.heading | default: 'Login' }}
+      </h1>
+
+      {%- if section.settings.description != blank -%}
+        <p class="text-gray-600 text-center mb-8 md:mb-10 text-base md:text-lg leading-relaxed max-w-prose mx-auto">
+          {{ section.settings.description }}
+        </p>
+      {%- endif -%}
+
+      <div class="flex justify-center mb-6 md:mb-8">
+        <a
+          href="{{ routes.account_login_url }}"
+          id="razorpay-sso-btn-{{ section.id }}"
+          class="razorpay-sso-button-{{ section.id }} w-full md:w-auto md:min-w-[320px] px-8 md:px-12 py-4 md:py-5 rounded-xl md:rounded-2xl font-semibold text-lg md:text-xl shadow-lg hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 inline-block text-center no-underline"
+          role="button"
+          aria-label="{{ section.settings.button_text | default: 'Login with Razorpay' }}"
+        >
+          <span id="razorpay-sso-btn-text-{{ section.id }}" class="flex items-center justify-center gap-2">
+            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            {{ section.settings.button_text | default: 'Login with Razorpay' }}
+          </span>
+        </a>
+      </div>
+
+      {%- if section.settings.footer_text != blank -%}
+        <p class="text-sm md:text-base text-gray-500 text-center">
+          {{ section.settings.footer_text }}
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    'use strict';
+
+    // Check if already logged in and redirect
+    if (window.Shopify && window.Shopify.customer) {
+      console.log('[Razorpay SSO] User already logged in, redirecting to account...');
+      window.location.href = '/account';
+      return;
+    }
+
+    // The button is now an <a href="/account/login"> which Razorpay SSO script will intercept
+    // Razorpay script looks for a[href="/account/login"] and intercepts clicks to show SSO modal
+
+    // Fallback: If user wants to trigger SSO programmatically
+    const button = document.getElementById('razorpay-sso-btn-{{ section.id }}');
+
+    if (button) {
+      // Add additional click handler as fallback
+      button.addEventListener('click', function (e) {
+        console.log('[Razorpay SSO] Login button clicked');
+
+        // Try to trigger SSO via exposed global function if available
+        if (typeof window.openRzpSSOModal === 'function') {
+          e.preventDefault();
+          console.log('[Razorpay SSO] Calling window.openRzpSSOModal()');
+          window.openRzpSSOModal();
+          return false;
+        }
+
+        if (typeof window.__init_magic_sso__ === 'function') {
+          e.preventDefault();
+          console.log('[Razorpay SSO] Calling window.__init_magic_sso__()');
+          window.__init_magic_sso__();
+          return false;
+        }
+
+        // Otherwise let the link's default behavior work
+        // Razorpay script should intercept it automatically
+        console.log('[Razorpay SSO] Letting Razorpay script intercept the click...');
+      });
+    }
+
+    // Debug: Log Razorpay availability when page loads
+    console.log('[Razorpay SSO] Section initialized');
+    console.log('[Razorpay SSO] window.openRzpSSOModal:', typeof window.openRzpSSOModal);
+    console.log('[Razorpay SSO] window.__init_magic_sso__:', typeof window.__init_magic_sso__);
+    console.log('[Razorpay SSO] window.RazorpaySSO:', typeof window.RazorpaySSO);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Razorpay SSO Login",
+  "tag": "section",
+  "class": "section section-razorpay-sso-login",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Login"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Sign in securely with Razorpay for a seamless shopping experience."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Login with Razorpay"
+    },
+    {
+      "type": "text",
+      "id": "footer_text",
+      "label": "Footer Text",
+      "default": "🔒 Secure login powered by Razorpay"
+    },
+    {
+      "type": "header",
+      "content": "Icon Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show Icon",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "icon_emoji",
+      "label": "Icon Emoji",
+      "default": "🔐",
+      "info": "Enter any emoji to display above the heading"
+    },
+    {
+      "type": "header",
+      "content": "Color Settings"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background Color",
+      "default": "#3b82f6"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Visual Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_card_style",
+      "label": "Enable Card Style",
+      "default": true,
+      "info": "Shows border and shadow around the login box"
+    },
+    {
+      "type": "select",
+      "id": "max_width",
+      "label": "Card Width",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small (28rem)"
+        },
+        {
+          "value": "medium",
+          "label": "Medium (32rem)"
+        },
+        {
+          "value": "large",
+          "label": "Large (36rem)"
+        }
+      ],
+      "default": "small"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_alt_login_link",
+      "label": "Show Alternative Login Link",
+      "default": true,
+      "info": "Shows 'Use email and password instead' link"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Razorpay SSO Login",
+      "category": "Customer"
+    }
+  ]
+}
+{% endschema %}

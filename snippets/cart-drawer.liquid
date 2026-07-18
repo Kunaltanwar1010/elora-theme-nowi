@@ -1,0 +1,635 @@
+{% comment %}
+  Renders modern cart drawer with improved UI
+
+  Usage:
+  {% render 'cart-drawer' %}
+{% endcomment %}
+
+{{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
+{{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
+{{ 'component-quick-buy.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+{%- comment -%} quick-buy.js loaded globally in theme.liquid {%- endcomment -%}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Loading overlay functions
+    let loadingTimeout = null;
+
+    function showCartLoading() {
+      const drawerInner = document.querySelector('.drawer__inner');
+      if (drawerInner) drawerInner.classList.add('is-loading');
+
+      // Safety timeout: hide loading after 10 seconds if cart update fails
+      if (loadingTimeout) clearTimeout(loadingTimeout);
+      loadingTimeout = setTimeout(() => {
+        hideCartLoading();
+      }, 10000);
+    }
+
+    function hideCartLoading() {
+      const drawerInner = document.querySelector('.drawer__inner');
+      if (drawerInner) drawerInner.classList.remove('is-loading');
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+        loadingTimeout = null;
+      }
+    }
+
+    // Apply staggered animation to all cart items
+    function applyStaggeredAnimation() {
+      const cartItems = document.querySelectorAll('.drawer__cart-items-wrapper > div');
+      cartItems.forEach((item, index) => {
+        const delay = 0.05 + (index * 0.03);
+        item.style.animationDelay = `${delay}s`;
+      });
+    }
+
+    // Observe DOM changes to reapply animations after cart updates
+    const observer = new MutationObserver(function() {
+      applyStaggeredAnimation();
+    });
+
+    const cartDrawer = document.querySelector('cart-drawer-items');
+    if (cartDrawer) {
+      observer.observe(cartDrawer, { childList: true, subtree: true });
+    }
+
+    // Apply staggered animation on initial load
+    applyStaggeredAnimation();
+
+    // Show loading when quantity dropdown changes (actual update is handled by cart.js)
+    document.addEventListener('change', function(e) {
+      if (e.target.closest('cart-drawer-items .qty-dropdown')) {
+        showCartLoading();
+      }
+    });
+
+    // Show loading when remove button is clicked
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.cart-item-remove')) {
+        showCartLoading();
+      }
+    });
+
+    // Hide loading when cart updates complete
+    if (typeof subscribe !== 'undefined' && typeof PUB_SUB_EVENTS !== 'undefined') {
+      subscribe(PUB_SUB_EVENTS.cartUpdate, hideCartLoading);
+    }
+
+    // Note: Add to Cart from recommendations is now handled by onclick handlers
+    // in cart-drawer-recommendations.liquid using addToCartDirect() and openQuickBuyModal()
+    // from quick-buy.js
+
+    // Custom element for cart drawer recommendations
+    class CartDrawerRecommendations extends HTMLElement {
+      constructor() {
+        super();
+        this.loaded = false;
+      }
+
+      connectedCallback() {
+        // Load recommendations when cart drawer opens
+        this.loadRecommendations();
+
+        // Also listen for cart updates to refresh recommendations
+        if (typeof subscribe !== 'undefined' && typeof PUB_SUB_EVENTS !== 'undefined') {
+          subscribe(PUB_SUB_EVENTS.cartUpdate, () => {
+            // Delay slightly to allow cart data to update
+            setTimeout(() => this.loadRecommendations(), 100);
+          });
+        }
+      }
+
+      loadRecommendations() {
+        const url = this.dataset.url;
+        if (!url) return;
+
+        // First fetch current cart to get up-to-date product IDs
+        fetch('/cart.js')
+          .then(response => response.json())
+          .then(cartData => {
+            const cartProductIds = cartData.items.map(item => String(item.product_id));
+            // Get product types from cart to filter recommendations (hide same type products)
+            const cartProductTypes = cartData.items.map(item =>
+              item.product_type ? item.product_type.toLowerCase().replace(/[^a-z0-9]+/g, '-') : ''
+            ).filter(type => type);
+
+            // Update data attribute for future reference
+            this.dataset.cartProductIds = cartProductIds.join(',');
+
+            // If cart is empty, hide recommendations
+            if (cartData.items.length === 0) {
+              this.style.display = 'none';
+              return;
+            }
+
+            // Update URL to use first cart item's product ID for fresh recommendations
+            const firstProductId = cartData.items[0].product_id;
+            const baseUrl = this.dataset.url.split('&product_id=')[0];
+            const freshUrl = `${baseUrl}&product_id=${firstProductId}`;
+
+            return fetch(freshUrl)
+              .then(response => response.text())
+              .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const recommendationsContainer = doc.querySelector('[data-recommendations]');
+
+                if (recommendationsContainer) {
+                  const allCards = Array.from(recommendationsContainer.querySelectorAll('.recommendations-card'));
+
+                  // First pass: filter out products already in cart (always)
+                  const notInCartCards = allCards.filter(card => {
+                    const productId = card.dataset.productId;
+                    return !(productId && cartProductIds.includes(productId));
+                  });
+
+                  // Second pass: try to filter by different product type
+                  const differentTypeCards = notInCartCards.filter(card => {
+                    const productType = card.dataset.productType || '';
+                    return !(productType && cartProductTypes.includes(productType));
+                  });
+
+                  // Use different type cards if available, otherwise fallback to all non-cart cards
+                  const cardsToShow = differentTypeCards.length > 0 ? differentTypeCards : notInCartCards;
+
+                  // Update the grid
+                  const grid = this.querySelector('.cart-recommendations__grid');
+
+                  if (cardsToShow.length > 0 && grid) {
+                    grid.innerHTML = '';
+                    cardsToShow.forEach(card => grid.appendChild(card));
+
+                    // Remove modals for cards we're not showing
+                    const shownProductIds = cardsToShow.map(c => c.dataset.productId);
+                    allCards.forEach(card => {
+                      if (!shownProductIds.includes(card.dataset.productId)) {
+                        const modal = recommendationsContainer.querySelector(`#QuickBuyModal-${card.dataset.productId}`);
+                        if (modal) modal.remove();
+                      }
+                    });
+
+                    // Append quick buy modals to body
+                    document.querySelectorAll('.quick-buy-modal-overlay[id^="QuickBuyModal-"]').forEach(modal => {
+                      if (modal.parentElement === document.body) {
+                        modal.remove();
+                      }
+                    });
+                    const modals = recommendationsContainer.querySelectorAll('.quick-buy-modal-overlay');
+                    modals.forEach(modal => document.body.appendChild(modal));
+
+                    this.style.display = '';
+                  } else {
+                    // No recommendations to show, hide the section
+                    this.style.display = 'none';
+                  }
+                } else {
+                  // No recommendations returned, hide section
+                  this.style.display = 'none';
+                }
+              });
+          })
+          .catch(error => {
+            console.error('Failed to load recommendations:', error);
+            this.style.display = 'none';
+          });
+      }
+    }
+
+    if (!customElements.get('cart-drawer-recommendations')) {
+      customElements.define('cart-drawer-recommendations', CartDrawerRecommendations);
+    }
+  });
+</script>
+
+<cart-drawer class="drawer{% if cart == empty %} is-empty{% endif %}">
+  <div id="CartDrawer" class="cart-drawer">
+    <div id="CartDrawer-Overlay" class="cart-drawer__overlay"></div>
+    <div
+      class="drawer__inner"
+      role="dialog"
+      aria-modal="true"
+      aria-label="{{ 'sections.cart.title' | t }}"
+      tabindex="-1"
+    >
+      {%- comment -%} Full cart loading overlay {%- endcomment -%}
+      <div class="cart-drawer-loading" id="CartDrawer-Loading">
+        <div class="cart-drawer-spinner">
+          <svg viewBox="0 0 36 36">
+            <circle class="spinner-track" cx="18" cy="18" r="16"></circle>
+            <circle class="spinner-fill" cx="18" cy="18" r="16"></circle>
+          </svg>
+        </div>
+        <span class="cart-drawer-loading-text">Updating cart...</span>
+      </div>
+
+      {%- if cart == empty -%}
+        <div class="drawer__inner-empty">
+          <div class="cart-drawer__empty-content">
+            {% render 'cart-drawer-close-button', variant: 'empty' %}
+
+            <div class="cart-drawer__empty-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+                <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <h2 class="cart-drawer__empty-title">{{ 'sections.cart.empty' | t }}</h2>
+            <p class="cart-drawer__empty-text">Add items to get started</p>
+
+            <a href="/collections/new-arrivals-1" class="cart-drawer__empty-link">
+              {{ 'general.continue_shopping' | t }}
+            </a>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Improved header with better spacing {%- endcomment -%}
+      <div class="drawer__header">
+        <h2 class="drawer__header-title">
+          {{ 'sections.cart.title' | t }} ({{ cart.item_count }})
+        </h2>
+        {% render 'cart-drawer-close-button', variant: 'header' %}
+      </div>
+
+      {%- comment -%} Free shipping progress bar {%- endcomment -%}
+      {%- if cart != empty -%}
+        {%- liquid
+          assign free_shipping_threshold = 59900
+          assign cart_total = cart.total_price
+          assign remaining = free_shipping_threshold | minus: cart_total
+
+          # Calculate progress percentage with proper decimal handling
+          assign progress_calc = cart_total | times: 100.0
+          assign progress_percent = progress_calc | divided_by: free_shipping_threshold | round: 1
+
+          if progress_percent > 100
+            assign progress_percent = 100
+          elsif progress_percent < 3 and cart_total > 0
+            assign progress_percent = 3
+          endif
+        -%}
+        <div class="free-shipping-bar">
+          {%- if remaining > 0 -%}
+            <p class="free-shipping-text">
+              Add <strong>{{ remaining | money_without_trailing_zeros }}</strong> more for FREE shipping!
+            </p>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" style="width: {{ progress_percent }}%; background-color: #10b981; display: block; height: 8px;"></div>
+            </div>
+          {%- else -%}
+            <p class="free-shipping-text free-shipping-achieved">
+              🎉 You've unlocked FREE shipping!
+            </p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <cart-drawer-items{% if cart == empty %} class="is-empty"{% endif %}>
+        <form
+          action="{{ routes.cart_url }}"
+          id="CartDrawer-Form"
+          class="cart__contents cart-drawer__form"
+          method="post"
+        >
+          <div class="cart-drawer-content">
+          <div id="CartDrawer-CartItems" class="drawer__contents js-contents">
+            {%- if cart != empty -%}
+              {%- comment -%} Check if any items are out of stock {%- endcomment -%}
+              {%- assign has_unavailable_items = false -%}
+              {%- for item in cart.items -%}
+                {%- if item.variant.available == false -%}
+                  {%- assign has_unavailable_items = true -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              <div class="drawer__cart-items-wrapper">
+                {%- for item in cart.items -%}
+                  <div
+                    id="CartDrawer-Item-{{ item.index | plus: 1 }}"
+                    class="cart-drawer-item"
+                  >
+                    {%- comment -%} Product image {%- endcomment -%}
+                    <div class="cart-item-image">
+                      {% if item.image %}
+                        <a href="{{ item.url }}" tabindex="-1">
+                          <img
+                            src="{{ item.image | image_url: width: 360 }}"
+                            alt="{{ item.image.alt | escape }}"
+                            loading="lazy"
+                            width="180"
+                            height="220"
+                          >
+                        </a>
+                      {% endif %}
+                    </div>
+
+                    {%- comment -%} Product details - Flipkart style {%- endcomment -%}
+                    <div class="cart-item-details">
+                      {%- comment -%} Product title {%- endcomment -%}
+                      <a href="{{ item.url }}" class="cart-item-title" style="text-decoration: none;">
+                        {{- item.product.title | escape -}}
+                      </a>
+                      {%- if item.variant.available == false -%}
+                        <span class="cart-item-out-of-stock-badge">Out of Stock</span>
+                      {%- endif -%}
+
+                      {%- comment -%} Variant + Qty pill dropdowns - Flipkart style {%- endcomment -%}
+                      <div class="cart-item-variant-pills">
+                        {%- if item.product.has_only_default_variant == false -%}
+                          {%- for option in item.options_with_values -%}
+                            <div
+                              class="variant-pill-clickable"
+                              data-cart-item-index="{{ item.index | plus: 1 }}"
+                              data-option-name="{{ option.name }}"
+                              data-option-value="{{ option.value }}"
+                              data-product-id="{{ item.product.id }}"
+                              data-product-handle="{{ item.product.handle }}"
+                              data-variant-id="{{ item.variant.id }}"
+                              onclick="openCartItemSizeSelector(this, event)"
+                            >
+                              <span class="label">{{ option.name }}:</span>
+                              <span class="value">{{ option.value }}</span>
+                              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 4.5L6 7.5L9 4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                              </svg>
+                            </div>
+                          {%- endfor -%}
+                        {%- endif -%}
+
+                        {%- comment -%} Qty dropdown {%- endcomment -%}
+                        {%- liquid
+                          assign inventory_qty = item.variant.inventory_quantity | default: 99
+                          assign rule_max = item.variant.quantity_rule.max | default: 99
+                          if item.variant.inventory_management == blank or item.variant.inventory_policy == 'continue'
+                            assign max_qty = rule_max
+                          else
+                            assign max_qty = inventory_qty
+                            if rule_max < max_qty
+                              assign max_qty = rule_max
+                            endif
+                          endif
+                          if max_qty > 10
+                            assign max_qty = 10
+                          endif
+                          if max_qty < 1
+                            assign max_qty = 1
+                          endif
+                        -%}
+                        <div
+                          class="variant-pill-dropdown"
+                          data-cart-item-index="{{ item.index | plus: 1 }}"
+                          data-variant-id="{{ item.variant.id }}"
+                          data-current-qty="{{ item.quantity }}"
+                          data-max-qty="{{ max_qty }}"
+                          onclick="openCartItemQuantitySelector(this, event)"
+                        >
+                          <span class="label">Qty:</span>
+                          <span class="value">{{ item.quantity }}</span>
+                          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 4.5L6 7.5L9 4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </div>
+                        {%- comment -%} Keep native select hidden for form submission {%- endcomment -%}
+                        <select
+                          class="variant-pill-select qty-dropdown"
+                          name="updates[]"
+                          data-index="{{ item.index | plus: 1 }}"
+                          data-quantity-variant-id="{{ item.variant.id }}"
+                          data-original-value="{{ item.quantity }}"
+                          aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
+                          {% if item.instructions and item.instructions.can_update_quantity == false %}disabled{% endif %}
+                        >
+                          {%- for i in (1..max_qty) -%}
+                            <option value="{{ i }}" {% if item.quantity == i %}selected{% endif %}>Qty: {{ i }}</option>
+                          {%- endfor -%}
+                          {%- if item.quantity > max_qty -%}
+                            <option value="{{ item.quantity }}" selected>Qty: {{ item.quantity }}</option>
+                          {%- endif -%}
+                        </select>
+                      </div>
+
+                      {%- comment -%} Price display - unit price with discount {%- endcomment -%}
+                      <div class="cart-item-price">
+                        <span class="price-current">{{ item.final_price | money_without_trailing_zeros }}</span>
+                        {%- if item.variant.compare_at_price > item.variant.price -%}
+                          <span class="price-original">{{ item.variant.compare_at_price | money_without_trailing_zeros }}</span>
+                          {%- assign discount_amount = item.variant.compare_at_price | minus: item.variant.price -%}
+                          <span class="discount-badge">{{ discount_amount | money_without_trailing_zeros }} OFF</span>
+                        {%- endif -%}
+                      </div>
+
+                      {%- comment -%} Error messages {%- endcomment -%}
+                      <div class="cart-item-bottom">
+                        <div
+                          id="CartDrawer-LineItemError-{{ item.index | plus: 1 }}"
+                          class="cart-item__error"
+                          style="font-size: 11px; color: #ef4444;"
+                          role="alert"
+                        >
+                          <small class="cart-item__error-text"></small>
+                        </div>
+                      </div>
+
+                      <div class="cart-item__loading" style="display: none;">
+                        {%- render 'loading-spinner' -%}
+                      </div>
+                    </div>
+
+                    {%- comment -%} Remove button (X) {%- endcomment -%}
+                    <button
+                      type="button"
+                      class="cart-item-remove"
+                      onclick="document.querySelector('cart-drawer-items').updateQuantity('{{ item.index | plus: 1 }}', 0, event, 'minus', '{{ item.variant.id }}')"
+                      aria-label="{{ 'sections.cart.remove_title' | t: title: item.title | escape }}"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4L12 12M12 4L4 12" stroke-linecap="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                {%- endfor -%}
+              </div>
+
+              {%- comment -%} Smart recommendations using Shopify's ML-based recommendations API {%- endcomment -%}
+              {%- if cart.items.size > 0 -%}
+                {%- comment -%} Use first cart item's product for recommendations {%- endcomment -%}
+                {%- assign recommendation_product = cart.items.first.product -%}
+                <cart-drawer-recommendations
+                  class="cart-recommendations"
+                  data-url="{{ routes.product_recommendations_url }}?section_id=cart-drawer-recommendations&product_id={{ recommendation_product.id }}&limit=12"
+                  data-cart-product-ids="{% for item in cart.items %}{{ item.product.id }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+                >
+                  <h3 class="cart-recommendations__title">Complete your look</h3>
+                  <div class="cart-recommendations__grid">
+                    {%- comment -%} Placeholder skeleton cards while loading {%- endcomment -%}
+                    {%- for i in (1..4) -%}
+                      <div class="recommendations-card recommendations-card--skeleton">
+                        <div class="skeleton-image"></div>
+                        <div class="skeleton-title"></div>
+                        <div class="skeleton-price"></div>
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                </cart-drawer-recommendations>
+              {%- endif -%}
+            {%- endif -%}
+
+            <p id="CartDrawer-LiveRegionText" class="visually-hidden" role="status"></p>
+            <p id="CartDrawer-LineItemStatus" class="visually-hidden" aria-hidden="true" role="status">
+              {{ 'accessibility.loading' | t }}
+            </p>
+          </div>
+          <div id="CartDrawer-CartErrors" role="alert"></div>
+
+          {%- comment -%} Calculate totals for price breakdown {%- endcomment -%}
+          {%- liquid
+            assign total_mrp = 0
+            assign total_savings = 0
+            assign delivery_fee = 4900
+            assign free_shipping_threshold = 59900
+            for item in cart.items
+              assign item_mrp = item.variant.compare_at_price | default: item.variant.price | times: item.quantity
+              assign item_final = item.final_price | times: item.quantity
+              assign item_savings = item_mrp | minus: item_final
+              assign total_mrp = total_mrp | plus: item_mrp
+              assign total_savings = total_savings | plus: item_savings
+            endfor
+
+            if cart.total_price >= free_shipping_threshold
+              assign is_free_shipping = true
+              assign final_delivery_fee = 0
+            else
+              assign is_free_shipping = false
+              assign final_delivery_fee = delivery_fee
+            endif
+          -%}
+
+          {%- comment -%} Coupon text {%- endcomment -%}
+          <div class="cart-coupon-text">
+            Coupons available at checkout
+          </div>
+
+          {%- comment -%} Price Breakdown Section {%- endcomment -%}
+          <div class="cart-price-breakdown">
+            <h3 class="cart-price-breakdown__title">Price Breakdown</h3>
+
+            <div class="cart-price-breakdown__card">
+              <div class="cart-price-breakdown__row">
+                <span class="cart-price-breakdown__label">MRP</span>
+                <span class="cart-price-breakdown__value cart-price-breakdown__value--strikethrough">{{ total_mrp | money_without_trailing_zeros }}</span>
+              </div>
+
+              <div class="cart-price-breakdown__row">
+                <span class="cart-price-breakdown__label">Delivery Fee</span>
+                <span class="cart-price-breakdown__value">
+                  {%- if is_free_shipping -%}
+                    <span class="cart-price-breakdown__value--strikethrough-small">{{ delivery_fee | money_without_trailing_zeros }}</span>
+                    <span class="cart-price-breakdown__value--free">FREE</span>
+                  {%- else -%}
+                    {{ delivery_fee | money_without_trailing_zeros }}
+                  {%- endif -%}
+                </span>
+              </div>
+
+              {%- if total_savings > 0 -%}
+                <div class="cart-price-breakdown__row">
+                  <span class="cart-price-breakdown__label">
+                    Discount
+                    <span class="cart-price-breakdown__badge">Applied</span>
+                  </span>
+                  <span class="cart-price-breakdown__value cart-price-breakdown__value--discount">
+                    -{{ total_savings | money_without_trailing_zeros }}
+                  </span>
+                </div>
+              {%- endif -%}
+
+              <div class="cart-price-breakdown__row cart-price-breakdown__row--total">
+                <span class="cart-price-breakdown__label">Total Price</span>
+                <span class="cart-price-breakdown__value">{{ cart.total_price | plus: final_delivery_fee | money_without_trailing_zeros }}</span>
+              </div>
+            </div>
+          </div>
+          </div>
+        </form>
+      </cart-drawer-items>
+
+      {%- comment -%} Cleaner footer with better spacing {%- endcomment -%}
+      <div class="drawer__footer">
+        <div class="drawer__footer-subtotal">
+          <span class="drawer__footer-subtotal-label">Subtotal</span>
+          <span class="drawer__footer-subtotal-price">{{ cart.total_price | money_without_trailing_zeros }}</span>
+        </div>
+        {%- if has_unavailable_items -%}
+          <div class="cart-unavailable-warning">
+            Remove out-of-stock items to proceed
+          </div>
+        {%- endif -%}
+        <button
+          type="submit"
+          id="CartDrawer-Checkout"
+          class="button button--full-width drawer__footer-checkout button--cta"
+          name="checkout"
+          form="CartDrawer-Form"
+          {% if cart == empty or has_unavailable_items %}disabled{% endif %}
+        >
+          Proceed to Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Variant Selector Bottom Sheet (Size, Color, etc.) {%- endcomment -%}
+  <div class="cart-item-selector-overlay" id="CartItemSizeSelector">
+    <div class="cart-item-selector-content">
+      <div class="cart-item-selector-header">
+        <h3 class="cart-item-selector-title">Select Options</h3>
+        <button
+          type="button"
+          class="cart-item-selector-close"
+          onclick="closeCartItemSelector('CartItemSizeSelector')"
+          aria-label="Close"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 5L15 15M15 5L5 15" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="cart-item-selector-options cart-item-variant-options" id="CartItemSizeOptions">
+        {%- comment -%} All variant options populated by JavaScript (size, color, etc.) {%- endcomment -%}
+      </div>
+      <button
+        type="button"
+        class="cart-item-selector-done-btn button--cta"
+        onclick="applyCartItemVariantSelection()"
+      >
+        Done
+      </button>
+    </div>
+  </div>
+
+  {%- comment -%} Quantity Selector Bottom Sheet {%- endcomment -%}
+  <div class="cart-item-selector-overlay" id="CartItemQuantitySelector">
+    <div class="cart-item-selector-content">
+      <div class="cart-item-selector-header">
+        <h3 class="cart-item-selector-title">Select Quantity</h3>
+        <button
+          type="button"
+          class="cart-item-selector-close"
+          onclick="closeCartItemSelector('CartItemQuantitySelector')"
+          aria-label="Close"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 5L15 15M15 5L5 15" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="cart-item-selector-options" id="CartItemQuantityOptions">
+        {%- comment -%} Options populated by JavaScript {%- endcomment -%}
+      </div>
+    </div>
+  </div>
+</cart-drawer>

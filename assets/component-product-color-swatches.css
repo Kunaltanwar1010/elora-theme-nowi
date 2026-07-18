@@ -1,0 +1,92 @@
+/* Product Color Swatches - Related product images */
+
+.product-color-swatches {
+  margin-bottom: 2rem;
+}
+
+.product-color-swatches__label {
+  margin-bottom: 1.2rem;
+}
+
+.product-color-swatches__label .form__label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+}
+
+.product-color-swatches__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.product-color-swatch {
+  position: relative;
+}
+
+.product-color-swatch__link {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 0.4rem;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.product-color-swatch__link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.product-color-swatch__link:focus-visible {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+  outline-offset: 0.2rem;
+}
+
+/* Product image styling */
+.product-color-swatch__image {
+  display: block;
+  width: 70px;
+  height: 88px;
+  object-fit: cover;
+  border-radius: 0.4rem;
+  border: 1px solid rgba(var(--color-foreground), 0.1);
+  background-color: rgb(var(--color-background));
+}
+
+/* Current product styling - selected state */
+.product-color-swatch--current .product-color-swatch__link {
+  cursor: default;
+  pointer-events: none;
+}
+
+.product-color-swatch--current .product-color-swatch__image {
+  border: 2px solid rgb(var(--color-foreground));
+}
+
+.product-color-swatch--current .product-color-swatch__link:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 749px) {
+  .product-color-swatches__list {
+    gap: 0.8rem;
+  }
+
+  .product-color-swatch__image {
+    width: 60px;
+    height: 75px;
+  }
+}
+
+/* Loading state */
+.product-color-swatch__link[aria-busy="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}

@@ -1,0 +1,194 @@
+{% comment %}
+  Renders a homepage category navigation section.
+
+  Displays a tabbed navigation interface for switching between product categories on the homepage.
+  Each category is defined as a block, and the section supports customizable button colors and active states.
+
+  Accepts (from section settings):
+  - button_border_color: {Color} Border color for category buttons
+  - button_text_color: {Color} Text color for category buttons
+  - active_bg_color: {Color} Background color for the active category button
+  - active_text_color: {Color} Text color for the active category button
+
+  Accepts (from blocks):
+  - category_key: {String} Unique key for the category (used for data attributes)
+  - category_label: {String} Label to display for the category tab
+
+  Usage:
+  Add this section to the homepage template (e.g., index.json) or via the Shopify theme editor.
+  Configure categories as blocks and customize button colors in the section settings.
+
+  Example:
+    {
+      "type": "homepage-category-nav",
+      "settings": {
+        "button_border_color": "#000000",
+        "button_text_color": "#000000",
+        "active_bg_color": "#ffffff",
+        "active_text_color": "#000000"
+      },
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "category_key": "men",
+            "category_label": "Men"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_key": "women",
+            "category_label": "Women"
+          }
+        }
+      ]
+    }
+{% endcomment %}
+
+{{ 'component-homepage-category-nav.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'category-nav.js' | asset_url }}" defer="defer"></script>
+{%- liquid
+  assign button_border_color = section.settings.button_border_color | default: '#000000'
+  assign button_text_color = section.settings.button_text_color | default: '#000000'
+  assign active_bg_color = section.settings.active_bg_color | default: '#000000'
+  assign active_text_color = section.settings.active_text_color | default: '#ffffff'
+  assign default_category = section.blocks.first.settings.category_key | default: 'women'
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} .category-nav__trigger {
+    border-color: {{ button_border_color }};
+    color: {{ button_text_color }};
+  }
+  #shopify-section-{{ section.id }} .category-nav__trigger--active {
+    background: {{ active_bg_color }};
+    color: {{ active_text_color }};
+    border-color: {{ active_bg_color }};
+  }
+</style>
+
+<section class="category-nav section" data-category-nav data-default-category="{{ default_category }}">
+  <div class="category-nav__tabs" role="tablist" aria-label="Category tabs">
+    {%- for block in section.blocks -%}
+      <button
+        type="button"
+        class="category-nav__trigger"
+        id="{{ section.id }}-tab-{{ block.settings.category_key }}"
+        data-category-trigger="{{ block.settings.category_key }}"
+        role="tab"
+        aria-selected="false"
+        aria-controls="category-panel-{{ block.settings.category_key }}"
+        tabindex="-1"
+        {{ block.shopify_attributes }}
+      >
+        {{ block.settings.category_label }}
+      </button>
+    {%- endfor -%}
+  </div>
+
+  <nav class="category-nav__links" aria-label="Desktop category navigation">
+    {%- for block in section.blocks -%}
+      <button
+        type="button"
+        class="category-nav__link"
+        data-category-trigger="{{ block.settings.category_key }}"
+        aria-controls="category-panel-{{ block.settings.category_key }}"
+      >
+        {{ block.settings.category_label }}
+      </button>
+    {%- endfor -%}
+  </nav>
+
+  <div class="category-nav__panels visually-hidden" aria-live="polite">
+    {%- for block in section.blocks -%}
+      <div
+        id="category-panel-{{ block.settings.category_key }}"
+        role="tabpanel"
+        data-category-panel="{{ block.settings.category_key }}"
+        data-panel-message="{{ block.settings.category_label }} content now visible."
+        aria-labelledby="{{ section.id }}-tab-{{ block.settings.category_key }}"
+        aria-hidden="true"
+        tabindex="-1"
+      ></div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Homepage tabs",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Button Colors"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Button border color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "active_bg_color",
+      "label": "Active button background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "active_text_color",
+      "label": "Active button text",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "category_key",
+          "label": "Category key (lowercase, no spaces)",
+          "info": "Used in URLs and code. e.g., 'men', 'women', 'kids'",
+          "default": "category"
+        },
+        {
+          "type": "text",
+          "id": "category_label",
+          "label": "Display label",
+          "default": "Category"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage tabs",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "category_key": "men",
+            "category_label": "Men"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "category_key": "women",
+            "category_label": "Women"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

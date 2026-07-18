@@ -1,0 +1,74 @@
+{%- comment -%}
+  Cart drawer recommendations section
+
+  This section is fetched via the product recommendations API
+  and rendered inside the cart drawer.
+
+  The cart-drawer-recommendations custom element filters out
+  products that are already in the cart.
+{%- endcomment -%}
+
+{%- if recommendations.performed and recommendations.products_count > 0 -%}
+  <div class="cart-recommendations__products" data-recommendations>
+    {%- for product in recommendations.products limit: 6 -%}
+      {%- comment -%} Modal ID matches the one generated in quick-buy-modal.liquid {%- endcomment -%}
+      {%- assign modal_id = 'QuickBuyModal-' | append: product.id -%}
+      <div class="recommendations-card" data-product-id="{{ product.id }}" data-product-type="{{ product.type | handleize }}">
+        <a href="{{ product.url }}" style="text-decoration: none; display: block;">
+          <img
+            src="{{ product.featured_image | image_url: width: 300 }}"
+            alt="{{ product.featured_image.alt | escape }}"
+            loading="lazy"
+            width="140"
+            height="186"
+          >
+          <h4 class="rec-title">{{ product.title }}</h4>
+          <div class="rec-price-wrapper">
+            <span class="rec-price">{{ product.price | money_without_trailing_zeros }}</span>
+            {%- if product.compare_at_price > product.price -%}
+              <span class="rec-price-compare">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
+            {%- endif -%}
+          </div>
+        </a>
+        {%- if product.available -%}
+          {%- if product.has_only_default_variant -%}
+            <button
+              type="button"
+              class="rec-add-to-cart"
+              onclick="addToCartDirect('{{ product.id }}', '{{ product.selected_or_first_available_variant.id }}', this, event)"
+            >
+              Add to Cart
+            </button>
+          {%- else -%}
+            <button
+              type="button"
+              class="rec-add-to-cart"
+              onclick="openQuickBuyModal('{{ modal_id }}', event)"
+            >
+              Add to Cart
+            </button>
+          {%- endif -%}
+        {%- else -%}
+          <button type="button" class="rec-add-to-cart" disabled>Sold Out</button>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Quick Buy Modal for multi-variant products {%- endcomment -%}
+      {%- if product.available and product.has_only_default_variant == false -%}
+        {% render 'quick-buy-modal',
+          product: product,
+          button_color: settings.modern_card_quick_buy_button_color,
+          button_text_color: settings.modern_card_quick_buy_button_text_color,
+          variant_font_size: settings.modern_card_quick_buy_variant_font_size
+        %}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Cart Recommendations",
+  "settings": []
+}
+{% endschema %}

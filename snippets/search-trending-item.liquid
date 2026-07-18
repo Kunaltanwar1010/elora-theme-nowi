@@ -1,0 +1,63 @@
+{% comment %}
+  Search Trending Item Component
+
+  Trending product item with circular image for the search landing page.
+  Matches Myntra's trending design with circular product image + ranking + title.
+
+  Accepts:
+  - product: {Product} Product object
+  - index: {Number} Item ranking number (1, 2, 3, etc.)
+
+  Usage:
+  {% render 'search-trending-item', product: product, index: forloop.index %}
+{% endcomment %}
+
+{%- liquid
+  assign item_product = product
+  assign item_index = index
+-%}
+
+{%- if item_product != blank -%}
+  <a
+    href="{{ item_product.url }}"
+    class="flex items-center gap-4 py-2 no-underline group"
+  >
+    <!-- Circular Product Image -->
+    <div class="flex-shrink-0 w-14 h-14 rounded-full overflow-hidden bg-gray-100">
+      {%- if item_product.featured_image != blank -%}
+        <img
+          srcset="
+            {%- if item_product.featured_image.width >= 56 -%}{{ item_product.featured_image | image_url: width: 56 }} 56w,{%- endif -%}
+            {%- if item_product.featured_image.width >= 112 -%}{{ item_product.featured_image | image_url: width: 112 }} 112w,{%- endif -%}
+            {{ item_product.featured_image | image_url }} {{ item_product.featured_image.width }}w
+          "
+          src="{{ item_product.featured_image | image_url: width: 112 }}"
+          sizes="56px"
+          alt="{{ item_product.featured_image.alt | escape }}"
+          loading="lazy"
+          width="{{ item_product.featured_image.width }}"
+          height="{{ item_product.featured_image.height }}"
+          class="w-full h-full object-cover"
+        >
+      {%- else -%}
+        <div class="w-full h-full flex items-center justify-center bg-gray-200">
+          <svg class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Ranking Number -->
+    {%- if item_index -%}
+      <span class="flex-shrink-0 text-lg font-bold text-gray-900 leading-none w-6">
+        {{ item_index }}
+      </span>
+    {%- endif -%}
+
+    <!-- Product Title -->
+    <p class="flex-1 text-sm font-medium text-gray-900 leading-tight m-0 group-hover:underline">
+      {{ item_product.title }}
+    </p>
+  </a>
+{%- endif -%}

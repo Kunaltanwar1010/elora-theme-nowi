@@ -1,0 +1,397 @@
+{% comment %}
+  Renders Myntra-style order tracking step indicator
+
+  Step state is derived from the order's tags (set by the courier integration),
+  falling back to Shopify's fulfillment_status.
+
+  Accepts:
+  - order: {Object} Order Liquid object (required)
+  - show_labels: {Boolean} Show step labels below icons (default: true)
+  - compact: {Boolean} Compact mode for cards (default: false)
+  - hide_status_text: {Boolean} Hide the status line (default: false)
+
+  Usage:
+  {% render 'order-tracking-steps', order: order, compact: true %}
+{% endcomment %}
+
+{%- liquid
+  assign show_labels = show_labels | default: true
+  assign compact = compact | default: false
+  assign hide_status_text = hide_status_text | default: false
+
+  # Determine current step (0-3)
+  # Steps: 0=Ordered, 1=Shipped, 2=Out for Delivery, 3=Delivered
+  assign current_step = 0
+  assign is_cancelled = false
+  assign is_rto = false
+  assign status_text = 'Order Placed'
+
+  # Check if cancelled
+  if order.cancelled
+    assign is_cancelled = true
+    assign status_text = 'Cancelled'
+  else
+    # Derive step from order tags, falling back to Shopify's fulfillment_status
+    assign order_tags_lower = order.tags | downcase
+    if order_tags_lower contains 'rto' or order_tags_lower contains 'return to origin'
+      assign is_rto = true
+      assign status_text = 'Returning to Seller'
+    elsif order_tags_lower contains 'delivered'
+      assign current_step = 3
+      assign status_text = 'Delivered'
+    elsif order_tags_lower contains 'out for delivery'
+      assign current_step = 2
+      assign status_text = 'Out for Delivery'
+    elsif order_tags_lower contains 'shipped' or order_tags_lower contains 'in transit'
+      assign current_step = 1
+      assign status_text = 'Shipped'
+    elsif order.fulfillment_status == 'fulfilled' or order.fulfillment_status == 'partial'
+      assign current_step = 1
+      assign status_text = 'Shipped'
+    else
+      assign current_step = 0
+      assign status_text = 'Order Placed'
+    endif
+  endif
+
+  # Step labels
+  assign step_labels = 'Ordered,Shipped,Out for Delivery,Delivered' | split: ','
+-%}
+
+<div class="tracking-steps{% if compact %} tracking-steps--compact{% endif %}{% if is_cancelled %} tracking-steps--cancelled{% endif %}{% if is_rto %} tracking-steps--rto{% endif %}">
+  {%- if is_cancelled -%}
+    <!-- Cancelled State -->
+    <div class="tracking-cancelled">
+      <div class="tracking-cancelled-icon">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </div>
+      <span class="tracking-cancelled-text">Order Cancelled</span>
+    </div>
+  {%- elsif is_rto -%}
+    <!-- RTO State -->
+    <div class="tracking-rto">
+      <div class="tracking-rto-icon">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+        </svg>
+      </div>
+      <span class="tracking-rto-text">{{ status_text }}</span>
+    </div>
+  {%- else -%}
+    <!-- Step Tracker -->
+    <div class="tracking-steps-container" data-current-step="{{ current_step }}">
+      <!-- Progress line overlay (green) - uses CSS custom property for step, CSS handles width calc -->
+      <div class="tracking-progress-line" style="--step: {{ current_step }};"></div>
+      {%- for i in (0..3) -%}
+        {%- assign step_complete = false -%}
+        {%- assign step_active = false -%}
+        {%- if i < current_step -%}
+          {%- assign step_complete = true -%}
+        {%- elsif i == current_step -%}
+          {%- assign step_active = true -%}
+        {%- endif -%}
+
+        <div class="tracking-step{% if step_complete %} tracking-step--complete{% endif %}{% if step_active %} tracking-step--active{% endif %}">
+          <!-- Step Icon -->
+          <div class="tracking-step-icon">
+            {%- if step_complete -%}
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+              </svg>
+            {%- elsif step_active -%}
+              {%- case i -%}
+                {%- when 0 -%}
+                  <!-- Order icon -->
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                {%- when 1 -%}
+                  <!-- Shipped icon -->
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  </svg>
+                {%- when 2 -%}
+                  <!-- Out for delivery icon -->
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+                  </svg>
+                {%- when 3 -%}
+                  <!-- Delivered icon -->
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+              {%- endcase -%}
+            {%- else -%}
+              <span class="tracking-step-dot"></span>
+            {%- endif -%}
+          </div>
+
+          {%- if show_labels -%}
+            <span class="tracking-step-label">{{ step_labels[i] }}</span>
+          {%- endif -%}
+        </div>
+
+      {%- endfor -%}
+    </div>
+
+    {%- unless compact or hide_status_text -%}
+      <!-- Current Status Text -->
+      <div class="tracking-status-text">
+        <span class="tracking-status-current">{{ status_text }}</span>
+        {%- if current_step == 3 and order.fulfilled_at -%}
+          <span class="tracking-status-date">on {{ order.fulfilled_at | date: '%a, %d %b %Y' }}</span>
+        {%- elsif current_step > 0 and order.fulfilled_at -%}
+          <span class="tracking-status-date">Shipped {{ order.fulfilled_at | date: '%a, %d %b' }}</span>
+        {%- endif -%}
+      </div>
+    {%- endunless -%}
+  {%- endif -%}
+</div>
+
+<style>
+  .tracking-steps {
+    width: 100%;
+  }
+
+  .tracking-steps-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+    gap: 0;
+  }
+
+  /* Background line that spans the full width */
+  .tracking-steps-container::before {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    height: 3px;
+    background-color: #e5e7eb;
+    border-radius: 2px;
+    z-index: 0;
+  }
+
+  .tracking-steps--compact .tracking-steps-container::before {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    height: 2px;
+  }
+
+  /* Green progress line overlay - width calculated from --step custom property */
+  .tracking-progress-line {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    height: 3px;
+    background-color: #22c55e;
+    border-radius: 2px;
+    z-index: 0;
+    transition: width 0.3s ease;
+    /* Width spans from first icon center to current step icon center */
+    /* 28px = 14px left + 14px right padding, 3 = number of gaps between 4 steps */
+    width: calc((100% - 28px) * var(--step, 0) / 3);
+  }
+
+  .tracking-steps--compact .tracking-progress-line {
+    top: 10px;
+    left: 10px;
+    height: 2px;
+    /* 20px = 10px left + 10px right padding for compact mode */
+    width: calc((100% - 20px) * var(--step, 0) / 3);
+  }
+
+  .tracking-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 0 auto;
+    z-index: 2;
+    position: relative;
+  }
+
+  .tracking-step-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e5e7eb;
+    color: #9ca3af;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .tracking-step-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .tracking-step--complete .tracking-step-icon {
+    background-color: #22c55e;
+    color: white;
+  }
+
+  .tracking-step--active .tracking-step-icon {
+    background-color: #FFBF00;
+    color: #000;
+    box-shadow: 0 0 0 4px rgba(255, 191, 0, 0.2);
+  }
+
+  .tracking-step-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #d1d5db;
+  }
+
+  .tracking-step-label {
+    margin-top: 6px;
+    font-size: 9px;
+    color: #9ca3af;
+    text-align: center;
+    max-width: 60px;
+    line-height: 1.2;
+  }
+
+  @media (min-width: 768px) {
+    .tracking-step-label {
+      font-size: 11px;
+    }
+  }
+
+  .tracking-step--complete .tracking-step-label,
+  .tracking-step--active .tracking-step-label {
+    color: #374151;
+    font-weight: 500;
+  }
+
+
+  /* Status text below tracker */
+  .tracking-status-text {
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .tracking-status-current {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .tracking-status-date {
+    display: block;
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 2px;
+  }
+
+  @media (min-width: 768px) {
+    .tracking-status-current {
+      font-size: 15px;
+    }
+
+    .tracking-status-date {
+      font-size: 13px;
+    }
+  }
+
+  /* Compact mode - smaller sizes for order cards */
+  .tracking-steps--compact .tracking-step-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .tracking-steps--compact .tracking-step-icon svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .tracking-steps--compact .tracking-step-label {
+    font-size: 8px;
+    max-width: 45px;
+    margin-top: 3px;
+  }
+
+  .tracking-steps--compact .tracking-step-dot {
+    width: 5px;
+    height: 5px;
+  }
+
+  /* Cancelled state */
+  .tracking-cancelled,
+  .tracking-rto {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 12px;
+  }
+
+  .tracking-cancelled {
+    background-color: #fef2f2;
+  }
+
+  .tracking-rto {
+    background-color: #fef3c7;
+  }
+
+  .tracking-cancelled-icon,
+  .tracking-rto-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tracking-cancelled-icon {
+    background-color: #fee2e2;
+    color: #dc2626;
+  }
+
+  .tracking-rto-icon {
+    background-color: #fde68a;
+    color: #d97706;
+  }
+
+  .tracking-cancelled-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: #dc2626;
+  }
+
+  .tracking-rto-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: #d97706;
+  }
+
+  @media (min-width: 768px) {
+    .tracking-cancelled-text,
+    .tracking-rto-text {
+      font-size: 15px;
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .tracking-step-icon {
+      width: 28px;
+      height: 28px;
+    }
+
+    .tracking-step-label {
+      font-size: 10px;
+      max-width: 55px;
+    }
+  }
+</style>

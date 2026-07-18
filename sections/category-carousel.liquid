@@ -1,0 +1,365 @@
+{% comment %}
+  Renders a scrollable category carousel section.
+
+  Displays a horizontal carousel of product categories with images and labels.
+  Works below the homepage tabs and integrates with category navigation system.
+
+  File: sections/category-carosel.liquid
+{% endcomment %}
+
+{% assign total_items = section.blocks.size %}
+
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+{{ 'component-category-carousel.css' | asset_url | stylesheet_tag }}
+
+<style>
+  #shopify-section-{{ section.id }} .category-carousel-section {
+    padding: {{ section.settings.section_padding_y }}px {{ section.settings.section_padding_x }}px;
+    --card-gap: {{ section.settings.card_gap }}px;
+
+    /* New per-section variables */
+    --bubble-size: {{ section.settings.bubble_size }}px;
+    --label-font-size: {{ section.settings.label_font_size }}px;
+    --subtitle-font-size: {{ section.settings.subtitle_font_size }}px;
+    --bubble-color: {{ section.settings.bubble_color }};
+    --label-color: {{ section.settings.label_color }};
+    --subtitle-color: {{ section.settings.subtitle_color }};
+  }
+
+  /* Card width roughly follows bubble size */
+  #shopify-section-{{ section.id }} .category-carousel-card {
+    border-radius: 20px;
+    width: calc(var(--bubble-size) + 24px);
+  }
+
+  /* Bubble */
+  #shopify-section-{{ section.id }} .category-carousel-image {
+    position: relative;
+    width: var(--bubble-size);
+    height: var(--bubble-size);
+    border-radius: 999px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: radial-gradient(
+      circle,
+      var(--bubble-color) 0%,
+      rgba(255, 255, 255, 0) 70%
+    );
+    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+  }
+
+  #shopify-section-{{ section.id }} .category-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .category-image-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(
+      circle,
+      var(--bubble-color) 0%,
+      rgba(255, 255, 255, 0) 70%
+    );
+    color: #999;
+  }
+
+  /* Content */
+  #shopify-section-{{ section.id }} .category-carousel-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .category-label-text {
+    font-size: var(--label-font-size);
+    font-weight: 600;
+    color: var(--label-color);
+    letter-spacing: 0.2px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  #shopify-section-{{ section.id }} .category-subtitle-text {
+    font-size: var(--subtitle-font-size);
+    font-weight: 400;
+    color: var(--subtitle-color);
+    white-space: nowrap;
+  }
+</style>
+
+{% render 'category-visibility-wrapper',
+  show_in_all_categories: section.settings.show_in_all_categories,
+  category_only_show_for: section.settings.category_only_show_for,
+  tag_type: 'open'
+%}
+
+<section class="category-carousel-section">
+  <div class="container">
+    {% if total_items > 0 %}
+      <div class="swiper category-swiper">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            <div class="swiper-slide">
+              {% render 'category-card', block: block %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+
+<script>
+  (function () {
+    const sectionId = 'shopify-section-{{ section.id }}';
+    let retries = 0;
+    const MAX_RETRIES = 50; // 5 seconds
+
+    function initCategoryCarousel() {
+      if (typeof Swiper === 'undefined') {
+        if (retries < MAX_RETRIES) {
+          retries++;
+          setTimeout(initCategoryCarousel, 100);
+        } else {
+          console.warn(
+            `Swiper failed to load after 5 seconds. Category carousel initialization aborted for section ${sectionId}.`
+          );
+        }
+        return;
+      }
+
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+
+      const swiperEl = section.querySelector('.category-swiper');
+      if (!swiperEl) return;
+
+      const cardGap = parseInt(
+        getComputedStyle(swiperEl.parentElement).getPropertyValue('--card-gap') || '15'
+      );
+
+      new Swiper(swiperEl, {
+        slidesPerView: 'auto',
+        spaceBetween: cardGap,
+        freeMode: true,
+        grabCursor: true,
+        mousewheel: {
+          forceToAxis: true,
+        },
+        breakpoints: {
+          320: { spaceBetween: cardGap },
+          768: { spaceBetween: cardGap },
+          1024: { spaceBetween: cardGap }
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCategoryCarousel);
+    } else {
+      initCategoryCarousel();
+    }
+  })();
+</script>
+
+{% render 'category-visibility-wrapper', tag_type: 'close' %}
+
+{% schema %}
+{
+  "name": "Category Carousel",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_y",
+      "label": "Section Vertical Padding",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "section_padding_x",
+      "label": "Section Horizontal Padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Gap Between Cards",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20,
+      "info": "Space between category cards"
+    },
+
+    {
+      "type": "header",
+      "content": "Bubble appearance"
+    },
+    {
+      "type": "range",
+      "id": "bubble_size",
+      "label": "Bubble size",
+      "min": 48,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "label_font_size",
+      "label": "Title font size",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "subtitle_font_size",
+      "label": "Subtitle font size",
+      "min": 9,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "bubble_color",
+      "label": "Bubble background color",
+      "default": "#ffc0cb"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Title text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle text color",
+      "default": "#333333"
+    },
+
+    {
+      "type": "header",
+      "content": "Category visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_in_all_categories",
+      "label": "Show in all categories",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "category_only_show_for",
+      "label": "Show only for",
+      "options": [
+        {
+          "value": "men",
+          "label": "Men"
+        },
+        {
+          "value": "women",
+          "label": "Women"
+        }
+      ],
+      "default": "men",
+      "info": "Used when the section should appear for a single category."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_item",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "category_image",
+          "label": "Category Image"
+        },
+        {
+          "type": "text",
+          "id": "category_label",
+          "label": "Category Label",
+          "placeholder": "e.g., Dresses"
+        },
+        {
+          "type": "text",
+          "id": "category_subtitle",
+          "label": "Subtitle (optional)",
+          "placeholder": "e.g., Starting ₹199"
+        },
+        {
+          "type": "url",
+          "id": "category_link",
+          "label": "Category Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Carousel",
+      "blocks": [
+        {
+          "type": "category_item",
+          "settings": {
+            "category_label": "Dresses"
+          }
+        },
+        {
+          "type": "category_item",
+          "settings": {
+            "category_label": "Jeans"
+          }
+        },
+        {
+          "type": "category_item",
+          "settings": {
+            "category_label": "Sweaters"
+          }
+        },
+        {
+          "type": "category_item",
+          "settings": {
+            "category_label": "Kurtis & Kurtas"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

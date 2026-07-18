@@ -1,0 +1,764 @@
+/* Hide custom header on mobile only (<990px) when collection top bar is present */
+@media (max-width: 989px) {
+  body:has(.collection-top-bar) .section-header-custom {
+    display: none !important;
+  }
+}
+
+/* Hide custom header on search page */
+.template-search .section-header-custom,
+body:has(.search-landing-page) .section-header-custom {
+  display: none !important;
+}
+
+/* Sticky positioning with show/hide on scroll */
+.section-header-custom {
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  background-color: #ffffff;
+  z-index: 100;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.section-header-custom.scrolled {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Hidden state - slides up when scrolling down */
+.section-header-custom.header-hidden {
+  transform: translateY(-100%);
+}
+
+/* Visible state - slides down when scrolling up */
+.section-header-custom.header-visible {
+  transform: translateY(0);
+}
+
+/* Container */
+.header-custom {
+  position: relative;
+  background-color: #ffffff !important;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Header layout - MOBILE */
+.header-custom-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.2rem;
+  gap: 1rem;
+  min-height: 60px;
+}
+
+/* Mobile left section: hamburger + search */
+.header-custom-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  min-width: 90px;
+  justify-content: flex-start;
+}
+
+/* Mobile right section: icons */
+.header-custom-right {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+/* Mobile hamburger menu */
+.header-custom-menu-toggle {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin-left: -1.2rem;
+}
+
+.header-custom-menu-toggle .icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Cart button styling (same as link) */
+.header__icon--cart {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.header__icon--cart.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile logo (center) */
+.header-custom-logo-mobile {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-custom-logo-mobile img {
+  max-height: 32px;
+  width: auto;
+}
+
+/* Desktop logo (left) */
+.header-custom-logo-desktop {
+  display: none;
+}
+
+/* Desktop navigation */
+.header-custom-nav {
+  display: none;
+}
+
+/* Header icons container - shown on mobile for cart/wishlist/account, all icons on desktop */
+.header-custom .header__icons {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 0.4rem;
+  min-width: 90px;
+  justify-content: flex-end;
+}
+
+/* Hide header-custom-right on mobile since we're using header__icons */
+.header-custom-right {
+  display: none;
+}
+
+/* Desktop localization wrapper - desktop only */
+.desktop-localization-wrapper {
+  display: none;
+}
+
+@media (min-width: 990px) {
+  .desktop-localization-wrapper {
+    display: block;
+  }
+}
+
+/* Account icon - visible on all screen sizes */
+.header__icon--account {
+  display: flex;
+}
+
+/* Search icon visibility */
+.mobile-search-icon {
+  display: flex !important;
+}
+
+.desktop-search-icon {
+  display: none !important;
+}
+
+@media (min-width: 990px) {
+  .mobile-search-icon {
+    display: none !important;
+  }
+
+  .desktop-search-icon {
+    display: flex !important;
+  }
+}
+
+/* ===== DESKTOP LAYOUT (990px+) ===== */
+@media (min-width: 990px) {
+  .header-custom {
+    max-width: var(--page-width);
+    margin: 0 auto;
+  }
+
+  .header-custom-inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "logo nav icons";
+    gap: 3rem;
+    padding: 1rem 1.5rem;
+    align-items: center;
+    min-height: 70px;
+  }
+
+  /* Hide mobile elements */
+  .header-custom-menu-toggle,
+  .header-custom-logo-mobile,
+  .header-custom-left,
+  .header-custom-right {
+    display: none !important;
+  }
+
+  /* Desktop logo */
+  .header-custom-logo-desktop {
+    grid-area: logo;
+    display: flex;
+    align-items: center;
+  }
+
+  .header-custom-logo-desktop img {
+    max-height: 40px;
+    width: auto;
+  }
+
+  /* Desktop navigation */
+  .header-custom-nav {
+    grid-area: nav;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .header-custom .header__icons {
+    grid-area: icons;
+    gap: 0.8rem;
+  }
+}
+
+/* ===== NAVIGATION STYLES ===== */
+.nav-item {
+  position: relative;
+}
+
+.nav-item > a {
+  display: block;
+  padding: 0.5rem 0;
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  position: relative;
+  font-family: 'Montserrat';
+  font-size: 16px;
+}
+
+.nav-item > a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 100%;
+  height: 2px;
+  background: rgb(var(--color-foreground));
+  transition: transform 0.3s ease;
+}
+
+.nav-item > a:hover {
+  color: rgb(var(--color-foreground));
+}
+
+.nav-item > a:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* Dropdown Menu */
+.nav-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  min-width: 280px;
+  max-height: 400px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.nav-item:hover .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.nav-dropdown a {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  color: rgba(var(--color-foreground), 0.85);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  margin: 0.25rem 0.5rem;
+  border-radius: 15px;
+}
+
+.nav-dropdown a:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+  color: rgb(var(--color-foreground));
+}
+
+/* ===== MOBILE DRAWER MENU ===== */
+.mobile-menu-drawer {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 85%;
+  max-width: 360px;
+  height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  background: #ffffff;
+  z-index: 200;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  /* Flexbox layout to keep account button at bottom */
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu-drawer.open {
+  left: 0;
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 199;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(4px);
+}
+
+.mobile-menu-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(0, 0, 0, 0.01);
+  flex-shrink: 0; /* Prevent header from shrinking */
+  z-index: 1;
+  backdrop-filter: blur(10px);
+}
+
+.mobile-menu-header span {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: rgb(var(--color-foreground));
+}
+
+.mobile-menu-close {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.mobile-menu-close:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.mobile-menu-close .icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Scrollable content wrapper for links + collections */
+.mobile-menu-scroll-content {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0; /* Required for flex child to scroll properly */
+}
+
+.mobile-menu-links {
+  padding: 0.75rem 0;
+}
+
+/* Mobile Collections Carousel */
+.mobile-collections-section {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  background: #ffffff;
+  padding: 0.75rem 0 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.mobile-collections-header {
+  padding: 0 1.25rem 0.5rem;
+}
+
+.mobile-collections-header span {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(var(--color-foreground), 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.mobile-collections-swiper {
+  padding: 0 1.25rem;
+  overflow: visible;
+}
+
+.mobile-collections-swiper .swiper-wrapper {
+  display: flex;
+}
+
+.mobile-collections-swiper .swiper-slide {
+  width: calc((100% - 0.75rem) / 1.2);
+  margin-right: 0.6rem;
+}
+
+.collection-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-decoration: none;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.collection-card:active {
+  transform: scale(0.97);
+}
+
+.collection-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 15px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.collection-card:hover .collection-image {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.collection-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 0.3rem;
+}
+
+.collection-title {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgb(var(--color-foreground));
+  text-align: center;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Mobile menu item with optional submenu */
+.mobile-menu-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  margin: 0 0.5rem;
+}
+
+.mobile-menu-item:first-child {
+  margin-top: 0.5rem;
+}
+
+.mobile-menu-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0.5rem;
+}
+
+.mobile-menu-item > a,
+.mobile-menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.5rem;
+  color: rgba(var(--color-foreground), 0.85);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+  position: relative;
+}
+
+.mobile-menu-item > a::before,
+.mobile-menu-toggle::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  width: 3px;
+  height: 60%;
+  background: rgb(var(--color-foreground));
+  border-radius: 0 2px 2px 0;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu-item > a:hover,
+.mobile-menu-item > a:active,
+.mobile-menu-toggle:hover,
+.mobile-menu-toggle.open {
+  background-color: rgba(0, 0, 0, 0.03);
+  color: rgb(var(--color-foreground));
+}
+
+.mobile-menu-item > a:hover::before,
+.mobile-menu-toggle:hover::before,
+.mobile-menu-toggle.open::before {
+  transform: translateY(-50%) scaleY(1);
+}
+
+.mobile-menu-toggle .chevron {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.6;
+}
+
+.mobile-menu-toggle.open .chevron {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+/* Mobile submenu */
+.mobile-submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: rgba(0, 0, 0, 0.015);
+}
+
+.mobile-submenu.open {
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+}
+
+.mobile-submenu a {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem 1rem 3rem;
+  color: rgba(var(--color-foreground), 0.75);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  border-left: 3px solid transparent;
+  margin: 0.15rem 0.75rem;
+  border-radius: 8px;
+}
+
+.mobile-submenu a::before {
+  content: "";
+  position: absolute;
+  left: 1.5rem;
+  width: 4px;
+  height: 4px;
+  background: rgba(var(--color-foreground), 0.3);
+  border-radius: 50%;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-submenu a:hover,
+.mobile-submenu a:active {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: rgb(var(--color-foreground));
+  transform: translateX(4px);
+}
+
+.mobile-submenu a:hover::before {
+  background: rgb(var(--color-foreground));
+  transform: scale(1.5);
+}
+
+/* Hidden submenu items (initially) */
+.mobile-submenu a.submenu-item-hidden {
+  display: none;
+}
+
+.mobile-submenu.expanded a.submenu-item-hidden {
+  display: flex;
+}
+
+/* View More button */
+.view-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: calc(100% - 1.5rem);
+  margin: 0.5rem 0.75rem 0.25rem;
+  padding: 0.85rem 1.5rem;
+  background: rgba(var(--color-foreground), 0.04);
+  border: 1px solid rgba(var(--color-foreground), 0.1);
+  border-radius: 8px;
+  color: rgba(var(--color-foreground), 0.75);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.view-more-btn:hover {
+  background: rgba(var(--color-foreground), 0.08);
+  border-color: rgba(var(--color-foreground), 0.2);
+  color: rgb(var(--color-foreground));
+  transform: translateY(-1px);
+}
+
+.view-more-btn .view-more-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.view-more-btn.expanded .view-more-icon {
+  transform: rotate(180deg);
+}
+
+/* Smooth scrollbar for mobile submenu */
+.mobile-submenu::-webkit-scrollbar {
+  width: 4px;
+}
+
+.mobile-submenu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.mobile-submenu::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+}
+
+.mobile-submenu::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Mobile menu bottom section for account */
+@media (max-width: 989px) {
+  .mobile-menu-bottom {
+    flex-shrink: 0;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .mobile-menu-bottom a {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.9rem 1rem;
+    color: rgba(var(--color-foreground), 0.85);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mobile-menu-bottom a:hover,
+  .mobile-menu-bottom a:active {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: rgb(var(--color-foreground));
+    transform: translateX(2px);
+  }
+
+  .mobile-menu-bottom .icon {
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    transition: opacity 0.25s;
+  }
+
+  .mobile-menu-bottom a:hover .icon {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 990px) {
+  .mobile-menu-bottom {
+    display: none;
+  }
+}
+
+/* ===== UTM PARAMETER OVERRIDES ===== */
+
+/* Hide collection-top-bar when UTM params present */
+html.has-utm .section-collection-top-bar {
+  display: none !important;
+}
+
+/* Show header-custom on mobile even when collection-top-bar is in DOM */
+@media (max-width: 989px) {
+  html.has-utm body .section-header-custom {
+    display: block !important;
+  }
+}
+
+/* Still hide header-custom on search pages (search has its own header) */
+html.has-utm .template-search .section-header-custom,
+html.has-utm body:has(.search-landing-page) .section-header-custom {
+  display: none !important;
+}
+
+/* Hide account icon ONLY on mobile when UTM is replacing collection-top-bar */
+/* On homepage (no .collection-top-bar) or desktop — account stays visible */
+@media (max-width: 989px) {
+  html.has-utm body:has(.collection-top-bar) .section-header-custom .header__icon--account {
+    display: none !important;
+  }
+
+  html.has-utm body:has(.collection-top-bar) .section-header-custom .mobile-menu-bottom {
+    display: none !important;
+  }
+}

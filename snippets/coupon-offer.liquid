@@ -1,0 +1,398 @@
+{% comment %}
+  Renders a coupon offer banner showing discounted price
+
+  Accepts:
+  - product: {Object} Product Liquid object
+  - block: {Object} Block object with settings
+  - section: {Object} Section object
+
+  Usage:
+  {% render 'coupon-offer', product: product, block: block, section: section %}
+{% endcomment %}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign current_price = current_variant.price
+
+  # Read from central theme settings
+  assign discount_percent = settings.coupon_discount_percent | default: 10
+  assign max_discount = settings.coupon_max_discount | default: 1000
+  assign max_discount_paise = max_discount | times: 100
+
+  assign calculated_discount = current_price | times: discount_percent | divided_by: 100
+
+  if calculated_discount > max_discount_paise
+    assign final_discount = max_discount_paise
+  else
+    assign final_discount = calculated_discount
+  endif
+
+  assign final_price = current_price | minus: final_discount
+  assign final_price = final_price | divided_by: 100 | times: 100
+  assign coupon_code = settings.coupon_code | default: 'NOWINEW'
+  assign unique_id = section.id | append: '-' | append: block.id
+-%}
+
+<div
+  class="coupon-offer-container"
+  id="coupon-offer-{{ unique_id }}"
+  {{ block.shopify_attributes }}
+  data-product-price="{{ current_price }}"
+  data-discount-percent="{{ discount_percent }}"
+  data-max-discount="{{ max_discount_paise }}"
+  data-coupon-code="{{ coupon_code }}"
+  data-modal-id="coupon-modal-{{ unique_id }}"
+>
+  <div class="flex items-center gap-3 bg-white rounded-xl px-4 py-3" style="border: 1.5px solid #e5e7eb;">
+    {%- comment -%} Green % badge {%- endcomment -%}
+    <span class="flex-shrink-0 w-[36px] h-[36px] rounded-full bg-[#16a34a] flex items-center justify-center">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.5 11C9.43 11 11 9.43 11 7.5S9.43 4 7.5 4 4 5.57 4 7.5 5.57 11 7.5 11zm0-5C8.33 6 9 6.67 9 7.5S8.33 9 7.5 9 6 8.33 6 7.5 6.67 6 7.5 6zM16.5 13c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zm0 5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5.41 20L4 18.59 18.59 4 20 5.41 5.41 20z" fill="white"/>
+      </svg>
+    </span>
+
+    {%- comment -%} Text block {%- endcomment -%}
+    <div class="flex-1 min-w-0">
+      <div class="text-[#111827] font-bold text-[14px] uppercase tracking-wide coupon-final-price-line">
+        GET THIS AT <span class="coupon-final-price">{{- final_price | money_without_trailing_zeros -}}</span>
+      </div>
+      <div class="text-[#6b7280] text-[12px]">
+        Use <span class="coupon-code-text font-semibold">{{ coupon_code }}</span>
+      </div>
+    </div>
+
+    {%- comment -%} Copy button {%- endcomment -%}
+    <button
+      type="button"
+      class="coupon-copy-btn flex-shrink-0 text-[#9ca3af] hover:text-[#6b7280]"
+      aria-label="Copy coupon code"
+      data-coupon-code="{{ coupon_code }}"
+    >
+      <svg class="coupon-copy-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="currentColor"/>
+      </svg>
+      <svg class="coupon-check-icon hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="currentColor"/>
+      </svg>
+    </button>
+
+    {%- comment -%} Info button {%- endcomment -%}
+    <button
+      type="button"
+      class="coupon-info-btn flex-shrink-0 text-[#9ca3af] hover:text-[#6b7280]"
+      aria-label="View coupon terms"
+    >
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V9H11V15ZM11 7H9V5H11V7Z" fill="currentColor"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+{%- comment -%} Modal template - will be moved to body via JS {%- endcomment -%}
+<template id="coupon-modal-template-{{ unique_id }}">
+  <div
+    id="coupon-modal-{{ unique_id }}"
+    class="coupon-modal-overlay"
+    style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:999999; background:rgba(0,0,0,0.5);"
+  >
+    <div class="coupon-modal-content">
+      <div class="mobile-handle"></div>
+      <div class="modal-header">
+        <h3>Terms & Conditions</h3>
+        <button type="button" class="coupon-terms-close" aria-label="Close">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="terms-list">
+        <li>
+          <span class="bullet">•</span
+          ><span style="display:inline-flex;align-items:center;gap:6px;"
+            >Use code: <strong>{{ coupon_code }}</strong
+            ><button type="button" class="modal-copy-btn" data-coupon-code="{{ coupon_code }}" aria-label="Copy coupon code" style="background:none;border:none;cursor:pointer;padding:2px;color:#9ca3af;display:inline-flex;align-items:center;">
+              <svg class="modal-copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="currentColor"/></svg>
+              <svg class="modal-check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:none;color:#16a34a;"><path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="currentColor"/></svg>
+            </button></span
+          >
+        </li>
+        <li>
+          <span class="bullet">•</span><span>{{ discount_percent }}% discount upto ₹{{ max_discount }}</span>
+        </li>
+        {%- assign terms_text = settings.coupon_terms_text | default: 'Available thrice per user
+Can be combined with other offers' -%}
+        {%- assign terms_lines = terms_text | split: '
+' -%}
+        {%- for line in terms_lines -%}
+          {%- assign trimmed = line | strip -%}
+          {%- if trimmed != blank -%}
+            <li><span class="bullet">•</span><span>{{ trimmed }}</span></li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      <button type="button" class="coupon-terms-close got-it-btn">Got it</button>
+    </div>
+  </div>
+</template>
+
+<style>
+  #coupon-modal-{{ unique_id }} .coupon-modal-content {
+    background: white;
+    padding: 24px;
+    position: fixed;
+    z-index: 1000000;
+  }
+  #coupon-modal-{{ unique_id }} .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  #coupon-modal-{{ unique_id }} .modal-header h3 {
+    font-weight: 600;
+    color: #111827;
+    font-size: 16px;
+    margin: 0;
+  }
+  #coupon-modal-{{ unique_id }} .modal-header button {
+    color: #9ca3af;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+  #coupon-modal-{{ unique_id }} .terms-list {
+    font-size: 14px;
+    color: #4b5563;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  #coupon-modal-{{ unique_id }} .terms-list li {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  #coupon-modal-{{ unique_id }} .terms-list li:last-child {
+    margin-bottom: 0;
+  }
+  #coupon-modal-{{ unique_id }} .bullet {
+    color: #16a34a;
+  }
+  #coupon-modal-{{ unique_id }} .got-it-btn {
+    margin-top: 16px;
+    width: 100%;
+    background: transparent;
+    color: #0B1220;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 500;
+    border: 2px solid #0B1220;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  #coupon-modal-{{ unique_id }} .mobile-handle {
+    width: 40px;
+    height: 4px;
+    background: #d1d5db;
+    border-radius: 2px;
+    margin: 0 auto 16px;
+  }
+  /* Mobile: bottom sheet */
+  @media (max-width: 749px) {
+    #coupon-modal-{{ unique_id }} .coupon-modal-content {
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-radius: 16px 16px 0 0;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+      transform: translateY(100%);
+      transition: transform 0.3s ease-out;
+    }
+    #coupon-modal-{{ unique_id }}.is-open .coupon-modal-content {
+      transform: translateY(0);
+    }
+  }
+  /* Desktop: centered modal */
+  @media (min-width: 750px) {
+    #coupon-modal-{{ unique_id }} .coupon-modal-content {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      opacity: 0;
+      border-radius: 12px;
+      max-width: 360px;
+      width: 90%;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    }
+    #coupon-modal-{{ unique_id }}.is-open .coupon-modal-content {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    #coupon-modal-{{ unique_id }} .mobile-handle {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    var uniqueId = '{{ unique_id }}';
+    var container = document.getElementById('coupon-offer-' + uniqueId);
+    var template = document.getElementById('coupon-modal-template-' + uniqueId);
+
+    if (!container || !template) return;
+
+    // Move modal from template to body (fixes position:fixed issues with transformed parents)
+    var modalContent = template.content.cloneNode(true);
+    document.body.appendChild(modalContent);
+
+    var modal = document.getElementById('coupon-modal-' + uniqueId);
+    if (!modal) return;
+
+    var infoBtn = container.querySelector('.coupon-info-btn');
+
+    function openModal() {
+      modal.style.display = 'block';
+      // Small delay to trigger CSS transition
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          modal.classList.add('is-open');
+        });
+      });
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+      document.body.style.overflow = '';
+      // Wait for animation then hide
+      setTimeout(function () {
+        if (!modal.classList.contains('is-open')) {
+          modal.style.display = 'none';
+        }
+      }, 300);
+    }
+
+    if (infoBtn) {
+      infoBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        openModal();
+      });
+    }
+
+    // Copy coupon code to clipboard
+    var copyBtn = container.querySelector('.coupon-copy-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var code = copyBtn.dataset.couponCode;
+        var copyIcon = copyBtn.querySelector('.coupon-copy-icon');
+        var checkIcon = copyBtn.querySelector('.coupon-check-icon');
+
+        window.copyToClipboard(code).then(function () {
+          copyIcon.classList.add('hidden');
+          checkIcon.classList.remove('hidden');
+          setTimeout(function () {
+            checkIcon.classList.add('hidden');
+            copyIcon.classList.remove('hidden');
+          }, 1500);
+        });
+      });
+    }
+
+    // Copy coupon code from modal
+    var modalCopyBtn = modal.querySelector('.modal-copy-btn');
+    if (modalCopyBtn) {
+      modalCopyBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var code = modalCopyBtn.dataset.couponCode;
+        var copyIcon = modalCopyBtn.querySelector('.modal-copy-icon');
+        var checkIcon = modalCopyBtn.querySelector('.modal-check-icon');
+
+        window.copyToClipboard(code).then(function () {
+          copyIcon.style.display = 'none';
+          checkIcon.style.display = 'inline-flex';
+          setTimeout(function () {
+            checkIcon.style.display = 'none';
+            copyIcon.style.display = 'inline-flex';
+          }, 1500);
+        });
+      });
+    }
+
+    var closeButtons = modal.querySelectorAll('.coupon-terms-close');
+    closeButtons.forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        closeModal();
+      });
+    });
+
+    // Close on overlay click
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
+
+    // Update price when variant changes
+    function updateCouponPrice() {
+      var discountPercent = parseInt(container.dataset.discountPercent);
+      var maxDiscount = parseInt(container.dataset.maxDiscount);
+      var currentPrice = parseInt(container.dataset.productPrice);
+
+      var variantSelects = document.querySelector('variant-selects, variant-radios');
+      if (variantSelects) {
+        var form = variantSelects.closest('form');
+        if (form) {
+          var variantInput = form.querySelector('input[name="id"]');
+          if (variantInput) {
+            var productJson = document.querySelector('[type="application/json"][data-product-json]');
+            if (productJson) {
+              try {
+                var productData = JSON.parse(productJson.textContent);
+                var variants = productData.variants || [];
+                var currentVariant = variants.find(function (v) {
+                  return v.id == variantInput.value;
+                });
+                if (currentVariant) {
+                  currentPrice = currentVariant.price;
+                }
+              } catch (e) {}
+            }
+          }
+        }
+      }
+
+      var calculatedDiscount = Math.floor((currentPrice * discountPercent) / 100);
+      var finalDiscount = Math.min(calculatedDiscount, maxDiscount);
+      var finalPrice = currentPrice - finalDiscount;
+
+      var finalPriceEl = container.querySelector('.coupon-final-price');
+      if (finalPriceEl) {
+        var formattedPrice = new Intl.NumberFormat('en-IN', {
+          style: 'currency',
+          currency: 'INR',
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }).format(finalPrice / 100);
+        finalPriceEl.textContent = formattedPrice;
+      }
+    }
+
+    document.addEventListener('variant:changed', updateCouponPrice);
+  })();
+</script>

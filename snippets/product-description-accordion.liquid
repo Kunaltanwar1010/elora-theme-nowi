@@ -1,0 +1,28 @@
+{% comment %}
+  Renders product description accordion with automatic metafield detection
+  Used by main-product.liquid block
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+  - block: {Object} Block object with settings (optional)
+
+  Usage:
+  {% render 'product-description-accordion', product: product, block: block %}
+{% endcomment %}
+
+{{ 'component-product-description-accordion.css' | asset_url | stylesheet_tag }}
+
+<div class="product-description-section product-description-section--inline" {{ block.shopify_attributes }}>
+  {%- liquid
+    # Check if description contains supplier attribute table pattern
+    assign has_supplier_attributes = false
+    if product.description contains '<h4>Attribute</h4>' and product.description contains 'grid-template-columns: 120px 1fr'
+      assign has_supplier_attributes = true
+    endif
+  -%}
+  {%- if product.description != blank and has_supplier_attributes == false -%}
+    <div class="pda-description-text">
+      {{ product.description }}
+    </div>
+  {%- endif -%}
+</div>

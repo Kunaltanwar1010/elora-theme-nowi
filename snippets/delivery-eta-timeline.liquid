@@ -1,0 +1,255 @@
+{% comment %}
+  Renders an ETA delivery timeline with 3 animated steps:
+  Order Placed → Order Ready → Delivered
+
+  Accepts:
+  - block: {Object} Block object with settings (required)
+  - product: {Object} Product Liquid object (required) - used for TAT metafield
+
+  Usage:
+  {% render 'delivery-eta-timeline', block: block, product: product %}
+{% endcomment %}
+
+{%- liquid
+  assign tat_value = product.metafields.custom.tat.value | default: 0 | plus: 0
+  assign min_delivery_days = tat_value | plus: 4
+  assign max_delivery_days = tat_value | plus: 7
+  assign order_ready_days = tat_value | plus: 0
+  if order_ready_days == 0
+    assign order_ready_days = 1
+  endif
+  assign progress_percent = block.settings.progress_percent | default: 45
+  assign bg_color = block.settings.background_color | default: '#fdf1d4'
+-%}
+
+<style>
+  /* Wrapper */
+  .eta-wrapper {
+    background: {{ bg_color }};
+    padding: 16px;
+    margin-top: 0;
+    border-radius: 0 0 12px 12px;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .eta-wrapper--animated {
+    animation: etaFadeSlideUp 0.6s ease forwards;
+  }
+
+  /* Title */
+  .eta-title {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+
+  /* Hint */
+  .eta-hint {
+    text-align: center;
+    font-size: 11px;
+    color: #999;
+    margin-top: -8px;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+  }
+
+  .eta-wrapper--confirmed .eta-hint {
+    color: #2e7d32;
+    font-weight: 600;
+  }
+
+  /* Approximate state */
+  .eta-wrapper:not(.eta-wrapper--confirmed) .eta-bar {
+    opacity: 0.7;
+  }
+
+  .eta-wrapper--confirmed .eta-bar {
+    opacity: 1;
+    transition: opacity 0.4s ease;
+  }
+
+  /* Timeline bar */
+  .eta-bar {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  /* Base line */
+  .eta-bar::before {
+    content: "";
+    position: absolute;
+    top: 36px;
+    left: 6%;
+    right: 6%;
+    height: 4px;
+    background: #ddd;
+    border-radius: 10px;
+  }
+
+  /* Animated progress */
+  .eta-progress {
+    position: absolute;
+    top: 36px;
+    left: 6%;
+    width: 0;
+    height: 4px;
+    background: #000;
+    border-radius: 10px;
+  }
+
+  .eta-wrapper--animated .eta-progress {
+    animation: etaProgressFill 1.5s ease forwards;
+    animation-delay: 0.6s;
+  }
+
+  /* Steps */
+  .eta-step {
+    width: 33.33%;
+    text-align: center;
+    z-index: 2;
+  }
+
+  /* Icon circle */
+  .eta-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 6px;
+    font-size: 20px;
+    transform: scale(0);
+    overflow: hidden;
+  }
+
+  .eta-icon img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+  }
+
+  .eta-icon-placeholder {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0b1220;
+    line-height: 1;
+  }
+
+  /* Active step */
+  .eta-step.active .eta-icon {
+    background: #fff;
+    color: #fff;
+  }
+
+  /* Pop-in + pulse per step (nth-child offset by 1 because .eta-progress is child 1) */
+  .eta-wrapper--animated .eta-step:nth-child(2) .eta-icon {
+    animation: etaPopIn 0.4s ease forwards;
+    animation-delay: 0.3s;
+  }
+  .eta-wrapper--animated .eta-step:nth-child(3) .eta-icon {
+    animation: etaPopIn 0.4s ease forwards, etaPulse 1.6s infinite;
+    animation-delay: 0.6s, 1s;
+  }
+  .eta-wrapper--animated .eta-step:nth-child(4) .eta-icon {
+    animation: etaPopIn 0.4s ease forwards;
+    animation-delay: 0.9s;
+  }
+
+  .eta-label {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .eta-date {
+    font-size: 12px;
+    margin-top: 2px;
+  }
+
+  /* Keyframes */
+  @keyframes etaProgressFill {
+    to { width: {{ progress_percent }}%; }
+  }
+
+  @keyframes etaPopIn {
+    to { transform: scale(1); }
+  }
+
+  @keyframes etaPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(206, 190, 156, 0.6); }
+    70%  { box-shadow: 0 0 0 10px rgba(206, 190, 156, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(206, 190, 156, 0); }
+  }
+
+  @keyframes etaFadeSlideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<div
+  class="eta-wrapper"
+  id="eta-wrapper-{{ block.id }}"
+  {{ block.shopify_attributes }}
+  data-min-days="{{ min_delivery_days }}"
+  data-max-days="{{ max_delivery_days }}"
+  data-order-ready-days="{{ order_ready_days }}"
+>
+  <div class="eta-title">
+    Estimated Delivery Date<br>
+    <b><span data-eta-title-dates></span></b>
+  </div>
+
+  <div class="eta-hint" data-eta-hint>
+    Enter pincode for exact delivery dates
+  </div>
+
+  <div class="eta-bar">
+    <div class="eta-progress"></div>
+
+    {%- comment -%} Step 1: Order Placed (active) {%- endcomment -%}
+    <div class="eta-step active">
+      <div class="eta-icon">
+        {%- if block.settings.step1_image != blank -%}
+          <img src="{{ block.settings.step1_image | image_url: width: 80 }}" alt="Order Placed" width="45" height="45" loading="lazy">
+        {%- else -%}
+          <span class="eta-icon-placeholder">1</span>
+        {%- endif -%}
+      </div>
+      <div class="eta-label">ORDER PLACED</div>
+      <div class="eta-date" data-eta-date="placed"></div>
+    </div>
+
+    {%- comment -%} Step 2: Order Ready (active) {%- endcomment -%}
+    <div class="eta-step active">
+      <div class="eta-icon">
+        {%- if block.settings.step2_image != blank -%}
+          <img src="{{ block.settings.step2_image | image_url: width: 80 }}" alt="Order Ready" width="45" height="45" loading="lazy">
+        {%- else -%}
+          <span class="eta-icon-placeholder">2</span>
+        {%- endif -%}
+      </div>
+      <div class="eta-label">ORDER READY</div>
+      <div class="eta-date" data-eta-date="ready"></div>
+    </div>
+
+    {%- comment -%} Step 3: Delivered {%- endcomment -%}
+    <div class="eta-step active">
+      <div class="eta-icon">
+        {%- if block.settings.step3_image != blank -%}
+          <img src="{{ block.settings.step3_image | image_url: width: 80 }}" alt="Delivered" width="45" height="45" loading="lazy">
+        {%- else -%}
+          <span class="eta-icon-placeholder">3</span>
+        {%- endif -%}
+      </div>
+      <div class="eta-label">DELIVERED</div>
+      <div class="eta-date" data-eta-date="delivered"></div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'delivery-eta-timeline.js' | asset_url }}" defer="defer"></script>

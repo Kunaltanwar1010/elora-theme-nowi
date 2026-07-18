@@ -1,0 +1,352 @@
+{% assign total_items = section.blocks.size %}
+
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+{{ 'component-trending-carousel.css' | asset_url | stylesheet_tag }}
+
+<style>
+  #shopify-section-{{ section.id }} .trending-carousel-section {
+    padding: {{ section.settings.section_padding_y }}px {{ section.settings.section_padding_x }}px;
+    --card-gap: {{ section.settings.card_gap }}px;
+  }
+
+  #shopify-section-{{ section.id }} .trending-title {
+    font-size: {{ section.settings.title_font_size }}px;
+    font-weight: {{ section.settings.title_font_weight }};
+    color: {{ section.settings.title_color }};
+  }
+
+  #shopify-section-{{ section.id }} .trending-grid {
+    gap: {{ section.settings.card_gap }}px;
+  }
+
+  #shopify-section-{{ section.id }} .trending-card-overlay {
+    opacity: {{ section.settings.overlay_visibility | divided_by: 100.0 }};
+  }
+
+  @media (hover: hover) and (min-width: 769px) {
+    #shopify-section-{{ section.id }} .trending-card-link:hover .trending-card-overlay {
+      opacity: 1;
+    }
+  }
+</style>
+
+{% unless section.settings.hide_section %}
+  {% render 'category-visibility-wrapper',
+    show_in_all_categories: section.settings.show_in_all_categories,
+    category_only_show_for: section.settings.category_only_show_for,
+    tag_type: 'open'
+  %}
+  <section class="trending-carousel-section">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="trending-header">
+      <h2 class="trending-title">{{ section.settings.section_title }}</h2>
+    </div>
+
+    <!-- Carousel Container -->
+    {% if total_items > 2 %}
+      <!-- Show Carousel for 3+ items -->
+      <div class="swiper trending-swiper">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            <div class="swiper-slide">
+              {% render 'trending-card',
+                block: block,
+                section: section,
+                card_border_radius: section.settings.card_border_radius
+              %}
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Navigation -->
+        <div class="swiper-button-prev trending-button-prev" aria-label="Previous slide"></div>
+        <div class="swiper-button-next trending-button-next" aria-label="Next slide"></div>
+      </div>
+    {% else %}
+      <!-- Show Grid for 2 or fewer items -->
+      <div class="trending-grid">
+        {% for block in section.blocks %}
+          {% render 'trending-card',
+            block: block,
+            section: section,
+            card_border_radius: section.settings.card_border_radius
+          %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+
+<script>
+  (function () {
+    const sectionId = 'shopify-section-{{ section.id }}';
+    const totalItems = {{ total_items }};
+    let retries = 0;
+    const MAX_RETRIES = 50; // 50 × 100ms = 5 seconds
+
+    function initTrendingCarousel() {
+      if (typeof Swiper === 'undefined') {
+        if (retries < MAX_RETRIES) {
+          retries++;
+          setTimeout(initTrendingCarousel, 100);
+        } else {
+          console.warn(`Swiper failed to load after 5 seconds. Trending carousel initialization aborted for section ${sectionId}.`);
+        }
+        return;
+      }
+
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+
+      const swiperEl = section.querySelector('.trending-swiper');
+      if (!swiperEl) return;
+
+      const cardGap = parseInt(getComputedStyle(swiperEl.parentElement).getPropertyValue('--card-gap') || '15');
+
+      // On desktop, show all items if 3 or 4, otherwise show 4 with scrolling
+      const desktopSlidesPerView = totalItems <= 4 ? totalItems : 4;
+
+      const swiper = new Swiper(swiperEl, {
+        preventClicks: false,
+        preventClicksPropagation: false,
+        slidesPerView: 2.3,
+        spaceBetween: cardGap,
+        grabCursor: true,
+        navigation: {
+          nextEl: section.querySelector('.trending-button-next'),
+          prevEl: section.querySelector('.trending-button-prev'),
+        },
+        breakpoints: {
+          768: {
+            slidesPerView: 2.5,
+            spaceBetween: cardGap,
+          },
+          1024: {
+            slidesPerView: desktopSlidesPerView,
+            spaceBetween: cardGap,
+          },
+        },
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initTrendingCarousel);
+    } else {
+      initTrendingCarousel();
+    }
+  })();
+</script>
+
+  {% render 'category-visibility-wrapper', tag_type: 'close' %}
+{% endunless %}
+
+{% schema %}
+{
+  "name": "Trending Carousel",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "hide_section",
+      "label": "Hide section",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Trending Now"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_y",
+      "label": "Section Vertical Padding",
+      "min": 0,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_x",
+      "label": "Section Horizontal Padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Gap Between Cards",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 15,
+      "info": "Space between carousel cards"
+    },
+    {
+      "type": "header",
+      "content": "Title Style"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title Font Size",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title Font Weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Card Style"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card Border Radius",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "overlay_visibility",
+      "label": "Overlay Visibility",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "%",
+      "default": 0,
+      "info": "Initial overlay opacity (becomes 100% on hover)"
+    },
+    {
+      "type": "header",
+      "content": "Category visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_in_all_categories",
+      "label": "Show in all categories",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "category_only_show_for",
+      "label": "Show only for",
+      "options": [
+        {
+          "value": "men",
+          "label": "Men"
+        },
+        {
+          "value": "women",
+          "label": "Women"
+        }
+      ],
+      "default": "men",
+      "info": "Used when the section should appear for a single category."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trending_card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Card Title",
+          "placeholder": "e.g., 9-TO-5 CHIC"
+        },
+        {
+          "type": "url",
+          "id": "card_link",
+          "label": "Card Link"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "SHOP NOW"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trending Carousel",
+      "blocks": [
+        {
+          "type": "trending_card"
+        },
+        {
+          "type": "trending_card"
+        },
+        {
+          "type": "trending_card"
+        },
+        {
+          "type": "trending_card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

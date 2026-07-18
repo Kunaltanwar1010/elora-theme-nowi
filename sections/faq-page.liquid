@@ -1,0 +1,477 @@
+{% comment %}
+  FAQ Page Section
+
+  Creates a structured FAQ page with:
+  - Auto-generated JSON-LD FAQPage schema for SEO
+  - Grouped categories with accordion FAQ items
+  - "Still have questions?" CTA
+
+  Block types:
+  - category: Section heading (e.g., "About Nowi")
+  - faq_item: Question + Answer pair
+{% endcomment %}
+
+{{ 'component-accordion.css' | asset_url | stylesheet_tag }}
+{{ 'tailwind.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* Page title */
+  .faq-page__title {
+    font-family: var(--font-heading-family);
+    font-size: 28px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  @media screen and (min-width: 750px) {
+    .faq-page__title {
+      font-size: 32px;
+    }
+  }
+
+  .faq-page__subtitle {
+    font-size: 15px;
+    color: #6b7280;
+    font-weight: 400;
+  }
+
+  /* Category headings - BOLD */
+  .faq-page__category-title {
+    font-family: var(--font-heading-family);
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+    border-bottom: 2px solid #111827;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  @media screen and (min-width: 750px) {
+    .faq-page__category-title {
+      font-size: 20px;
+    }
+  }
+
+  /* Questions - SEMIBOLD */
+  .faq-page__question {
+    font-family: var(--font-heading-family);
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  @media screen and (min-width: 750px) {
+    .faq-page__question {
+      font-size: 16px;
+    }
+  }
+
+  /* Answers - REGULAR */
+  .faq-page__answer {
+    font-size: 14px;
+    font-weight: 400;
+    color: #4b5563;
+    line-height: 1.7;
+  }
+
+  @media screen and (min-width: 750px) {
+    .faq-page__answer {
+      font-size: 15px;
+    }
+  }
+
+  .faq-page__answer a {
+    color: #111827;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .faq-page__answer a:hover {
+    color: #000;
+  }
+
+  .faq-page__answer strong {
+    font-weight: 600;
+    color: #111827;
+  }
+
+  /* CTA Section */
+  .faq-page__cta {
+    background: #f9fafb;
+    padding: 28px 24px;
+    text-align: center;
+    border-radius: 12px;
+    margin-top: 48px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .faq-page__cta-title {
+    font-family: var(--font-heading-family);
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 8px;
+  }
+
+  .faq-page__cta-text {
+    color: #6b7280;
+    margin-bottom: 16px;
+    font-size: 14px;
+  }
+
+  .faq-page__cta-button {
+    display: inline-block;
+    background: #111827;
+    color: #fff;
+    padding: 12px 28px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .faq-page__cta-button:hover {
+    background: #1f2937;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  /* Accordion overrides for FAQ styling */
+  .faq-page .accordion {
+    margin-top: 0;
+    border-top: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .faq-page .accordion:first-of-type {
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .faq-page .accordion summary {
+    padding: 16px 0;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq-page .accordion summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-page .accordion summary:hover .faq-page__question {
+    color: #000;
+  }
+
+  .faq-page .accordion__content {
+    padding-bottom: 20px;
+    padding-right: 24px;
+  }
+
+  .faq-page .icon-caret {
+    width: 14px;
+    height: 14px;
+    color: #9ca3af;
+    transition: transform 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .faq-page .accordion summary:hover .icon-caret {
+    color: #111827;
+  }
+
+  .faq-page .accordion details[open] .icon-caret {
+    transform: rotate(180deg);
+    color: #111827;
+  }
+
+  /* Section spacing & differentiation */
+  .faq-section {
+    margin-bottom: 48px;
+    padding: 24px;
+    background: #f9fafb;
+    border-radius: 12px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .faq-section {
+      padding: 28px 32px;
+    }
+  }
+
+  .faq-section:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .faq-section .faq-page__category-title {
+    margin-top: 0;
+    background: transparent;
+  }
+
+  .faq-section .accordion {
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .faq-section .accordion:first-of-type {
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .faq-section .accordion summary {
+    padding: 16px;
+  }
+
+  .faq-section .accordion__content {
+    padding: 0 16px 16px 16px;
+  }
+{%- endstyle -%}
+
+{%- comment -%} Generate JSON-LD FAQPage Schema {%- endcomment -%}
+{%- capture faq_schema_items -%}
+  {%- assign first_faq = true -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'faq_item' -%}
+      {%- unless first_faq -%},{%- endunless -%}
+      {
+        "@type": "Question",
+        "name": {{ block.settings.question | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ block.settings.answer | strip_html | json }}
+        }
+      }
+      {%- assign first_faq = false -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{{ faq_schema_items }}]
+}
+</script>
+
+<div class="faq-page page-width section-{{ section.id }}-padding">
+  <div class="max-w-[800px] mx-auto">
+    {%- comment -%} Page Header {%- endcomment -%}
+    <div class="text-center mb-[48px]">
+      <h1 class="faq-page__title">{{ section.settings.title }}</h1>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="faq-page__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} FAQ Sections {%- endcomment -%}
+    {%- assign current_category = nil -%}
+    {%- assign category_open = false -%}
+
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'category' -%}
+          {%- if category_open -%}
+            </div>
+          {%- endif -%}
+          <div class="faq-section mb-[40px]" {{ block.shopify_attributes }}>
+            <h2 class="faq-page__category-title">{{ block.settings.title }}</h2>
+          {%- assign category_open = true -%}
+
+        {%- when 'faq_item' -%}
+          <div class="accordion" {{ block.shopify_attributes }}>
+            <details id="Details-{{ block.id }}-{{ section.id }}">
+              <summary id="Summary-{{ block.id }}-{{ section.id }}" class="flex items-center justify-between">
+                <h3 class="faq-page__question">{{ block.settings.question }}</h3>
+                <svg class="icon-caret" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </summary>
+              <div
+                class="accordion__content faq-page__answer"
+                id="CollapsibleAccordion-{{ block.id }}-{{ section.id }}"
+                role="region"
+                aria-labelledby="Summary-{{ block.id }}-{{ section.id }}"
+              >
+                {{ block.settings.answer }}
+              </div>
+            </details>
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+
+    {%- if category_open -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Still Have Questions CTA {%- endcomment -%}
+    {%- if section.settings.show_cta -%}
+      <div class="faq-page__cta">
+        <h3 class="faq-page__cta-title">{{ section.settings.cta_title }}</h3>
+        <p class="faq-page__cta-text">{{ section.settings.cta_text }}</p>
+        <a href="{{ section.settings.cta_link }}" class="faq-page__cta-button">
+          {{ section.settings.cta_button_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "FAQ Page",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Page Title",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Everything you need to know about shopping at Nowi"
+    },
+    {
+      "type": "header",
+      "content": "Call to Action"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show CTA Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_title",
+      "label": "CTA Title",
+      "default": "Still have questions?"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Text",
+      "default": "We're here to help! Reach out to our friendly support team."
+    },
+    {
+      "type": "text",
+      "id": "cta_button_text",
+      "label": "Button Text",
+      "default": "Contact Support"
+    },
+    {
+      "type": "text",
+      "id": "cta_link",
+      "label": "Button Link",
+      "default": "mailto:support@nowi.fashion",
+      "info": "Enter URL or mailto: link"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "Category Name"
+        }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Your question here?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Your answer here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Page",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "title": "About Us"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your company about?",
+            "answer": "<p>We are dedicated to providing the best products and services.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Where are you located?",
+            "answer": "<p>We operate online and ship across India.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

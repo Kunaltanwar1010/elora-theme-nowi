@@ -1,0 +1,151 @@
+{% comment %}
+  Account navigation sidebar for desktop
+  Modern Editorial style with navy + warm cream color palette
+
+  Accepts:
+  - active_page: {String} Current page identifier ('account', 'addresses', 'orders')
+
+  Usage:
+  {% render 'account-sidebar', active_page: 'account' %}
+{% endcomment %}
+
+{%- liquid
+  assign active_page = active_page | default: 'account'
+
+  assign initials = ''
+  if customer.first_name != blank
+    assign first_initial = customer.first_name | slice: 0 | upcase
+    assign initials = first_initial
+  endif
+  if customer.last_name != blank
+    assign last_initial = customer.last_name | slice: 0 | upcase
+    assign initials = initials | append: last_initial
+  endif
+  if initials == blank and customer.email != blank
+    assign initials = customer.email | slice: 0 | upcase
+  endif
+  if initials == blank
+    assign initials = 'U'
+  endif
+
+  assign display_name = customer.first_name | append: ' ' | append: customer.last_name | strip
+  if display_name == blank
+    assign display_name = customer.email | split: '@' | first
+  endif
+-%}
+
+<aside class="account-sidebar" aria-label="Account navigation">
+  <nav class="account-sidebar__nav">
+    <!-- Profile Summary -->
+    <div class="account-sidebar__profile">
+      <div class="flex items-center gap-3">
+        <div class="account-sidebar__avatar">
+          {{ initials }}
+        </div>
+        <div class="min-w-0 flex-1">
+          <p class="account-h3 truncate">{{ display_name }}</p>
+          <p class="account-body-sm truncate">{{ customer.email }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <ul class="py-2" role="list">
+      <li>
+        <a
+          href="{{ routes.account_url }}"
+          class="account-sidebar__link{% if active_page == 'account' %} is-active{% endif %}"
+        >
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <span>Overview</span>
+        </a>
+      </li>
+      <li>
+        <a
+          href="{{ routes.account_url }}#orders"
+          class="account-sidebar__link{% if active_page == 'orders' %} is-active{% endif %}"
+        >
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <span>My Orders</span>
+          {%- if customer.orders_count > 0 -%}
+            <span class="count">{{ customer.orders_count }}</span>
+          {%- endif -%}
+        </a>
+      </li>
+      <li>
+        <a
+          href="{{ routes.account_addresses_url }}"
+          class="account-sidebar__link{% if active_page == 'addresses' %} is-active{% endif %}"
+        >
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <span>Addresses</span>
+          {%- if customer.addresses_count > 0 -%}
+            <span class="count">{{ customer.addresses_count }}</span>
+          {%- endif -%}
+        </a>
+      </li>
+    </ul>
+
+    <!-- Logout -->
+    <div style="border-top: 1px solid var(--account-border-light);">
+      <a
+        href="{{ routes.account_logout_url }}"
+        class="account-sidebar__link account-sidebar__link--logout"
+      >
+        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+        </svg>
+        <span>{{ 'customer.log_out' | t }}</span>
+      </a>
+    </div>
+  </nav>
+</aside>
+
+<script>
+  // Handle sidebar active state for hash navigation
+  (function() {
+    const sidebarLinks = document.querySelectorAll('.account-sidebar__link:not(.account-sidebar__link--logout)');
+
+    function updateActiveState() {
+      const hash = window.location.hash;
+      const isAccountPage = window.location.pathname === '{{ routes.account_url }}';
+
+      sidebarLinks.forEach(link => {
+        link.classList.remove('is-active');
+        const href = link.getAttribute('href');
+
+        if (isAccountPage) {
+          // On account page: check for #orders hash
+          if (hash === '#orders' && href.endsWith('#orders')) {
+            link.classList.add('is-active');
+          } else if (!hash && href === '{{ routes.account_url }}') {
+            link.classList.add('is-active');
+          }
+        } else if (href === window.location.pathname) {
+          // On other pages (addresses, etc.)
+          link.classList.add('is-active');
+        }
+      });
+    }
+
+    // Update on hash change
+    window.addEventListener('hashchange', updateActiveState);
+
+    // Update on click
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        setTimeout(updateActiveState, 10);
+      });
+    });
+
+    // Initial check
+    updateActiveState();
+  })();
+</script>

@@ -1,0 +1,33 @@
+{% comment %}
+  Renders a close button for the cart drawer
+
+  Accepts:
+  - variant: {String} Button style variant ('header', 'empty', 'footer')
+  - classes: {String} Additional CSS classes (optional)
+
+  Usage:
+  {% render 'cart-drawer-close-button', variant: 'header' %}
+{% endcomment %}
+
+{%- liquid
+  assign variant = variant | default: 'header'
+  assign button_classes = 'cart-drawer-close-btn cart-drawer-close-btn--' | append: variant
+  if classes
+    assign button_classes = button_classes | append: ' ' | append: classes
+  endif
+-%}
+
+<button
+  type="button"
+  class="{{ button_classes }}"
+  onclick="this.closest('cart-drawer').close()"
+  aria-label="{{ 'accessibility.close' | t }}"
+>
+  {%- if variant == 'footer' -%}
+    {{ 'general.continue_shopping' | t }}
+  {%- else -%}
+    <svg width="{% if variant == 'empty' %}20{% else %}24{% endif %}" height="{% if variant == 'empty' %}20{% else %}24{% endif %}" viewBox="0 0 {% if variant == 'empty' %}20 20{% else %}24 24{% endif %}" fill="none" stroke="currentColor" stroke-width="{% if variant == 'empty' %}2{% else %}1.5{% endif %}">
+      <path d="{% if variant == 'empty' %}M6 6L14 14M14 6L6 14{% else %}M18 6L6 18M6 6l12 12{% endif %}" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  {%- endif -%}
+</button>

@@ -1,0 +1,104 @@
+{% comment %}
+  Renders a size guide modal
+
+  Accepts:
+  - product: {Object} Product Liquid object
+  - section_id: {String} Section ID for unique identification
+
+  Usage:
+  {% render 'size-guide-modal', product: product, section_id: section.id %}
+{% endcomment %}
+
+{%- liquid
+  assign show_both = false
+  assign gender = ''
+  assign target_gender = ''
+
+  # Check Shopify standard category metafield (shopify["target-gender"])
+  # This is a list.metaobject_reference, so we need to loop
+  for item in product.metafields.shopify["target-gender"].value
+    if forloop.first
+      if item.label
+        assign target_gender = item.label | downcase
+      elsif item.name
+        assign target_gender = item.name | downcase
+      endif
+    endif
+  endfor
+
+  if target_gender contains 'women' or target_gender contains 'female'
+    assign gender = 'women'
+  elsif target_gender contains 'men' or target_gender contains 'male'
+    assign gender = 'men'
+  else
+    assign show_both = true
+  endif
+-%}
+
+<modal-dialog id="SizeGuideModal-{{ section_id }}" class="size-guide-modal">
+  <div
+    role="dialog"
+    aria-label="Size Guide"
+    aria-modal="true"
+    class="size-guide-modal__content"
+    tabindex="-1"
+  >
+    <button
+      id="ModalClose-{{ section_id }}"
+      type="button"
+      class="size-guide-modal__toggle"
+      aria-label="{{ 'accessibility.close' | t }}"
+    >
+      {{- 'icon-close.svg' | inline_asset_content -}}
+    </button>
+    <div class="size-guide-modal__content-info">
+      <h2 class="size-guide-modal__title">Size Guide</h2>
+      {%- if product.metafields.custom.size_chart_html -%}
+        <div class="size-guide-modal__table-wrapper">
+          {{ product.metafields.custom.size_chart_html }}
+        </div>
+        <div class="size-guide-modal__divider"></div>
+      {%- endif -%}
+
+      {%- if show_both -%}
+        <div class="size-guide-modal__image-wrapper">
+          <div class="size-guide-modal__section">
+            <h3 class="size-guide-modal__subtitle">Women's Measuring Guide</h3>
+            <img
+              src="{{ 'size-chart-women.webp' | asset_url }}"
+              alt="Women's Size Guide"
+              loading="lazy"
+              width="800"
+              height="auto"
+              class="size-guide-modal__image"
+            >
+          </div>
+          <div class="size-guide-modal__section">
+            <h3 class="size-guide-modal__subtitle">Men's Measuring Guide</h3>
+            <img
+              src="{{ 'size-chart-men.webp' | asset_url }}"
+              alt="Men's Size Guide"
+              loading="lazy"
+              width="800"
+              height="auto"
+              class="size-guide-modal__image"
+            >
+          </div>
+        </div>
+      {%- else -%}
+        {%- assign size_chart_image = 'size-chart-' | append: gender | append: '.webp' -%}
+        <div class="size-guide-modal__image-wrapper">
+          <h3 class="size-guide-modal__subtitle">How to Measure</h3>
+          <img
+            src="{{ size_chart_image | asset_url }}"
+            alt="Size Guide for {{ gender | capitalize }}"
+            loading="lazy"
+            width="800"
+            height="auto"
+            class="size-guide-modal__image"
+          >
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</modal-dialog>

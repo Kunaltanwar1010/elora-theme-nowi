@@ -1,0 +1,936 @@
+{%- liquid
+  assign layout = section.settings.layout
+  assign padding = section.settings.padding
+  assign show_top_border = section.settings.show_top_border
+  assign show_bottom_border = section.settings.show_bottom_border
+  assign border_color = section.settings.border_color
+  assign text_color = section.settings.color
+  assign bg_color = section.settings.bg_color
+  assign color_scheme = section.settings.color_scheme
+  assign text_caps = section.settings.text_caps
+  assign text_size = section.settings.text_size
+  assign letter_spacing = section.settings.letter_spacing
+  assign message_spacing = section.settings.message_spacing
+  assign bg_image = section.settings.bg_image
+  assign marquee_speed = section.settings.marquee_speed
+  assign direction = section.settings.direction
+  assign slider_speed = section.settings.slider_speed
+  assign show_arrows = section.settings.show_arrows
+
+  assign base_font_px = 14
+  assign font_size_px = base_font_px | times: text_size | divided_by: 100
+  assign marquee_duration = 3000 | divided_by: marquee_speed
+  assign marquee_duration_mobile = marquee_duration | times: 6 | divided_by: 10
+-%}
+
+<style>
+  /* Container */
+  #shopify-section-{{ section.id }} {
+    {% if show_top_border %}border-top: 1px solid {{ border_color | default: 'rgba(var(--color-foreground), 0.08)' }};{% endif %}
+    {% if show_bottom_border %}border-bottom: 1px solid {{ border_color | default: 'rgba(var(--color-foreground), 0.08)' }};{% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .ann-bar {
+    padding: {{ padding }}px 0;
+    overflow: hidden;
+    position: relative;
+    font-family: var(--font-heading-family);
+    font-weight: var(--font-heading-weight);
+    font-size: {{ font_size_px }}px;
+    line-height: 1.4;
+    {% if letter_spacing != 0 %}letter-spacing: {{ letter_spacing | times: 1.0 | divided_by: 1000.0 }}em;{% endif %}
+    {% if text_caps %}text-transform: uppercase;{% endif %}
+    {% if text_color != blank %}color: {{ text_color }};{% endif %}
+    {% if bg_color != blank %}background-color: {{ bg_color }};{% endif %}
+  }
+
+  /* Background image */
+  {% if bg_image %}
+    #shopify-section-{{ section.id }} .ann-bar {
+      background-image: url('{{ bg_image | image_url: width: 1920 }}');
+      background-size: cover;
+      background-position: center;
+    }
+  {% endif %}
+
+  /* Richtext resets */
+  #shopify-section-{{ section.id }} .ann-text p { display: inline; margin: 0; }
+  #shopify-section-{{ section.id }} .ann-text a { color: inherit; text-decoration: underline; }
+
+  /* === MARQUEE === */
+  #shopify-section-{{ section.id }} .ann-marquee {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .ann-marquee__track {
+    display: inline-flex;
+    animation: ann-scroll-{{ section.id }} {{ marquee_duration }}s linear infinite;
+    min-width: 100%;
+  }
+  {% if direction == 'ticker-rtl' %}
+    #shopify-section-{{ section.id }} .ann-marquee__track { animation-direction: reverse; }
+  {% endif %}
+  #shopify-section-{{ section.id }} .ann-bar:hover .ann-marquee__track {
+    animation-play-state: paused;
+  }
+  #shopify-section-{{ section.id }} .ann-marquee__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 {{ message_spacing }}px;
+    white-space: nowrap;
+  }
+  @keyframes ann-scroll-{{ section.id }} {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* Faster marquee on mobile */
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .ann-marquee__track {
+      animation-duration: {{ marquee_duration_mobile }}s;
+    }
+  }
+
+  /* === SLIDER === */
+  #shopify-section-{{ section.id }} .ann-slider {
+    position: relative;
+    text-align: center;
+  }
+  #shopify-section-{{ section.id }} .ann-slider__track {
+    position: relative;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .ann-slider__slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0;
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+  #shopify-section-{{ section.id }} .ann-slider__slide.ann-active {
+    opacity: 1;
+    position: relative;
+    pointer-events: auto;
+  }
+  #shopify-section-{{ section.id }} .ann-slider__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    padding: 8px;
+    z-index: 2;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  #shopify-section-{{ section.id }} .ann-slider__arrow:hover { opacity: 1; }
+  #shopify-section-{{ section.id }} .ann-slider__arrow--prev { left: 8px; }
+  #shopify-section-{{ section.id }} .ann-slider__arrow--next { right: 8px; }
+
+  /* === ICONS === */
+  #shopify-section-{{ section.id }} .ann-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  #shopify-section-{{ section.id }} .ann-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+  #shopify-section-{{ section.id }} .ann-icon img {
+    object-fit: contain;
+    display: block;
+  }
+
+  /* === HIGHLIGHT EFFECTS (applied to <em> inside richtext) === */
+  #shopify-section-{{ section.id }} .hl--italics em { font-style: italic; }
+  #shopify-section-{{ section.id }} .hl--highlight em {
+    font-style: normal;
+    background-color: var(--hl-bg, rgba(var(--color-foreground), 0.1));
+    color: var(--hl-text, inherit);
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+  }
+  #shopify-section-{{ section.id }} .hl--highlight-color em {
+    font-style: normal;
+    color: var(--hl-color, currentColor);
+  }
+  #shopify-section-{{ section.id }} .hl--underline em {
+    font-style: normal;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  #shopify-section-{{ section.id }} .hl--underline-hand-drawn em {
+    font-style: normal;
+    text-decoration: underline wavy;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
+  }
+  #shopify-section-{{ section.id }} .hl--squiggle em {
+    font-style: normal;
+    text-decoration: underline wavy;
+    text-underline-offset: 3px;
+  }
+  #shopify-section-{{ section.id }} .hl--circle em {
+    font-style: normal;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    padding: 0.05em 0.4em;
+  }
+  #shopify-section-{{ section.id }} .hl--circle-hand-drawn em {
+    font-style: normal;
+    border: 2px solid currentColor;
+    border-radius: 43% 57% 55% 45% / 56% 44% 56% 44%;
+    padding: 0.05em 0.4em;
+  }
+  #shopify-section-{{ section.id }} .hl--stroke em {
+    font-style: normal;
+    -webkit-text-stroke: 1px currentColor;
+    -webkit-text-fill-color: transparent;
+  }
+  #shopify-section-{{ section.id }} .hl--alternate-font em {
+    font-style: normal;
+    font-family: var(--font-heading-family);
+    font-weight: var(--font-heading-weight);
+  }
+  /* Highlight color overrides via custom properties */
+  #shopify-section-{{ section.id }} .hl--underline em { text-decoration-color: var(--hl-color, currentColor); }
+  #shopify-section-{{ section.id }} .hl--underline-hand-drawn em { text-decoration-color: var(--hl-color, currentColor); }
+  #shopify-section-{{ section.id }} .hl--squiggle em { text-decoration-color: var(--hl-color, currentColor); }
+  #shopify-section-{{ section.id }} .hl--circle em { border-color: var(--hl-color, currentColor); }
+  #shopify-section-{{ section.id }} .hl--circle-hand-drawn em { border-color: var(--hl-color, currentColor); }
+  #shopify-section-{{ section.id }} .hl--stroke em { -webkit-text-stroke-color: var(--hl-color, currentColor); }
+
+  /* === IMAGE BLOCK === */
+  #shopify-section-{{ section.id }} .ann-image img { display: block; height: auto; }
+  #shopify-section-{{ section.id }} .ann-image a { display: inline-block; }
+
+  /* === TARGET FILTERING === */
+  #shopify-section-{{ section.id }} .ann-block-hidden { display: none !important; }
+</style>
+
+{%- if section.blocks.size > 0 -%}
+  <div class="ann-bar page-width color-{{ color_scheme }} gradient"
+       role="region"
+       aria-label="{{ 'sections.header.announcement' | t }}">
+
+    {%- comment -%}--- Capture each block's rendered content ---{%- endcomment -%}
+    {%- capture block_contents -%}
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign has_target = false
+          if block.settings.target_url_enabled or block.settings.target_referrer_enabled or block.settings.target_device_enabled
+            assign has_target = true
+          endif
+        -%}
+        <div class="{% if layout == 'marquee' %}ann-marquee__item{% else %}ann-slider__slide{% if forloop.first %} ann-active{% endif %}{% endif %}"
+             {{ block.shopify_attributes }}
+             {% if has_target %}
+               data-target-url-enabled="{{ block.settings.target_url_enabled }}"
+               {% if block.settings.target_url_enabled %}data-target-url="{{ block.settings.target_url }}"{% endif %}
+               data-target-referrer-enabled="{{ block.settings.target_referrer_enabled }}"
+               {% if block.settings.target_referrer_enabled %}data-target-referrer="{{ block.settings.target_referrer }}"{% endif %}
+               data-target-device-enabled="{{ block.settings.target_device_enabled }}"
+               {% if block.settings.target_device_enabled %}data-target-device="{{ block.settings.target_device }}"{% endif %}
+             {% endif %}>
+
+          {%- case block.type -%}
+
+            {%- when 'text' -%}
+              {%- if block.settings.icon_image -%}
+                <span class="ann-icon" style="width: {{ block.settings.icon_width }}px; height: {{ block.settings.icon_width }}px;">
+                  <img src="{{ block.settings.icon_image | image_url: width: 120 }}"
+                       alt="" width="{{ block.settings.icon_width }}" height="{{ block.settings.icon_width }}" loading="lazy">
+                </span>
+              {%- elsif block.settings.icon_name != 'none' -%}
+                <span class="ann-icon" style="width: {{ block.settings.icon_width }}px; height: {{ block.settings.icon_width }}px;">
+                  {%- render 'icon-accordion', icon: block.settings.icon_name -%}
+                </span>
+              {%- endif -%}
+              <span class="ann-text hl--{{ block.settings.heading_highlight_type }}">
+                {{- block.settings.text -}}
+              </span>
+
+            {%- when 'message' -%}
+              <span class="ann-text" data-free-shipping-block data-free-shipping-template="{{ block.settings.message | escape }}">
+                {{- block.settings.message | escape -}}
+              </span>
+
+            {%- when 'custom' -%}
+              <span class="ann-text ann-custom-html">
+                {{- block.settings.text -}}
+              </span>
+
+            {%- when 'image' -%}
+              {%- if block.settings.image -%}
+                <span class="ann-image">
+                  {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{%- endif -%}
+                  <img src="{{ block.settings.image | image_url: width: 360 }}"
+                       alt="{{ block.settings.image.alt | escape }}"
+                       width="{{ block.settings.image_width }}"
+                       loading="lazy"
+                       style="width: {{ block.settings.image_width }}px;">
+                  {%- if block.settings.link != blank -%}</a>{%- endif -%}
+                </span>
+              {%- endif -%}
+
+          {%- endcase -%}
+        </div>
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    {%- comment -%}--- Render layout mode ---{%- endcomment -%}
+    {%- if layout == 'marquee' -%}
+      <div class="ann-marquee">
+        <div class="ann-marquee__track">
+          {{ block_contents }}
+          {{ block_contents }}
+          {{ block_contents }}
+          {{ block_contents }}
+        </div>
+      </div>
+    {%- else -%}
+      <div class="ann-slider" data-slider-speed="{{ slider_speed }}">
+        {%- if show_arrows and section.blocks.size > 1 -%}
+          <button class="ann-slider__arrow ann-slider__arrow--prev" type="button" aria-label="{{ 'sections.announcements.previous_announcement' | t }}">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 9L4.5 6L7.5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        {%- endif -%}
+
+        <div class="ann-slider__track">
+          {{ block_contents }}
+        </div>
+
+        {%- if show_arrows and section.blocks.size > 1 -%}
+          <button class="ann-slider__arrow ann-slider__arrow--next" type="button" aria-label="{{ 'sections.announcements.next_announcement' | t }}">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 3L7.5 6L4.5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+<script>
+  (function() {
+    var section = document.getElementById('shopify-section-{{ section.id }}');
+    if (!section) return;
+
+    /* --- Target filtering (skip in theme editor) --- */
+    {% unless request.design_mode %}
+      var blocks = section.querySelectorAll('[data-target-url-enabled], [data-target-referrer-enabled], [data-target-device-enabled]');
+      var path = window.location.pathname;
+      var ref = document.referrer;
+      var isMobile = window.innerWidth < 750;
+
+      blocks.forEach(function(block) {
+        var hide = false;
+        if (block.dataset.targetUrlEnabled === 'true' && block.dataset.targetUrl) {
+          var target = block.dataset.targetUrl;
+          if (path !== target && path !== target + '/' && path.replace(/\/$/, '') !== target.replace(/\/$/, '')) {
+            hide = true;
+          }
+        }
+        if (block.dataset.targetReferrerEnabled === 'true' && block.dataset.targetReferrer) {
+          if (!ref.includes(block.dataset.targetReferrer)) hide = true;
+        }
+        if (block.dataset.targetDeviceEnabled === 'true' && block.dataset.targetDevice) {
+          if (block.dataset.targetDevice === 'mobile' && !isMobile) hide = true;
+          if (block.dataset.targetDevice === 'desktop' && isMobile) hide = true;
+        }
+        if (hide) block.classList.add('ann-block-hidden');
+      });
+    {% endunless %}
+
+    /* --- Slider auto-rotation --- */
+    var slider = section.querySelector('.ann-slider');
+    if (slider) {
+      var allSlides = slider.querySelectorAll('.ann-slider__slide');
+      var speed = parseInt(slider.dataset.sliderSpeed, 10) * 1000;
+      var current = 0;
+      var interval;
+
+      function getVisibleSlides() {
+        return Array.from(allSlides).filter(function(s) {
+          return !s.classList.contains('ann-block-hidden');
+        });
+      }
+
+      function showSlide(index) {
+        var visible = getVisibleSlides();
+        if (visible.length === 0) return;
+        allSlides.forEach(function(s) { s.classList.remove('ann-active'); });
+        current = ((index % visible.length) + visible.length) % visible.length;
+        visible[current].classList.add('ann-active');
+      }
+
+      function startAutoplay() {
+        if (getVisibleSlides().length > 1) {
+          interval = setInterval(function() { showSlide(current + 1); }, speed);
+        }
+      }
+      function stopAutoplay() { clearInterval(interval); }
+
+      var prev = slider.querySelector('.ann-slider__arrow--prev');
+      var next = slider.querySelector('.ann-slider__arrow--next');
+      if (prev) prev.addEventListener('click', function() { stopAutoplay(); showSlide(current - 1); startAutoplay(); });
+      if (next) next.addEventListener('click', function() { stopAutoplay(); showSlide(current + 1); startAutoplay(); });
+
+      slider.addEventListener('mouseenter', stopAutoplay);
+      slider.addEventListener('mouseleave', startAutoplay);
+
+      /* Initialize: ensure first visible slide is active */
+      showSlide(0);
+      startAutoplay();
+    }
+
+    /* --- Free shipping message --- */
+    var freeShipBlocks = section.querySelectorAll('[data-free-shipping-block]');
+    if (freeShipBlocks.length > 0) {
+      var threshold = 59900;
+
+      function updateFreeShipping() {
+        fetch('/cart.js', { credentials: 'same-origin' })
+          .then(function(r) { return r.json(); })
+          .then(function(cart) {
+            var remaining = Math.max(0, threshold - cart.total_price);
+            freeShipBlocks.forEach(function(block) {
+              var template = block.dataset.freeShippingTemplate;
+              if (remaining > 0) {
+                var formatted = '₹' + Math.ceil(remaining / 100);
+                block.textContent = template.replace('||amount||', formatted);
+              } else {
+                block.textContent = 'You qualify for FREE shipping!';
+              }
+            });
+          })
+          .catch(function() {});
+      }
+
+      updateFreeShipping();
+      document.addEventListener('cart:updated', updateFreeShipping);
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Announcement Carousel",
+  "class": "announcement-bar-static",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "default": "marquee",
+      "options": [
+        {
+          "value": "slider",
+          "label": "Slider"
+        },
+        {
+          "value": "marquee",
+          "label": "Marquee"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_top_border",
+      "label": "Show top border",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bottom_border",
+      "label": "Show bottom border",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding",
+      "default": 10,
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Slider"
+    },
+    {
+      "type": "range",
+      "id": "slider_speed",
+      "label": "Autoplay speed",
+      "unit": "sec",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "default": 7
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show arrows",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Marquee"
+    },
+    {
+      "type": "range",
+      "id": "marquee_speed",
+      "label": "Autoplay speed",
+      "unit": "%",
+      "min": 50,
+      "max": 300,
+      "step": 25,
+      "default": 100
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Text direction",
+      "default": "ticker-ltr",
+      "options": [
+        { "value": "ticker-ltr", "label": "Left to right" },
+        { "value": "ticker-rtl", "label": "Right to left" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "text_caps",
+      "label": "Uppercase text",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Size",
+      "default": 100,
+      "min": 50,
+      "max": 500,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "label": "Letter spacing",
+      "default": 0,
+      "min": -25,
+      "max": 200,
+      "unit": "%",
+      "step": 25
+    },
+    {
+      "type": "range",
+      "id": "message_spacing",
+      "label": "Space between messages",
+      "info": "Marquee only",
+      "default": 25,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Text",
+      "alpha": true
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "alpha": true
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "alpha": true
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>New customers save 10% with code WELCOME10</p>",
+          "info": "Highlight one or two key words in your heading by italicizing them, then choose the highlight option below"
+        },
+        {
+          "type": "header",
+          "content": "Highlight"
+        },
+        {
+          "type": "select",
+          "id": "heading_highlight_type",
+          "label": "Type",
+          "default": "underline-hand-drawn",
+          "info": "The font choice for the \"Alternate font\" type can be configured in the theme typography settings.",
+          "options": [
+            { "value": "italics", "label": "Italics (no decoration)" },
+            { "value": "highlight", "label": "Highlight" },
+            { "value": "highlight-color", "label": "Text color" },
+            { "value": "underline", "label": "Underline (digital)" },
+            { "value": "underline-hand-drawn", "label": "Underline (hand-drawn)" },
+            { "value": "squiggle", "label": "Squiggle" },
+            { "value": "circle", "label": "Circle (digital)" },
+            { "value": "circle-hand-drawn", "label": "Circle (hand-drawn)" },
+            { "value": "stroke", "label": "Stroke (outlined text)" },
+            { "value": "alternate-font", "label": "Alternate font" }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Icon"
+        },
+        {
+          "type": "select",
+          "id": "icon_name",
+          "label": "Icon",
+          "default": "none",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "archive", "label": "Archive", "group": "Generic" },
+            { "value": "award", "label": "Award", "group": "Generic" },
+            { "value": "bee", "label": "Bee", "group": "Generic" },
+            { "value": "bell", "label": "Bell", "group": "Generic" },
+            { "value": "calendar", "label": "Calendar", "group": "Generic" },
+            { "value": "camera", "label": "Camera", "group": "Generic" },
+            { "value": "check", "label": "Check", "group": "Generic" },
+            { "value": "clipboard", "label": "Clipboard", "group": "Generic" },
+            { "value": "clock", "label": "Clock", "group": "Generic" },
+            { "value": "compass", "label": "Compass", "group": "Generic" },
+            { "value": "dollar-sign", "label": "Dollar sign", "group": "Generic" },
+            { "value": "download", "label": "Download", "group": "Generic" },
+            { "value": "flower", "label": "Flower", "group": "Generic" },
+            { "value": "gem", "label": "Gem", "group": "Generic" },
+            { "value": "heart", "label": "Heart", "group": "Generic" },
+            { "value": "key", "label": "Key", "group": "Generic" },
+            { "value": "leaf", "label": "Leaf", "group": "Generic" },
+            { "value": "lock", "label": "Lock", "group": "Generic" },
+            { "value": "mail", "label": "Mail", "group": "Generic" },
+            { "value": "map-pin", "label": "Map", "group": "Generic" },
+            { "value": "message", "label": "Message", "group": "Generic" },
+            { "value": "music", "label": "Music", "group": "Generic" },
+            { "value": "pencils", "label": "Pencils", "group": "Generic" },
+            { "value": "phone", "label": "Phone", "group": "Generic" },
+            { "value": "scientific", "label": "Scientific", "group": "Generic" },
+            { "value": "shield", "label": "Shield", "group": "Generic" },
+            { "value": "smile", "label": "Smile", "group": "Generic" },
+            { "value": "star", "label": "Star", "group": "Generic" },
+            { "value": "tree", "label": "Tree", "group": "Generic" },
+            { "value": "truck", "label": "Truck", "group": "Generic" },
+            { "value": "credit-card", "label": "Credit card", "group": "Commerce" },
+            { "value": "fair-trade", "label": "Fair trade", "group": "Commerce" },
+            { "value": "package", "label": "Package", "group": "Commerce" },
+            { "value": "storefront", "label": "Storefront", "group": "Commerce" },
+            { "value": "support", "label": "Support", "group": "Commerce" },
+            { "value": "eco-friendly", "label": "Eco friendly", "group": "Environment" },
+            { "value": "recycle", "label": "Recycle", "group": "Environment" },
+            { "value": "recycle-circle", "label": "Recycle circle", "group": "Environment" },
+            { "value": "reuseable", "label": "Reuseable", "group": "Environment" },
+            { "value": "cotton", "label": "Cotton", "group": "Fashion" },
+            { "value": "ethically-made", "label": "Ethically made", "group": "Fashion" },
+            { "value": "plant-based", "label": "Plant based", "group": "Fashion" },
+            { "value": "dishwasher-safe", "label": "Dishwasher safe", "group": "Food and Drink" },
+            { "value": "frozen", "label": "Frozen", "group": "Food and Drink" },
+            { "value": "non-gmo", "label": "Non GMO", "group": "Food and Drink" },
+            { "value": "organic", "label": "Organic", "group": "Food and Drink" },
+            { "value": "oven-safe", "label": "Oven safe", "group": "Food and Drink" },
+            { "value": "vegan", "label": "Vegan", "group": "Food and Drink" },
+            { "value": "vegetarian", "label": "Vegetarian", "group": "Food and Drink" },
+            { "value": "cruelty-free", "label": "Cruelty free", "group": "Health/Beauty" },
+            { "value": "fragrance-free", "label": "Fragrance free", "group": "Health/Beauty" },
+            { "value": "paw-heart", "label": "Paw heart", "group": "Health/Beauty" },
+            { "value": "phthalate-free", "label": "Phthalate free", "group": "Health/Beauty" },
+            { "value": "sulfate-free", "label": "Sulfate free", "group": "Health/Beauty" },
+            { "value": "use-by", "label": "Use by", "group": "Health/Beauty" }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Image",
+          "info": "If image set it will override the icon"
+        },
+        {
+          "type": "range",
+          "id": "icon_width",
+          "label": "Width",
+          "min": 20,
+          "max": 60,
+          "step": 1,
+          "unit": "px",
+          "default": 20
+        },
+        {
+          "type": "header",
+          "content": "Target page"
+        },
+        {
+          "id": "target_url_enabled",
+          "type": "checkbox",
+          "label": "Limit to specific page",
+          "info": "To target the home page, use \"/\" in the URL field"
+        },
+        {
+          "id": "target_url",
+          "type": "url",
+          "label": "Targeted page"
+        },
+        {
+          "type": "header",
+          "content": "Target referrer"
+        },
+        {
+          "id": "target_referrer_enabled",
+          "type": "checkbox",
+          "label": "Limit to specific referrer path"
+        },
+        {
+          "id": "target_referrer",
+          "type": "text",
+          "label": "Targeted referrer"
+        },
+        {
+          "type": "header",
+          "content": "Target device"
+        },
+        {
+          "id": "target_device_enabled",
+          "type": "checkbox",
+          "label": "Limit to desktop or mobile"
+        },
+        {
+          "type": "select",
+          "id": "target_device",
+          "label": "Device ",
+          "default": "mobile",
+          "options": [
+            { "value": "mobile", "label": "Only show on mobile" },
+            { "value": "desktop", "label": "Only show on desktop" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "name": "Free shipping message",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "message",
+          "label": "Message",
+          "info": "Use ||amount|| to display progress towards free shipping.",
+          "default": "Spend ||amount|| more for FREE shipping."
+        },
+        {
+          "type": "paragraph",
+          "content": "Navigate to \"Theme settings -> Cart -> Free shipping message\" to set the amount."
+        },
+        {
+          "type": "header",
+          "content": "Target page"
+        },
+        {
+          "id": "target_url_enabled",
+          "type": "checkbox",
+          "label": "Limit to specific page",
+          "info": "To target the home page, use \"/\" in the URL field"
+        },
+        {
+          "id": "target_url",
+          "type": "url",
+          "label": "Targeted page"
+        },
+        {
+          "type": "header",
+          "content": "Target referrer"
+        },
+        {
+          "id": "target_referrer_enabled",
+          "type": "checkbox",
+          "label": "Limit to specific referrer path"
+        },
+        {
+          "id": "target_referrer",
+          "type": "text",
+          "label": "Targeted referrer"
+        },
+        {
+          "type": "header",
+          "content": "Target device"
+        },
+        {
+          "id": "target_device_enabled",
+          "type": "checkbox",
+          "label": "Limit to desktop or mobile"
+        },
+        {
+          "type": "select",
+          "id": "target_device",
+          "label": "Device ",
+          "default": "mobile",
+          "options": [
+            { "value": "mobile", "label": "Only show on mobile" },
+            { "value": "desktop", "label": "Only show on desktop" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "custom",
+      "name": "Custom HTML",
+      "settings": [
+        {
+          "type": "html",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Custom HTML</p>"
+        },
+        {
+          "type": "header",
+          "content": "Target page"
+        },
+        {
+          "id": "target_url_enabled",
+          "type": "checkbox",
+          "label": "Limit to specific page",
+          "info": "To target the home page, use \"/\" in the URL field"
+        },
+        {
+          "id": "target_url",
+          "type": "url",
+          "label": "Targeted page"
+        },
+        {
+          "type": "header",
+          "content": "Target referrer"
+        },
+        {
+          "id": "target_referrer_enabled",
+          "type": "checkbox",
+          "label": "Limit to specific referrer path"
+        },
+        {
+          "id": "target_referrer",
+          "type": "text",
+          "label": "Targeted referrer"
+        },
+        {
+          "type": "header",
+          "content": "Target device"
+        },
+        {
+          "id": "target_device_enabled",
+          "type": "checkbox",
+          "label": "Limit to desktop or mobile"
+        },
+        {
+          "type": "select",
+          "id": "target_device",
+          "label": "Device ",
+          "default": "mobile",
+          "options": [
+            { "value": "mobile", "label": "Only show on mobile" },
+            { "value": "desktop", "label": "Only show on desktop" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "range",
+          "id": "image_width",
+          "label": "Width",
+          "unit": "px",
+          "min": 20,
+          "max": 180,
+          "step": 10,
+          "default": 100
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Carousel",
+      "blocks": [
+        {
+          "type": "text",
+          "settings": {
+            "text": "<p>New customers save 10% with code WELCOME10</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}

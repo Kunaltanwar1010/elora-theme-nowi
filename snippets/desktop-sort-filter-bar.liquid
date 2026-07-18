@@ -1,0 +1,214 @@
+{% comment %}
+  Desktop Sort/Filter Bar - Myntra Style
+  Renders a sticky header bar with back button, title, sort dropdown, and filter button
+  Desktop only (hidden on mobile via CSS)
+
+  Accepts:
+  - has_filters: {Boolean} Whether filters are available (required)
+  - title: {String} Page/collection title to display
+  - show_back_button: {Boolean} Show back navigation button (default: true)
+  - collection: {Object} Collection object for sort options
+  - current_sort: {String} Current sort value (e.g., 'best-selling')
+
+  Usage:
+  {% render 'desktop-sort-filter-bar',
+    has_filters: collection.filters.size > 0,
+    title: collection.title,
+    show_back_button: true,
+    collection: collection,
+    current_sort: collection.sort_by
+  %}
+{% endcomment %}
+
+{% if has_filters %}
+{%- liquid
+  # Default show_back_button to true
+  unless show_back_button == false
+    assign show_back_button = true
+  endunless
+
+  # Determine current sort label
+  assign current_sort_label = 'Featured'
+  case current_sort
+    when 'best-selling'
+      assign current_sort_label = 'Popular'
+    when 'created-descending'
+      assign current_sort_label = 'New Arrivals'
+    when 'price-ascending'
+      assign current_sort_label = 'Price: Low to High'
+    when 'price-descending'
+      assign current_sort_label = 'Price: High to Low'
+    when 'title-ascending'
+      assign current_sort_label = 'A to Z'
+    when 'title-descending'
+      assign current_sort_label = 'Z to A'
+  endcase
+-%}
+
+<div class="desktop-sort-filter-bar" data-desktop-sort-filter-bar>
+  <!-- Left: Back button + Title -->
+  <div class="desktop-sort-filter-bar__left">
+    {% if show_back_button %}
+    <button type="button" class="desktop-sort-filter-bar__back" onclick="history.back()" aria-label="Go back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    {% endif %}
+    {% if title and title != blank %}
+    <h2 class="desktop-sort-filter-bar__title">{{ title }}</h2>
+    {% endif %}
+  </div>
+
+  <!-- Right: Filter button + Sort dropdown -->
+  <div class="desktop-sort-filter-bar__right">
+    <!-- Filter Button - Opens sidebar on desktop -->
+    <button
+      type="button"
+      class="desktop-filter-btn"
+      data-open-desktop-filter
+      onclick="if(typeof openDesktopFilterSidebar === 'function') openDesktopFilterSidebar()"
+      aria-label="Open filter options"
+    >
+      <svg
+        class="desktop-sort-filter-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <line x1="4" y1="7" x2="20" y2="7" stroke-linecap="round"/>
+        <circle cx="9" cy="7" r="2" fill="white"/>
+        <line x1="4" y1="17" x2="20" y2="17" stroke-linecap="round"/>
+        <circle cx="15" cy="17" r="2" fill="white"/>
+      </svg>
+      <span>Filter</span>
+      <span class="desktop-filter-badge" data-filter-badge>0</span>
+    </button>
+
+    <!-- Sort Dropdown -->
+    <div class="desktop-sort-dropdown" data-sort-dropdown>
+      <button type="button" class="desktop-sort-dropdown__trigger" data-sort-dropdown-trigger>
+        <span>Sort by: <strong data-sort-label>{{ current_sort_label }}</strong></span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="desktop-sort-dropdown__menu" data-sort-dropdown-menu>
+        <button
+          type="button"
+          class="desktop-sort-dropdown__option {% if current_sort == blank or current_sort == 'manual' %}is-active{% endif %}"
+          data-sort-value="manual"
+        >
+          Featured
+        </button>
+        <button
+          type="button"
+          class="desktop-sort-dropdown__option {% if current_sort == 'best-selling' %}is-active{% endif %}"
+          data-sort-value="best-selling"
+        >
+          Popular
+        </button>
+        <button
+          type="button"
+          class="desktop-sort-dropdown__option {% if current_sort == 'created-descending' %}is-active{% endif %}"
+          data-sort-value="created-descending"
+        >
+          New Arrivals
+        </button>
+        <button
+          type="button"
+          class="desktop-sort-dropdown__option {% if current_sort == 'price-ascending' %}is-active{% endif %}"
+          data-sort-value="price-ascending"
+        >
+          Price: Low to High
+        </button>
+        <button
+          type="button"
+          class="desktop-sort-dropdown__option {% if current_sort == 'price-descending' %}is-active{% endif %}"
+          data-sort-value="price-descending"
+        >
+          Price: High to Low
+        </button>
+      </div>
+    </div>
+
+    <!-- Product Count -->
+    {% if collection %}
+      <span
+        class="desktop-sort-filter-bar__count"
+        data-product-count
+      >
+        {{ collection.products_count }} items
+      </span>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  // Desktop Sort Dropdown - Self-initializing
+  (function() {
+    const bar = document.querySelector('[data-desktop-sort-filter-bar]');
+    if (!bar) return;
+
+    const dropdown = bar.querySelector('[data-sort-dropdown]');
+    const trigger = bar.querySelector('[data-sort-dropdown-trigger]');
+    const menu = bar.querySelector('[data-sort-dropdown-menu]');
+    const sortLabel = bar.querySelector('[data-sort-label]');
+
+    if (!dropdown || !trigger || !menu) return;
+
+    // Toggle dropdown
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdown.classList.toggle('is-open');
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('is-open');
+      }
+    });
+
+    // Close on escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        dropdown.classList.remove('is-open');
+      }
+    });
+
+    // Handle sort option clicks
+    menu.querySelectorAll('[data-sort-value]').forEach(option => {
+      option.addEventListener('click', () => {
+        const sortValue = option.dataset.sortValue;
+        const label = option.textContent.trim();
+
+        // Update active state
+        menu.querySelectorAll('.desktop-sort-dropdown__option').forEach(opt => {
+          opt.classList.remove('is-active');
+        });
+        option.classList.add('is-active');
+
+        // Update label
+        if (sortLabel) {
+          sortLabel.textContent = label;
+        }
+
+        // Close dropdown
+        dropdown.classList.remove('is-open');
+
+        // Apply sort - use existing sort filter bar if available
+        if (window.collectionSortFilterBar) {
+          window.collectionSortFilterBar.applySort(sortValue);
+        } else {
+          // Fallback: update URL directly
+          const url = new URL(window.location.href);
+          url.searchParams.set('sort_by', sortValue);
+          window.location.href = url.toString();
+        }
+      });
+    });
+  })();
+</script>
+{% endif %}

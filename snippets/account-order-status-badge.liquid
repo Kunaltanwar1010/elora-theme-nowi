@@ -1,0 +1,81 @@
+{% comment %}
+  Renders a color-coded order status badge using combined status logic
+
+  Accepts:
+  - order: {Object} Order Liquid object (required)
+  - type: {String} 'fulfillment' or 'payment' (default: 'fulfillment')
+
+  Combined Status Logic (Priority Order):
+  1. Cancelled - order.cancelled == true
+  2. Delivered - Shipway tag "Delivered" present
+  3. Shipped - Shipway tags (Shipped/In Transit/Out for Delivery) OR fulfillment_status fulfilled/partial
+  4. Unpaid - financial_status pending/authorized/partially_paid
+  5. Processing - Default (paid, not shipped)
+
+  Usage:
+  {% render 'account-order-status-badge', order: order %}
+  {% render 'account-order-status-badge', order: order, type: 'payment' %}
+{% endcomment %}
+
+{%- liquid
+  assign badge_type = type | default: 'fulfillment'
+  assign status_class = 'bg-gray-100 text-gray-800'
+  assign status_label = ''
+  assign combined_status = 'processing'
+
+  # Calculate combined status using Shipway tags
+  assign order_tags_lower = order.tags | downcase
+
+  if order.cancelled
+    assign combined_status = 'cancelled'
+  elsif order_tags_lower contains 'delivered'
+    assign combined_status = 'delivered'
+  elsif order_tags_lower contains 'shipped' or order_tags_lower contains 'in transit' or order_tags_lower contains 'out for delivery'
+    assign combined_status = 'shipped'
+  elsif order.fulfillment_status == 'fulfilled' or order.fulfillment_status == 'partial'
+    assign combined_status = 'shipped'
+  elsif order.financial_status == 'pending' or order.financial_status == 'authorized' or order.financial_status == 'partially_paid'
+    assign combined_status = 'unpaid'
+  else
+    assign combined_status = 'processing'
+  endif
+
+  if badge_type == 'payment'
+    assign status_label = order.financial_status_label
+    case order.financial_status
+      when 'paid'
+        assign status_class = 'bg-green-100 text-green-800'
+      when 'pending'
+        assign status_class = 'bg-yellow-100 text-yellow-800'
+      when 'refunded'
+        assign status_class = 'bg-blue-100 text-blue-800'
+      when 'partially_refunded'
+        assign status_class = 'bg-orange-100 text-orange-800'
+      when 'voided'
+        assign status_class = 'bg-gray-100 text-gray-600'
+        assign status_label = 'Payment not received'
+    endcase
+  else
+    case combined_status
+      when 'cancelled'
+        assign status_class = 'bg-gray-100 text-gray-800'
+        assign status_label = 'Cancelled'
+      when 'delivered'
+        assign status_class = 'bg-green-100 text-green-800'
+        assign status_label = 'Delivered'
+      when 'shipped'
+        assign status_class = 'bg-blue-100 text-blue-800'
+        assign status_label = 'Shipped'
+      when 'unpaid'
+        assign status_class = 'bg-red-100 text-red-800'
+        assign status_label = 'Unpaid'
+      when 'processing'
+        assign status_class = 'bg-yellow-100 text-yellow-800'
+        assign status_label = 'Processing'
+    endcase
+  endif
+-%}
+
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium {{ status_class }}" data-order-status="{{ combined_status }}">
+  {{ status_label }}
+</span>

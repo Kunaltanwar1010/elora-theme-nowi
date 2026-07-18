@@ -1,0 +1,782 @@
+/* Search Landing Section - Myntra-style search page */
+
+/* Reset and base */
+.search-landing-page,
+.search-landing-page * {
+  box-sizing: border-box;
+}
+
+.search-landing-page {
+  min-height: 100vh;
+  background: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.search-landing-page .hidden {
+  display: none !important;
+}
+
+/* Hide default header on mobile */
+@media (max-width: 989px) {
+  body:has(.search-landing-page) .shopify-section-header-group,
+  body:has(.search-landing-page)
+    .section-header:not(.search-landing-page .section-header) {
+    display: none !important;
+  }
+}
+
+/* Sticky search bar */
+.search-landing-page .search-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+@media screen and (min-width: 750px) {
+  .search-landing-page .search-bar {
+    padding: 12px 3.2rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .search-landing-page .search-bar {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 12px 1.5rem;
+  }
+}
+
+.search-landing-page .search-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.search-landing-page .search-bar-inner predictive-search {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-landing-page .back-btn {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease, transform 0.15s ease;
+  color: #333;
+  text-decoration: none;
+}
+
+.search-landing-page .back-btn:hover {
+  background: #eaeaea;
+}
+
+.search-landing-page .back-btn:active {
+  transform: scale(0.95);
+}
+
+.search-landing-page .search-input-wrap {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+}
+
+.search-landing-page input[type="search"] {
+  width: 100%;
+  height: 44px;
+  padding: 0 90px 0 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 22px;
+  background: #fff;
+  font-size: 15px;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Remove focus styles */
+.search-landing-page input[type="search"]:focus {
+  border-color: #e0e0e0;
+  box-shadow: none;
+  outline: none;
+}
+
+/* Hide native clear button in Safari/Chrome */
+.search-landing-page input[type="search"]::-webkit-search-cancel-button,
+.search-landing-page input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.search-landing-page input[type="search"]::placeholder {
+  color: #999;
+}
+
+
+.search-landing-page .search-actions {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.search-landing-page .search-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #222;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease;
+}
+
+.search-landing-page .search-btn:hover {
+  background: #444;
+}
+
+.search-landing-page .search-btn:active {
+  transform: scale(0.95);
+}
+
+.search-landing-page .search-btn svg {
+  stroke: #fff;
+}
+
+.search-landing-page .reset__button {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+}
+
+.search-landing-page .reset__button svg {
+  stroke: #999;
+}
+
+.search-landing-page .reset__button:hover svg {
+  stroke: #666;
+}
+
+/* Content sections */
+.search-landing-page .search-content {
+  padding: 0;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.search-landing-page .search-section {
+  padding: 16px;
+}
+
+@media screen and (min-width: 750px) {
+  .search-landing-page .search-section {
+    padding: 16px 3.2rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .search-landing-page .search-section {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 16px 1.5rem;
+  }
+}
+
+.search-landing-page .search-section > h2 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Section header with title + link */
+.search-landing-page .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.search-landing-page .section-header h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #222;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.search-landing-page .view-all-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffbf00;
+  text-decoration: none;
+}
+
+/* Recent searches */
+.search-landing-page .recent-searches {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.search-landing-page .recent-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border: 1px solid #e5e5e5;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #333;
+}
+
+.search-landing-page .recent-chip a {
+  color: #333;
+  text-decoration: none;
+}
+
+.search-landing-page .recent-chip .delete-btn {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #999;
+}
+
+.search-landing-page .clear-all-btn {
+  font-size: 12px;
+  color: #999;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Suggestion chips */
+.search-landing-page .suggestions-section {
+  background: #fafafa;
+}
+
+.search-landing-page .suggestion-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.search-landing-page .suggestion-chip {
+  display: inline-block;
+  padding: 10px 16px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #333;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.search-landing-page .suggestion-chip:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.search-landing-page .recent-chip:hover {
+  background: #eee;
+}
+
+/* Trending section - compact list with circular thumbs */
+.search-landing-page .trending-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px;
+}
+
+.search-landing-page .trending-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  padding: 4px 0;
+}
+
+.search-landing-page .trending-item .rank {
+  width: 24px;
+  min-width: 24px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffbf00;
+  text-align: center;
+}
+
+.search-landing-page .trending-item .thumb {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f5f5f5;
+  transition: box-shadow 0.2s ease;
+}
+
+.search-landing-page .trending-item .thumb img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  display: block;
+}
+
+.search-landing-page .trending-item .title {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.4;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.search-landing-page .trending-item:hover .title {
+  color: #000;
+}
+
+.search-landing-page .trending-item:hover .thumb {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Product grid - 2 cols mobile, 4 cols desktop */
+.search-landing-page .featured-collection-section .product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .search-landing-page .featured-collection-section .product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
+/* Grid items */
+.search-landing-page .featured-collection-section .product-grid > li {
+  min-width: 0;
+}
+
+/* Hide quick buy and wishlist in featured collection only (not search results) */
+.search-landing-page .featured-collection-section .quick-buy-trigger,
+.search-landing-page .featured-collection-section .wishlist-icon-container {
+  display: none !important;
+}
+
+/* Search Results */
+.search-landing-page .search-results-view .product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .search-landing-page .search-results-view .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
+/* When filter sidebar is open, show 2 products per row */
+@media (min-width: 990px) {
+  .desktop-filter-layout:has(.desktop-filter-sidebar.is-open) .search-results-view .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+.search-landing-page .results-count {
+  font-size: 13px;
+  color: #666;
+  font-weight: 400;
+}
+
+.search-landing-page .no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.search-landing-page .no-results p {
+  margin: 0 0 8px 0;
+}
+
+.search-landing-page .pagination-wrapper {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Force images to not exceed container */
+.search-landing-page img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Predictive search container */
+.search-landing-page predictive-search {
+  position: relative;
+  display: block;
+}
+
+/* Predictive search inline - full width */
+.search-landing-page .predictive-search--inline {
+  position: fixed;
+  top: 69px;
+  left: 0;
+  right: 0;
+  max-height: calc(100vh - 69px);
+  background: #fff;
+  overflow-y: auto;
+  z-index: 90;
+  padding: 0;
+  border-top: 1px solid #f0f0f0;
+}
+
+
+.search-landing-page .predictive-search--inline:empty {
+  display: none;
+}
+
+/* Hide predictive search results when not open */
+.search-landing-page predictive-search:not([open]) .predictive-search--inline {
+  display: none;
+}
+
+/* Dim background when search is open */
+.search-landing-page predictive-search[open]::before {
+  content: '';
+  position: fixed;
+  top: 69px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 80;
+}
+
+/* Loading state */
+.search-landing-page .predictive-search__loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 16px;
+}
+
+.search-landing-page .predictive-search__loading-state svg {
+  width: 28px;
+  height: 28px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Predictive search styling overrides */
+.search-landing-page .predictive-search__results-groups-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  border: none;
+}
+
+/* Hide products section in predictive search */
+.search-landing-page .predictive-search__products-wrapper {
+  display: none;
+}
+
+.search-landing-page .predictive-search__result-group {
+  padding: 0;
+}
+
+.search-landing-page .predictive-search__heading {
+  font-size: 11px;
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 16px 16px 10px;
+  margin: 0;
+  background: #fafafa;
+}
+
+.search-landing-page .predictive-search__results-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Hide the "Search for X" button */
+.search-landing-page .predictive-search__search-for-button {
+  display: none;
+}
+
+/* Hide pages/articles wrapper for cleaner look */
+.search-landing-page .predictive-search__pages-wrapper {
+  display: none;
+}
+
+/* Hide products - show only text suggestions like Myntra */
+.search-landing-page #predictive-search-results-products-list,
+.search-landing-page #predictive-search-products,
+.search-landing-page .predictive-search__result-group:last-child {
+  display: none !important;
+}
+
+/* Search query suggestions styling */
+.search-landing-page #predictive-search-queries {
+  padding: 16px 16px 8px;
+  margin: 0;
+  background: #fafafa;
+  border: none;
+  font-size: 11px;
+  font-weight: 600;
+  color: #8a8a8a;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.search-landing-page #predictive-search-results-queries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  background: #fff;
+}
+
+.search-landing-page .predictive-search__list-item {
+  border-bottom: none;
+}
+
+.search-landing-page .predictive-search__item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  text-decoration: none;
+  color: #282c3f;
+  background: #fff;
+  border-bottom: 1px solid #f5f5f6;
+  transition: background 0.15s ease;
+}
+
+.search-landing-page .predictive-search__item:hover {
+  background: #fafafa;
+}
+
+.search-landing-page .predictive-search__item::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23535766' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/svg%3E") center/contain no-repeat;
+  flex-shrink: 0;
+}
+
+.search-landing-page .predictive-search__item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-landing-page .predictive-search__item-heading {
+  font-size: 14px;
+  font-weight: 400;
+  color: #282c3f;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Matched/typed text - slightly bold */
+.search-landing-page .predictive-search__item-heading mark {
+  background: none;
+  font-weight: 500;
+}
+
+/* Other text - lighter */
+.search-landing-page .predictive-search__item-heading span {
+  font-weight: 400;
+}
+
+/* Arrow icon on right - Myntra style */
+.search-landing-page .predictive-search__item::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23535766' stroke-width='2'%3E%3Cpath d='M7 17L17 7M17 7H7M17 7v10'/%3E%3C/svg%3E") center/contain no-repeat;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+/* Utility */
+.search-landing-page .visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+
+/* Add padding at bottom for fixed sort/filter bar (mobile) */
+.search-landing-page .search-results-view {
+  padding-bottom: 80px;
+}
+
+/* Desktop (990px+): No bottom padding needed since bar is at top */
+@media (min-width: 990px) {
+  .search-landing-page .search-results-view {
+    padding-bottom: 0;
+  }
+}
+
+/* Active filters bar */
+.search-landing-page .active-filters-bar {
+  padding: 0;
+}
+
+.search-landing-page .active-filters-bar.has-filters {
+  display: block !important;
+}
+
+.search-landing-page .active-filters-list {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 0.5rem;
+}
+
+.search-landing-page .active-filters-list::-webkit-scrollbar {
+  display: none;
+}
+
+.search-landing-page .filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 16px;
+  font-size: 1.2rem;
+  color: #374151;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.search-landing-page .filter-chip:hover {
+  background: #e5e7eb;
+}
+
+.search-landing-page .filter-chip-remove {
+  width: 1.4rem;
+  height: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  background: #d1d5db;
+}
+
+.search-landing-page .filter-chip-remove:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+.search-landing-page .filter-chip-remove svg {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+/* Search with filters layout */
+.search-landing-page .search-with-filters {
+  display: block;
+}
+
+/* Infinite Scroll Styles */
+.search-landing-page infinite-scroll {
+  display: block;
+}
+
+.search-landing-page infinite-scroll [data-infinite-scroll-spinner] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.search-landing-page infinite-scroll [data-infinite-scroll-spinner].hidden {
+  display: none;
+}
+
+.search-landing-page infinite-scroll [data-infinite-scroll-button] {
+  cursor: pointer;
+}
+
+.search-landing-page infinite-scroll [data-infinite-scroll-button].hidden {
+  display: none;
+}

@@ -1,0 +1,44 @@
+{% comment %}
+  Search Chip Component
+
+  Reusable chip component for recent searches and suggestion chips.
+
+  Accepts:
+  - label: {String} Chip text to display
+  - url: {String} Search URL (e.g., /search?q=jeans)
+  - show_delete: {Boolean} Show delete icon (for recent searches)
+  - delete_term: {String} Search term to delete (optional, for recent searches)
+
+  Usage:
+  {% render 'search-chip', label: 'jeans', url: '/search?q=jeans', show_delete: true, delete_term: 'jeans' %}
+  {% render 'search-chip', label: 'Men', url: '/search?q=men', show_delete: false %}
+{% endcomment %}
+
+{%- liquid
+  assign chip_label = label | default: ''
+  assign chip_url = url | default: '#'
+  assign chip_delete = show_delete | default: false
+  assign chip_delete_term = delete_term | default: chip_label
+-%}
+
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors">
+  <a
+    href="{{ chip_url }}"
+    class="text-sm font-medium text-gray-900 no-underline"
+  >
+    {{ chip_label }}
+  </a>
+
+  {%- if chip_delete -%}
+    <button
+      type="button"
+      class="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded-full hover:bg-gray-200 transition-colors"
+      data-delete-search="{{ chip_delete_term | escape }}"
+      aria-label="Delete search: {{ chip_delete_term | escape }}"
+    >
+      <svg class="w-3 h-3 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  {%- endif -%}
+</div>

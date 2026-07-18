@@ -1,0 +1,830 @@
+{% comment %}
+  Search Sort & Filter Bar Snippet
+  Mobile-optimized sticky bottom bar with SORT and FILTER buttons
+  Golden yellow (#FFBF00) primary color theme
+
+  Accepts:
+  - target_results: {Object} The search object containing filters and sort options
+
+  Usage:
+  {% render 'search-sort-filter-bar', target_results: search %}
+{% endcomment %}
+
+{%- liquid
+  assign target_collection = target_results
+  assign unique_id = 'search-' | append: now | date: '%s'
+-%}
+
+{% if target_results %}
+  <div class="collection-sort-filter-bar-enhanced section-collection-sort-filter-bar" data-section-id="{{ unique_id }}">
+    <!-- FILTER DRAWER -->
+    <div
+      id="filter-drawer-{{ unique_id }}"
+      class="filter-drawer fixed inset-0 z-[999] hidden"
+      aria-hidden="true"
+      role="dialog"
+      aria-label="Filter products"
+    >
+      <div
+        class="filter-drawer-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-400"
+        data-close-filter
+      ></div>
+
+      <div class="filter-drawer-sheet fixed inset-0 bg-white transform transition-transform duration-400 flex flex-col">
+        <!-- TOP HEADER -->
+        <div class="flex items-center justify-between px-5 py-4 shrink-0 bg-white">
+          <div>
+            <h2 class="font-bold text-gray-900 uppercase tracking-wide" style="font-size: 18px;">Filter</h2>
+            <p class="text-[#FFBF00] font-medium" style="font-size: 12px;" data-filter-count>0 filters applied</p>
+          </div>
+          <button
+            type="button"
+            class="text-[#FFBF00] font-semibold hover:text-[#E5AB00] transition-colors"
+            style="font-size: 14px;"
+            data-clear-filters-header
+          >
+            Clear All
+          </button>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="flex flex-1 overflow-hidden">
+          <!-- LEFT SIDEBAR - Filter Categories -->
+          <div class="w-1/3 bg-gray-50 overflow-y-auto shrink-0 border-r border-gray-200">
+            <div class="py-2">
+              {% if target_collection.filters.size > 0 %}
+                {% for filter in target_collection.filters %}
+                  {%- liquid
+                    assign filter_label_lower = filter.label | downcase
+                    if filter_label_lower contains 'availability' or filter_label_lower contains 'in stock' or filter_label_lower contains 'available'
+                      continue
+                    endif
+                  -%}
+                  <button
+                    type="button"
+                    class="filter-category-btn w-full text-left px-4 py-3.5 font-medium text-gray-600 hover:bg-white hover:text-gray-900 transition-all border-l-2 border-transparent flex items-center justify-between"
+                    style="font-size: 15px;"
+                    data-filter-category="{{ filter.label | handleize }}"
+                  >
+                    <span>{{ filter.label }}</span>
+                    <span
+                      class="filter-category-count text-[#FFBF00] font-semibold hidden"
+                      style="font-size: 11px;"
+                      data-category-count="{{ filter.label | handleize }}"
+                    ></span>
+                  </button>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- RIGHT CONTENT AREA -->
+          <div class="flex-1 flex flex-col bg-white overflow-hidden">
+            <div class="px-4 py-3 shrink-0 hidden" data-chips-container>
+              <div class="flex flex-wrap gap-2" data-filter-chips-list></div>
+            </div>
+
+            <div class="overflow-y-auto flex-1 overscroll-contain bg-white px-4 py-4">
+              {% if target_collection.filters.size == 0 %}
+                <div class="flex flex-col items-center justify-center py-20 px-6 text-center">
+                  <div class="w-24 h-24 bg-[#FFBF00]/10 rounded-full flex items-center justify-center mb-5">
+                    <svg
+                      class="w-12 h-12 text-[#FFBF00]"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M3 4h18M3 10h18M3 16h18" stroke-linecap="round"/>
+                      <circle cx="7" cy="10" r="2" fill="white"/>
+                      <circle cx="17" cy="16" r="2" fill="white"/>
+                    </svg>
+                  </div>
+                  <h3 class="text-2xl font-bold text-gray-900 mb-3">No Filters Available</h3>
+                  <p class="text-lg text-gray-600 max-w-sm leading-relaxed">
+                    Configure filters in your Shopify admin under <span class="font-bold">Search & Discovery</span>.
+                  </p>
+                </div>
+              {% else %}
+                {% for filter in target_collection.filters %}
+                  {%- liquid
+                    assign filter_label_lower = filter.label | downcase
+                    if filter_label_lower contains 'availability' or filter_label_lower contains 'in stock' or filter_label_lower contains 'available'
+                      continue
+                    endif
+                    assign is_color_filter = false
+                    if filter_label_lower contains 'color' or filter_label_lower contains 'colour'
+                      assign is_color_filter = true
+                    endif
+                  -%}
+
+                  <div class="filter-section" data-filter-section="{{ filter.label | handleize }}">
+                    {% case filter.type %}
+                      {% when 'boolean', 'list' %}
+                        {% if is_color_filter %}
+                          <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px 4px;">
+                            {% for value in filter.values %}
+                              {%- capture swatch_color -%}{%- render 'color-swatch-hex', color_label: value.label -%}{%- endcapture -%}
+                              {%- assign color_label_lower = value.label | downcase | strip -%}
+                              <label class="cursor-pointer group/swatch {% if value.count == 0 and value.active == false %}opacity-40 pointer-events-none{% endif %}" style="display: flex; flex-direction: column; align-items: center; overflow: hidden;">
+                                <input
+                                  type="checkbox"
+                                  class="filter-checkbox peer sr-only"
+                                  data-filter-param="{{ value.param_name }}"
+                                  data-filter-value="{{ value.value }}"
+                                  data-filter-label="{{ value.label | escape }}"
+                                  {% if value.active %}
+                                    checked
+                                  {% endif %}
+                                  {% if value.count == 0 and value.active == false %}
+                                    disabled
+                                  {% endif %}
+                                >
+                                <div
+                                  class="
+                                    rounded-full border-2 transition-all duration-200 relative
+                                    {% if color_label_lower == 'white' %}border-gray-300{% else %}border-transparent{% endif %}
+                                    group-hover/swatch:scale-110 group-hover/swatch:shadow-md
+                                  "
+                                  style="width: 44px; height: 44px; background: {{ swatch_color }};"
+                                >
+                                </div>
+                                <span class="text-gray-600" style="font-size: 10px; margin-top: 4px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center;">
+                                  {{- value.label -}}
+                                </span>
+                              </label>
+                            {% endfor %}
+                          </div>
+                        {% else %}
+                          <div class="space-y-0.5">
+                            {% for value in filter.values %}
+                              <label class="flex items-center gap-4 py-3.5 px-2 cursor-pointer hover:bg-gray-50 rounded-lg transition-all duration-150 active:bg-gray-100 {% if value.count == 0 and value.active == false %}opacity-40 pointer-events-none{% endif %}">
+                                <div class="relative flex items-center justify-center shrink-0">
+                                  <input
+                                    type="checkbox"
+                                    class="filter-checkbox peer w-6 h-6 border-2 border-gray-300 rounded-md checked:bg-[#FFBF00] checked:border-[#FFBF00] appearance-none cursor-pointer transition-all duration-200"
+                                    data-filter-param="{{ value.param_name }}"
+                                    data-filter-value="{{ value.value }}"
+                                    data-filter-label="{{ value.label | escape }}"
+                                    {% if value.active %}
+                                      checked
+                                    {% endif %}
+                                    {% if value.count == 0 and value.active == false %}
+                                      disabled
+                                    {% endif %}
+                                  >
+                                  <svg
+                                    class="absolute w-4 h-4 text-white pointer-events-none hidden peer-checked:block"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="3"
+                                  >
+                                    <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
+                                  </svg>
+                                </div>
+                                <span class="flex-1 text-gray-800" style="font-size: 15px;">{{ value.label }}</span>
+                                <span class="text-gray-400" style="font-size: 13px;">({{ value.count }})</span>
+                              </label>
+                            {% endfor %}
+                          </div>
+                        {% endif %}
+
+                      {% when 'price_range' %}
+                        <div class="px-6 py-4 pb-6">
+                          {%- assign price_min = filter.min_value.value | default: 0 | money_without_currency | replace: ',', '' -%}
+                          {%- assign price_max = filter.max_value.value | default: filter.range_max | money_without_currency | replace: ',', '' -%}
+                          {%- assign range_max = filter.range_max | money_without_currency | replace: ',', '' -%}
+
+                          {%- comment -%} Price Range Slider (dual-handle drag approach) {%- endcomment -%}
+                          {%- assign min_percent = price_min | times: 100.0 | divided_by: range_max | round -%}
+                          {%- assign max_price_percent = price_max | times: 100.0 | divided_by: range_max | round -%}
+                          {%- assign right_percent = 100 | minus: max_price_percent -%}
+                          <div class="price-slider-container mb-4" data-range-max="{{ range_max }}">
+                            <!-- Background track (gray) - &nbsp; prevents :empty hiding -->
+                            <span class="price-slider-bg">&nbsp;</span>
+                            <!-- Active track (yellow bar between handles) -->
+                            <span class="price-slider-track">&nbsp;</span>
+                            <!-- Min slider -->
+                            <input type="range" class="price-slider-min" min="0" max="{{ range_max }}" value="{{ price_min }}">
+                            <!-- Max slider -->
+                            <input type="range" class="price-slider-max" min="0" max="{{ range_max }}" value="{{ price_max }}">
+                          </div>
+
+                          <div class="flex gap-4 items-center">
+                            <div class="flex-1">
+                              <label class="block text-sm font-medium text-gray-600 mb-2">Min</label>
+                              <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-base font-normal"
+                                  >₹</span
+                                >
+                                <input
+                                  type="number"
+                                  class="price-min w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg text-base font-normal focus:border-[#FFBF00] focus:ring-2 focus:ring-[#FFBF00]/20 transition-all"
+                                  placeholder="0"
+                                  min="0"
+                                  max="{{ range_max }}"
+                                  value="{% if filter.min_value.value %}{{ filter.min_value.value | money_without_currency | replace: ',', '' }}{% endif %}"
+                                  data-price-param="min"
+                                >
+                              </div>
+                            </div>
+                            <span class="text-gray-400 mt-6">—</span>
+                            <div class="flex-1">
+                              <label class="block text-sm font-medium text-gray-600 mb-2">Max</label>
+                              <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-base font-normal"
+                                  >₹</span
+                                >
+                                <input
+                                  type="number"
+                                  class="price-max w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg text-base font-normal focus:border-[#FFBF00] focus:ring-2 focus:ring-[#FFBF00]/20 transition-all"
+                                  placeholder="{{ range_max }}"
+                                  min="0"
+                                  max="{{ range_max }}"
+                                  value="{% if filter.max_value.value %}{{ filter.max_value.value | money_without_currency | replace: ',', '' }}{% endif %}"
+                                  data-price-param="max"
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    {% endcase %}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM FOOTER -->
+        <div class="flex gap-3 px-4 py-4 border-t border-gray-200 shrink-0 bg-white">
+          <button
+            type="button"
+            class="w-1/3 py-3.5 border border-gray-300 rounded-full font-semibold text-gray-700 hover:bg-gray-50 transition-all active:scale-[0.98]"
+            style="font-size: 15px;"
+            data-close-filter
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            class="flex-1 py-3.5 bg-[#FFBF00] text-gray-900 rounded-full font-bold hover:bg-[#E5AB00] transition-all active:scale-[0.98] shadow-sm"
+            style="font-size: 15px;"
+            data-apply-filters
+          >
+            <span data-apply-text>Show {{ target_results.results_count }} Results</span>
+            <span data-apply-loading class="hidden">
+              <svg class="animate-spin h-5 w-5 mx-auto" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SORT DRAWER -->
+    <div
+      id="sort-drawer-{{ unique_id }}"
+      class="sort-drawer fixed inset-0 z-[999] hidden"
+      aria-hidden="true"
+      role="dialog"
+      aria-label="Sort products"
+    >
+      <div
+        class="sort-drawer-backdrop absolute inset-0 bg-black/60 transition-opacity duration-300"
+        data-close-sort
+      ></div>
+
+      <div class="sort-drawer-sheet absolute bottom-0 left-0 right-0 bg-white rounded-t-[28px] shadow-2xl transform transition-transform duration-300">
+        <div class="flex justify-center pt-3 pb-1">
+          <div class="w-10 h-1 bg-[#FFBF00] rounded-full"></div>
+        </div>
+
+        <div class="px-6 py-4 border-b border-gray-100">
+          <h2 class="text-base font-bold text-gray-900 uppercase tracking-wider">Sort by</h2>
+        </div>
+
+        <ul class="py-3 pb-10" role="radiogroup" aria-label="Sort options">
+          <li>
+            <button
+              type="button"
+              class="sort-option w-full text-left px-6 py-4 hover:bg-[#FFBF00]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99] {% if target_collection.sort_by == 'best-selling' %}bg-[#FFBF00]/10{% endif %}"
+              data-sort-value="best-selling"
+              role="radio"
+              aria-checked="{% if target_collection.sort_by == 'best-selling' %}true{% else %}false{% endif %}"
+            >
+              <span class="w-7 h-7 flex items-center justify-center text-gray-500 flex-shrink-0">
+                <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 23C17.5228 23 22 18.5228 22 13C22 10.0147 20.5726 7.36265 18.3455 5.64518C17.9788 5.37495 17.4534 5.46498 17.1831 5.83176C16.9129 6.19854 17.0029 6.72387 17.3697 6.99411C19.2031 8.42061 20.4 10.5756 20.4 13C20.4 17.6392 16.6392 21.4 12 21.4C7.36081 21.4 3.6 17.6392 3.6 13C3.6 8.69536 6.85242 5.15127 11.0254 4.66458C11.4671 4.61289 11.7982 4.22656 11.7465 3.78486C11.6948 3.34316 11.3085 3.01206 10.8668 3.06374C5.89431 3.6454 2 7.88107 2 13C2 18.5228 6.47715 23 12 23Z" fill="currentColor"/>
+                  <path d="M12 1C12.4418 1 12.8 1.35817 12.8 1.8V8.2C12.8 8.64183 12.4418 9 12 9C11.5582 9 11.2 8.64183 11.2 8.2V1.8C11.2 1.35817 11.5582 1 12 1Z" fill="currentColor"/>
+                  <path d="M15.6 4.6C15.6 5.04183 15.2418 5.4 14.8 5.4H12C11.5582 5.4 11.2 5.04183 11.2 4.6C11.2 4.15817 11.5582 3.8 12 3.8H14.8C15.2418 3.8 15.6 4.15817 15.6 4.6Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <span class="flex-1 text-[16px] font-medium {% if target_collection.sort_by == 'best-selling' %}text-gray-900 font-bold{% else %}text-gray-600{% endif %}"
+                >Popularity</span
+              >
+              {% if target_collection.sort_by == 'best-selling' %}
+                <svg class="w-6 h-6 text-[#FFBF00]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+              {% endif %}
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="sort-option w-full text-left px-6 py-4 hover:bg-[#FFBF00]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99] {% if target_collection.sort_by == 'created-descending' %}bg-[#FFBF00]/10{% endif %}"
+              data-sort-value="created-descending"
+              role="radio"
+              aria-checked="{% if target_collection.sort_by == 'created-descending' %}true{% else %}false{% endif %}"
+            >
+              <span class="w-7 h-7 flex items-center justify-center text-gray-500 flex-shrink-0">
+                <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L14.09 8.26L21 9.27L16 14.14L17.18 21.02L12 17.77L6.82 21.02L8 14.14L3 9.27L9.91 8.26L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span class="flex-1 text-[16px] font-medium {% if target_collection.sort_by == 'created-descending' %}text-gray-900 font-bold{% else %}text-gray-600{% endif %}"
+                >Latest</span
+              >
+              {% if target_collection.sort_by == 'created-descending' %}
+                <svg class="w-6 h-6 text-[#FFBF00]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+              {% endif %}
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="sort-option w-full text-left px-6 py-4 hover:bg-[#FFBF00]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99]"
+              data-sort-value="discount-descending"
+              role="radio"
+              aria-checked="false"
+            >
+              <span class="w-7 h-7 flex items-center justify-center text-gray-500 flex-shrink-0">
+                <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none">
+                  <circle cx="9" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5"/><circle cx="15" cy="15" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 18.5L18.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span class="flex-1 text-[16px] font-medium text-gray-600">Discount</span>
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="sort-option w-full text-left px-6 py-4 hover:bg-[#FFBF00]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99] {% if target_collection.sort_by == 'price-descending' %}bg-[#FFBF00]/10{% endif %}"
+              data-sort-value="price-descending"
+              role="radio"
+              aria-checked="{% if target_collection.sort_by == 'price-descending' %}true{% else %}false{% endif %}"
+            >
+              <span class="w-7 h-7 flex items-center justify-center text-gray-500 flex-shrink-0">
+                <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none">
+                  <text x="2" y="16" font-size="14" font-family="system-ui, sans-serif" font-weight="400" fill="currentColor">₹</text><path d="M18 8L18 16M18 8L15 11M18 8L21 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span class="flex-1 text-[16px] font-medium {% if target_collection.sort_by == 'price-descending' %}text-gray-900 font-bold{% else %}text-gray-600{% endif %}"
+                >Price: High to Low</span
+              >
+              {% if target_collection.sort_by == 'price-descending' %}
+                <svg class="w-6 h-6 text-[#FFBF00]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+              {% endif %}
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="sort-option w-full text-left px-6 py-4 hover:bg-[#FFBF00]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99] {% if target_collection.sort_by == 'price-ascending' %}bg-[#FFBF00]/10{% endif %}"
+              data-sort-value="price-ascending"
+              role="radio"
+              aria-checked="{% if target_collection.sort_by == 'price-ascending' %}true{% else %}false{% endif %}"
+            >
+              <span class="w-7 h-7 flex items-center justify-center text-gray-500 flex-shrink-0">
+                <svg class="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none">
+                  <text x="2" y="16" font-size="14" font-family="system-ui, sans-serif" font-weight="400" fill="currentColor">₹</text><path d="M18 16L18 8M18 16L15 13M18 16L21 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span class="flex-1 text-[16px] font-medium {% if target_collection.sort_by == 'price-ascending' %}text-gray-900 font-bold{% else %}text-gray-600{% endif %}"
+                >Price: Low to High</span
+              >
+              {% if target_collection.sort_by == 'price-ascending' %}
+                <svg class="w-6 h-6 text-[#FFBF00]" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+              {% endif %}
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] z-40 safe-area-bottom">
+      <div class="flex items-stretch divide-x divide-gray-200">
+        <button
+          type="button"
+          class="flex-1 flex flex-col items-center justify-center gap-2 py-4 text-gray-700 hover:text-[#FFBF00] hover:bg-[#FFBF00]/5 transition-all duration-300 active:scale-[0.97] relative group"
+          data-open-sort
+          aria-label="Open sort options"
+        >
+          <div class="relative">
+            <svg
+              class="w-7 h-7 transition-all duration-300 group-hover:scale-110 group-active:scale-90"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path d="M3 7h18M6 12h12M9 17h6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="text-sm font-bold tracking-wide uppercase transition-all duration-300">Sort</span>
+        </button>
+
+        <button
+          type="button"
+          class="flex-1 flex flex-col items-center justify-center gap-2 py-4 text-gray-700 hover:text-[#FFBF00] hover:bg-[#FFBF00]/5 transition-all duration-300 active:scale-[0.97] relative group"
+          data-open-filter
+          aria-label="Open filter options"
+        >
+          <div class="relative">
+            <svg
+              class="w-7 h-7 transition-all duration-300 group-hover:scale-110 group-active:scale-90"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <line x1="4" y1="7" x2="20" y2="7" stroke-linecap="round"/>
+              <circle cx="9" cy="7" r="2" fill="white"/>
+              <line x1="4" y1="17" x2="20" y2="17" stroke-linecap="round"/>
+              <circle cx="15" cy="17" r="2" fill="white"/>
+            </svg>
+            <span
+              class="active-badge absolute -top-1 -right-1 w-6 h-6 bg-[#FFBF00] text-white text-xs font-bold rounded-full items-center justify-center hidden shadow-md"
+              data-filter-badge
+              >0</span
+            >
+          </div>
+          <span class="text-sm font-bold tracking-wide uppercase transition-all duration-300">Filter</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="h-20"></div>
+  </div>
+
+  <style>
+    /* Drawer animations */
+    .filter-drawer.is-open,
+    .sort-drawer.is-open {
+      display: block;
+    }
+    .filter-drawer-backdrop,
+    .sort-drawer-backdrop {
+      opacity: 0;
+    }
+    .filter-drawer.is-open .filter-drawer-backdrop,
+    .sort-drawer.is-open .sort-drawer-backdrop {
+      opacity: 1;
+    }
+    /* Filter drawer slides from bottom */
+    .filter-drawer-sheet {
+      transform: translateY(100%);
+    }
+    .filter-drawer.is-open .filter-drawer-sheet {
+      transform: translateY(0);
+    }
+    /* Sort drawer slides from bottom */
+    .sort-drawer-sheet {
+      transform: translateY(100%);
+    }
+    .sort-drawer.is-open .sort-drawer-sheet {
+      transform: translateY(0);
+    }
+    /* Desktop overrides moved to component-desktop-sort-filter.css */
+    .safe-area-bottom {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .active-badge.show {
+      display: flex;
+      animation: badge-pop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    @keyframes badge-pop {
+      0% {
+        transform: scale(0);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.2);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.875rem;
+      background: linear-gradient(135deg, #fff9e6, #fff4d6);
+      border: 1.5px solid #ffbf00;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .filter-checkbox {
+      position: relative;
+      transition: all 0.25s;
+      min-width: 20px;
+      min-height: 20px;
+      flex-shrink: 0;
+    }
+    .filter-section {
+      display: none;
+    }
+    .filter-section.active {
+      display: block;
+    }
+    .filter-category-btn.active {
+      background-color: #fff;
+      color: #111827;
+      font-weight: 600;
+      border-left-color: #ffbf00;
+    }
+    /* ===== Price Slider (Dual-Handle) ===== */
+    /* Allow slider thumbs to overflow horizontally in scrollable container */
+    .filter-drawer .overflow-y-auto {
+      overflow-x: clip; /* Clip instead of hidden to allow positioned children */
+    }
+
+    .price-slider-container {
+      position: relative;
+      height: 40px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Gray background track */
+    .price-slider-bg {
+      display: block !important;
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      right: 10px;
+      height: 4px;
+      background: #e5e7eb !important;
+      border-radius: 2px;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+
+    /* Yellow active track (positioned between thumbs via JS) */
+    .price-slider-track {
+      display: block !important;
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      width: calc(100% - 20px); /* Default full width, JS will adjust */
+      height: 4px;
+      background: #FFBF00 !important;
+      border-radius: 2px;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+
+    /* Range inputs (stacked, only thumbs are interactive) */
+    .price-slider-min,
+    .price-slider-max {
+      position: absolute;
+      top: 0;
+      left: 10px;
+      width: calc(100% - 20px);
+      height: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent !important;
+      pointer-events: none;
+      z-index: 3;
+      margin: 0;
+      padding: 0;
+    }
+
+    .price-slider-max {
+      z-index: 4;
+    }
+
+    /* Webkit thumb (Chrome, Safari, Edge) */
+    .price-slider-min::-webkit-slider-thumb,
+    .price-slider-max::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #FFBF00;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      cursor: grab;
+      pointer-events: auto;
+    }
+
+    .price-slider-min:active::-webkit-slider-thumb,
+    .price-slider-max:active::-webkit-slider-thumb {
+      cursor: grabbing;
+      box-shadow: 0 2px 8px rgba(255,191,0,0.4);
+    }
+
+    /* Firefox thumb */
+    .price-slider-min::-moz-range-thumb,
+    .price-slider-max::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #FFBF00;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      cursor: grab;
+      pointer-events: auto;
+    }
+
+    .price-slider-min:active::-moz-range-thumb,
+    .price-slider-max:active::-moz-range-thumb {
+      cursor: grabbing;
+    }
+
+    /* Hide default track styling */
+    .price-slider-min::-webkit-slider-runnable-track,
+    .price-slider-max::-webkit-slider-runnable-track {
+      height: 4px;
+      background: transparent;
+    }
+
+    .price-slider-min::-moz-range-track,
+    .price-slider-max::-moz-range-track {
+      height: 4px;
+      background: transparent;
+    }
+
+    .price-slider-min:focus,
+    .price-slider-max:focus {
+      outline: none;
+    }
+    .filter-drawer-sheet,
+    .sort-drawer-sheet {
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #ProductGridContainer.loading {
+      position: relative;
+      pointer-events: none;
+    }
+    #ProductGridContainer.loading::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.7);
+      z-index: 10;
+    }
+    #ProductGridContainer.loading::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 40px;
+      height: 40px;
+      margin: -20px 0 0 -20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #ffbf00;
+      border-radius: 50%;
+      z-index: 11;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Enhanced filter chip styles with animation */
+    .filter-chip {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: chip-appear 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    @keyframes chip-appear {
+      0% {
+        transform: scale(0);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .filter-chip:hover {
+      background: linear-gradient(135deg, #FFF4D6 0%, #FFEAA6 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(255, 191, 0, 0.2);
+    }
+
+    .filter-chip button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.125rem;
+      height: 1.125rem;
+      border-radius: 9999px;
+      background: #FFBF00;
+      color: white;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .filter-chip button:hover {
+      background: #E5AB00;
+      transform: scale(1.15) rotate(90deg);
+    }
+
+    .filter-chip button:active {
+      transform: scale(0.95) rotate(90deg);
+    }
+
+    /* Loading state styles */
+    [data-apply-filters]:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    [data-apply-filters].loading {
+      pointer-events: none;
+    }
+
+    /* Enhanced checkbox animation */
+    .filter-checkbox {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .filter-checkbox:checked {
+      animation: checkbox-check 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    @keyframes checkbox-check {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.15);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* Smooth category transition */
+    .filter-section {
+      animation: section-slide 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes section-slide {
+      0% {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Hide scrollbar but keep functionality */
+    .overflow-y-auto::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .overflow-y-auto::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .overflow-y-auto::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 10px;
+    }
+
+    /* Color swatch hover effect */
+    .group\/swatch:hover .w-16 {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+
+  <script src="{{ 'collection-filter-ajax.js' | asset_url }}" defer></script>
+  <script src="{{ 'collection-sort-filter-bar.js' | asset_url }}" defer></script>
+{% endif %}

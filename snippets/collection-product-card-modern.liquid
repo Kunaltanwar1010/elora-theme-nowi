@@ -1,0 +1,193 @@
+{% comment %}
+  Modern product card for collection pages (Myntra-style)
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+  - collection: {Object} Collection object for URL context (optional)
+  - title_color: {String} Title text color hex (default: #1F2937)
+  - price_color: {String} Sale price color hex (default: #1F2937)
+  - original_price_color: {String} Original price color hex (default: #6B7280)
+  - discount_bg_color: {String} Discount badge background hex (default: #FFEDD5)
+  - discount_text_color: {String} Discount badge text hex (default: #C2410C)
+  - inline_discount_color: {String} Inline discount text color hex (default: #C2410C)
+  - title_font_size: {Number} Title font size in px (default: 14)
+  - title_font_weight: {String} Title font weight (default: 500)
+  - price_font_size: {Number} Sale price font size in px (default: 16)
+  - price_font_weight: {String} Sale price font weight (default: 700)
+  - original_price_font_size: {Number} Original price font size in px (default: 12)
+  - original_price_font_weight: {String} Original price font weight (default: 400)
+  - discount_font_size: {Number} Discount badge font size in px (default: 12)
+  - enable_quick_buy: {Boolean} Enable quick buy button (default: true)
+  - quick_buy_button_color: {String} Quick buy button background color (default: #111827)
+  - quick_buy_button_text_color: {String} Quick buy button text color (default: #ffffff)
+  - quick_buy_variant_font_size: {Number} Quick buy variant font size (default: 14)
+  - border_radius: {Number} Card border radius in px (uses global setting by default)
+
+  Usage:
+  {% render 'collection-product-card-modern', product: product, collection: collection %}
+{% endcomment %}
+
+{% if product %}
+  {%- liquid
+    assign has_compare = false
+    assign discount_percent = 0
+
+    if product.compare_at_price != blank and product.compare_at_price > 0
+      assign has_compare = true
+      assign discount_percent = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price
+    endif
+
+    # Set default colors and sizes from global settings if not provided
+    assign title_color = title_color | default: settings.modern_card_title_color | default: '#1F2937'
+    assign price_color = price_color | default: settings.modern_card_price_color | default: '#1F2937'
+    assign original_price_color = original_price_color | default: settings.modern_card_original_price_color | default: '#6B7280'
+    assign discount_bg_color = discount_bg_color | default: settings.modern_card_discount_bg_color | default: '#FFEDD5'
+    assign discount_text_color = discount_text_color | default: settings.modern_card_discount_text_color | default: '#C2410C'
+    assign inline_discount_color = inline_discount_color | default: settings.modern_card_inline_discount_color | default: '#F97316'
+
+    assign title_font_size = title_font_size | default: settings.modern_card_title_font_size | default: 14
+    assign title_font_weight = title_font_weight | default: settings.modern_card_title_font_weight | default: '500'
+    assign price_font_size = price_font_size | default: settings.modern_card_price_font_size | default: 14
+    assign price_font_weight = price_font_weight | default: settings.modern_card_price_font_weight | default: '700'
+    assign original_price_font_size = original_price_font_size | default: settings.modern_card_original_price_font_size | default: 12
+    assign original_price_font_weight = original_price_font_weight | default: settings.modern_card_original_price_font_weight | default: '400'
+    assign discount_font_size = discount_font_size | default: settings.modern_card_discount_font_size | default: 12
+
+    # Card border radius - use passed value or global setting
+    assign card_border_radius = border_radius | default: settings.modern_card_border_radius | default: 10
+
+    # Quick buy settings
+    assign enable_quick_buy = enable_quick_buy | default: settings.modern_card_enable_quick_buy | default: true
+    assign quick_buy_button_color = quick_buy_button_color | default: settings.modern_card_quick_buy_button_color | default: '#111827'
+    assign quick_buy_button_text_color = quick_buy_button_text_color | default: settings.modern_card_quick_buy_button_text_color | default: '#ffffff'
+    assign quick_buy_variant_font_size = quick_buy_variant_font_size | default: settings.modern_card_quick_buy_variant_font_size | default: 14
+    assign modal_id = 'QuickBuyModal-' | append: product.id
+  -%}
+
+  <div class="card-wrapper product-card-wrapper">
+  <a href="{{ product.url | within: collection }}" class="full-unstyled-link flex flex-col h-full group bg-white">
+    {% if product.featured_image %}
+      <div class="relative overflow-hidden bg-gray-50 mb-3 aspect-3/4" style="border-radius: {{ card_border_radius }}px;">
+        {{ product.featured_image | image_url: width: 640 | image_tag:
+          loading: 'lazy',
+          sizes: '(max-width: 749px) 50vw, 25vw',
+          widths: '320, 480, 640',
+          class: 'w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
+        }}
+
+        {% comment %} {% if show_overlay_badge %}
+          <!-- DISCOUNT BADGE OVERLAY (for discounts >= 40%) -->
+          <div class="absolute top-2 left-2 z-1">
+            <span class="inline-block px-3 py-2 font-semibold rounded-full shadow-sm" style="color: {{ discount_text_color }}; background-color: {{ discount_bg_color }}; font-size: {{ discount_font_size }}px;">
+              {{ discount_percent | round }}% Off
+            </span>
+          </div>
+        {% endif %} {% endcomment %}
+
+        {% unless product.available %}
+          <div class="absolute inset-0 bg-white/70 flex items-center justify-center">
+            <span class="bg-gray-900 text-white px-4 py-2 text-sm md:text-base font-semibold uppercase tracking-wide">
+              Sold Out
+            </span>
+          </div>
+        {% endunless %}
+
+        {%- comment -%} Quick Buy Button - Overlay on product image {%- endcomment -%}
+        {% if enable_quick_buy and product.available %}
+          {% if product.has_only_default_variant %}
+            {%- comment -%} Single variant product - add directly to cart {%- endcomment -%}
+            <button
+              type="button"
+              class="quick-buy-trigger"
+              onclick="addToCartDirect('{{ product.id }}', '{{ product.selected_or_first_available_variant.id }}', this, event)"
+              aria-label="Add {{ product.title | escape }} to cart"
+            >
+              <img src="{{ 'add-to-cart.png' | asset_url }}" alt="Add to cart" class="quick-buy-icon">
+            </button>
+          {% else %}
+            {%- comment -%} Multi-variant product - open modal for selection {%- endcomment -%}
+            <button
+              type="button"
+              class="quick-buy-trigger"
+              onclick="openQuickBuyModal('{{ modal_id }}', event)"
+              aria-label="Quick buy {{ product.title | escape }}"
+            >
+              <img src="{{ 'add-to-cart.png' | asset_url }}" alt="Add to cart" class="quick-buy-icon">
+            </button>
+          {% endif %}
+        {% endif %}
+
+        {%- comment -%} Fast Delivery Tag - shown when TAT = 2 {%- endcomment -%}
+        {%- assign tat_value = product.metafields.custom.tat.value -%}
+        {% if tat_value == 2 %}
+          <div class="absolute top-0 right-0 flex items-center gap-1 pl-4 pr-2 py-1 md:pl-5 md:pr-3 md:py-1.5 text-[#495060]" style="background: #ffd44d; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 8px 50%);">
+            <img src="{{ 'express-delivery.png' | asset_url }}" alt="Express" width="14" height="14" class="w-3.5 h-3.5 md:w-5 md:h-5">
+            <span class="font-semibold text-[9px] md:text-lg">Express</span>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="px-1 pb-6 pt-2 space-y-1 ">
+      <!-- TITLE + WISHLIST ICON: flex container with truncation -->
+      <div class="flex items-center gap-2 min-w-0">
+        <p class="truncate flex-1" style="color: {{ title_color }}; font-size: {{ title_font_size }}px; font-weight: {{ title_font_weight }};">
+          {{ product.title | escape }}
+        </p>
+        <!-- Swish wishlist button will be injected here -->
+        <div class="wishlist-icon-container shrink-0" onclick="event.stopPropagation(); event.preventDefault(); return false;"></div>
+      </div>
+
+      <!-- PRICING ROW (Selling Price + MRP + Discount) -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <span style="color: {{ price_color }}; font-size: {{ price_font_size }}px; font-weight: {{ price_font_weight }};">
+          {{ product.price | money_without_trailing_zeros | split: '.' | first }}
+        </span>
+        {%- if has_compare -%}
+          <s style="color: {{ original_price_color }}; font-size: {{ original_price_font_size }}px; font-weight: {{ original_price_font_weight }};">
+            {{ product.compare_at_price | money_without_trailing_zeros | split: '.' | first }}
+          </s>
+          {%- if discount_percent > 0 -%}
+            <span style="color: {{ inline_discount_color }}; font-size: {{ discount_font_size }}px; font-weight: 600;">
+              {{ discount_percent | round }}% Off
+            </span>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+
+      {%- if settings.coupon_enabled -%}
+        {%- liquid
+          assign cp_discount_percent = settings.coupon_discount_percent | default: 10
+          assign cp_max_discount = settings.coupon_max_discount | default: 1000
+          assign cp_max_discount_paise = cp_max_discount | times: 100
+          assign cp_calculated = product.price | times: cp_discount_percent | divided_by: 100
+          if cp_calculated > cp_max_discount_paise
+            assign cp_final_discount = cp_max_discount_paise
+          else
+            assign cp_final_discount = cp_calculated
+          endif
+          assign cp_final_price = product.price | minus: cp_final_discount
+          assign cp_final_price = cp_final_price | divided_by: 100 | times: 100
+        -%}
+        <div class="flex items-center gap-1 text-[11px] text-[#16a34a] font-semibold">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.41 11.58L12.41 2.58C12.05 2.22 11.55 2 11 2H4C2.9 2 2 2.9 2 4V11C2 11.55 2.22 12.05 2.59 12.42L11.59 21.42C11.95 21.78 12.45 22 13 22C13.55 22 14.05 21.78 14.41 21.41L21.41 14.41C21.78 14.05 22 13.55 22 13C22 12.45 21.77 11.94 21.41 11.58ZM5.5 7C4.67 7 4 6.33 4 5.5C4 4.67 4.67 4 5.5 4C6.33 4 7 4.67 7 5.5C7 6.33 6.33 7 5.5 7Z" fill="currentColor"/></svg>
+          <span>Get it at {{ cp_final_price | money_without_trailing_zeros | split: '.' | first }}</span>
+        </div>
+      {%- endif -%}
+
+    </div>
+  </a>
+
+  {%- comment -%} Quick Buy Modal - Only rendered for multi-variant products {%- endcomment -%}
+  {% if enable_quick_buy and product.available and product.has_only_default_variant == false %}
+    {% render 'quick-buy-modal',
+      product: product,
+      collection: collection,
+      button_color: quick_buy_button_color,
+      button_text_color: quick_buy_button_text_color,
+      variant_font_size: quick_buy_variant_font_size,
+      use_buy_now: true
+    %}
+  {% endif %}
+  </div>
+{% endif %}

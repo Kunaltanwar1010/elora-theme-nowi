@@ -1,0 +1,80 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "search-landing",
+      "blocks": {
+        "trending_item_W66KpH": {
+          "type": "trending_item",
+          "settings": {
+            "product": "nowi-women-argyle-checked-woollen-crop-sweater-vest_37851914"
+          }
+        },
+        "trending_item_3Tiw7f": {
+          "type": "trending_item",
+          "settings": {
+            "product": "nowi-animal-printed-cowl-neck-gathered-or-pleated-satin-top_37661899"
+          }
+        },
+        "trending_item_VPVN4T": {
+          "type": "trending_item",
+          "settings": {
+            "product": "nowi-women-bootcut-high-rise-light-fade-stretchable-jeans_37780036"
+          }
+        },
+        "trending_item_YMtYhf": {
+          "type": "trending_item",
+          "settings": {
+            "product": "nowi-cotton-double-breasted-coats_37863230-1"
+          }
+        },
+        "suggestion_chip_jjc7yb": {
+          "type": "suggestion_chip",
+          "settings": {
+            "label": "Dresses",
+            "search_term": "dress"
+          }
+        },
+        "suggestion_chip_BCLFxy": {
+          "type": "suggestion_chip",
+          "settings": {
+            "label": "Women Jackets",
+            "search_term": "women jacket"
+          }
+        },
+        "suggestion_chip_ynWiAt": {
+          "type": "suggestion_chip",
+          "settings": {
+            "label": "Women Coats",
+            "search_term": "Coat"
+          }
+        }
+      },
+      "block_order": [
+        "trending_item_W66KpH",
+        "trending_item_3Tiw7f",
+        "trending_item_VPVN4T",
+        "trending_item_YMtYhf",
+        "suggestion_chip_jjc7yb",
+        "suggestion_chip_BCLFxy",
+        "suggestion_chip_ynWiAt"
+      ],
+      "settings": {
+        "recent_searches_max": 5,
+        "featured_collection": "jackets",
+        "featured_products_count": 12
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

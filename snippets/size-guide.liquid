@@ -1,0 +1,20 @@
+{% comment %}
+  Renders a size guide button
+
+  Accepts:
+  - section_id: {String} Section ID for unique identification
+
+  Usage:
+  {% render 'size-guide', section_id: section.id %}
+{% endcomment %}
+
+<button
+  id="SizeGuideButton-{{ section_id }}"
+  class="size-guide-button link"
+  type="button"
+  aria-haspopup="dialog"
+  onclick="document.querySelector('#SizeGuideModal-{{ section_id }}').show(this)"
+>
+
+  <span class="size-guide-button__text">Size Guide</span>
+</button>

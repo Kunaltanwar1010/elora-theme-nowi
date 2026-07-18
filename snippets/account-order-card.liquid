@@ -1,0 +1,369 @@
+{% comment %}
+  Renders an order card with tracking, per-product layout, and action buttons
+  Modern Editorial style with navy + warm cream color palette
+
+  Accepts:
+  - order: {Object} Order Liquid object (required)
+  - show_reorder_button: {Boolean} Show reorder button (default: true)
+  - show_return_button: {Boolean} Show return button (default: true)
+
+  External Integrations:
+  - Tracking: Shipway (via order details page drawer)
+  - Returns: EZY Returns (https://nowi.fashion/apps/ezy/returns)
+  - Reviews: Judge.me (via email - popup directs users to check email)
+
+  Usage:
+  {% render 'account-order-card', order: order %}
+{% endcomment %}
+
+{%- liquid
+  assign show_reorder = show_reorder_button | default: true
+  assign show_return = show_return_button | default: true
+
+  # Check order status
+  assign order_tags_lower = order.tags | downcase
+  assign is_shipped = false
+  assign is_delivered = false
+  assign is_out_for_delivery = false
+
+  if order_tags_lower contains 'delivered'
+    assign is_delivered = true
+  elsif order_tags_lower contains 'out for delivery'
+    assign is_out_for_delivery = true
+  elsif order_tags_lower contains 'shipped' or order_tags_lower contains 'in transit'
+    assign is_shipped = true
+  elsif order.fulfillment_status == 'fulfilled' or order.fulfillment_status == 'partial'
+    assign is_shipped = true
+  endif
+
+  # Tracking URL - links to order details page where fulfillment data IS accessible
+  assign track_url = order.customer_url
+
+  # Get delivery timestamp from fulfillment (may be empty on list page)
+  assign tracking_company = ''
+  assign delivery_timestamp = ''
+  for fulfillment in order.fulfillments
+    assign tracking_company = fulfillment.tracking_company
+    assign delivery_timestamp = fulfillment.updated_at | date: '%s' | plus: 0
+  endfor
+
+  # Show track button for shipped or delivered orders
+  assign can_track = false
+  if is_shipped or is_delivered or is_out_for_delivery
+    if order.cancelled == false
+      assign can_track = true
+    endif
+  endif
+
+  # Calculate return window close date (7 days after delivery)
+  assign return_close_date = ''
+  assign can_return = false
+  if is_delivered and order.cancelled == false
+    assign delivery_date_meta = order.metafields.custom.delivery_date.value
+    if delivery_date_meta != blank
+      assign delivered_timestamp = delivery_date_meta | date: '%s' | plus: 0
+      assign return_close_timestamp = delivered_timestamp | plus: 604800
+      assign return_close_date = return_close_timestamp | date: '%a, %d %b'
+
+      assign now_timestamp = 'now' | date: '%s' | plus: 0
+      if now_timestamp < return_close_timestamp
+        assign can_return = true
+      endif
+    endif
+  endif
+
+  # Return URL
+  assign return_url = 'https://nowi.fashion/apps/ezy/returns'
+
+  # Build line items JSON for reorder
+  assign line_items_json = ''
+  for line_item in order.line_items
+    assign item_json = '{"id":' | append: line_item.variant_id | append: ',"quantity":' | append: line_item.quantity | append: '}'
+    if forloop.first == false
+      assign line_items_json = line_items_json | append: ','
+    endif
+    assign line_items_json = line_items_json | append: item_json
+  endfor
+  assign line_items_json = '[' | append: line_items_json | append: ']'
+
+  # Combined status for filtering
+  assign combined_status = 'processing'
+  if order.cancelled
+    assign combined_status = 'cancelled'
+  elsif is_delivered
+    assign combined_status = 'delivered'
+  elsif is_out_for_delivery
+    assign combined_status = 'out_for_delivery'
+  elsif is_shipped
+    assign combined_status = 'shipped'
+  elsif order.financial_status == 'pending' or order.financial_status == 'authorized' or order.financial_status == 'partially_paid'
+    assign combined_status = 'unpaid'
+  else
+    assign combined_status = 'processing'
+  endif
+
+  # Status badge class
+  assign status_badge_class = 'account-badge-neutral'
+  if combined_status == 'delivered'
+    assign status_badge_class = 'account-badge-accent'
+  elsif combined_status == 'shipped' or combined_status == 'out_for_delivery'
+    assign status_badge_class = 'account-badge-info'
+  elsif combined_status == 'unpaid'
+    assign status_badge_class = 'account-badge-error'
+  elsif combined_status == 'cancelled'
+    assign status_badge_class = 'account-badge-neutral'
+  elsif combined_status == 'processing'
+    assign status_badge_class = 'account-badge-warning'
+  endif
+
+  # Status label
+  assign status_label = 'Processing'
+  if combined_status == 'delivered'
+    assign status_label = 'Delivered'
+  elsif combined_status == 'shipped'
+    assign status_label = 'Shipped'
+  elsif combined_status == 'out_for_delivery'
+    assign status_label = 'Out for Delivery'
+  elsif combined_status == 'unpaid'
+    assign status_label = 'Unpaid'
+  elsif combined_status == 'cancelled'
+    assign status_label = 'Cancelled'
+  endif
+-%}
+
+<div class="account-card overflow-hidden" data-order-card="{{ order.id }}" data-order-status="{{ combined_status }}">
+  <!-- Order Header -->
+  <div class="account-order-header">
+    <div class="flex items-center gap-2">
+      <span class="account-overline">Order</span>
+      <span class="account-h3">{{ order.name }}</span>
+    </div>
+    <span class="account-badge {{ status_badge_class }}">{{ status_label }}</span>
+  </div>
+
+  <!-- Tracking Step Indicator -->
+  <div class="px-4 py-3" style="background: linear-gradient(180deg, var(--account-bg-secondary) 0%, transparent 100%); border-bottom: 1px solid var(--account-border-light);">
+    {% render 'order-tracking-steps', order: order, compact: true, show_labels: true %}
+  </div>
+
+  <!-- Per-Product Cards -->
+  <div style="border-color: var(--account-border-light);">
+    {%- for line_item in order.line_items -%}
+      <a href="{{ line_item.product.url }}" class="account-product-row group"{% unless forloop.last %} style="border-bottom: 1px solid var(--account-border-light);"{% endunless %}>
+        <!-- Product Image - Larger -->
+        <div class="account-product-image">
+          {%- if line_item.image -%}
+            <img
+              src="{{ line_item.image | image_url: width: 200 }}"
+              alt="{{ line_item.title | escape }}"
+              width="64"
+              height="85"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            >
+          {%- else -%}
+            <div class="w-full h-full flex items-center justify-center">
+              <svg class="w-6 h-6" style="color: var(--account-text-light);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+          {%- endif -%}
+        </div>
+
+        <!-- Product Details -->
+        <div class="flex-1 min-w-0 flex flex-col justify-center">
+          <p class="account-body line-clamp-2" style="font-weight: 500; color: var(--account-text-primary);">
+            {{ line_item.title }}
+          </p>
+          {%- unless line_item.product.has_only_default_variant -%}
+            <p class="account-body-sm mt-1">
+              Size: <span style="font-weight: 500;">{{ line_item.variant.title }}</span>
+            </p>
+          {%- endunless -%}
+
+          <!-- Price -->
+          <div class="mt-2 flex items-baseline gap-2">
+            {%- if line_item.original_line_price != line_item.final_line_price -%}
+              <span class="account-body" style="font-weight: 600; color: var(--account-status-success);">{{ line_item.final_line_price | money }}</span>
+              <span class="account-body-sm line-through" style="color: var(--account-text-light);">{{ line_item.original_line_price | money }}</span>
+            {%- else -%}
+              <span class="account-body" style="font-weight: 600; color: var(--account-text-primary);">{{ line_item.final_line_price | money }}</span>
+            {%- endif -%}
+          </div>
+        </div>
+
+        <!-- Arrow indicator -->
+        <div class="flex items-center shrink-0">
+          <svg class="w-4 h-4 account-arrow-icon" style="color: var(--account-text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </a>
+
+      {%- if is_delivered and forloop.last -%}
+        <!-- Return Window Info & Review Button - Only after last item -->
+        <div class="px-4 pb-4">
+          {%- if return_close_date != blank -%}
+            <div class="pt-3 mb-3" style="border-top: 1px solid var(--account-border-light);">
+              <p class="account-body-sm flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full" style="background: var(--account-text-light);"></span>
+                {%- if can_return -%}
+                  Return window closes on {{ return_close_date }}
+                {%- else -%}
+                  Return window closed on {{ return_close_date }}
+                {%- endif -%}
+              </p>
+            </div>
+          {%- endif -%}
+
+          <!-- Review Button -->
+          <button
+            type="button"
+            class="review-email-btn account-btn account-btn-accent account-btn-sm"
+          >
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+            Rate & Review
+          </button>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="account-order-actions">
+    {%- if show_reorder -%}
+      <button
+        type="button"
+        class="account-btn account-btn-secondary account-btn-sm reorder-btn"
+        data-order-id="{{ order.id }}"
+        data-line-items="{{ line_items_json | escape }}"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        Reorder
+      </button>
+    {%- endif -%}
+
+    {%- if show_return and can_return -%}
+      <a
+        href="{{ return_url }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="account-btn account-btn-secondary account-btn-sm"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 15v-1a4 4 0 00-4-4H8m0 0l3 3m-3-3l3-3" />
+        </svg>
+        Return
+      </a>
+    {%- endif -%}
+
+    <!-- View Details - Navy Primary Button -->
+    <a
+      href="{{ order.customer_url }}"
+      class="account-btn account-btn-primary account-btn-sm ml-auto"
+    >
+      View Details
+      <svg class="w-4 h-4 account-arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+      </svg>
+    </a>
+  </div>
+</div>
+
+<!-- Review Email Modal (rendered once, shared across all order cards) -->
+{%- unless review_email_modal_rendered -%}
+  {%- assign review_email_modal_rendered = true -%}
+  <div
+    id="ReviewEmailModal"
+    class="review-email-modal"
+    style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; background: rgba(11, 18, 32, 0.6); backdrop-filter: blur(4px);"
+    aria-hidden="true"
+    role="dialog"
+  >
+    <div class="flex items-center justify-center min-h-full p-4">
+      <div
+        class="account-card max-w-sm w-full p-6 text-center"
+        style="transform: scale(0.95); opacity: 0; transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);"
+        id="ReviewEmailModalContent"
+      >
+        <!-- Email Icon -->
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: var(--account-accent-soft);">
+          <svg class="w-8 h-8" style="color: var(--account-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </div>
+
+        <!-- Title -->
+        <h3 class="account-h1 mb-2">Check Your Email</h3>
+
+        <!-- Message -->
+        <p class="account-body-lg mb-6">
+          We've sent you a review link. Look for an email from Judge.me to share your feedback.
+        </p>
+
+        <!-- Button - Navy primary -->
+        <button
+          type="button"
+          id="ReviewEmailModalClose"
+          class="account-btn account-btn-primary w-full justify-center"
+        >
+          Got it
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const modal = document.getElementById('ReviewEmailModal');
+      const content = document.getElementById('ReviewEmailModalContent');
+      const closeBtn = document.getElementById('ReviewEmailModalClose');
+
+      function openModal() {
+        modal.style.display = 'block';
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => {
+          content.style.transform = 'scale(1)';
+          content.style.opacity = '1';
+        });
+      }
+
+      function closeModal() {
+        content.style.transform = 'scale(0.95)';
+        content.style.opacity = '0';
+        setTimeout(() => {
+          modal.style.display = 'none';
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }, 250);
+      }
+
+      // Bind all review buttons
+      document.querySelectorAll('.review-email-btn').forEach(btn => {
+        btn.addEventListener('click', openModal);
+      });
+
+      // Close button
+      closeBtn?.addEventListener('click', closeModal);
+
+      // Close on backdrop click
+      modal?.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.classList.contains('flex')) {
+          closeModal();
+        }
+      });
+
+      // Close on escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.style.display !== 'none') {
+          closeModal();
+        }
+      });
+    })();
+  </script>
+{%- endunless -%}

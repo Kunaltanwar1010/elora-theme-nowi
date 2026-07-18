@@ -1,0 +1,322 @@
+{{ 'tailwind.css' | asset_url | stylesheet_tag }}
+{{ 'account-modern.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="account-modern section-{{ section.id }}-padding">
+  <div class="page-width px-4 lg:px-6">
+    <!-- Desktop: Sidebar + Content Layout -->
+    <div class="account-page-layout">
+
+      <!-- Sidebar (Desktop only) -->
+      {% render 'account-sidebar', active_page: 'account' %}
+
+      <!-- Main Content -->
+      <div class="flex-1 min-w-0">
+        <!-- Profile Card -->
+        {% render 'account-profile-card', customer: customer, hide_logout: true %}
+
+        <!-- Orders Section -->
+        <section class="mt-6" id="orders">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="account-h1">{{ 'customer.orders.title' | t }}</h2>
+          </div>
+
+          <!-- Status Filter Tabs - New Design -->
+          <div class="mb-5">
+            <div class="order-filter-tabs" id="order-filter-tabs">
+              <button
+                type="button"
+                class="order-filter-tab"
+                data-filter="all"
+                data-active="true"
+              >
+                All
+                {%- if customer.orders_count > 0 -%}
+                  <span class="tab-count">{{ customer.orders_count }}</span>
+                {%- endif -%}
+              </button>
+              <button
+                type="button"
+                class="order-filter-tab"
+                data-filter="processing"
+              >
+                Processing
+              </button>
+              <button
+                type="button"
+                class="order-filter-tab"
+                data-filter="shipped"
+              >
+                Shipped
+              </button>
+              <button
+                type="button"
+                class="order-filter-tab"
+                data-filter="delivered"
+              >
+                Delivered
+              </button>
+              <button
+                type="button"
+                class="order-filter-tab"
+                data-filter="cancelled"
+              >
+                Cancelled
+              </button>
+            </div>
+          </div>
+
+          {% paginate customer.orders by section.settings.orders_per_page %}
+            {%- if customer.orders.size > 0 -%}
+              <!-- Orders List -->
+              <div class="space-y-4" id="orders-list">
+                {%- for order in customer.orders -%}
+                  {% render 'account-order-card',
+                    order: order,
+                    show_track_button: section.settings.show_track_button,
+                    show_reorder_button: section.settings.show_reorder_button,
+                    show_return_button: section.settings.show_return_button,
+                    return_window_days: section.settings.return_window_days
+                  %}
+                {%- endfor -%}
+              </div>
+
+              <!-- Empty state for filtered results -->
+              <div class="order-filter-empty account-card p-8 text-center" id="filter-empty-state">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style="background: var(--account-bg-secondary);">
+                  <svg class="w-8 h-8" style="color: var(--account-text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <p class="account-h2 mb-2">No orders found</p>
+                <p class="account-body">Try selecting a different filter.</p>
+              </div>
+
+              <!-- Pagination -->
+              {%- if paginate.pages > 1 -%}
+                <nav class="mt-10 lg:mt-12 flex justify-center" aria-label="{{ 'general.pagination.label' | t }}">
+                  <ul class="flex items-center gap-2" role="list">
+                    {%- if paginate.previous -%}
+                      <li>
+                        <a
+                          href="{{ paginate.previous.url }}"
+                          class="w-11 h-11 flex items-center justify-center rounded-full transition-colors"
+                          style="background: var(--account-bg-secondary); color: var(--account-text-secondary);"
+                          aria-label="{{ 'general.pagination.previous' | t }}"
+                        >
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                          </svg>
+                        </a>
+                      </li>
+                    {%- endif -%}
+
+                    {%- for part in paginate.parts -%}
+                      <li>
+                        {%- if part.is_link -%}
+                          <a
+                            href="{{ part.url }}"
+                            class="w-11 h-11 flex items-center justify-center rounded-full account-body transition-colors"
+                            style="color: var(--account-text-secondary);"
+                            aria-label="{{ 'general.pagination.page' | t: number: part.title }}"
+                          >
+                            {{ part.title }}
+                          </a>
+                        {%- else -%}
+                          {%- if part.title == paginate.current_page -%}
+                            <span
+                              class="w-11 h-11 flex items-center justify-center rounded-full account-body"
+                              style="background: var(--account-text-primary); color: white; font-weight: 600;"
+                              aria-current="page"
+                              aria-label="{{ 'general.pagination.page' | t: number: part.title }}"
+                            >
+                              {{ part.title }}
+                            </span>
+                          {%- else -%}
+                            <span class="w-11 h-11 flex items-center justify-center account-body" style="color: var(--account-text-light);">
+                              {{ part.title }}
+                            </span>
+                          {%- endif -%}
+                        {%- endif -%}
+                      </li>
+                    {%- endfor -%}
+
+                    {%- if paginate.next -%}
+                      <li>
+                        <a
+                          href="{{ paginate.next.url }}"
+                          class="w-11 h-11 flex items-center justify-center rounded-full transition-colors"
+                          style="background: var(--account-bg-secondary); color: var(--account-text-secondary);"
+                          aria-label="{{ 'general.pagination.next' | t }}"
+                        >
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                  </ul>
+                </nav>
+              {%- endif -%}
+            {%- else -%}
+              <!-- Empty State -->
+              <div class="account-card p-8 md:p-12 text-center">
+                <div class="w-20 h-20 md:w-24 md:h-24 mx-auto mb-5 md:mb-6 rounded-full flex items-center justify-center" style="background: var(--account-bg-secondary);">
+                  <svg class="w-10 h-10 md:w-12 md:h-12" style="color: var(--account-text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
+                </div>
+                <h3 class="account-h1 mb-3">{{ 'customer.orders.none' | t }}</h3>
+                <p class="account-body-lg mb-6 md:mb-8">Start shopping to see your orders here.</p>
+                <a
+                  href="{{ routes.all_products_collection_url }}"
+                  class="account-btn account-btn-primary account-btn-lg"
+                >
+                  Start Shopping
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+              </div>
+            {%- endif -%}
+          {% endpaginate %}
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'account-modern.js' | asset_url }}" defer="defer"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const filterTabs = document.querySelectorAll('.order-filter-tab');
+    const orderCards = document.querySelectorAll('[data-order-card]');
+    const emptyState = document.getElementById('filter-empty-state');
+
+    if (!filterTabs.length || !orderCards.length) return;
+
+    filterTabs.forEach((tab) => {
+      tab.addEventListener('click', function () {
+        const filter = this.dataset.filter;
+
+        // Update active tab
+        filterTabs.forEach((t) => t.removeAttribute('data-active'));
+        this.setAttribute('data-active', 'true');
+
+        // Filter orders
+        let visibleCount = 0;
+        orderCards.forEach((card) => {
+          const status = card.dataset.orderStatus;
+          if (filter === 'all' || status === filter) {
+            card.removeAttribute('data-filtered');
+            visibleCount++;
+          } else {
+            card.setAttribute('data-filtered', 'true');
+          }
+        });
+
+        // Show/hide empty state
+        if (emptyState) {
+          if (visibleCount === 0) {
+            emptyState.classList.add('visible');
+          } else {
+            emptyState.classList.remove('visible');
+          }
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Account Page (Modern)",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Order Display"
+    },
+    {
+      "type": "range",
+      "id": "orders_per_page",
+      "label": "Orders per page",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Quick Actions"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_track_button",
+      "label": "Show Track Order button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reorder_button",
+      "label": "Show Reorder button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_return_button",
+      "label": "Show Return/Exchange button",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "return_window_days",
+      "label": "Return window (days)",
+      "info": "Hide return button after this many days from delivery. Set to 0 to always show. Links to EZY Returns portal.",
+      "min": 0,
+      "max": 90,
+      "step": 1,
+      "default": 7
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}
