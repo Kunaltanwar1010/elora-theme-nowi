@@ -87,12 +87,16 @@
         "ts2",
         "ts3"
       ],
-      "settings": {}
+      "settings": {
+        "bg_color": "#fdf3f0",
+        "text_color": "#4a3b38",
+        "text_size": 12
+      }
     }
   },
   "order": [
+    "trust_strip",
     "header",
-    "header_custom_dAGVrR",
-    "trust_strip"
+    "header_custom_dAGVrR"
   ]
 }
