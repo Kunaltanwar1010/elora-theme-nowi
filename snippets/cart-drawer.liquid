@@ -256,9 +256,9 @@
       </div>
 
       {%- comment -%} Free shipping progress bar {%- endcomment -%}
-      {%- if cart != empty -%}
+      {%- assign free_shipping_threshold = settings.free_shipping_threshold | default: 599 | times: 100 -%}
+      {%- if cart != empty and free_shipping_threshold > 0 -%}
         {%- liquid
-          assign free_shipping_threshold = 59900
           assign cart_total = cart.total_price
           assign remaining = free_shipping_threshold | minus: cart_total
 

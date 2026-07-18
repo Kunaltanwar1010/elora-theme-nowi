@@ -1,0 +1,113 @@
+{% comment %}
+  Trust micro-strip — thin bar below the header with 2–4 trust points
+  e.g. "Easy 5-Day Exchange | 2–6 Day Delivery | COD Available"
+{% endcomment %}
+
+<style>
+  #shopify-section-{{ section.id }} .trust-strip {
+    background: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    font-size: {{ section.settings.text_size }}px;
+    letter-spacing: 0.02em;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  #shopify-section-{{ section.id }} .trust-strip::-webkit-scrollbar { display: none; }
+  #shopify-section-{{ section.id }} .trust-strip__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1.2rem;
+    white-space: nowrap;
+  }
+  #shopify-section-{{ section.id }} .trust-strip__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  #shopify-section-{{ section.id }} .trust-strip__sep {
+    opacity: 0.4;
+  }
+</style>
+
+{%- if section.blocks.size > 0 -%}
+  <div class="trust-strip" role="region" aria-label="Store highlights">
+    <div class="trust-strip__inner">
+      {%- for block in section.blocks -%}
+        <span class="trust-strip__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.emoji != blank -%}<span aria-hidden="true">{{ block.settings.emoji }}</span>{%- endif -%}
+          {{ block.settings.text | escape }}
+        </span>
+        {%- unless forloop.last -%}<span class="trust-strip__sep" aria-hidden="true">|</span>{%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Trust Strip",
+  "class": "trust-strip-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#FDF3F0"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#4A3B38"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Trust point",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Easy 5-Day Exchange"
+        },
+        {
+          "type": "text",
+          "id": "emoji",
+          "label": "Emoji / icon (optional)",
+          "info": "e.g. 🔄 🚚 💵"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Trust Strip",
+      "blocks": [
+        { "type": "item", "settings": { "text": "Easy 5-Day Exchange", "emoji": "🔄" } },
+        { "type": "item", "settings": { "text": "2–6 Day Delivery", "emoji": "🚚" } },
+        { "type": "item", "settings": { "text": "COD Available", "emoji": "💵" } }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"],
+    "templates": ["*"]
+  }
+}
+{% endschema %}

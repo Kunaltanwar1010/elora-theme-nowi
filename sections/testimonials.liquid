@@ -1,0 +1,304 @@
+{% comment %}
+  Testimonials + Social Proof
+  - Counter headline ("Loved by 10,000+ girls 💕")
+  - Review cards: optional customer photo, star rating, quote, name + city
+  - Optional UGC marquee strip (#WearElora) of customer/influencer images
+
+  Blocks: "review" (cards) and "ugc_image" (marquee images).
+{% endcomment %}
+
+<style>
+  #shopify-section-{{ section.id }} .tsm {
+    padding: {{ section.settings.padding_y }}px 0;
+    background: {{ section.settings.bg_color }};
+  }
+  #shopify-section-{{ section.id }} .tsm__heading {
+    text-align: center;
+    font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+    margin: 0 0 0.6rem;
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .tsm__subheading {
+    text-align: center;
+    font-size: 1.4rem;
+    margin: 0 0 2.4rem;
+    color: {{ section.settings.heading_color }};
+    opacity: 0.7;
+  }
+  #shopify-section-{{ section.id }} .tsm__track {
+    display: flex;
+    gap: 1.2rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0 1.5rem;
+  }
+  #shopify-section-{{ section.id }} .tsm__track::-webkit-scrollbar { display: none; }
+  #shopify-section-{{ section.id }} .tsm__card {
+    flex: 0 0 78%;
+    max-width: 320px;
+    scroll-snap-align: start;
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.6rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+  #shopify-section-{{ section.id }} .tsm__photo {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1.2rem;
+  }
+  #shopify-section-{{ section.id }} .tsm__stars {
+    color: #F6A623;
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.8rem;
+  }
+  #shopify-section-{{ section.id }} .tsm__quote {
+    font-size: 1.4rem;
+    line-height: 1.5;
+    color: #3A2E2B;
+    margin: 0 0 1.2rem;
+  }
+  #shopify-section-{{ section.id }} .tsm__author {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #3A2E2B;
+  }
+  #shopify-section-{{ section.id }} .tsm__city {
+    font-weight: 400;
+    opacity: 0.6;
+  }
+  /* UGC marquee */
+  #shopify-section-{{ section.id }} .tsm__marquee {
+    margin-top: 2.8rem;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .tsm__marquee-tag {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin: 0 0 1.2rem;
+    color: {{ section.settings.heading_color }};
+  }
+  #shopify-section-{{ section.id }} .tsm__marquee-track {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+    animation: tsm-scroll {{ section.settings.marquee_speed }}s linear infinite;
+  }
+  #shopify-section-{{ section.id }} .tsm__marquee:hover .tsm__marquee-track { animation-play-state: paused; }
+  #shopify-section-{{ section.id }} .tsm__marquee-track img {
+    width: 14rem;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+  @keyframes tsm-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .tsm__marquee-track { animation: none; }
+    #shopify-section-{{ section.id }} .tsm__marquee { overflow-x: auto; }
+  }
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .tsm__track {
+      max-width: var(--page-width);
+      margin: 0 auto;
+      padding: 0 5rem;
+    }
+    #shopify-section-{{ section.id }} .tsm__card { flex: 0 0 30%; }
+    #shopify-section-{{ section.id }} .tsm__marquee-track img { width: 18rem; }
+  }
+</style>
+
+{%- liquid
+  assign review_blocks = section.blocks | where: 'type', 'review'
+  assign ugc_blocks = section.blocks | where: 'type', 'ugc_image'
+-%}
+
+<div class="tsm">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="tsm__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+  {%- if section.settings.subheading != blank -%}
+    <p class="tsm__subheading">{{ section.settings.subheading }}</p>
+  {%- endif -%}
+
+  {%- if review_blocks.size > 0 -%}
+    <div class="tsm__track">
+      {%- for block in review_blocks -%}
+        <div class="tsm__card" {{ block.shopify_attributes }}>
+          {%- if block.settings.photo -%}
+            <img class="tsm__photo"
+              src="{{ block.settings.photo | image_url: width: 480 }}"
+              srcset="{{ block.settings.photo | image_url: width: 320 }} 320w, {{ block.settings.photo | image_url: width: 480 }} 480w, {{ block.settings.photo | image_url: width: 640 }} 640w"
+              sizes="(min-width: 750px) 320px, 78vw"
+              alt="{{ block.settings.name | escape }}'s photo review"
+              loading="lazy"
+              width="{{ block.settings.photo.width }}"
+              height="{{ block.settings.photo.height }}">
+          {%- endif -%}
+          <div class="tsm__stars" aria-label="{{ block.settings.stars }} out of 5 stars">
+            {%- for i in (1..block.settings.stars) -%}★{%- endfor -%}
+            {%- assign empty_stars = 5 | minus: block.settings.stars -%}
+            {%- if empty_stars > 0 -%}{%- for i in (1..empty_stars) -%}☆{%- endfor -%}{%- endif -%}
+          </div>
+          <p class="tsm__quote">{{ block.settings.quote }}</p>
+          <p class="tsm__author">
+            {{ block.settings.name | escape }}
+            {%- if block.settings.city != blank -%}
+              <span class="tsm__city"> · {{ block.settings.city | escape }}</span>
+            {%- endif -%}
+          </p>
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- if ugc_blocks.size > 0 -%}
+    <div class="tsm__marquee">
+      {%- if section.settings.marquee_tag != blank -%}
+        <p class="tsm__marquee-tag">{{ section.settings.marquee_tag | escape }}</p>
+      {%- endif -%}
+      <div class="tsm__marquee-track">
+        {%- for i in (1..2) -%}
+          {%- for block in ugc_blocks -%}
+            {%- if block.settings.image -%}
+              <img src="{{ block.settings.image | image_url: width: 360 }}"
+                alt="{{ block.settings.image.alt | default: 'Elora customer photo' | escape }}"
+                loading="lazy"
+                width="180" height="225"
+                {% if i == 1 %}{{ block.shopify_attributes }}{% endif %}>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Loved by 10,000+ girls 💕"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "obsessed? same."
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#3A2E2B"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#FDF3F0"
+    },
+    {
+      "type": "text",
+      "id": "marquee_tag",
+      "label": "UGC strip hashtag",
+      "default": "#WearElora"
+    },
+    {
+      "type": "range",
+      "id": "marquee_speed",
+      "label": "UGC marquee speed",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "default": 30,
+      "info": "Seconds per loop — lower is faster"
+    },
+    {
+      "type": "range",
+      "id": "padding_y",
+      "label": "Vertical padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "photo",
+          "label": "Customer photo (optional)"
+        },
+        {
+          "type": "range",
+          "id": "stars",
+          "label": "Star rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Review text",
+          "default": "<p>we made this for your Sunday brunch era — and it delivered ✨</p>"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Priya"
+        },
+        {
+          "type": "text",
+          "id": "city",
+          "label": "City",
+          "default": "Mumbai"
+        }
+      ]
+    },
+    {
+      "type": "ugc_image",
+      "name": "UGC image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review", "settings": { "name": "Ananya", "city": "Delhi", "quote": "<p>fits like a dream, the quality is unreal for the price 🎀</p>" } },
+        { "type": "review", "settings": { "name": "Sneha", "city": "Bangalore", "quote": "<p>wore it on my birthday and felt like the main character ❤️</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
