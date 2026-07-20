@@ -1,8 +1,3 @@
-{% render 'category-visibility-wrapper',
-  show_in_all_categories: section.settings.show_in_all_categories,
-  category_only_show_for: section.settings.category_only_show_for,
-  tag_type: 'open'
-%}
 <div class="hero-carousel-wrapper" id="hero-carousel-{{ section.id }}">
   <div class="swiper hero-swiper hero-swiper-{{ section.id }}">
     <div class="swiper-wrapper">
@@ -193,8 +188,6 @@
   })();
 </script>
 
-{% render 'category-visibility-wrapper', tag_type: 'close' %}
-
 {% schema %}
 {
   "name": "Hero Carousel",
@@ -285,33 +278,6 @@
       "unit": "vh",
       "label": "Height on mobile",
       "default": 50
-    },
-    {
-      "type": "header",
-      "content": "Category visibility"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_in_all_categories",
-      "label": "Show in all categories",
-      "default": true
-    },
-    {
-      "type": "select",
-      "id": "category_only_show_for",
-      "label": "Show only for",
-      "options": [
-        {
-          "value": "men",
-          "label": "Men"
-        },
-        {
-          "value": "women",
-          "label": "Women"
-        }
-      ],
-      "default": "men",
-      "info": "Used when the section should appear for a single category."
     }
   ],
   "blocks": [

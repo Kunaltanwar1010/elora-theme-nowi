@@ -12,6 +12,18 @@ Base: Dawn 15.4.0. Dev theme 148035436623. Never push to 147811172431.
 
 ## [Unreleased]
 
+### 2026-07-20 — Phase 5: kill two-tab system + rebuild homepage (structure)
+**What:** Removed the nowi men/women tab architecture and rebuilt `templates/index.json` as the women-only Elora homepage.
+**Killed:** de-gated `hero-carousel`, `collection-grid`, `category-carousel` (removed the `category-visibility-wrapper` renders + `show_in_all_categories`/`category_only_show_for` schema settings); removed the render-blocking `category-detection.js` from `theme.liquid` head (ParserBlockingScript 5→4); deleted `homepage-category-nav.liquid`, `trending-carousel.liquid`, `announcement-bar-heroimage.liquid`, `category-visibility-wrapper.liquid`, `category-detection.js`, `category-nav.js`.
+**New homepage order:** hero → Best Sellers → Shop by Collection → Tops banner+grid → Dresses banner+grid → Co-ords banner+grid → Testimonials → Trust Marquee. All independent, reorderable instances.
+**New file:** recreated `sections/image-banner.liquid` (purged in Phase 2) — desktop/mobile image, overlay heading/subline/CTA, height (vh) desktop+mobile, 9-point text position, overlay opacity, maroon CTA.
+**Verify:** homepage shows the new order; `shopify theme check` = 0 new errors.
+**Notes / TODO (Phase 5 remaining):** (1) **5.1 hero** needs slide heading/subheading/CTA-text/text-position/overlay fields + first-slide LCP `fetchpriority="high"`. (2) **5.10 testimonials** + **5.12 footer** rebuilds pending (need screenshots). (3) collection handles are best-guess (`new-arrivals`/`tops`/`dresses`/`co-ords`) — merchant repoints. (4) merchant had moved the social-proof bar into the homepage body; rebuild removes it (belongs in header-group) — flag to restore. (5) `category-carousel` kept (de-gated, unused by homepage); `category-card` kept (used by it).
+
+### 2026-07-20 — Phase 5.11: trust marquee section + preset trust icons
+**What:** New `sections/trust-marquee.liquid` (seamless CSS-only marquee — two duplicated groups + `translateX(-50%)`, reduced-motion → static row) and `snippets/trust-icons.liquid` (8 preset 1.5px-stroke `currentColor` SVGs: free-shipping, COD, exchange, secure-payment, quality, made-in-India, support, original). Uploaded image overrides the preset per badge.
+**Files:** `sections/trust-marquee.liquid`, `snippets/trust-icons.liquid`.
+
 ### 2026-07-20 — Fix stretched header logo
 **What:** An uploaded logo rendered stretched/distorted. Root cause: the Phase 4 logo markup set an inline fixed `width: {logo_width}px` while the existing CSS also capped it with `max-height: 40px` — a fixed width + smaller max-height forces the browser to distort the aspect ratio. (`height="auto"` was also an invalid HTML attribute.)
 **Fix:** both logo `<img>`s now bound size with `max-width` (= the width setting) + `max-height` (48px desktop / 36px mobile) and keep `width/height: auto`, so the aspect ratio is always preserved — it can neither stretch nor blow out the header height. Added the logo's natural `width`/`height` attributes (aspect-ratio hint, no CLS, resolves the ImgWidthAndHeight lint).

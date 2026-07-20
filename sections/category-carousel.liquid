@@ -100,12 +100,6 @@
   }
 </style>
 
-{% render 'category-visibility-wrapper',
-  show_in_all_categories: section.settings.show_in_all_categories,
-  category_only_show_for: section.settings.category_only_show_for,
-  tag_type: 'open'
-%}
-
 <section class="category-carousel-section">
   <div class="container">
     {% if total_items > 0 %}
@@ -177,8 +171,6 @@
     }
   })();
 </script>
-
-{% render 'category-visibility-wrapper', tag_type: 'close' %}
 
 {% schema %}
 {
@@ -271,34 +263,6 @@
       "id": "subtitle_color",
       "label": "Subtitle text color",
       "default": "#111111"
-    },
-
-    {
-      "type": "header",
-      "content": "Category visibility"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_in_all_categories",
-      "label": "Show in all categories",
-      "default": true
-    },
-    {
-      "type": "select",
-      "id": "category_only_show_for",
-      "label": "Show only for",
-      "options": [
-        {
-          "value": "men",
-          "label": "Men"
-        },
-        {
-          "value": "women",
-          "label": "Women"
-        }
-      ],
-      "default": "men",
-      "info": "Used when the section should appear for a single category."
     }
   ],
   "blocks": [

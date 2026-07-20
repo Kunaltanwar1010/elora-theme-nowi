@@ -37,12 +37,6 @@
 <script src="{{ 'collection-filter-ui.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'infinite-scroll.js' | asset_url }}" defer="defer"></script>
 
-{% render 'category-visibility-wrapper',
-  show_in_all_categories: section.settings.show_in_all_categories,
-  category_only_show_for: section.settings.category_only_show_for,
-  tag_type: 'open'
-%}
-
 <div class="collection-grid-section px-4" data-section-id="{{ section.id }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
   <div class="max-w-8xl mx-auto" style="max-width: var(--page-width);">
 
@@ -367,7 +361,6 @@
   }
 
 </style>
-{% render 'category-visibility-wrapper', tag_type: 'close' %}
 
 {% schema %}
 {
@@ -534,33 +527,6 @@
       "label": "Enable quick buy button",
       "default": true,
       "info": "Shows a shopping bag icon on product images. Colors are controlled in Theme Settings > Modern Product Card."
-    },
-    {
-      "type": "header",
-      "content": "Category visibility"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_in_all_categories",
-      "label": "Show in all categories",
-      "default": true
-    },
-    {
-      "type": "select",
-      "id": "category_only_show_for",
-      "label": "Show only for",
-      "options": [
-        {
-          "value": "men",
-          "label": "Men"
-        },
-        {
-          "value": "women",
-          "label": "Women"
-        }
-      ],
-      "default": "men",
-      "info": "Used when the section should appear for a single category."
     }
   ],
   "presets": [
