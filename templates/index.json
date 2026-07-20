@@ -391,7 +391,52 @@
             "city": "Mumbai"
           }
         },
+        "review_AC9DKg": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "<p>we made this for your Sunday brunch era — and it delivered ✨</p>",
+            "name": "Priya",
+            "city": "Mumbai"
+          }
+        },
         "review_xEjXje": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "<p>we made this for your Sunday brunch era — and it delivered ✨</p>",
+            "name": "Priya",
+            "city": "Mumbai"
+          }
+        },
+        "review_GzzQBr": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "<p>we made this for your Sunday brunch era — and it delivered ✨</p>",
+            "name": "Priya",
+            "city": "Mumbai"
+          }
+        },
+        "review_x8xj7W": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "<p>we made this for your Sunday brunch era — and it delivered ✨</p>",
+            "name": "Priya",
+            "city": "Mumbai"
+          }
+        },
+        "review_W3Dyth": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "<p>we made this for your Sunday brunch era — and it delivered ✨</p>",
+            "name": "Priya",
+            "city": "Mumbai"
+          }
+        },
+        "review_UFWLBR": {
           "type": "review",
           "settings": {
             "stars": 5,
@@ -421,7 +466,12 @@
       },
       "block_order": [
         "review_PmbK88",
+        "review_AC9DKg",
         "review_xEjXje",
+        "review_GzzQBr",
+        "review_x8xj7W",
+        "review_W3Dyth",
+        "review_UFWLBR",
         "review_TVWmrC",
         "review_NwairR"
       ],
