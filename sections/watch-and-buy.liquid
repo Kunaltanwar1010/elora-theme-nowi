@@ -254,8 +254,16 @@
       var item = track && track.querySelector('.wnb__item');
       return item ? item.getBoundingClientRect().width + 19 : 300;
     }
-    if (prevBtn && track) prevBtn.addEventListener('click', function() { track.scrollBy({ left: -reelStep(), behavior: 'smooth' }); });
-    if (nextBtn && track) nextBtn.addEventListener('click', function() { track.scrollBy({ left: reelStep(), behavior: 'smooth' }); });
+    function atStart() { return track.scrollLeft <= 5; }
+    function atEnd() { return track.scrollLeft + track.clientWidth >= track.scrollWidth - 5; }
+    if (prevBtn && track) prevBtn.addEventListener('click', function() {
+      if (atStart()) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); }
+      else { track.scrollBy({ left: -reelStep(), behavior: 'smooth' }); }
+    });
+    if (nextBtn && track) nextBtn.addEventListener('click', function() {
+      if (atEnd()) { track.scrollTo({ left: 0, behavior: 'smooth' }); }
+      else { track.scrollBy({ left: reelStep(), behavior: 'smooth' }); }
+    });
   })();
 </script>
 
