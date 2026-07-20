@@ -190,6 +190,8 @@
           "type": "slide",
           "settings": {
             "media_type": "image",
+            "desktop_image": "shopify://shop_images/2.png",
+            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
             "cta_link": "",
             "background_color": "#fefafa"
           }
@@ -242,6 +244,8 @@
           "type": "slide",
           "settings": {
             "media_type": "image",
+            "desktop_image": "shopify://shop_images/2.png",
+            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
             "cta_link": "",
             "background_color": "#fefafa"
           }
@@ -294,6 +298,8 @@
           "type": "slide",
           "settings": {
             "media_type": "image",
+            "desktop_image": "shopify://shop_images/2.png",
+            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
             "cta_link": "",
             "background_color": "#fefafa"
           }
