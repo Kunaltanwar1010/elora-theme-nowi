@@ -20,7 +20,6 @@
         "show_back_button": true,
         "show_account": false,
         "show_search": true,
-        "show_wishlist": true,
         "show_cart": true,
         "background_color": "#ffffff"
       }
@@ -63,11 +62,6 @@
           "settings": {
             "show_current": false
           }
-        },
-        "judge_me_reviews_preview_badge_FfraPY": {
-          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "disabled": true,
-          "settings": {}
         },
         "variant_picker": {
           "type": "variant_picker",
@@ -129,7 +123,6 @@
         "price",
         "coupon_offer",
         "color_swatches",
-        "judge_me_reviews_preview_badge_FfraPY",
         "variant_picker",
         "quantity_selector",
         "buy_buttons",
@@ -159,20 +152,6 @@
     },
     "apps_Yr4RRX": {
       "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_rkke4y": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "review_data": "real_data",
-            "max_width": 900,
-            "show_shop_reviews": true,
-            "empty_state": "hide_widget"
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_rkke4y"
-      ],
       "custom_css": [],
       "name": "judge.me",
       "settings": {
@@ -209,18 +188,6 @@
     },
     "17643114901db5fcbf": {
       "type": "apps",
-      "blocks": {
-        "vizup_videos_videos_block_CNKqK6": {
-          "type": "shopify://apps/vizup-videos/blocks/videos-block/eaecaa7b-ab6b-40ae-8ddf-50daa867f3eb",
-          "settings": {
-            "videoc_widget_id": "",
-            "custom_css": ""
-          }
-        }
-      },
-      "block_order": [
-        "vizup_videos_videos_block_CNKqK6"
-      ],
       "custom_css": [
         "{padding-top: 20px; padding-bottom: 20px; background-color: #f5f1e8; max-width: 920px; margin-left: auto; margin-right: auto; overflow: hidden;}"
       ],

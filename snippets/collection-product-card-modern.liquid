@@ -134,9 +134,6 @@
         <p class="truncate flex-1" style="color: {{ title_color }}; font-size: {{ title_font_size }}px; font-weight: {{ title_font_weight }};">
           {{ product.title | escape }}
         </p>
-        <div class="shrink-0" onclick="event.stopPropagation(); event.preventDefault();">
-          {%- render 'wishlist-button', product: product -%}
-        </div>
       </div>
 
       <!-- PRICING ROW (Selling Price + MRP + Discount) -->

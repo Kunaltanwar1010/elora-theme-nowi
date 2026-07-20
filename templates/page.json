@@ -28,7 +28,6 @@
         "show_back_button": true,
         "show_account": true,
         "show_search": true,
-        "show_wishlist": true,
         "show_cart": true,
         "background_color": "#ffffff"
       }

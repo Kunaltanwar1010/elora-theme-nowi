@@ -11,42 +11,6 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "trust_strip": {
-      "type": "trust-strip",
-      "blocks": {
-        "ts1": {
-          "type": "item",
-          "settings": {
-            "text": "Easy 5-Day Exchange",
-            "emoji": "🔄"
-          }
-        },
-        "ts2": {
-          "type": "item",
-          "settings": {
-            "text": "2–6 Day Delivery",
-            "emoji": "🚚"
-          }
-        },
-        "ts3": {
-          "type": "item",
-          "settings": {
-            "text": "COD Available",
-            "emoji": "💵"
-          }
-        }
-      },
-      "block_order": [
-        "ts1",
-        "ts2",
-        "ts3"
-      ],
-      "settings": {
-        "bg_color": "#fdf3f0",
-        "text_color": "#4a3b38",
-        "text_size": 12
-      }
-    },
     "header": {
       "type": "header",
       "disabled": true,
@@ -78,7 +42,6 @@
         "enable_country_selector": false,
         "enable_language_selector": false,
         "show_search": true,
-        "show_wishlist": true,
         "show_account": true,
         "show_cart": true,
         "show_mobile_collections": false,
@@ -92,11 +55,43 @@
         "background_color": "#ffffff",
         "show_line_separator": true
       }
+    },
+    "trust_strip": {
+      "type": "trust-strip",
+      "blocks": {
+        "ts1": {
+          "type": "item",
+          "settings": {
+            "text": "Easy 5-Day Exchange",
+            "emoji": "🔄"
+          }
+        },
+        "ts2": {
+          "type": "item",
+          "settings": {
+            "text": "2–6 Day Delivery",
+            "emoji": "🚚"
+          }
+        },
+        "ts3": {
+          "type": "item",
+          "settings": {
+            "text": "COD Available",
+            "emoji": "💵"
+          }
+        }
+      },
+      "block_order": [
+        "ts1",
+        "ts2",
+        "ts3"
+      ],
+      "settings": {}
     }
   },
   "order": [
-    "trust_strip",
     "header",
-    "header_custom_dAGVrR"
+    "header_custom_dAGVrR",
+    "trust_strip"
   ]
 }
