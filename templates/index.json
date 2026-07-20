@@ -39,9 +39,9 @@
         },
         "slide_a4QczP": {
           "type": "slide",
-          "disabled": true,
           "settings": {
             "media_type": "image",
+            "desktop_image": "shopify://shop_images/2.png",
             "cta_link": "",
             "background_color": "#fefafa"
           }
@@ -60,7 +60,7 @@
         "show_arrows": true,
         "show_dots": false,
         "adapt_to_image": true,
-        "hero_height_desktop": 70,
+        "hero_height_desktop": 30,
         "hero_height_mobile": 50
       }
     },
