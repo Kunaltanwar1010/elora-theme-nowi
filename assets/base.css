@@ -643,6 +643,18 @@ html {
   overflow-x: clip;
 }
 
+/* Retire the nowi men/women category gating: never hide a homepage section by
+   category. This overrides the display:none rules in
+   component-homepage-category-nav.css so every section is always visible
+   regardless of the (removed) active-category state. */
+.category-controlled-section,
+.category-controlled-section:not([data-category-scope="all"]) {
+  display: block !important;
+}
+.category-hidden {
+  display: revert !important;
+}
+
 .underlined-link,
 .customer a,
 .inline-richtext a {
