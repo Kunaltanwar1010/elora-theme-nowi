@@ -18,22 +18,6 @@
         "color_scheme": "scheme-1"
       }
     },
-    "collection_top_bar_4VeaEd": {
-      "type": "collection-top-bar",
-      "disabled": true,
-      "name": "Collection Top Bar",
-      "settings": {
-        "collection_handle": "",
-        "custom_title": "",
-        "title_font_size": 16,
-        "title_font_weight": "500",
-        "show_back_button": true,
-        "show_account": false,
-        "show_search": true,
-        "show_cart": true,
-        "background_color": "#ffffff"
-      }
-    },
     "product-grid": {
       "type": "main-collection-product-grid",
       "disabled": true,
@@ -87,9 +71,8 @@
   },
   "order": [
     "banner",
-    "collection_top_bar_4VeaEd",
+    "collection_sort_filter_bar_xqtEnT",
     "product-grid",
-    "collection_grid_PjLQLC",
-    "collection_sort_filter_bar_xqtEnT"
+    "collection_grid_PjLQLC"
   ]
 }
