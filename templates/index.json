@@ -32,6 +32,7 @@
           "settings": {
             "media_type": "image",
             "desktop_image": "shopify://shop_images/1_79d2253d-4da0-4bcf-bdf5-bbbe5430e12b.png",
+            "mobile_image": "shopify://shop_images/1_9ef0f5a5-c4b6-47f5-aaf9-3660b489e925.png",
             "cta_link": "shopify://collections",
             "background_color": "#fefafa"
           }
@@ -58,6 +59,7 @@
         "transition_speed": 800,
         "show_arrows": true,
         "show_dots": false,
+        "adapt_to_image": true,
         "hero_height_desktop": 70,
         "hero_height_mobile": 50
       }
@@ -203,6 +205,7 @@
         "transition_speed": 800,
         "show_arrows": true,
         "show_dots": true,
+        "adapt_to_image": true,
         "hero_height_desktop": 70,
         "hero_height_mobile": 50
       }
@@ -254,6 +257,7 @@
         "transition_speed": 800,
         "show_arrows": true,
         "show_dots": true,
+        "adapt_to_image": true,
         "hero_height_desktop": 70,
         "hero_height_mobile": 50
       }
@@ -305,6 +309,7 @@
         "transition_speed": 800,
         "show_arrows": true,
         "show_dots": true,
+        "adapt_to_image": true,
         "hero_height_desktop": 70,
         "hero_height_mobile": 50
       }
