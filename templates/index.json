@@ -109,164 +109,28 @@
         "hero_height_mobile": 50
       }
     },
-    "collection_grid_X6WMfM": {
+    "collection_grid_nwgRzE": {
       "type": "collection-grid",
-      "name": "women-collection",
+      "name": "Collection Grid",
       "settings": {
-        "collection": "women",
+        "collection": "tops",
         "padding_top": 0,
         "padding_bottom": 0,
         "show_collection_title": true,
-        "custom_title": "Best Sellers",
-        "heading_font_size": 26,
-        "heading_font_weight": "400",
-        "heading_text_transform": "uppercase",
-        "heading_alignment": "text-center",
-        "heading_color": "#111111",
-        "show_collection_description": false,
-        "products_to_show": 6,
-        "columns_mobile": 2,
-        "columns_desktop": 3,
-        "enable_pagination": false,
-        "enable_infinite_scroll": false,
-        "show_view_all": false,
-        "enable_quick_buy": true
-      }
-    },
-    "collection_grid_rfxcdj": {
-      "type": "collection-grid",
-      "name": "men-collection",
-      "settings": {
-        "collection": "men-best-seller",
-        "padding_top": 5,
-        "padding_bottom": 0,
-        "show_collection_title": true,
-        "custom_title": "Best Sellers",
-        "heading_font_size": 26,
-        "heading_font_weight": "600",
-        "heading_text_transform": "uppercase",
-        "heading_alignment": "text-center",
-        "heading_color": "#111111",
-        "show_collection_description": false,
-        "products_to_show": 6,
-        "columns_mobile": 2,
-        "columns_desktop": 3,
-        "enable_pagination": false,
-        "enable_infinite_scroll": false,
-        "show_view_all": false,
-        "enable_quick_buy": true
-      }
-    },
-    "17682938216cf4a3f4": {
-      "type": "apps",
-      "settings": {
-        "include_margins": true
-      }
-    },
-    "collection_grid_rVrxzf": {
-      "type": "collection-grid",
-      "name": "women-collection-2",
-      "settings": {
-        "collection": "women-new-arrivals",
-        "padding_top": 25,
-        "padding_bottom": 10,
-        "show_collection_title": true,
-        "custom_title": "New Arrivals",
-        "heading_font_size": 26,
-        "heading_font_weight": "600",
-        "heading_text_transform": "uppercase",
-        "heading_alignment": "text-center",
-        "heading_color": "#111111",
-        "show_collection_description": false,
-        "products_to_show": 6,
-        "columns_mobile": 2,
-        "columns_desktop": 3,
-        "enable_pagination": false,
-        "enable_infinite_scroll": false,
-        "show_view_all": true,
-        "enable_quick_buy": true
-      }
-    },
-    "collection_grid_7FW4Nb": {
-      "type": "collection-grid",
-      "name": "men-collection-2",
-      "settings": {
-        "collection": "men-new-arrivals",
-        "padding_top": 15,
-        "padding_bottom": 0,
-        "show_collection_title": true,
-        "custom_title": "New Arrivals",
-        "heading_font_size": 26,
-        "heading_font_weight": "600",
-        "heading_text_transform": "uppercase",
-        "heading_alignment": "text-center",
+        "custom_title": "Bestsellers",
+        "heading_font_size": 32,
+        "heading_font_weight": "700",
+        "heading_text_transform": "",
+        "heading_alignment": "text-left",
         "heading_color": "#111111",
         "show_collection_description": false,
         "products_to_show": 8,
         "columns_mobile": 2,
-        "columns_desktop": 3,
+        "columns_desktop": 4,
         "enable_pagination": false,
         "enable_infinite_scroll": false,
         "show_view_all": true,
         "enable_quick_buy": true
-      }
-    },
-    "17701894643cc1d05d": {
-      "type": "apps",
-      "custom_css": [],
-      "settings": {
-        "include_margins": true
-      }
-    },
-    "watch_and_buy_Hr7i73": {
-      "type": "watch-and-buy",
-      "blocks": {
-        "reel_ypC3bB": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_YNgE3K": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_DJAQg6": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_HHzyFc": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_JhaYxH": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        }
-      },
-      "block_order": [
-        "reel_ypC3bB",
-        "reel_YNgE3K",
-        "reel_DJAQg6",
-        "reel_HHzyFc",
-        "reel_JhaYxH"
-      ],
-      "name": "Watch & Buy",
-      "settings": {
-        "heading": "Watch & Buy 🎬",
-        "heading_color": "#111111",
-        "bg_color": "#FDF7F5",
-        "cta_color": "#7A1520",
-        "cta_text_color": "#FFFFFF",
-        "padding_y": 40
       }
     }
   },
@@ -274,12 +138,6 @@
     "social_proof_bar_ApmVwH",
     "category_carousel_3dcF3q",
     "hero_carousel_HbU4x9",
-    "collection_grid_X6WMfM",
-    "collection_grid_rfxcdj",
-    "17682938216cf4a3f4",
-    "collection_grid_rVrxzf",
-    "collection_grid_7FW4Nb",
-    "17701894643cc1d05d",
-    "watch_and_buy_Hr7i73"
+    "collection_grid_nwgRzE"
   ]
 }
