@@ -113,7 +113,7 @@
       "type": "collection-grid",
       "name": "Collection Grid",
       "settings": {
-        "collection": "tops",
+        "collection": "dresses",
         "padding_top": 0,
         "padding_bottom": 0,
         "show_collection_title": true,
