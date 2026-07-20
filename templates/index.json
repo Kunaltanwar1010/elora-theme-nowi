@@ -105,13 +105,8 @@
         "transition_speed": 800,
         "show_arrows": true,
         "show_dots": true,
-<<<<<<< Updated upstream
         "hero_height_desktop": 70,
         "hero_height_mobile": 50
-=======
-        "hero_height_desktop": 60,
-        "hero_height_mobile": 52
->>>>>>> Stashed changes
       }
     },
     "collection_grid_nwgRzE": {
@@ -135,12 +130,7 @@
         "enable_pagination": false,
         "enable_infinite_scroll": false,
         "show_view_all": true,
-<<<<<<< Updated upstream
         "enable_quick_buy": true
-=======
-        "padding_top": 25,
-        "padding_bottom": 10
->>>>>>> Stashed changes
       }
     },
     "shop_by_collection_hp4q7t": {
@@ -184,64 +174,21 @@
         "corner_radius": 16,
         "padding_y": 40
       }
-<<<<<<< Updated upstream
-=======
     },
-    "dresses_banner": {
+    "image_banner_bjc4w4": {
       "type": "image-banner",
-      "name": "Dresses Banner",
-      "settings": { "heading": "Dresses", "subheading": "From brunch to date night", "cta_text": "Shop Dresses", "cta_link": "shopify://collections/women", "text_position": "middle-center", "overlay_opacity": 35 }
-    },
-    "dresses_grid": {
-      "type": "collection-grid",
-      "name": "Dresses Grid",
+      "name": "Image Banner",
       "settings": {
-        "collection": "women", "show_collection_title": true, "custom_title": "Dresses",
-        "heading_font_size": 26, "heading_text_transform": "uppercase", "heading_alignment": "text-center", "heading_color": "#7A1520",
-        "products_to_show": 8, "columns_mobile": 2, "columns_desktop": 3, "enable_quick_buy": true, "show_view_all": true
+        "height_desktop": 60,
+        "height_mobile": 45,
+        "heading": "",
+        "subheading": "",
+        "cta_text": "Shop now",
+        "cta_link": "",
+        "text_position": "middle-center",
+        "text_color": "#FFFFFF",
+        "overlay_opacity": 35
       }
-    },
-    "coords_banner": {
-      "type": "image-banner",
-      "name": "Co-ords Banner",
-      "settings": { "heading": "Co-ords", "subheading": "Two pieces, one statement", "cta_text": "Shop Co-ords", "cta_link": "shopify://collections/women-new-arrivals", "text_position": "middle-center", "overlay_opacity": 35 }
-    },
-    "coords_grid": {
-      "type": "collection-grid",
-      "name": "Co-ords Grid",
-      "settings": {
-        "collection": "women-new-arrivals", "show_collection_title": true, "custom_title": "Co-ords",
-        "heading_font_size": 26, "heading_text_transform": "uppercase", "heading_alignment": "text-center", "heading_color": "#7A1520",
-        "products_to_show": 8, "columns_mobile": 2, "columns_desktop": 3, "enable_quick_buy": true, "show_view_all": true
-      }
-    },
-    "testimonials": {
-      "type": "testimonials",
-      "blocks": {
-        "r1": { "type": "review", "settings": { "stars": 5, "quote": "<p>Obsessed with the fit and fabric. Delivery was quick too!</p>", "name": "Ananya", "city": "Mumbai" } },
-        "r2": { "type": "review", "settings": { "stars": 5, "quote": "<p>The co-ord set is even prettier in person. Will order again.</p>", "name": "Ishita", "city": "Delhi" } },
-        "r3": { "type": "review", "settings": { "stars": 5, "quote": "<p>Great quality for the price and the exchange was hassle-free.</p>", "name": "Sara", "city": "Bengaluru" } }
-      },
-      "block_order": ["r1", "r2", "r3"],
-      "name": "Testimonials",
-      "settings": { "heading": "What Our Customers Say", "heading_color": "#7A1520" }
-    },
-    "trust_marquee": {
-      "type": "trust-marquee",
-      "blocks": {
-        "b1": { "type": "badge", "settings": { "icon_key": "free_shipping", "label": "Free Shipping" } },
-        "b2": { "type": "badge", "settings": { "icon_key": "cod", "label": "Cash on Delivery" } },
-        "b3": { "type": "badge", "settings": { "icon_key": "exchange", "label": "Easy 5-Day Exchange" } },
-        "b4": { "type": "badge", "settings": { "icon_key": "secure_payment", "label": "Secure Payments" } },
-        "b5": { "type": "badge", "settings": { "icon_key": "quality", "label": "Quality Checked" } },
-        "b6": { "type": "badge", "settings": { "icon_key": "made_in_india", "label": "Made in India" } },
-        "b7": { "type": "badge", "settings": { "icon_key": "support", "label": "24x7 Support" } },
-        "b8": { "type": "badge", "settings": { "icon_key": "original", "label": "100% Original" } }
-      },
-      "block_order": ["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8"],
-      "name": "Trust Marquee",
-      "settings": { "direction": "ltr", "speed": 40, "bg_color": "#111111", "text_color": "#FFFFFF", "icon_color": "#7A1520" }
->>>>>>> Stashed changes
     }
   },
   "order": [
@@ -249,6 +196,7 @@
     "category_carousel_3dcF3q",
     "hero_carousel_HbU4x9",
     "collection_grid_nwgRzE",
-    "shop_by_collection_hp4q7t"
+    "shop_by_collection_hp4q7t",
+    "image_banner_bjc4w4"
   ]
 }
