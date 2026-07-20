@@ -80,7 +80,7 @@
         "delivery_eta_timeline": {
           "type": "delivery_eta_timeline",
           "settings": {
-            "background_color": "#f7eff0",
+            "background_color": "#FFFAFB",
             "progress_percent": 45
           }
         },
