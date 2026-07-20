@@ -74,13 +74,26 @@
             "delivery_days": "4-7 days",
             "show_cod": false,
             "show_non_returnable": false,
-            "return_policy_url": ""
+            "return_policy_url": "",
+            "heading": "Delivery Info",
+            "pincode_placeholder": "Enter a pincode to check",
+            "check_button_text": "Check",
+            "show_free_delivery": true,
+            "free_delivery_text": "Free Delivery over ₹599",
+            "show_return": true,
+            "return_text": "7 Days Easy Return with Pick Up",
+            "return_read_more_text": "Read More",
+            "return_read_more_url": "",
+            "non_returnable_text": "This item is non returnable",
+            "cod_pending_text": "Enter pincode to check COD availability",
+            "cod_available_text": "Cash on Delivery available"
           }
         },
         "delivery_eta_timeline": {
           "type": "delivery_eta_timeline",
+          "disabled": true,
           "settings": {
-            "background_color": "#FFFAFA",
+            "background_color": "#fffafa",
             "progress_percent": 45
           }
         },
@@ -216,8 +229,8 @@
         "speed": 100,
         "pause_on_hover": true,
         "bg_color": "#111111",
-        "icon_color": "#FFFFFF",
-        "text_color": "#FFFFFF",
+        "icon_color": "#ffffff",
+        "text_color": "#ffffff",
         "icon_size": 28,
         "gap": 48,
         "padding_y": 14
@@ -284,7 +297,7 @@
         "heading": "Loved by 10,000+ girls 💕",
         "subheading": "obsessed? same.",
         "heading_color": "#111111",
-        "bg_color": "#F7EFF0",
+        "bg_color": "#f7eff0",
         "marquee_tag": "#WearElora",
         "marquee_speed": 30,
         "padding_y": 48
@@ -335,9 +348,9 @@
       "settings": {
         "heading": "Watch & Buy",
         "heading_color": "#111111",
-        "bg_color": "#FFFFFF",
+        "bg_color": "#ffffff",
         "cta_color": "#111111",
-        "cta_text_color": "#FFFFFF",
+        "cta_text_color": "#ffffff",
         "padding_y": 40
       }
     },
