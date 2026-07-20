@@ -14,7 +14,7 @@
       {%- comment -%} Modal ID matches the one generated in quick-buy-modal.liquid {%- endcomment -%}
       {%- assign modal_id = 'QuickBuyModal-' | append: product.id -%}
       <div class="recommendations-card" data-product-id="{{ product.id }}" data-product-type="{{ product.type | handleize }}">
-        <a href="{{ product.url }}" style="text-decoration: none; display: block;">
+        <a href="{{ product.url }}" class="rec-media-link">
           <img
             src="{{ product.featured_image | image_url: width: 300 }}"
             alt="{{ product.featured_image.alt | escape }}"
@@ -23,38 +23,40 @@
             height="186"
           >
           <h4 class="rec-title">{{ product.title }}</h4>
+        </a>
+        <div class="rec-footer">
           <div class="rec-price-wrapper">
             <span class="rec-price">{{ product.price | money_without_trailing_zeros }}</span>
             {%- if product.compare_at_price > product.price -%}
               <span class="rec-price-compare">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
             {%- endif -%}
           </div>
-        </a>
-        {%- if product.available -%}
-          {%- if product.has_only_default_variant -%}
-            <button
-              type="button"
-              class="rec-add-to-cart"
-              aria-label="Add {{ product.title | escape }} to cart"
-              onclick="addToCartDirect('{{ product.id }}', '{{ product.selected_or_first_available_variant.id }}', this, event)"
-            >
-              {{- 'icon-cart.svg' | inline_asset_content -}}
-            </button>
+          {%- if product.available -%}
+            {%- if product.has_only_default_variant -%}
+              <button
+                type="button"
+                class="rec-add-to-cart"
+                aria-label="Add {{ product.title | escape }} to cart"
+                onclick="addToCartDirect('{{ product.id }}', '{{ product.selected_or_first_available_variant.id }}', this, event)"
+              >
+                {{- 'icon-cart.svg' | inline_asset_content -}}
+              </button>
+            {%- else -%}
+              <button
+                type="button"
+                class="rec-add-to-cart"
+                aria-label="Add {{ product.title | escape }} to cart"
+                onclick="openQuickBuyModal('{{ modal_id }}', event)"
+              >
+                {{- 'icon-cart.svg' | inline_asset_content -}}
+              </button>
+            {%- endif -%}
           {%- else -%}
-            <button
-              type="button"
-              class="rec-add-to-cart"
-              aria-label="Add {{ product.title | escape }} to cart"
-              onclick="openQuickBuyModal('{{ modal_id }}', event)"
-            >
+            <button type="button" class="rec-add-to-cart" disabled aria-label="Sold out">
               {{- 'icon-cart.svg' | inline_asset_content -}}
             </button>
           {%- endif -%}
-        {%- else -%}
-          <button type="button" class="rec-add-to-cart" disabled aria-label="Sold out">
-            {{- 'icon-cart.svg' | inline_asset_content -}}
-          </button>
-        {%- endif -%}
+        </div>
       </div>
 
       {%- comment -%} Quick Buy Modal for multi-variant products {%- endcomment -%}
