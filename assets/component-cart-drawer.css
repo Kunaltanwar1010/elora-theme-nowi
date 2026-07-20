@@ -1231,7 +1231,7 @@ input[type="number"] {
   width: 140px;
   min-width: 140px;
   max-width: 140px;
-  height: 250px;
+  min-height: 250px;
   flex-shrink: 0;
   background: white;
   border-radius: 12px;
@@ -1301,6 +1301,7 @@ input[type="number"] {
 .rec-price-wrapper {
   display: flex;
   flex-wrap: nowrap;
+  flex-shrink: 0;
   align-items: baseline;
   gap: 4px;
   margin-top: 2px;
