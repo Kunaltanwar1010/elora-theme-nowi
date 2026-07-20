@@ -94,9 +94,13 @@
         // Load recommendations when cart drawer opens
         this.loadRecommendations();
 
-        // Also listen for cart updates to refresh recommendations
+        // Also listen for cart updates to refresh recommendations.
+        // renderContents() rebuilds the drawer HTML on every add-to-cart, creating a
+        // fresh element each time while old subscriptions live on — the isConnected
+        // guard makes stale (detached) elements no-op instead of racing the live one.
         if (typeof subscribe !== 'undefined' && typeof PUB_SUB_EVENTS !== 'undefined') {
           subscribe(PUB_SUB_EVENTS.cartUpdate, () => {
+            if (!this.isConnected) return;
             // Delay slightly to allow cart data to update
             setTimeout(() => this.loadRecommendations(), 100);
           });
@@ -104,6 +108,7 @@
       }
 
       loadRecommendations() {
+        if (!this.isConnected) return;
         const url = this.dataset.url;
         if (!url) return;
 
@@ -172,14 +177,18 @@
                       }
                     });
 
-                    // Append quick buy modals to body
+                    // Append quick buy modals to body — never remove a modal the
+                    // user has open (.active): deleting it strands the body
+                    // overflow:hidden scroll lock that closeQuickBuyModal resets
                     document.querySelectorAll('.quick-buy-modal-overlay[id^="QuickBuyModal-"]').forEach(modal => {
-                      if (modal.parentElement === document.body) {
+                      if (modal.parentElement === document.body && !modal.classList.contains('active')) {
                         modal.remove();
                       }
                     });
                     const modals = recommendationsContainer.querySelectorAll('.quick-buy-modal-overlay');
-                    modals.forEach(modal => document.body.appendChild(modal));
+                    modals.forEach(modal => {
+                      if (!document.getElementById(modal.id)) document.body.appendChild(modal);
+                    });
 
                     this.style.display = '';
                   } else {

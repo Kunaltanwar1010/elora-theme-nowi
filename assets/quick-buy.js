@@ -64,8 +64,13 @@ function closeQuickBuyModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) {
     modal.classList.remove('active');
-    document.body.style.overflow = '';
     modal.removeEventListener('click', handleModalBackdropClick);
+  }
+  // Always release the scroll lock, even if the modal element was
+  // removed/replaced (e.g. by a cart-drawer recommendations refresh)
+  // while it was open — otherwise the page stays unscrollable.
+  if (!document.querySelector('.quick-buy-modal-overlay.active')) {
+    document.body.style.overflow = '';
   }
 }
 
