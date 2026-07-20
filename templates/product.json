@@ -80,7 +80,7 @@
         "delivery_eta_timeline": {
           "type": "delivery_eta_timeline",
           "settings": {
-            "background_color": "#FEFAFA",
+            "background_color": "#FFFAFA",
             "progress_percent": 45
           }
         },
@@ -223,24 +223,28 @@
         "padding_y": 14
       }
     },
-    "related-products": {
-      "type": "related-products",
-      "settings": {
-        "heading": "You may also like",
-        "heading_size": "h1",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "color_scheme": "scheme-1",
-        "enable_quick_buy": true,
-        "padding_top": 24,
-        "padding_bottom": 20
-      }
-    },
     "testimonials_iJMEYW": {
       "type": "testimonials",
       "blocks": {
         "review_bGtCTH": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "<p>we made this for your Sunday brunch era — and it delivered ✨</p>",
+            "name": "Priya",
+            "city": "Mumbai"
+          }
+        },
+        "review_VbwWeD": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "<p>we made this for your Sunday brunch era — and it delivered ✨</p>",
+            "name": "Priya",
+            "city": "Mumbai"
+          }
+        },
+        "review_zEA4xw": {
           "type": "review",
           "settings": {
             "stars": 5,
@@ -270,6 +274,8 @@
       },
       "block_order": [
         "review_bGtCTH",
+        "review_VbwWeD",
+        "review_zEA4xw",
         "review_48MGUX",
         "review_gDN3We"
       ],
@@ -278,17 +284,83 @@
         "heading": "Loved by 10,000+ girls 💕",
         "subheading": "obsessed? same.",
         "heading_color": "#111111",
-        "bg_color": "#FEFAFA",
+        "bg_color": "#F7EFF0",
         "marquee_tag": "#WearElora",
         "marquee_speed": 30,
         "padding_y": 48
+      }
+    },
+    "watch_and_buy_GE6LtC": {
+      "type": "watch-and-buy",
+      "blocks": {
+        "reel_3gTA7j": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_PNRVTH": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_GADCWQ": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_kTU49y": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_z6yLPa": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "reel_3gTA7j",
+        "reel_PNRVTH",
+        "reel_GADCWQ",
+        "reel_kTU49y",
+        "reel_z6yLPa"
+      ],
+      "name": "Watch & Buy",
+      "settings": {
+        "heading": "Watch & Buy",
+        "heading_color": "#111111",
+        "bg_color": "#FFFFFF",
+        "cta_color": "#111111",
+        "cta_text_color": "#FFFFFF",
+        "padding_y": 40
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h1",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "enable_quick_buy": true,
+        "padding_top": 24,
+        "padding_bottom": 20
       }
     }
   },
   "order": [
     "main",
     "trust_marquee_MqF38j",
-    "related-products",
-    "testimonials_iJMEYW"
+    "testimonials_iJMEYW",
+    "watch_and_buy_GE6LtC",
+    "related-products"
   ]
 }
