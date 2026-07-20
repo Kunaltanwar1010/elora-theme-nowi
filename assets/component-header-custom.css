@@ -185,8 +185,8 @@ body:has(.search-landing-page) .section-header-custom {
 /* ===== DESKTOP LAYOUT (990px+) ===== */
 @media (min-width: 990px) {
   .header-custom {
-    max-width: var(--page-width);
-    margin: 0 auto;
+    max-width: none;
+    margin: 0;
   }
 
   .header-custom-inner {
@@ -194,7 +194,7 @@ body:has(.search-landing-page) .section-header-custom {
     grid-template-columns: 1fr auto 1fr;
     grid-template-areas: "logo nav icons";
     gap: 3rem;
-    padding: 1rem 1.5rem;
+    padding: 1rem clamp(1.5rem, 3vw, 3.5rem);
     align-items: center;
     min-height: 70px;
   }
