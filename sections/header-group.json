@@ -11,32 +11,6 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "header_custom_dAGVrR": {
-      "type": "header-custom",
-      "name": "Header Custom",
-      "settings": {
-        "menu": "main-menu",
-        "logo_width": 120,
-        "mobile_logo_width": 100,
-        "enable_country_selector": false,
-        "enable_language_selector": false,
-        "show_search": true,
-        "show_account": true,
-        "show_cart": true,
-        "show_mobile_collections": false,
-        "collection_1": "christmas-collection",
-        "collection_2": "winter-essential",
-        "collection_3": "women-new-arrivals",
-        "collection_4": "",
-        "collection_5": "",
-        "collection_6": "",
-        "color_scheme": "",
-        "background_color": "#ffffff",
-        "icon_color": "#7a1520",
-        "show_line_separator": true,
-        "enable_sticky": true
-      }
-    },
     "announcement_bar_carousel_84yim6": {
       "type": "announcement-bar-carousel",
       "blocks": {
@@ -73,10 +47,36 @@
         "text_size": 100,
         "letter_spacing": 0,
         "message_spacing": 25,
-        "color_scheme": "",
+        "color_scheme": "scheme-3",
         "color": "",
         "bg_color": "",
         "border_color": ""
+      }
+    },
+    "header_custom_dAGVrR": {
+      "type": "header-custom",
+      "name": "Header Custom",
+      "settings": {
+        "menu": "main-menu",
+        "logo_width": 120,
+        "mobile_logo_width": 100,
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "show_search": true,
+        "show_account": true,
+        "show_cart": true,
+        "show_mobile_collections": false,
+        "collection_1": "christmas-collection",
+        "collection_2": "winter-essential",
+        "collection_3": "women-new-arrivals",
+        "collection_4": "",
+        "collection_5": "",
+        "collection_6": "",
+        "color_scheme": "",
+        "background_color": "#ffffff",
+        "icon_color": "#7a1520",
+        "show_line_separator": true,
+        "enable_sticky": true
       }
     }
   },
