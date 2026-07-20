@@ -12,6 +12,12 @@ Base: Dawn 15.4.0. Dev theme 148035436623. Never push to 147811172431.
 
 ## [Unreleased]
 
+### 2026-07-20 — Fix stretched header logo
+**What:** An uploaded logo rendered stretched/distorted. Root cause: the Phase 4 logo markup set an inline fixed `width: {logo_width}px` while the existing CSS also capped it with `max-height: 40px` — a fixed width + smaller max-height forces the browser to distort the aspect ratio. (`height="auto"` was also an invalid HTML attribute.)
+**Fix:** both logo `<img>`s now bound size with `max-width` (= the width setting) + `max-height` (48px desktop / 36px mobile) and keep `width/height: auto`, so the aspect ratio is always preserved — it can neither stretch nor blow out the header height. Added the logo's natural `width`/`height` attributes (aspect-ratio hint, no CLS, resolves the ImgWidthAndHeight lint).
+**Files:** `sections/header-custom.liquid`
+**Verify:** upload any logo — it displays at its true proportions within the width/height bounds, no distortion; `shopify theme check` = 0 new errors.
+
 ### 2026-07-20 — Announcement bar text → white (readable on maroon)
 **What:** Announcement text was dark and unreadable on the maroon bar. The section only applies a text colour when the `color` setting is non-blank, and it was blank (setting `color_scheme: scheme-3` alone doesn't push the scheme foreground onto the marquee text).
 **Fix:** set the announcement text `color` to `#FFFFFF` (and bg `#7A1520`) in the live `header-group.json` config, kept the merchant's `scheme-3`, and set the schema defaults (`color` → `#FFFFFF`, `bg_color` → `#7A1520`) so a freshly added announcement bar is white-on-maroon by default.

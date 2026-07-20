@@ -88,10 +88,10 @@
           <img
             src="{{ header_logo | image_url: width: 360 }}"
             alt="{{ shop.name }}"
-            width="{{ section.settings.mobile_logo_width | default: 100 }}"
-            height="auto"
+            width="{{ header_logo.width }}"
+            height="{{ header_logo.height }}"
             loading="eager"
-            style="width: {{ section.settings.mobile_logo_width | default: 100 }}px; height: auto;"
+            style="max-width: {{ section.settings.mobile_logo_width | default: 100 }}px; max-height: 36px; width: auto; height: auto;"
           >
         {%- else -%}
           <span style="font-size: 18px; font-weight: 600;">{{ shop.name }}</span>
@@ -106,10 +106,10 @@
           <img
             src="{{ header_logo | image_url: width: 480 }}"
             alt="{{ shop.name }}"
-            width="{{ section.settings.logo_width | default: 120 }}"
-            height="auto"
+            width="{{ header_logo.width }}"
+            height="{{ header_logo.height }}"
             loading="eager"
-            style="width: {{ section.settings.logo_width | default: 120 }}px; height: auto;"
+            style="max-width: {{ section.settings.logo_width | default: 120 }}px; max-height: 48px; width: auto; height: auto;"
           >
         {%- else -%}
           <span style="font-size: 20px; font-weight: 600;">{{ shop.name }}</span>
