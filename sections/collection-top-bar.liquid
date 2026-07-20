@@ -171,20 +171,16 @@
         </a>
       {% endif %}
 
-      <!-- Wishlist - Using Swish app component for consistent styling -->
+      <!-- Wishlist -->
       {% if section.settings.show_wishlist %}
-        <div class="header__icon header__icon--wishlist" style="--icon-size: 22px; --icon-fill: transparent; --icon-stroke: #000000; --icon-stroke-width: 1px;">
-          <script type="module" src="https://cdn.shopify.com/extensions/019a6435-2700-705e-910c-5eafab3282ce/swish-app-216/assets/block-wishlist-link.js"></script>
-          <wishlist-link-block wk-skip="" wk-headless="">
-            <a href="/apps/wishlist" class="wk-button" rel="noopener noreferrer nofollow" aria-label="Wishlist">
-              <span class="wk-icon">
-                <svg viewBox="0 0 64 64">
-                  <path d="M32.012,59.616c-1.119-.521-2.365-1.141-3.707-1.859a79.264,79.264,0,0,1-11.694-7.614C6.316,42,.266,32.6.254,22.076,0.244,12.358,7.871,4.506,17.232,4.5a16.661,16.661,0,0,1,11.891,4.99l2.837,2.889,2.827-2.9a16.639,16.639,0,0,1,11.874-5.02h0c9.368-.01,17.008,7.815,17.021,17.539,0.015,10.533-6.022,19.96-16.312,28.128a79.314,79.314,0,0,1-11.661,7.63C34.369,58.472,33.127,59.094,32.012,59.616Z"></path>
-                </svg>
-              </span>
-            </a>
-          </wishlist-link-block>
-        </div>
+        <a href="{{ pages.wishlist.url | default: '/pages/wishlist' }}" class="header__icon header__icon--wishlist link focus-inset" aria-label="Wishlist">
+          <span class="svg-wrapper">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M12 21s-7.5-4.6-10-9.2C.4 8.2 2 4.5 5.6 4c2-.3 4 .7 5.4 2.7C12.4 4.7 14.4 3.7 16.4 4c3.6.5 5.2 4.2 3.6 7.8C19.5 16.4 12 21 12 21z"/>
+            </svg>
+          </span>
+          <div class="cart-count-bubble" data-wishlist-count hidden>0</div>
+        </a>
       {% endif %}
 
       <!-- Account -->

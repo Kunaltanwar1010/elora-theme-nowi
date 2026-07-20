@@ -134,8 +134,9 @@
         <p class="truncate flex-1" style="color: {{ title_color }}; font-size: {{ title_font_size }}px; font-weight: {{ title_font_weight }};">
           {{ product.title | escape }}
         </p>
-        <!-- Swish wishlist button will be injected here -->
-        <div class="wishlist-icon-container shrink-0" onclick="event.stopPropagation(); event.preventDefault(); return false;"></div>
+        <div class="shrink-0" onclick="event.stopPropagation(); event.preventDefault();">
+          {%- render 'wishlist-button', product: product -%}
+        </div>
       </div>
 
       <!-- PRICING ROW (Selling Price + MRP + Discount) -->

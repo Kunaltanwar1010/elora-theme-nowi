@@ -191,7 +191,7 @@ body:has(.search-landing-page) .section-header-custom {
 
   .header-custom-inner {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto 1fr;
     grid-template-areas: "logo nav icons";
     gap: 3rem;
     padding: 1rem 1.5rem;
@@ -212,6 +212,7 @@ body:has(.search-landing-page) .section-header-custom {
     grid-area: logo;
     display: flex;
     align-items: center;
+    justify-self: start;
   }
 
   .header-custom-logo-desktop img {
@@ -231,6 +232,7 @@ body:has(.search-landing-page) .section-header-custom {
   .header-custom .header__icons {
     grid-area: icons;
     gap: 0.8rem;
+    justify-self: end;
   }
 }
 

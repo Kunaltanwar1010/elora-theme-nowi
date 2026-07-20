@@ -1,0 +1,140 @@
+{% comment %}
+  Wishlist page — code-only (no app). Reads product handles from
+  localStorage (assets/wishlist.js) and renders cards client-side via
+  the Storefront product JSON endpoint (/products/{handle}.js).
+{% endcomment %}
+
+<div class="wishlist-page page-width">
+  <h1 class="wishlist-page__heading">{{ section.settings.heading }}</h1>
+
+  <div id="wishlist-empty" class="wishlist-page__empty" hidden>
+    <p>{{ section.settings.empty_text }}</p>
+    <a href="{{ section.settings.empty_link | default: routes.all_products_collection_url }}" class="button">
+      {{ section.settings.empty_button_text }}
+    </a>
+  </div>
+
+  <div id="wishlist-grid" class="wishlist-page__grid"></div>
+</div>
+
+<style>
+  .wishlist-page { padding: 3rem 0 5rem; }
+  .wishlist-page__heading { font-size: clamp(2rem, 4vw, 2.8rem); margin: 0 0 2.4rem; }
+  .wishlist-page__empty { text-align: center; padding: 4rem 0; }
+  .wishlist-page__empty p { margin-bottom: 1.6rem; opacity: 0.7; }
+  .wishlist-page__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.6rem 1.2rem;
+  }
+  @media (min-width: 750px) {
+    .wishlist-page__grid { grid-template-columns: repeat(4, 1fr); gap: 2.4rem; }
+  }
+  .wishlist-page__card { display: block; }
+  .wishlist-page__card-img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #f5f0ee;
+    margin-bottom: 0.8rem;
+  }
+  .wishlist-page__card-title { font-size: 1.3rem; margin: 0 0 0.2rem; color: #3A2E2B; }
+  .wishlist-page__card-price { font-size: 1.3rem; font-weight: 600; }
+  .wishlist-page__card-remove {
+    margin-top: 0.6rem;
+    font-size: 1.1rem;
+    background: none;
+    border: none;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #9CA3AF;
+    padding: 0;
+  }
+</style>
+
+<script>
+  (function () {
+    var grid = document.getElementById('wishlist-grid');
+    var emptyState = document.getElementById('wishlist-empty');
+
+    function render() {
+      var handles = window.EloraWishlist ? window.EloraWishlist.read() : [];
+      if (handles.length === 0) {
+        grid.innerHTML = '';
+        emptyState.hidden = false;
+        return;
+      }
+      emptyState.hidden = true;
+
+      Promise.all(
+        handles.map(function (handle) {
+          return fetch('/products/' + handle + '.js').then(function (r) {
+            return r.ok ? r.json() : null;
+          }).catch(function () { return null; });
+        })
+      ).then(function (products) {
+        grid.innerHTML = products
+          .filter(Boolean)
+          .map(function (p) {
+            var img = p.featured_image ? p.featured_image.replace(/(\.[a-z]+)(\?|$)/i, '_480x$1$2') : '';
+            return (
+              '<div class="wishlist-page__card">' +
+                '<a href="' + p.url + '">' +
+                  (img ? '<img class="wishlist-page__card-img" src="' + img + '" alt="' + p.title.replace(/"/g, '&quot;') + '" loading="lazy">' : '') +
+                  '<p class="wishlist-page__card-title">' + p.title + '</p>' +
+                  '<p class="wishlist-page__card-price">' + (p.price / 100).toLocaleString('en-IN', { style: 'currency', currency: {{ cart.currency.iso_code | json }} }) + '</p>' +
+                '</a>' +
+                '<button type="button" class="wishlist-page__card-remove" data-remove="' + p.handle + '">Remove</button>' +
+              '</div>'
+            );
+          })
+          .join('');
+      });
+    }
+
+    grid.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-remove]');
+      if (!btn || !window.EloraWishlist) return;
+      window.EloraWishlist.toggle(btn.dataset.remove);
+      render();
+    });
+
+    document.addEventListener('wishlist:updated', render);
+    render();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Wishlist page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "My Wishlist"
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Empty state text",
+      "default": "Nothing here yet — tap the heart on any product to save it."
+    },
+    {
+      "type": "url",
+      "id": "empty_link",
+      "label": "Empty state button link"
+    },
+    {
+      "type": "text",
+      "id": "empty_button_text",
+      "label": "Empty state button text",
+      "default": "Shop the collection"
+    }
+  ],
+  "presets": [
+    { "name": "Wishlist page" }
+  ]
+}
+{% endschema %}

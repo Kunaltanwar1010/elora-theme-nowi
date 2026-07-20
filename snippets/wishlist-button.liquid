@@ -1,0 +1,49 @@
+{% comment %}
+  Wishlist heart button — code-only, no app. State lives in localStorage
+  (see assets/wishlist.js). Works on collection cards and the PDP.
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+  - labeled: {Boolean} show "Add to Wishlist" text next to the icon (PDP use)
+{% endcomment %}
+<button
+  type="button"
+  class="wishlist-btn{% if labeled %} wishlist-btn--labeled{% endif %}"
+  data-wishlist-toggle
+  data-product-id="{{ product.id }}"
+  data-product-handle="{{ product.handle }}"
+  aria-label="Add to wishlist"
+  aria-pressed="false"
+  onclick="event.stopPropagation(); event.preventDefault();"
+>
+  <svg class="wishlist-btn__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+    <path d="M12 21s-7.5-4.6-10-9.2C.4 8.2 2 4.5 5.6 4c2-.3 4 .7 5.4 2.7C12.4 4.7 14.4 3.7 16.4 4c3.6.5 5.2 4.2 3.6 7.8C19.5 16.4 12 21 12 21z"/>
+  </svg>
+  {%- if labeled -%}<span class="wishlist-btn__label">Add to Wishlist</span>{%- endif -%}
+</button>
+<style>
+  .wishlist-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: none;
+    background: none;
+    padding: 0.4rem;
+    cursor: pointer;
+    color: #3A2E2B;
+  }
+  .wishlist-btn__icon { transition: transform 0.15s ease, fill 0.15s ease, stroke 0.15s ease; }
+  .wishlist-btn.is-active .wishlist-btn__icon {
+    fill: #E75480;
+    stroke: #E75480;
+  }
+  .wishlist-btn:active .wishlist-btn__icon { transform: scale(0.85); }
+  .wishlist-btn--labeled {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 999px;
+    padding: 0.9rem 1.6rem;
+    margin-top: 1rem;
+  }
+  .wishlist-btn--labeled .wishlist-btn__label { font-size: 1.3rem; font-weight: 600; }
+</style>
+
