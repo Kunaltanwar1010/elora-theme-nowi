@@ -43,8 +43,8 @@
                 {{- option.selected_value -}}
               </span>
             </span>
-            {%- if is_size_option -%}
-              {% render 'size-guide', section_id: section.id %}
+            {%- if is_size_option and block.settings.show_size_guide != false -%}
+              {% render 'size-guide', section_id: section.id, label: block.settings.size_guide_label %}
             {%- endif -%}
           </legend>
           {% render 'product-variant-options',
@@ -58,8 +58,8 @@
         <fieldset class="js product-form__input product-form__input--pill">
           <legend class="form__label">
             <span>{{ option.name }}</span>
-            {%- if is_size_option -%}
-              {% render 'size-guide', section_id: section.id %}
+            {%- if is_size_option and block.settings.show_size_guide != false -%}
+              {% render 'size-guide', section_id: section.id, label: block.settings.size_guide_label %}
             {%- endif -%}
           </legend>
           {% render 'product-variant-options',
@@ -73,8 +73,8 @@
         <div class="product-form__input product-form__input--dropdown">
           <label class="form__label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
             <span>{{ option.name }}</span>
-            {%- if is_size_option -%}
-              {% render 'size-guide', section_id: section.id %}
+            {%- if is_size_option and block.settings.show_size_guide != false -%}
+              {% render 'size-guide', section_id: section.id, label: block.settings.size_guide_label %}
             {%- endif -%}
           </label>
           <div class="select">

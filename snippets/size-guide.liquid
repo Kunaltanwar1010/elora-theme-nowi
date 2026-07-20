@@ -3,9 +3,10 @@
 
   Accepts:
   - section_id: {String} Section ID for unique identification
+  - label: {String} Link text (optional, defaults to "Size Guide")
 
   Usage:
-  {% render 'size-guide', section_id: section.id %}
+  {% render 'size-guide', section_id: section.id, label: block.settings.size_guide_label %}
 {% endcomment %}
 
 <button
@@ -16,5 +17,5 @@
   onclick="document.querySelector('#SizeGuideModal-{{ section_id }}').show(this)"
 >
 
-  <span class="size-guide-button__text">Size Guide</span>
+  <span class="size-guide-button__text">{{ label | default: 'Size Guide' }}</span>
 </button>
