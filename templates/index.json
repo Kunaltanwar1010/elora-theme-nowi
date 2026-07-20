@@ -73,50 +73,18 @@
         "slide_4LmLBG",
         "slide_jhgwga"
       ],
-      "name": "hero-carousel-women",
+      "name": "Hero Section",
       "settings": {
         "loop": true,
-        "autoplay_delay": 7000,
+        "autoplay_delay": 5000,
         "transition_effect": "fade",
         "transition_speed": 800,
         "show_arrows": true,
         "show_dots": true,
         "hero_height_desktop": 55,
-        "hero_height_mobile": 24,
+        "hero_height_mobile": 60,
         "show_in_all_categories": false,
         "category_only_show_for": "women"
-      }
-    },
-    "announcement_bar_heroimage_QTf6m7": {
-      "type": "announcement-bar-heroimage",
-      "blocks": {
-        "announcement_9BrbiW": {
-          "type": "announcement",
-          "settings": {
-            "text": "Free shipping on all orders over 599",
-            "link": "shopify://collections/new-arrivals-1"
-          }
-        },
-        "announcement_EFiLP6": {
-          "type": "announcement",
-          "settings": {
-            "text": "New arrivals are here! Shop now",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "announcement_9BrbiW",
-        "announcement_EFiLP6"
-      ],
-      "name": "Announcement Bar",
-      "settings": {
-        "show_announcement": true,
-        "bg_color": "#f5f1e8",
-        "text_color": "#242833",
-        "speed": 10,
-        "show_in_all_categories": true,
-        "category_only_show_for": "men"
       }
     },
     "trending_carousel_nmRwTT": {
@@ -513,7 +481,6 @@
   "order": [
     "homepage_category_nav_Xm9x74",
     "hero_carousel_igxRre",
-    "announcement_bar_heroimage_QTf6m7",
     "trending_carousel_nmRwTT",
     "collection_grid_X6WMfM",
     "trending_carousel_RN7WQh",
