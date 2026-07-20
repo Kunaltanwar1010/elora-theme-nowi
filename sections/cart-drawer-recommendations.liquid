@@ -35,21 +35,25 @@
             <button
               type="button"
               class="rec-add-to-cart"
+              aria-label="Add {{ product.title | escape }} to cart"
               onclick="addToCartDirect('{{ product.id }}', '{{ product.selected_or_first_available_variant.id }}', this, event)"
             >
-              Add to Cart
+              {{- 'icon-cart.svg' | inline_asset_content -}}
             </button>
           {%- else -%}
             <button
               type="button"
               class="rec-add-to-cart"
+              aria-label="Add {{ product.title | escape }} to cart"
               onclick="openQuickBuyModal('{{ modal_id }}', event)"
             >
-              Add to Cart
+              {{- 'icon-cart.svg' | inline_asset_content -}}
             </button>
           {%- endif -%}
         {%- else -%}
-          <button type="button" class="rec-add-to-cart" disabled>Sold Out</button>
+          <button type="button" class="rec-add-to-cart" disabled aria-label="Sold out">
+            {{- 'icon-cart.svg' | inline_asset_content -}}
+          </button>
         {%- endif -%}
       </div>
 

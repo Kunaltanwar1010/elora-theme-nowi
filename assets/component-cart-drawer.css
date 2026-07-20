@@ -1362,17 +1362,25 @@ cart-drawer-recommendations {
 }
 
 .rec-add-to-cart {
-  width: 100%;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
   margin-top: auto;
-  padding: 6px 8px;
-  font-size: 10px;
-  font-weight: 600;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: white;
   background: #111827;
   border: none;
-  border-radius: var(--buttons-radius-outset, 40px);
+  border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s;
+}
+
+.rec-add-to-cart .icon {
+  width: 15px;
+  height: 15px;
 }
 
 .rec-add-to-cart:hover:not(:disabled) {
