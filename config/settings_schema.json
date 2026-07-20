@@ -1774,5 +1774,47 @@
         "default": "scheme-1"
       }
     ]
+  },
+  {
+    "name": "Support & Conversion",
+    "settings": [
+      {
+        "type": "header",
+        "content": "WhatsApp support bubble"
+      },
+      {
+        "type": "checkbox",
+        "id": "whatsapp_enable",
+        "label": "Show WhatsApp chat bubble",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "WhatsApp number",
+        "info": "With country code, digits only. e.g. 919876543210"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_prefill",
+        "label": "Pre-filled message",
+        "default": "Hi Elora! I have a question 💌"
+      },
+      {
+        "type": "header",
+        "content": "Free shipping"
+      },
+      {
+        "type": "range",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping threshold",
+        "min": 0,
+        "max": 5000,
+        "step": 100,
+        "unit": "₹",
+        "default": 600,
+        "info": "Order value for free shipping. Used by the cart drawer progress bar and announcement bar. Set 0 to hide the progress bar."
+      }
+    ]
   }
 ]
