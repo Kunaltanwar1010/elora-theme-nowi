@@ -37,7 +37,7 @@
       "settings": {
         "layout": "marquee",
         "show_top_border": false,
-        "show_bottom_border": true,
+        "show_bottom_border": false,
         "padding": 10,
         "slider_speed": 7,
         "show_arrows": false,
@@ -49,7 +49,7 @@
         "message_spacing": 25,
         "color_scheme": "scheme-3",
         "color": "#FFFFFF",
-        "bg_color": "#7A1520",
+        "bg_color": "",
         "border_color": ""
       }
     },
