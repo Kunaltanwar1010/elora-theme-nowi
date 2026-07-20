@@ -31,16 +31,18 @@
           "type": "slide",
           "settings": {
             "media_type": "image",
+            "desktop_image": "shopify://shop_images/1_79d2253d-4da0-4bcf-bdf5-bbbe5430e12b.png",
             "cta_link": "",
-            "background_color": "#FEFAFA"
+            "background_color": "#fefafa"
           }
         },
         "slide_a4QczP": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "media_type": "image",
             "cta_link": "",
-            "background_color": "#FEFAFA"
+            "background_color": "#fefafa"
           }
         }
       },
@@ -55,7 +57,7 @@
         "transition_effect": "fade",
         "transition_speed": 800,
         "show_arrows": true,
-        "show_dots": true,
+        "show_dots": false,
         "hero_height_desktop": 70,
         "hero_height_mobile": 50
       }
@@ -104,7 +106,7 @@
         "bubble_size": 72,
         "label_font_size": 14,
         "subtitle_font_size": 12,
-        "bubble_color": "#FEFAFA",
+        "bubble_color": "#fefafa",
         "label_color": "#000000",
         "subtitle_color": "#111111"
       }
@@ -167,7 +169,7 @@
         "card_LH894U"
       ],
       "custom_css": [
-        ".sbc__heading{font-size: 28px;}"
+        ".sbc__heading {font-size: 28px;}"
       ],
       "name": "Shop by Collection",
       "settings": {
@@ -186,7 +188,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "",
-            "background_color": "#FEFAFA"
+            "background_color": "#fefafa"
           }
         }
       },
@@ -237,7 +239,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "",
-            "background_color": "#FEFAFA"
+            "background_color": "#fefafa"
           }
         }
       },
@@ -288,7 +290,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "",
-            "background_color": "#FEFAFA"
+            "background_color": "#fefafa"
           }
         }
       },
