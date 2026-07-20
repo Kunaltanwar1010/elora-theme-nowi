@@ -82,7 +82,7 @@
             "free_delivery_text": "Free Delivery over ₹599",
             "show_return": true,
             "return_text": "7 Days Easy Return with Pick Up",
-            "return_read_more_text": "Read More",
+            "return_read_more_text": "",
             "return_read_more_url": "",
             "non_returnable_text": "This item is non returnable",
             "cod_pending_text": "Enter pincode to check COD availability",
