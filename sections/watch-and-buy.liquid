@@ -32,6 +32,31 @@
     padding: 0 1.5rem 0.5rem;
   }
   #shopify-section-{{ section.id }} .wnb__track::-webkit-scrollbar { display: none; }
+  #shopify-section-{{ section.id }} .wnb__wrap {
+    position: relative;
+    max-width: var(--page-width);
+    margin: 0 auto;
+  }
+  #shopify-section-{{ section.id }} .wnb__arrow {
+    display: none;
+    position: absolute;
+    top: 42%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    border: none;
+    color: var(--elora-maroon, #7A1520);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 3;
+  }
+  #shopify-section-{{ section.id }} .wnb__arrow:hover { background: #F7EFF0; }
+  #shopify-section-{{ section.id }} .wnb__arrow--prev { left: 0.75rem; }
+  #shopify-section-{{ section.id }} .wnb__arrow--next { right: 0.75rem; }
   #shopify-section-{{ section.id }} .wnb__item {
     flex: 0 0 62%;
     max-width: 260px;
@@ -119,12 +144,9 @@
     cursor: pointer;
   }
   @media (min-width: 750px) {
-    #shopify-section-{{ section.id }} .wnb__track {
-      max-width: var(--page-width);
-      margin: 0 auto;
-      padding: 0 5rem 0.5rem;
-    }
+    #shopify-section-{{ section.id }} .wnb__track { padding: 0 3.5rem 0.5rem; }
     #shopify-section-{{ section.id }} .wnb__item { flex: 0 0 22%; max-width: none; }
+    #shopify-section-{{ section.id }} .wnb__arrow { display: flex; }
   }
 </style>
 
@@ -133,6 +155,10 @@
     <h2 class="wnb__heading">{{ section.settings.heading }}</h2>
   {%- endif -%}
 
+  <div class="wnb__wrap">
+    <button type="button" class="wnb__arrow wnb__arrow--prev" aria-label="Previous">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
   <div class="wnb__track">
     {%- for block in section.blocks -%}
       {%- liquid
@@ -167,6 +193,10 @@
         {%- endif -%}
       </div>
     {%- endfor -%}
+  </div>
+    <button type="button" class="wnb__arrow wnb__arrow--next" aria-label="Next">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
   </div>
 </div>
 
@@ -215,6 +245,17 @@
         wrap.querySelector('.wnb__icon-sound').style.display = v.muted ? 'none' : '';
       });
     });
+
+    /* Arrow navigation: scroll one reel per click */
+    var track = section.querySelector('.wnb__track');
+    var prevBtn = section.querySelector('.wnb__arrow--prev');
+    var nextBtn = section.querySelector('.wnb__arrow--next');
+    function reelStep() {
+      var item = track && track.querySelector('.wnb__item');
+      return item ? item.getBoundingClientRect().width + 19 : 300;
+    }
+    if (prevBtn && track) prevBtn.addEventListener('click', function() { track.scrollBy({ left: -reelStep(), behavior: 'smooth' }); });
+    if (nextBtn && track) nextBtn.addEventListener('click', function() { track.scrollBy({ left: reelStep(), behavior: 'smooth' }); });
   })();
 </script>
 

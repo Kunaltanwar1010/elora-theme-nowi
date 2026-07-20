@@ -28,6 +28,10 @@
     animation: tm-scroll-{{ section.id }} {{ duration }}s linear infinite;
   }
   {% if dir == 'rtl' %}#shopify-section-{{ section.id }} .tm__track { animation-direction: reverse; }{% endif %}
+  @keyframes tm-scroll-{{ section.id }} {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
   #shopify-section-{{ section.id }} .tm__group { display: flex; align-items: center; flex-shrink: 0; }
   #shopify-section-{{ section.id }} .tm__item {
     display: inline-flex;
