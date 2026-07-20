@@ -12,6 +12,14 @@ Base: Dawn 15.4.0. Dev theme 148035436623. Never push to 147811172431.
 
 ## [Unreleased]
 
+### 2026-07-20 — Fix cart icon size + left/right whitespace (root-caused)
+**What:** Two visual fixes reported after Phase 4.
+**Cart icon:** it rendered much smaller/thinner than search & account. Root cause: `icon-cart.svg` / `icon-cart-empty.svg` use `viewBox="0 0 40 40"` but the cart glyph only occupies the middle ~19 units (x14.5–30.5, y12–28.5), while `icon-search`/`icon-account` use a tight `viewBox="0 0 18 19"`. So at the same 23px box the cart drew at ~40% size with a proportionally thinner stroke. Fix: retarget both cart viewBoxes to `13 11 19 19` — the glyph now fills the box (and stroke 1÷19 ≈ search's 1÷18) so it matches everywhere the cart appears (header, cart-icon-bubble, collection-top-bar), no CSS hacks.
+**Left/right spacing:** deep-dived the width system. Root causes: (1) contained sections use Dawn's `.page-width { max-width: var(--page-width); margin: 0 auto }`, so on a wide monitor content centres at the cap with large equal margins; (2) `collection-top-bar` full-bleeds with `width: 100vw` which leaks the scrollbar width and produced a right-only gap / horizontal scroll. Fixes: raised `page_width` 1600 → **1800** (schema max 1600 → 2000) so content uses more width, and added `html { overflow-x: clip }` in base.css to kill any horizontal overflow from 100vw full-bleed elements (`clip`, not `hidden`, so position:sticky is unaffected).
+**Files:** `assets/icon-cart.svg`, `assets/icon-cart-empty.svg`, `config/settings_data.json`, `config/settings_schema.json`, `assets/base.css`.
+**Verify:** header cart now matches search/account size; no right-side gap / horizontal scrollbar; content wider on desktop. `shopify theme check` = 0 new errors.
+**Notes:** On a very wide monitor a readability max-width is intentional — even at 1800px there's some margin. If you want specific sections (hero, carousels) truly edge-to-edge full-bleed, that's a per-section change I can make on request.
+
 ### 2026-07-20 — Phase 4: three persistent global elements (announcement / header / social-proof)
 **What:** Wired three stacked elements into `header-group.json` so they render on every template by construction: (top) scrolling announcement bar → header → social-proof bar. Retired `trust-strip` (agreed).
 **Files:** `sections/header-group.json` (order + config), `sections/announcement-bar-carousel.liquid` (+prefers-reduced-motion for marquee & slider), `sections/header-custom.liquid` (logo image_picker + desktop/mobile width settings, `icon_color`, `enable_sticky` toggle, grey-line bottom border, maroon focus rings, maroon cart bubble), `assets/header-custom.js` (drawer Escape-to-close + focus-trap + focus restore), **new** `sections/social-proof-bar.liquid`.

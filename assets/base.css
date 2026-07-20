@@ -635,6 +635,14 @@ details > * {
   --animation-fade-in: fadeIn var(--duration-extra-long) var(--ease-out-slow);
 }
 
+/* Guard against horizontal overflow from 100vw full-bleed sections (e.g. the
+   collection top bar) which otherwise leak the scrollbar width and produce a
+   right-side gap / horizontal scroll on wide screens. `clip` (not `hidden`)
+   does not create a scroll container, so position:sticky stays intact. */
+html {
+  overflow-x: clip;
+}
+
 .underlined-link,
 .customer a,
 .inline-richtext a {

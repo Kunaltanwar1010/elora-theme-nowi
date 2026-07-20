@@ -153,7 +153,7 @@
         "type": "range",
         "id": "page_width",
         "min": 360,
-        "max": 1600,
+        "max": 2000,
         "step": 20,
         "default": 1200,
         "unit": "px",
