@@ -65,6 +65,9 @@
   #shopify-section-{{ section.id }} .wnb__arrow:hover { background: #F7EFF0; }
   #shopify-section-{{ section.id }} .wnb__arrow--prev { left: 0.75rem; }
   #shopify-section-{{ section.id }} .wnb__arrow--next { right: 0.75rem; }
+  #shopify-section-{{ section.id }} .wnb__dots { display: flex; justify-content: center; gap: 8px; margin-top: 1.6rem; }
+  #shopify-section-{{ section.id }} .wnb__dot { width: 8px; height: 8px; border-radius: 50%; border: none; padding: 0; background: var(--elora-grey-line, #E6E1E2); cursor: pointer; transition: background 0.2s, width 0.2s; }
+  #shopify-section-{{ section.id }} .wnb__dot.is-active { background: var(--elora-maroon, #7A1520); width: 20px; border-radius: 4px; }
   #shopify-section-{{ section.id }} .wnb__item {
     flex: 0 0 62%;
     max-width: 260px;
@@ -206,6 +209,7 @@
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
   </div>
+  <div class="wnb__dots" aria-label="Slide navigation"></div>
 </div>
 
 {%- comment -%} One quick-buy modal per unique product {%- endcomment -%}
@@ -293,6 +297,32 @@
       track.addEventListener('pointercancel', endDrag);
       /* Suppress the video sound-toggle / link click that follows a drag */
       track.addEventListener('click', function(e) { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+    }
+
+    /* Pagination dots (pages) */
+    var dotsWrap = section.querySelector('.wnb__dots');
+    if (track && dotsWrap) {
+      var rafD;
+      var buildDots = function () {
+        var pages = Math.max(1, Math.round(track.scrollWidth / track.clientWidth));
+        dotsWrap.innerHTML = '';
+        if (pages < 2) return;
+        for (var i = 0; i < pages; i++) {
+          var b = document.createElement('button');
+          b.className = 'wnb__dot' + (i === 0 ? ' is-active' : '');
+          b.type = 'button';
+          b.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+          (function (idx) { b.addEventListener('click', function () { track.scrollTo({ left: idx * track.clientWidth, behavior: 'smooth' }); }); })(i);
+          dotsWrap.appendChild(b);
+        }
+      };
+      var syncDots = function () {
+        var idx = Math.round(track.scrollLeft / track.clientWidth);
+        dotsWrap.querySelectorAll('.wnb__dot').forEach(function (d, i) { d.classList.toggle('is-active', i === idx); });
+      };
+      track.addEventListener('scroll', function () { cancelAnimationFrame(rafD); rafD = requestAnimationFrame(syncDots); });
+      window.addEventListener('resize', function () { buildDots(); syncDots(); });
+      buildDots();
     }
   })();
 </script>
