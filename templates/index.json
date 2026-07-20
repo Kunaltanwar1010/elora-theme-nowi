@@ -27,6 +27,16 @@
     "hero_carousel_HbU4x9": {
       "type": "hero-carousel",
       "blocks": {
+        "slide_a4QczP": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "desktop_image": "shopify://shop_images/2.png",
+            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
+            "cta_link": "shopify://collections",
+            "background_color": "#fefafa"
+          }
+        },
         "slide_M7P87w": {
           "type": "slide",
           "settings": {
@@ -36,21 +46,11 @@
             "cta_link": "shopify://collections",
             "background_color": "#fefafa"
           }
-        },
-        "slide_a4QczP": {
-          "type": "slide",
-          "settings": {
-            "media_type": "image",
-            "desktop_image": "shopify://shop_images/2.png",
-            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
-            "cta_link": "",
-            "background_color": "#fefafa"
-          }
         }
       },
       "block_order": [
-        "slide_M7P87w",
-        "slide_a4QczP"
+        "slide_a4QczP",
+        "slide_M7P87w"
       ],
       "name": "Hero Carousel",
       "settings": {
