@@ -12,6 +12,13 @@ Base: Dawn 15.4.0. Dev theme 148035436623. Never push to 147811172431.
 
 ## [Unreleased]
 
+### 2026-07-21 — Phase 5: two-tab system removed for good + women-only homepage landed
+**What:** Earlier Phase 5 homepage pushes kept getting reverted by the theme editor (it holds the live homepage in memory and syncs the old state back over any git push to `index.json` / gated sections), which left the homepage referencing deleted sections → blank, and the category-visibility system (defaulting to "men") hiding the women sections.
+**Interim band-aid (then removed):** forced `.category-controlled-section` visible via `!important` in `base.css` so nothing was hidden while the editor kept reverting.
+**Permanent fix (with the theme editor closed so it couldn't revert):** deleted `homepage-category-nav`, `trending-carousel`, `announcement-bar-heroimage`, `category-visibility-wrapper`, `category-detection.js`, `category-nav.js`, `component-homepage-category-nav.css`; removed the base.css band-aid; installed the women-only `index.json` (hero → best sellers → shop by collection → 3× banner+grid → testimonials → trust marquee). Verified it held on origin with no bot revert.
+**Lesson:** `index.json` and section *settings* are theme-editor-owned — pushing them via git only sticks when the editor is fully closed. Raw asset files (CSS/JS/liquid section code) push fine anytime.
+**Files:** `templates/index.json`, `assets/base.css`, + deletions.
+
 ### 2026-07-20 — Phase 5: kill two-tab system + rebuild homepage (structure)
 **What:** Removed the nowi men/women tab architecture and rebuilt `templates/index.json` as the women-only Elora homepage.
 **Killed:** de-gated `hero-carousel`, `collection-grid`, `category-carousel` (removed the `category-visibility-wrapper` renders + `show_in_all_categories`/`category_only_show_for` schema settings); removed the render-blocking `category-detection.js` from `theme.liquid` head (ParserBlockingScript 5→4); deleted `homepage-category-nav.liquid`, `trending-carousel.liquid`, `announcement-bar-heroimage.liquid`, `category-visibility-wrapper.liquid`, `category-detection.js`, `category-nav.js`.
