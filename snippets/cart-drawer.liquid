@@ -152,14 +152,14 @@
                     return !(productId && cartProductIds.includes(productId));
                   });
 
-                  // Second pass: try to filter by different product type
+                  // Second pass: prefer different product types, but keep same-type
+                  // cards as top-up so the strip always shows as many as possible
                   const differentTypeCards = notInCartCards.filter(card => {
                     const productType = card.dataset.productType || '';
                     return !(productType && cartProductTypes.includes(productType));
                   });
-
-                  // Use different type cards if available, otherwise fallback to all non-cart cards
-                  const cardsToShow = differentTypeCards.length > 0 ? differentTypeCards : notInCartCards;
+                  const sameTypeCards = notInCartCards.filter(card => !differentTypeCards.includes(card));
+                  const cardsToShow = differentTypeCards.concat(sameTypeCards);
 
                   // Update the grid
                   const grid = this.querySelector('.cart-recommendations__grid');
@@ -469,7 +469,7 @@
                 {%- assign recommendation_product = cart.items.first.product -%}
                 <cart-drawer-recommendations
                   class="cart-recommendations"
-                  data-url="{{ routes.product_recommendations_url }}?section_id=cart-drawer-recommendations&product_id={{ recommendation_product.id }}&limit=12"
+                  data-url="{{ routes.product_recommendations_url }}?section_id=cart-drawer-recommendations&product_id={{ recommendation_product.id }}&limit=10"
                   data-cart-product-ids="{% for item in cart.items %}{{ item.product.id }}{% unless forloop.last %},{% endunless %}{% endfor %}"
                 >
                   <h3 class="cart-recommendations__title">Complete your look</h3>

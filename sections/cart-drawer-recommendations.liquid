@@ -10,7 +10,7 @@
 
 {%- if recommendations.performed and recommendations.products_count > 0 -%}
   <div class="cart-recommendations__products" data-recommendations>
-    {%- for product in recommendations.products limit: 6 -%}
+    {%- for product in recommendations.products limit: 10 -%}
       {%- comment -%} Modal ID matches the one generated in quick-buy-modal.liquid {%- endcomment -%}
       {%- assign modal_id = 'QuickBuyModal-' | append: product.id -%}
       <div class="recommendations-card" data-product-id="{{ product.id }}" data-product-type="{{ product.type | handleize }}">
