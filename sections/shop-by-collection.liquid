@@ -12,11 +12,13 @@
   # the row/carousel stays aligned). Falls back to 4:5 when no image is set.
   assign card_ratio = '4 / 5'
   for block in section.blocks
-    assign first_img = block.settings.image | default: block.settings.collection.featured_image
-    if first_img != blank
-      assign card_ratio = first_img.aspect_ratio
-      break
-    endif
+    unless block.settings.show_card == false
+      assign first_img = block.settings.image | default: block.settings.collection.featured_image
+      if first_img != blank
+        assign card_ratio = first_img.aspect_ratio
+        break
+      endif
+    endunless
   endfor
 -%}
 
@@ -106,6 +108,7 @@
   <div class="sbc__wrap">
   <div class="sbc__track">
     {%- for block in section.blocks -%}
+      {%- unless block.settings.show_card == false -%}
       {%- liquid
         assign coll = block.settings.collection
         assign card_image = block.settings.image | default: coll.featured_image
@@ -128,6 +131,7 @@
           <p class="sbc__label">{{ card_label | escape }}</p>
         </div>
       </a>
+      {%- endunless -%}
     {%- endfor -%}
   </div>
     <div class="sbc__dots" aria-label="Slide navigation"></div>
@@ -237,6 +241,13 @@
       "type": "card",
       "name": "Collection card",
       "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_card",
+          "label": "Show this card",
+          "default": true,
+          "info": "Uncheck to hide this collection without deleting it."
+        },
         {
           "type": "collection",
           "id": "collection",
