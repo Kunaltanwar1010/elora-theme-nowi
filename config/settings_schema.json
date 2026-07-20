@@ -818,19 +818,19 @@
         "type": "color",
         "id": "modern_card_discount_bg_color",
         "label": "Discount badge background",
-        "default": "#F7EFF0"
+        "default": "#FEFAFA"
       },
       {
         "type": "color",
         "id": "modern_card_discount_text_color",
         "label": "Discount badge text color",
-        "default": "#7A1520"
+        "default": "#111111"
       },
       {
         "type": "color",
         "id": "modern_card_inline_discount_color",
         "label": "Inline discount text color",
-        "default": "#7A1520",
+        "default": "#111111",
         "info": "Color for discount text shown inline with prices (for smaller discounts)"
       },
       {

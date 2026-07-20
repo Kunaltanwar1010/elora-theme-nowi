@@ -37,8 +37,8 @@
   --account-btn-secondary-hover: #FAFAFA;
 
   /* Accent - Yellow (minimal use) */
-  --account-accent: #7A1520;
-  --account-accent-soft: #F7EFF0;
+  --account-accent: #111111;
+  --account-accent-soft: #FEFAFA;
   --account-accent-text: #111111;
 
   /* Borders */
@@ -55,12 +55,12 @@
   /* Status Colors */
   --account-status-success: #2F7A55;
   --account-status-success-bg: #ECFDF5;
-  --account-status-warning: #7A1520;
-  --account-status-warning-bg: #F7EFF0;
+  --account-status-warning: #111111;
+  --account-status-warning-bg: #FEFAFA;
   --account-status-error: #B23A3A;
   --account-status-error-bg: #FEF2F2;
-  --account-status-info: #7A1520;
-  --account-status-info-bg: #F7EFF0;
+  --account-status-info: #111111;
+  --account-status-info-bg: #FEFAFA;
 
   /* Transitions */
   --account-transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
@@ -333,7 +333,7 @@
 }
 
 .account-btn-accent:hover {
-  background: #7A1520;
+  background: #111111;
   box-shadow: 0 2px 4px rgba(255, 191, 0, 0.3);
 }
 
@@ -673,7 +673,7 @@
 /* Yellow badge - for special highlights like "Delivered" */
 .account-badge-accent {
   background: var(--account-accent-soft);
-  color: #7A1520;
+  color: #111111;
 }
 
 /* ==========================================================================

@@ -34,7 +34,7 @@
   }
 
   .razorpay-sso-button-{{ section.id }} {
-    background-color: {{ section.settings.button_bg_color | default: '#7A1520' }};
+    background-color: {{ section.settings.button_bg_color | default: '#111111' }};
     color: {{ section.settings.button_text_color | default: '#ffffff' }} !important;
     text-decoration: none !important;
     transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -247,7 +247,7 @@
       "type": "color",
       "id": "button_bg_color",
       "label": "Button Background Color",
-      "default": "#7A1520"
+      "default": "#111111"
     },
     {
       "type": "color",

@@ -19,7 +19,7 @@
         "show_icon": true,
         "icon_emoji": "🔐",
         "heading_color": "#111111",
-        "button_bg_color": "#7A1520",
+        "button_bg_color": "#111111",
         "button_text_color": "#111111",
         "section_bg_color": "#ffffff",
         "enable_card_style": true,

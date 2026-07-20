@@ -7,8 +7,8 @@
 
 {%- liquid
   assign dir = section.settings.direction
-  assign icon_color = section.settings.icon_color | default: '#7A1520'
-  assign text_color = section.settings.text_color | default: '#7A1520'
+  assign icon_color = section.settings.icon_color | default: '#FFFFFF'
+  assign text_color = section.settings.text_color | default: '#111111'
   assign icon_size = section.settings.icon_size | default: 28
   assign gap = section.settings.gap | default: 48
   assign speed = section.settings.speed | default: 40
@@ -103,7 +103,7 @@
     { "type": "checkbox", "id": "pause_on_hover", "label": "Pause on hover", "default": true },
     { "type": "header", "content": "Appearance" },
     { "type": "color", "id": "bg_color", "label": "Background", "default": "#111111" },
-    { "type": "color", "id": "icon_color", "label": "Icon colour", "default": "#7A1520" },
+    { "type": "color", "id": "icon_color", "label": "Icon colour", "default": "#FFFFFF" },
     { "type": "color", "id": "text_color", "label": "Text colour", "default": "#FFFFFF" },
     { "type": "range", "id": "icon_size", "label": "Icon size", "min": 18, "max": 48, "step": 2, "unit": "px", "default": 28 },
     { "type": "range", "id": "gap", "label": "Gap between badges", "min": 16, "max": 96, "step": 4, "unit": "px", "default": 48 },

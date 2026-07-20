@@ -104,7 +104,7 @@
     min-width: 18px;
     height: 18px;
     padding: 0 5px;
-    background: #7A1520;
+    background: #111111;
     color: white;
     font-size: 11px;
     font-weight: 700;
@@ -223,9 +223,9 @@
     content: '';
     width: 20px;
     height: 20px;
-    border: 2px solid #7A1520;
+    border: 2px solid #111111;
     border-radius: 50%;
-    background: #7A1520;
+    background: #111111;
     box-shadow: inset 0 0 0 3px white;
   }
 
@@ -386,7 +386,7 @@
     display: inline-block;
     font-size: 11px;
     font-weight: 600;
-    color: #7A1520;
+    color: #111111;
     margin-left: 4px;
   }
 
@@ -434,8 +434,8 @@
   }
 
   .desktop-filter-sidebar__option input[type="checkbox"]:checked {
-    border-color: #7A1520;
-    background: #7A1520;
+    border-color: #111111;
+    background: #111111;
   }
 
   .desktop-filter-sidebar__option input[type="checkbox"]:checked::after {
@@ -499,8 +499,8 @@
   }
 
   .desktop-filter-sidebar__color.is-selected .desktop-filter-sidebar__color-swatch {
-    border-color: #7A1520;
-    box-shadow: 0 0 0 2px white, 0 0 0 4px #7A1520;
+    border-color: #111111;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #111111;
   }
 
   .desktop-filter-sidebar__color-label {
@@ -554,7 +554,7 @@
   }
 
   .desktop-filter-sidebar__price-field:focus-within {
-    border-color: #7A1520;
+    border-color: #111111;
     background: white;
     box-shadow: 0 0 0 3px rgba(255, 191, 0, 0.15);
   }

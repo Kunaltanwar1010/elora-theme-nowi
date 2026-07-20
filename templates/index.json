@@ -18,7 +18,7 @@
         "text": "Loved by over 10,000+ customers since 2016",
         "link": "",
         "interval": 4,
-        "bg_color": "#7a1520",
+        "bg_color": "#111111",
         "text_color": "#ffffff",
         "text_size": 13,
         "padding_y": 8
@@ -32,7 +32,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "",
-            "background_color": "#f7eff0"
+            "background_color": "#FEFAFA"
           }
         },
         "slide_a4QczP": {
@@ -40,7 +40,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "",
-            "background_color": "#f7eff0"
+            "background_color": "#FEFAFA"
           }
         }
       },
@@ -104,7 +104,7 @@
         "bubble_size": 72,
         "label_font_size": 14,
         "subtitle_font_size": 12,
-        "bubble_color": "#f7eff0",
+        "bubble_color": "#FEFAFA",
         "label_color": "#000000",
         "subtitle_color": "#111111"
       }
@@ -186,7 +186,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "",
-            "background_color": "#f7eff0"
+            "background_color": "#FEFAFA"
           }
         }
       },
@@ -237,7 +237,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "",
-            "background_color": "#f7eff0"
+            "background_color": "#FEFAFA"
           }
         }
       },
@@ -288,7 +288,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "",
-            "background_color": "#f7eff0"
+            "background_color": "#FEFAFA"
           }
         }
       },
@@ -377,7 +377,7 @@
         "heading": "Watch & Buy",
         "heading_color": "#111111",
         "bg_color": "#fdf7f5",
-        "cta_color": "#7a1520",
+        "cta_color": "#111111",
         "cta_text_color": "#ffffff",
         "padding_y": 20
       }
@@ -572,7 +572,7 @@
         "direction": "ltr",
         "speed": 100,
         "pause_on_hover": true,
-        "bg_color": "#7a1520",
+        "bg_color": "#111111",
         "icon_color": "#ffffff",
         "text_color": "#ffffff",
         "icon_size": 28,

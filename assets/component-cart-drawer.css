@@ -1101,7 +1101,7 @@ input[type="number"] {
 }
 
 .cart-item-title:hover {
-  color: #7A1520;
+  color: #111111;
 }
 
 .cart-item-variant-pills {
@@ -1152,7 +1152,7 @@ input[type="number"] {
 
 .variant-pill-select:focus {
   outline: none;
-  border-color: #7A1520;
+  border-color: #111111;
 }
 
 .cart-item-price {
@@ -1264,7 +1264,7 @@ input[type="number"] {
   object-position: center top;
   border-radius: 6px;
   transition: opacity 0.2s ease-out;
-  background-color: #F7EFF0;
+  background-color: #FEFAFA;
   flex-shrink: 0;
 }
 
@@ -1323,7 +1323,7 @@ cart-drawer-recommendations {
   display: block;
   border-top: 1px solid rgba(11, 18, 32, 0.08);
   padding: 20px 0;
-  background: #F7EFF0;
+  background: #FEFAFA;
   margin: 0 calc(var(--drawer-padding-x, 16px) * -1);
   padding-left: var(--drawer-padding-x, 16px);
   padding-right: var(--drawer-padding-x, 16px);

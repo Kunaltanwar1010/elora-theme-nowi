@@ -80,7 +80,7 @@
         "delivery_eta_timeline": {
           "type": "delivery_eta_timeline",
           "settings": {
-            "background_color": "#FFFAFA",
+            "background_color": "#FEFAFA",
             "progress_percent": 45
           }
         },
@@ -278,7 +278,7 @@
         "heading": "Loved by 10,000+ girls 💕",
         "subheading": "obsessed? same.",
         "heading_color": "#111111",
-        "bg_color": "#F7EFF0",
+        "bg_color": "#FEFAFA",
         "marquee_tag": "#WearElora",
         "marquee_speed": 30,
         "padding_y": 48

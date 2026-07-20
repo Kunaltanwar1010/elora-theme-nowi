@@ -59,13 +59,13 @@
     background: #FFFFFF;
     box-shadow: 0 4px 14px rgba(0,0,0,0.18);
     border: none;
-    color: var(--elora-maroon, #7A1520);
+    color: var(--elora-maroon, #111111);
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 3;
   }
-  #shopify-section-{{ section.id }} .tsm__arrow:hover { background: #F7EFF0; }
+  #shopify-section-{{ section.id }} .tsm__arrow:hover { background: #FEFAFA; }
   #shopify-section-{{ section.id }} .tsm__arrow--prev { left: 0.75rem; }
   #shopify-section-{{ section.id }} .tsm__arrow--next { right: 0.75rem; }
   #shopify-section-{{ section.id }} .tsm__dots {
@@ -85,7 +85,7 @@
     transition: background 0.2s, width 0.2s;
   }
   #shopify-section-{{ section.id }} .tsm__dot.is-active {
-    background: var(--elora-maroon, #7A1520);
+    background: var(--elora-maroon, #111111);
     width: 20px;
     border-radius: 4px;
   }
@@ -107,7 +107,7 @@
     margin-bottom: 1.2rem;
   }
   #shopify-section-{{ section.id }} .tsm__stars {
-    color: #7A1520;
+    color: #111111;
     font-size: 1.4rem;
     letter-spacing: 0.15em;
     margin-bottom: 0.8rem;
@@ -327,7 +327,7 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background color",
-      "default": "#F7EFF0"
+      "default": "#FEFAFA"
     },
     {
       "type": "text",

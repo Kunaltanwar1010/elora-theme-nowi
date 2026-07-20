@@ -31,12 +31,12 @@
   }
 
   /* Icons — single consistent colour from schema, inherited via currentColor */
-  .section-header-custom .header__icon { color: {{ section.settings.icon_color | default: '#7A1520' }}; }
+  .section-header-custom .header__icon { color: {{ section.settings.icon_color | default: '#111111' }}; }
   .section-header-custom .header__icon svg { width: 23px; height: 23px; }
 
   /* Cart count bubble — maroon fill, white text (hidden when zero via Liquid) */
   .section-header-custom .cart-count-bubble {
-    background: var(--elora-maroon, #7A1520);
+    background: var(--elora-maroon, #111111);
     color: #FFFFFF;
   }
 
@@ -44,7 +44,7 @@
   .section-header-custom .header__icon:focus-visible,
   .section-header-custom .header-custom-nav a:focus-visible,
   .section-header-custom .mobile-menu-toggle:focus-visible {
-    outline: 2px solid var(--elora-maroon, #7A1520);
+    outline: 2px solid var(--elora-maroon, #111111);
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -633,7 +633,7 @@
       "type": "color",
       "id": "icon_color",
       "label": "Icon Color",
-      "default": "#7A1520"
+      "default": "#111111"
     },
     {
       "type": "checkbox",

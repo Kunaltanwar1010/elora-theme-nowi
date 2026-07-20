@@ -7,10 +7,11 @@
  * these values for stock Dawn sections.
  */
 :root {
-  /* Brand */
-  --elora-maroon: #7A1520;       /* primary: headings on light, primary buttons, active states, stars, accents */
-  --elora-maroon-deep: #5A0F18;  /* hover / pressed on maroon */
-  --elora-maroon-tint: #F7EFF0;  /* light maroon wash: section bg, review bubbles, badges */
+  /* Brand — monochrome: black accent on light, white on dark, #FEFAFA soft tint.
+     (var names kept as --elora-maroon* for backward-compat; values are now black.) */
+  --elora-maroon: #111111;       /* primary accent: headings, primary buttons, active states, stars */
+  --elora-maroon-deep: #000000;  /* hover / pressed */
+  --elora-maroon-tint: #FEFAFA;  /* soft off-white wash: section bg, review bubbles, badges */
 
   /* Neutral */
   --elora-black: #111111;        /* body text, footer bg, secondary buttons */

@@ -7,9 +7,9 @@
   - title_color: {String} Title text color hex (default: #111111)
   - price_color: {String} Sale price color hex (default: #111111)
   - original_price_color: {String} Original price color hex (default: #6B6467)
-  - discount_bg_color: {String} Discount badge background hex (default: #F7EFF0)
-  - discount_text_color: {String} Discount badge text hex (default: #7A1520)
-  - inline_discount_color: {String} Inline discount text color hex (default: #7A1520)
+  - discount_bg_color: {String} Discount badge background hex (default: #FEFAFA)
+  - discount_text_color: {String} Discount badge text hex (default: #111111)
+  - inline_discount_color: {String} Inline discount text color hex (default: #111111)
   - title_font_size: {Number} Title font size in px (default: 14)
   - title_font_weight: {String} Title font weight (default: 500)
   - price_font_size: {Number} Sale price font size in px (default: 16)
@@ -41,9 +41,9 @@
     assign title_color = title_color | default: settings.modern_card_title_color | default: '#111111'
     assign price_color = price_color | default: settings.modern_card_price_color | default: '#111111'
     assign original_price_color = original_price_color | default: settings.modern_card_original_price_color | default: '#6B6467'
-    assign discount_bg_color = discount_bg_color | default: settings.modern_card_discount_bg_color | default: '#F7EFF0'
-    assign discount_text_color = discount_text_color | default: settings.modern_card_discount_text_color | default: '#7A1520'
-    assign inline_discount_color = inline_discount_color | default: settings.modern_card_inline_discount_color | default: '#7A1520'
+    assign discount_bg_color = discount_bg_color | default: settings.modern_card_discount_bg_color | default: '#FEFAFA'
+    assign discount_text_color = discount_text_color | default: settings.modern_card_discount_text_color | default: '#111111'
+    assign inline_discount_color = inline_discount_color | default: settings.modern_card_inline_discount_color | default: '#111111'
 
     assign title_font_size = title_font_size | default: settings.modern_card_title_font_size | default: 14
     assign title_font_weight = title_font_weight | default: settings.modern_card_title_font_weight | default: '500'
@@ -120,7 +120,7 @@
         {%- comment -%} Fast Delivery Tag - shown when TAT = 2 {%- endcomment -%}
         {%- assign tat_value = product.metafields.custom.tat.value -%}
         {% if tat_value == 2 %}
-          <div class="absolute top-0 right-0 flex items-center gap-1 pl-4 pr-2 py-1 md:pl-5 md:pr-3 md:py-1.5 text-[#6B6467]" style="background: #7A1520; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 8px 50%);">
+          <div class="absolute top-0 right-0 flex items-center gap-1 pl-4 pr-2 py-1 md:pl-5 md:pr-3 md:py-1.5 text-[#6B6467]" style="background: #111111; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 8px 50%);">
             <img src="{{ 'express-delivery.png' | asset_url }}" alt="Express" width="14" height="14" class="w-3.5 h-3.5 md:w-5 md:h-5">
             <span class="font-semibold text-[9px] md:text-lg">Express</span>
           </div>

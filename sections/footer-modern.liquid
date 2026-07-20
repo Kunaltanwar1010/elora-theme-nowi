@@ -69,7 +69,7 @@
     padding: 14px 24px;
     border-radius: 4px;
     background: {{ section.settings.accent_color }};
-    color: {{ section.settings.text_color }};
+    color: {{ section.settings.bg_color }};
     font-weight: 700;
     border: none;
     cursor: pointer;
@@ -113,7 +113,7 @@
     padding-bottom: 12px;
   }
 
-  /* Social Icons - white glyph on maroon circle (visible on the black footer) */
+  /* Social Icons - dark glyph on white circle (visible on the black footer) */
   .footer-branded-{{ section.id }} .social-icon {
     display: inline-flex;
     align-items: center;
@@ -127,11 +127,11 @@
   .footer-branded-{{ section.id }} .social-icon svg {
     width: 20px;
     height: 20px;
-    fill: #FFFFFF;
+    fill: {{ section.settings.bg_color }};
   }
 
   .footer-branded-{{ section.id }} .social-icon:hover {
-    background: var(--elora-maroon-deep, #5A0F18);
+    opacity: 0.8;
   }
 
   /* Layout Grid (mobile style on all screens) */
@@ -437,7 +437,7 @@
       "type": "color",
       "id": "accent_color",
       "label": "Accent Color (Buttons, Hover)",
-      "default": "#7A1520"
+      "default": "#FFFFFF"
     },
     {
       "type": "header",

@@ -56,18 +56,18 @@
     background: #FFFFFF;
     box-shadow: 0 4px 14px rgba(0,0,0,0.18);
     border: none;
-    color: var(--elora-maroon, #7A1520);
+    color: var(--elora-maroon, #111111);
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 3;
   }
-  #shopify-section-{{ section.id }} .wnb__arrow:hover { background: #F7EFF0; }
+  #shopify-section-{{ section.id }} .wnb__arrow:hover { background: #FEFAFA; }
   #shopify-section-{{ section.id }} .wnb__arrow--prev { left: 0.75rem; }
   #shopify-section-{{ section.id }} .wnb__arrow--next { right: 0.75rem; }
   #shopify-section-{{ section.id }} .wnb__dots { display: flex; justify-content: center; gap: 8px; margin-top: 1.6rem; }
   #shopify-section-{{ section.id }} .wnb__dot { width: 8px; height: 8px; border-radius: 50%; border: none; padding: 0; background: var(--elora-grey-line, #E6E1E2); cursor: pointer; transition: background 0.2s, width 0.2s; }
-  #shopify-section-{{ section.id }} .wnb__dot.is-active { background: var(--elora-maroon, #7A1520); width: 20px; border-radius: 4px; }
+  #shopify-section-{{ section.id }} .wnb__dot.is-active { background: var(--elora-maroon, #111111); width: 20px; border-radius: 4px; }
   #shopify-section-{{ section.id }} .wnb__item {
     flex: 0 0 62%;
     max-width: 260px;
@@ -353,7 +353,7 @@
       "type": "color",
       "id": "cta_color",
       "label": "Add button color",
-      "default": "#7A1520"
+      "default": "#111111"
     },
     {
       "type": "color",

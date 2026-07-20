@@ -90,7 +90,7 @@ a.hero-slide--link {
   position: absolute !important;
   width: 3rem !important;
   height: 3rem !important;
-  background-color: #F7EFF0 !important;
+  background-color: #FEFAFA !important;
   border-radius: 50% !important;
   cursor: pointer !important;
   display: flex !important;
@@ -118,7 +118,7 @@ a.hero-slide--link {
 .hero-button-prev:hover,
 .hero-button-next:hover {
   background-color: #000 !important;
-  color: #F7EFF0 !important;
+  color: #FEFAFA !important;
 }
 
 .hero-button-prev {
@@ -143,7 +143,7 @@ a.hero-slide--link {
 
 .hero-pagination .swiper-pagination-bullet {
   background-color: transparent !important;
-  border: 2px solid #F7EFF0 !important;
+  border: 2px solid #FEFAFA !important;
   width: 0.75rem !important;
   height: 0.75rem !important;
   margin: 0 !important;
@@ -153,8 +153,8 @@ a.hero-slide--link {
 }
 
 .hero-pagination .swiper-pagination-bullet-active {
-  background-color: #F7EFF0 !important;
-  border: 2px solid #F7EFF0 !important;
+  background-color: #FEFAFA !important;
+  border: 2px solid #FEFAFA !important;
   width: 1.5rem !important;
   border-radius: 0.375rem !important;
   opacity: 1 !important;
