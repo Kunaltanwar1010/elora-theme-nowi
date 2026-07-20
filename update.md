@@ -12,6 +12,14 @@ Base: Dawn 15.4.0. Dev theme 148035436623. Never push to 147811172431.
 
 ## [Unreleased]
 
+### 2026-07-20 — Center the Category Carousel bubbles when they don't fill the row
+**What:** Added `centerInsufficientSlides: true` to the Swiper init in `category-carousel.liquid`. With `slidesPerView:'auto'` + `freeMode`, a few bubbles (e.g. the 4-item preset: Dresses/Jeans/Sweaters/Kurtis) were left-aligned; now they center when they don't fill the container and still scroll normally when they overflow (mobile).
+**Files:** `sections/category-carousel.liquid`
+**Why:** Reported left-aligned category bubbles; wanted centered.
+**Schema settings added/changed:** none.
+**Verify:** Theme editor → the Category Carousel section on the homepage: with only a few bubbles on desktop they should sit centered; add enough bubbles to overflow and it should scroll from the left as before. Also check mobile still scrolls.
+**Notes / follow-ups:** Swiper 11's native option handles both cases. If any build still shows them left-aligned with `freeMode` on, fall back to a post-init JS width check that adds `justify-content:center` only when slides don't overflow. Unrelated pending work on this section: it still carries the nowi `category_only_show_for` gating (default "men") and loads Swiper from the jsDelivr CDN — both handled in Phase 2 step 2 / Phase 8, not here.
+
 ### 2026-07-20 — Reconcile with origin (live Shopify↔GitHub integration) + git-first deploy
 **What:** Discovered this repo's `main` is wired to the dev theme via **Shopify's GitHub integration** — origin/main had advanced **26 `shopify[bot]` auto-commits** ("Update from Shopify…") that our local base (`2c73a18`) predated. Rebased the two local commits (purge + prior build pass) onto `origin/main` and pushed. The build-pass commit collapsed to just the CLAUDE.md/ISSUES.md removal because its theme files were byte-identical to what the bot had already committed — so none of origin's 26 commits were reverted.
 **Files:** git history only (no theme-file content changed beyond what the purge/build-pass commits already recorded).
