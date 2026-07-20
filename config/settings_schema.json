@@ -56,13 +56,13 @@
             "type": "color",
             "id": "text",
             "label": "t:settings_schema.colors.settings.text.label",
-            "default": "#121212"
+            "default": "#111111"
           },
           {
             "type": "color",
             "id": "button",
             "label": "t:settings_schema.colors.settings.button_background.label",
-            "default": "#121212"
+            "default": "#111111"
           },
           {
             "type": "color",
@@ -74,13 +74,13 @@
             "type": "color",
             "id": "secondary_button_label",
             "label": "t:settings_schema.colors.settings.secondary_button_label.label",
-            "default": "#121212"
+            "default": "#111111"
           },
           {
             "type": "color",
             "id": "shadow",
             "label": "t:settings_schema.colors.settings.shadow.label",
-            "default": "#121212"
+            "default": "#111111"
           }
         ],
         "role": {
@@ -714,7 +714,7 @@
         "type": "color",
         "id": "modern_card_title_color",
         "label": "Product title color",
-        "default": "#1F2937"
+        "default": "#111111"
       },
       {
         "type": "range",
@@ -758,7 +758,7 @@
         "type": "color",
         "id": "modern_card_price_color",
         "label": "Sale price color",
-        "default": "#1F2937"
+        "default": "#111111"
       },
       {
         "type": "range",
@@ -798,7 +798,7 @@
         "type": "color",
         "id": "modern_card_original_price_color",
         "label": "Original price color (strikethrough)",
-        "default": "#6B7280"
+        "default": "#6B6467"
       },
       {
         "type": "range",
@@ -818,19 +818,19 @@
         "type": "color",
         "id": "modern_card_discount_bg_color",
         "label": "Discount badge background",
-        "default": "#FFEDD5"
+        "default": "#F7EFF0"
       },
       {
         "type": "color",
         "id": "modern_card_discount_text_color",
         "label": "Discount badge text color",
-        "default": "#C2410C"
+        "default": "#7A1520"
       },
       {
         "type": "color",
         "id": "modern_card_inline_discount_color",
         "label": "Inline discount text color",
-        "default": "#C2410C",
+        "default": "#7A1520",
         "info": "Color for discount text shown inline with prices (for smaller discounts)"
       },
       {
@@ -851,7 +851,7 @@
         "type": "color",
         "id": "modern_card_quick_buy_button_color",
         "label": "Add to cart button color",
-        "default": "#111827"
+        "default": "#111111"
       },
       {
         "type": "color",
@@ -1575,7 +1575,7 @@
         "type": "color",
         "id": "discount_text_color",
         "label": "Discount badge text color",
-        "default": "#166534"
+        "default": "#2F7A55"
       },
       {
         "type": "range",

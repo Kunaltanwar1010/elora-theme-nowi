@@ -16,35 +16,35 @@
   /* Backgrounds */
   --account-bg-page: #FFFFFF;
   --account-bg-card: #FFFFFF;
-  --account-bg-secondary: #F5F5F5;
-  --account-bg-tertiary: #EBEBEB;
+  --account-bg-secondary: #E6E1E2;
+  --account-bg-tertiary: #E6E1E2;
 
   /* Text - Navy Scale */
-  --account-text-primary: #0B1220;
-  --account-text-secondary: #495060;
-  --account-text-muted: #838A9C;
-  --account-text-light: #A4ABBE;
+  --account-text-primary: #111111;
+  --account-text-secondary: #6B6467;
+  --account-text-muted: #6B6467;
+  --account-text-light: #E6E1E2;
 
   /* Primary Actions - Navy */
-  --account-btn-primary-bg: #0B1220;
+  --account-btn-primary-bg: #111111;
   --account-btn-primary-text: #FFFFFF;
-  --account-btn-primary-hover: #2B3241;
+  --account-btn-primary-hover: #111111;
 
   /* Secondary Actions */
   --account-btn-secondary-bg: transparent;
-  --account-btn-secondary-border: #E5E5E5;
-  --account-btn-secondary-text: #0B1220;
+  --account-btn-secondary-border: #E6E1E2;
+  --account-btn-secondary-text: #111111;
   --account-btn-secondary-hover: #FAFAFA;
 
   /* Accent - Yellow (minimal use) */
-  --account-accent: #FFBF00;
-  --account-accent-soft: #FFF8E1;
-  --account-accent-text: #0B1220;
+  --account-accent: #7A1520;
+  --account-accent-soft: #F7EFF0;
+  --account-accent-text: #111111;
 
   /* Borders */
-  --account-border-light: #F0F0F0;
-  --account-border-medium: #E5E5E5;
-  --account-border-strong: #D4D4D4;
+  --account-border-light: #E6E1E2;
+  --account-border-medium: #E6E1E2;
+  --account-border-strong: #E6E1E2;
 
   /* Shadows - Layered for depth */
   --account-shadow-sm: 0 1px 2px rgba(11, 18, 32, 0.04), 0 2px 4px rgba(11, 18, 32, 0.02);
@@ -53,14 +53,14 @@
   --account-shadow-xl: 0 8px 16px rgba(11, 18, 32, 0.06), 0 24px 48px rgba(11, 18, 32, 0.08);
 
   /* Status Colors */
-  --account-status-success: #059669;
+  --account-status-success: #2F7A55;
   --account-status-success-bg: #ECFDF5;
-  --account-status-warning: #D97706;
-  --account-status-warning-bg: #FFFBEB;
-  --account-status-error: #DC2626;
+  --account-status-warning: #7A1520;
+  --account-status-warning-bg: #F7EFF0;
+  --account-status-error: #B23A3A;
   --account-status-error-bg: #FEF2F2;
-  --account-status-info: #0891B2;
-  --account-status-info-bg: #ECFEFF;
+  --account-status-info: #7A1520;
+  --account-status-info-bg: #F7EFF0;
 
   /* Transitions */
   --account-transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
@@ -333,7 +333,7 @@
 }
 
 .account-btn-accent:hover {
-  background: #E6AC00;
+  background: #7A1520;
   box-shadow: 0 2px 4px rgba(255, 191, 0, 0.3);
 }
 
@@ -437,7 +437,7 @@
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--account-text-primary) 0%, #374151 100%);
+  background: linear-gradient(135deg, var(--account-text-primary) 0%, #6B6467 100%);
   color: white;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
@@ -528,7 +528,7 @@
 
 .account-sidebar__link--logout:hover {
   background: var(--account-status-error-bg);
-  color: #B91C1C;
+  color: #B23A3A;
 }
 
 /* ==========================================================================
@@ -673,7 +673,7 @@
 /* Yellow badge - for special highlights like "Delivered" */
 .account-badge-accent {
   background: var(--account-accent-soft);
-  color: #B7860A;
+  color: #7A1520;
 }
 
 /* ==========================================================================
@@ -683,7 +683,7 @@
 .account-profile-hero {
   position: relative;
   height: 5rem;
-  background: linear-gradient(135deg, var(--account-text-primary) 0%, #2B3241 50%, #495060 100%);
+  background: linear-gradient(135deg, var(--account-text-primary) 0%, #111111 50%, #6B6467 100%);
   overflow: hidden;
 }
 
@@ -710,7 +710,7 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--account-text-primary) 0%, #374151 100%);
+  background: linear-gradient(135deg, var(--account-text-primary) 0%, #6B6467 100%);
   display: flex;
   align-items: center;
   justify-content: center;

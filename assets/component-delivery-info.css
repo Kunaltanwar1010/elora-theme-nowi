@@ -13,7 +13,7 @@
 /* Main Heading - matches product details style */
 .delivery-info__main-heading {
   padding: 1.6rem 0 1.2rem 0;
-  border-top: 1px solid #e8e8e8;
+  border-top: 1px solid #E6E1E2;
 }
 
 .delivery-info__main-heading h3 {
@@ -21,7 +21,7 @@
   font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: #0b1220;
+  color: #111111;
   text-transform: uppercase;
 }
 
@@ -39,7 +39,7 @@
   margin-bottom: 1rem;
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #E6E1E2;
 }
 
 .delivery-info__pincode-input {
@@ -47,14 +47,14 @@
   padding: 1.4rem 2rem;
   border: none;
   font-size: 1.4rem;
-  color: #0b1220;
+  color: #111111;
   font-weight: 400;
   background: #ffffff;
   outline: none;
 }
 
 .delivery-info__pincode-input::placeholder {
-  color: #0b1220;
+  color: #111111;
   opacity: 0.5;
 }
 
@@ -75,7 +75,7 @@
 }
 
 .delivery-info__check-btn:hover {
-  background: #333333;
+  background: #111111;
 }
 
 .delivery-info__check-btn:active {
@@ -83,13 +83,13 @@
 }
 
 .delivery-info__check-btn:disabled {
-  background: #0b1220;
+  background: #111111;
   opacity: 0.3;
   cursor: not-allowed;
 }
 
 .delivery-info__check-btn:disabled:hover {
-  background: #0b1220;
+  background: #111111;
 }
 
 .delivery-info__check-btn--loading {
@@ -114,7 +114,7 @@
 .delivery-info__icon {
   width: 20px;
   height: 20px;
-  color: #0b1220;
+  color: #111111;
   flex-shrink: 0;
   margin-top: 0.2rem;
 }
@@ -123,17 +123,17 @@
   flex: 1;
   font-size: 1.4rem;
   line-height: 1.6;
-  color: #0b1220;
+  color: #111111;
   font-weight: 400;
 }
 
 .delivery-info__text strong {
-  color: #0b1220;
+  color: #111111;
   font-weight: 600;
 }
 
 .delivery-info__link {
-  color: #0b1220;
+  color: #111111;
   text-decoration: underline;
   margin-left: 0.4rem;
 }
@@ -181,10 +181,10 @@
 }
 
 /* Success/Error States */
-.delivery-info__text[style*="color: #2e7d32"] {
-  color: #2e7d32 !important;
+.delivery-info__text[style*="color: #2F7A55"] {
+  color: #2F7A55 !important;
 }
 
-.delivery-info__text[style*="color: #d32f2f"] {
-  color: #d32f2f !important;
+.delivery-info__text[style*="color: #B23A3A"] {
+  color: #B23A3A !important;
 }

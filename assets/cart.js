@@ -387,7 +387,7 @@ async function openCartItemSizeSelector(element, event) {
   // Show loading state
   const modal = document.getElementById('CartItemSizeSelector');
   const optionsContainer = document.getElementById('CartItemSizeOptions');
-  optionsContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #9ca3af;">Loading...</div>';
+  optionsContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #E6E1E2;">Loading...</div>';
 
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -469,7 +469,7 @@ async function openCartItemSizeSelector(element, event) {
     optionsContainer.innerHTML = optionsHTML;
   } catch (error) {
     console.error('Error loading variant options:', error);
-    optionsContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #ef4444;">Error loading options</div>';
+    optionsContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #B23A3A;">Error loading options</div>';
   }
 }
 

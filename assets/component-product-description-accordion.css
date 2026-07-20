@@ -34,7 +34,7 @@
 /* Main Heading */
 .pda-main-heading {
   padding: 1.6rem 0 1.2rem 0;
-  border-top: 1px solid #e8e8e8;
+  border-top: 1px solid #E6E1E2;
 }
 
 .pda-main-heading h3 {
@@ -42,7 +42,7 @@
   font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: #0b1220;
+  color: #111111;
   text-transform: uppercase;
 }
 
@@ -53,7 +53,7 @@
 
 /* Accordion Base */
 .pda-accordion {
-  border-bottom: 1px solid #e8e8e8;
+  border-bottom: 1px solid #E6E1E2;
 }
 
 /* Nested Accordion */
@@ -62,7 +62,7 @@
 }
 
 .pda-accordion--nested:last-child {
-  border-bottom: 1px solid #e8e8e8;
+  border-bottom: 1px solid #E6E1E2;
 }
 
 /* Accordion Header */
@@ -96,7 +96,7 @@
 .pda-accordion__title-icon {
   width: 24px;
   height: 24px;
-  color: #0b1220;
+  color: #111111;
   flex-shrink: 0;
 }
 
@@ -104,7 +104,7 @@
   font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: #0b1220;
+  color: #111111;
   text-transform: uppercase;
 }
 
@@ -114,7 +114,7 @@
   font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
-  color: #0b1220;
+  color: #111111;
 }
 
 /* Icon Toggle */
@@ -124,7 +124,7 @@
   justify-content: center;
   width: 20px;
   height: 20px;
-  color: #0b1220;
+  color: #111111;
 }
 
 .pda-icon-chevron {
@@ -149,7 +149,7 @@
 .pda-description-text {
   font-size: 1.4rem;
   line-height: 1.8;
-  color: #0b1220;
+  color: #111111;
   font-weight: 400;
   margin-bottom: 2rem;
 }
@@ -177,7 +177,7 @@
 
 .pda-grid__label {
   font-size: 1.2rem;
-  color: #0b1220;
+  color: #111111;
   font-weight: 400;
   opacity: 0.7;
   margin-bottom: 0.4rem;
@@ -187,7 +187,7 @@
 .pda-grid__value {
   font-size: 1.4rem;
   font-weight: 600;
-  color: #0b1220;
+  color: #111111;
   line-height: 1.4;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -263,7 +263,7 @@
   font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: #0b1220;
+  color: #111111;
   text-transform: uppercase;
   margin: 0 0 1rem 0;
 }
@@ -288,7 +288,7 @@
 
 .pda-description-text .spec-label {
   font-size: 1.2rem;
-  color: #0b1220;
+  color: #111111;
   opacity: 0.7;
   margin-bottom: 0.3rem;
   display: block;
@@ -297,13 +297,13 @@
 .pda-description-text .spec-value {
   font-size: 1.4rem;
   font-weight: 600;
-  color: #0b1220;
+  color: #111111;
   display: block;
 }
 
 /* Collapsible Details Sections */
 .pda-description-text details {
-  border-bottom: 1px solid #e8e8e8;
+  border-bottom: 1px solid #E6E1E2;
 }
 
 .pda-description-text details summary {
@@ -315,7 +315,7 @@
   list-style: none;
   font-size: 1.4rem;
   font-weight: 600;
-  color: #0b1220;
+  color: #111111;
   user-select: none;
 }
 
@@ -327,7 +327,7 @@
   content: '+';
   font-size: 1.6rem;
   font-weight: 400;
-  color: #0b1220;
+  color: #111111;
 }
 
 .pda-description-text details[open] summary::after {
@@ -338,7 +338,7 @@
   padding: 0 0 1.5rem 0;
   font-size: 1.4rem;
   line-height: 1.7;
-  color: #0b1220;
+  color: #111111;
 }
 
 .pda-description-text details .content p {
@@ -365,7 +365,7 @@
 /* Style Tip */
 .pda-description-text .style-tip {
   font-style: italic;
-  color: #0b1220;
+  color: #111111;
 }
 
 /* FAQ Section - Nested Accordions */
@@ -379,7 +379,7 @@
 
 .pda-description-text .faq-item {
   border-bottom: none;
-  border-left: 2px solid #e8e8e8;
+  border-left: 2px solid #E6E1E2;
   margin-bottom: 0.5rem;
   padding-left: 1rem;
 }
@@ -397,7 +397,7 @@
 .pda-description-text .faq-item .answer {
   font-size: 1.3rem;
   line-height: 1.6;
-  color: #0b1220;
+  color: #111111;
   opacity: 0.85;
   padding-bottom: 1rem;
 }

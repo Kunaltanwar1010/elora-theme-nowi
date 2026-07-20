@@ -12,6 +12,14 @@ Base: Dawn 15.4.0. Dev theme 148035436623. Never push to 147811172431.
 
 ## [Unreleased]
 
+### 2026-07-20 — Phase 3: maroon / white / black design system (replaces gold + warm-sand)
+**What:** Replaced the entire gold/warm-sand/green/blue colour system with a three-colour maroon / white / black system + two greys + desaturated success/error.
+**Files:** `src/input.css` (new `--elora-*` tokens, rebuilt to `assets/tailwind.css`), `config/settings_data.json` (colour schemes 1–4 rebuilt in both `current` and the `Dawn` preset; scheme-5 repurposed to maroon; button/badge/discount settings re-set with correct on-maroon contrast), `sections/footer-group.json` + `sections/footer-modern.liquid` (footer now black bg / white text / maroon accent, social-icon circles → maroon so they're visible on black), `DESIGN.md` (frontmatter + colour prose rewritten to match), and ~50 component `.liquid/.css/.js` files (every off-palette hex normalised to the tokens).
+**Colour tokens:** maroon `#7A1520`, maroon-deep `#5A0F18`, maroon-tint `#F7EFF0`, black `#111111`, white `#FFFFFF`, grey-line `#E6E1E2`, grey-muted `#6B6467`, success `#2F7A55`, error `#B23A3A`. Defined in `src/input.css` as `var(--elora-*)`.
+**Schema settings added/changed:** colour schemes 1–4 (see DESIGN.md §2); footer `bg_color`/`text_color`/`accent_color` defaults; no new setting ids.
+**Verify:** Theme editor → Theme settings → Colors shows scheme-1 white/maroon, scheme-2 tint, scheme-3 maroon, scheme-4 black. Homepage/PLP/PDP: headings, primary buttons, price/badges read maroon; footer is black. `shopify theme check` = 0 new errors. All text/bg pairings pass WCAG AA (verified: body 18.9:1, maroon-on-white 10.7:1, muted 5.8:1, success 5.2:1, error 5.9:1).
+**Notes / follow-ups:** (1) Two items I made judgement calls on — flag if you disagree: the **footer flipped to black** (per scheme-4 spec; social icons fixed to maroon so they stay visible), and the **WhatsApp bubble green (`#25D366`) → maroon** for strict palette compliance (say the word if you'd rather keep it recognisably WhatsApp-green). (2) The maroon button *edge* on the black footer is 1.76:1 (below the 3:1 non-text guideline) — its white label passes at 18.9:1 so it's legible; add a hairline border if you want the edge crisper. (3) Light green/red **state-background** tints (`#ECFDF5`, `#FEF2F2`) remain by design — the allowed cart/form-validation exception. (4) `tailwind.css` is now built from `src/input.css` via `npm run build` (ran `npm install` to enable it).
+
 ### 2026-07-20 — Center the Category Carousel bubbles when they don't fill the row
 **What:** Added `centerInsufficientSlides: true` to the Swiper init in `category-carousel.liquid`. With `slidesPerView:'auto'` + `freeMode`, a few bubbles (e.g. the 4-item preset: Dresses/Jeans/Sweaters/Kurtis) were left-aligned; now they center when they don't fill the container and still scroll normally when they overflow (mobile).
 **Files:** `sections/category-carousel.liquid`
@@ -93,18 +101,22 @@ Current scheme values as defined in `config/settings_data.json` → `color_schem
 **This whole table is slated for replacement in the Phase 2 colour swap** — update
 it in the same entry that changes the schemes.
 
-| Scheme | background | text | button | button_label | secondary_button_label | Role (per DESIGN.md) |
-|---|---|---|---|---|---|---|
-| scheme-1 | `#ffffff` | `#0b1220` | `#ffbf00` | `#0b1220` | `#0b1220` | Default paper / gold CTA |
-| scheme-2 | `#f5f1e8` | `#0b1220` | `#0b1220` | `#ffbf00` | `#0b1220` | Warm-sand section / inverse button |
-| scheme-3 | `#008000` | `#ffffff` | `#ffffff` | `#008000` | `#ffffff` | Success / signal green |
-| scheme-4 | `#121212` | `#ffffff` | `#ffffff` | `#121212` | `#ffffff` | Dark (unused by brand) |
-| scheme-5 | `#334fb4` | `#ffffff` | `#ffffff` | `#334fb4` | `#ffffff` | Blue (nowi leftover) |
+Maroon / white / black system (Phase 3, 2026-07-20). Tokens live in
+`src/input.css` as `var(--elora-*)`; schemes mirror them in `settings_data.json`.
 
-**Named brand hexes (DESIGN.md):** ink `#0b1220`, paper `#ffffff`, gold `#ffbf00`,
-warm-sand `#f5f1e8`, signal-green `#008000`.
-**Legacy blush/pastel (to purge):** `#E75480`, `#FDF3F0`, `#3A2E2B` — only in
-`trust-strip`, `shop-by-collection`, `watch-and-buy`, `testimonials`.
+| Scheme | background | text | button | button_label | secondary_button_label | Role |
+|---|---|---|---|---|---|---|
+| scheme-1 | `#FFFFFF` | `#111111` | `#7A1520` | `#FFFFFF` | `#7A1520` | Default: white bg / maroon CTA |
+| scheme-2 | `#F7EFF0` | `#111111` | `#7A1520` | `#FFFFFF` | `#7A1520` | Alternating: maroon-tint section |
+| scheme-3 | `#7A1520` | `#FFFFFF` | `#FFFFFF` | `#7A1520` | `#FFFFFF` | Maroon banner / CTA / badge |
+| scheme-4 | `#111111` | `#FFFFFF` | `#7A1520` | `#FFFFFF` | `#FFFFFF` | Footer: black bg |
+| scheme-5 | `#7A1520` | `#FFFFFF` | `#FFFFFF` | `#7A1520` | `#FFFFFF` | = scheme-3 (repurposed; sale-badge default) |
+
+**Tokens:** maroon `#7A1520`, maroon-deep `#5A0F18`, maroon-tint `#F7EFF0`,
+black `#111111`, white `#FFFFFF`, grey-line `#E6E1E2`, grey-muted `#6B6467`,
+success `#2F7A55`, error `#B23A3A`.
+**Purged (do not reintroduce):** gold `#ffbf00`, ink `#0b1220`, warm-sand `#f5f1e8`,
+green `#008000`, blue `#334fb4`, blush `#E75480`/`#FDF3F0`/`#3A2E2B`.
 
 ---
 

@@ -1,5 +1,29 @@
 @import "tailwindcss";
-@theme {
-  /* Example: Adding a custom color */
-  --color-brand: #ff5733;
+
+/*
+ * Elora design tokens — maroon / white / black.
+ * Source of truth for custom sections: reference these as var(--elora-*)
+ * instead of hardcoding hex. Colour schemes in settings_data.json mirror
+ * these values for stock Dawn sections.
+ */
+:root {
+  /* Brand */
+  --elora-maroon: #7A1520;       /* primary: headings on light, primary buttons, active states, stars, accents */
+  --elora-maroon-deep: #5A0F18;  /* hover / pressed on maroon */
+  --elora-maroon-tint: #F7EFF0;  /* light maroon wash: section bg, review bubbles, badges */
+
+  /* Neutral */
+  --elora-black: #111111;        /* body text, footer bg, secondary buttons */
+  --elora-white: #FFFFFF;        /* page bg, text on maroon/black */
+  --elora-grey-line: #E6E1E2;    /* hairline borders, dividers */
+  --elora-grey-muted: #6B6467;   /* secondary / meta text, placeholders */
+
+  /* State — desaturated to sit with the palette. Cart + form validation only. */
+  --elora-success: #2F7A55;      /* AA on white (~4.9:1) */
+  --elora-error: #B23A3A;        /* AA on white (~5.9:1) */
+
+  /* Shape / spacing — unchanged from the existing system */
+  --elora-radius-card: 8px;
+  --elora-radius-pill: 40px;
+  --elora-space: 8px;            /* 8px grid unit */
 }

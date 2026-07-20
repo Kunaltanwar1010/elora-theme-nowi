@@ -15,9 +15,9 @@
       "type": "footer-modern",
       "name": "Footer Branded",
       "settings": {
-        "bg_color": "#f8f9fa",
-        "text_color": "#0b1220",
-        "accent_color": "#ffbf00",
+        "bg_color": "#111111",
+        "text_color": "#FFFFFF",
+        "accent_color": "#7A1520",
         "logo": "shopify://shop_images/logo-bg-removed.png",
         "logo_width": 100,
         "description": "Elevated fashion for the new era.\n\nNot just fashion — a whole feeling ✨",

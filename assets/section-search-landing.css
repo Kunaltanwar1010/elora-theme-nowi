@@ -32,7 +32,7 @@
   z-index: 100;
   background: #fff;
   padding: 12px 16px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #E6E1E2;
 }
 
 @media screen and (min-width: 750px) {
@@ -68,18 +68,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f5f5;
+  background: #E6E1E2;
   border: none;
   border-radius: 50%;
   cursor: pointer;
   padding: 0;
   transition: background 0.2s ease, transform 0.15s ease;
-  color: #333;
+  color: #111111;
   text-decoration: none;
 }
 
 .search-landing-page .back-btn:hover {
-  background: #eaeaea;
+  background: #E6E1E2;
 }
 
 .search-landing-page .back-btn:active {
@@ -96,7 +96,7 @@
   width: 100%;
   height: 44px;
   padding: 0 90px 0 16px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #E6E1E2;
   border-radius: 22px;
   background: #fff;
   font-size: 15px;
@@ -107,7 +107,7 @@
 
 /* Remove focus styles */
 .search-landing-page input[type="search"]:focus {
-  border-color: #e0e0e0;
+  border-color: #E6E1E2;
   box-shadow: none;
   outline: none;
 }
@@ -120,7 +120,7 @@
 }
 
 .search-landing-page input[type="search"]::placeholder {
-  color: #999;
+  color: #E6E1E2;
 }
 
 
@@ -140,7 +140,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #222;
+  background: #111111;
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -149,7 +149,7 @@
 }
 
 .search-landing-page .search-btn:hover {
-  background: #444;
+  background: #6B6467;
 }
 
 .search-landing-page .search-btn:active {
@@ -174,11 +174,11 @@
 }
 
 .search-landing-page .reset__button svg {
-  stroke: #999;
+  stroke: #E6E1E2;
 }
 
 .search-landing-page .reset__button:hover svg {
-  stroke: #666;
+  stroke: #6B6467;
 }
 
 /* Content sections */
@@ -217,7 +217,7 @@
 .search-landing-page .search-section > h2 {
   font-size: 14px;
   font-weight: 700;
-  color: #222;
+  color: #111111;
   margin: 0 0 12px 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -235,7 +235,7 @@
   margin: 0;
   font-size: 14px;
   font-weight: 700;
-  color: #222;
+  color: #111111;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -243,7 +243,7 @@
 .search-landing-page .view-all-link {
   font-size: 13px;
   font-weight: 600;
-  color: #ffbf00;
+  color: #7A1520;
   text-decoration: none;
 }
 
@@ -259,15 +259,15 @@
   align-items: center;
   gap: 6px;
   padding: 8px 12px;
-  background: #f5f5f5;
-  border: 1px solid #e5e5e5;
+  background: #E6E1E2;
+  border: 1px solid #E6E1E2;
   border-radius: 20px;
   font-size: 13px;
-  color: #333;
+  color: #111111;
 }
 
 .search-landing-page .recent-chip a {
-  color: #333;
+  color: #111111;
   text-decoration: none;
 }
 
@@ -281,12 +281,12 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  color: #999;
+  color: #E6E1E2;
 }
 
 .search-landing-page .clear-all-btn {
   font-size: 12px;
-  color: #999;
+  color: #E6E1E2;
   background: none;
   border: none;
   cursor: pointer;
@@ -308,17 +308,17 @@
   display: inline-block;
   padding: 10px 16px;
   background: #fff;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #E6E1E2;
   border-radius: 20px;
   font-size: 13px;
-  color: #333;
+  color: #111111;
   text-decoration: none;
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .search-landing-page .suggestion-chip:hover {
-  background: #f5f5f5;
-  border-color: #ccc;
+  background: #E6E1E2;
+  border-color: #E6E1E2;
 }
 
 .search-landing-page .recent-chip:hover {
@@ -347,7 +347,7 @@
   min-width: 24px;
   font-size: 16px;
   font-weight: 700;
-  color: #ffbf00;
+  color: #7A1520;
   text-align: center;
 }
 
@@ -357,7 +357,7 @@
   min-width: 56px;
   border-radius: 50%;
   overflow: hidden;
-  background: #f5f5f5;
+  background: #E6E1E2;
   transition: box-shadow 0.2s ease;
 }
 
@@ -371,7 +371,7 @@
 .search-landing-page .trending-item .title {
   flex: 1;
   font-size: 14px;
-  color: #333;
+  color: #111111;
   line-height: 1.4;
   margin: 0;
   transition: color 0.2s ease;
@@ -441,14 +441,14 @@
 
 .search-landing-page .results-count {
   font-size: 13px;
-  color: #666;
+  color: #6B6467;
   font-weight: 400;
 }
 
 .search-landing-page .no-results {
   text-align: center;
   padding: 40px 20px;
-  color: #666;
+  color: #6B6467;
 }
 
 .search-landing-page .no-results p {
@@ -484,7 +484,7 @@
   overflow-y: auto;
   z-index: 90;
   padding: 0;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid #E6E1E2;
 }
 
 
@@ -550,7 +550,7 @@
 .search-landing-page .predictive-search__heading {
   font-size: 11px;
   font-weight: 700;
-  color: #888;
+  color: #6B6467;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   padding: 16px 16px 10px;
@@ -589,7 +589,7 @@
   border: none;
   font-size: 11px;
   font-weight: 600;
-  color: #8a8a8a;
+  color: #6B6467;
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
@@ -613,9 +613,9 @@
   gap: 16px;
   padding: 16px;
   text-decoration: none;
-  color: #282c3f;
+  color: #111111;
   background: #fff;
-  border-bottom: 1px solid #f5f5f6;
+  border-bottom: 1px solid #E6E1E2;
   transition: background 0.15s ease;
 }
 
@@ -639,7 +639,7 @@
 .search-landing-page .predictive-search__item-heading {
   font-size: 14px;
   font-weight: 400;
-  color: #282c3f;
+  color: #111111;
   margin: 0;
   line-height: 1.4;
 }
@@ -722,13 +722,13 @@
   border: none;
   border-radius: 16px;
   font-size: 1.2rem;
-  color: #374151;
+  color: #6B6467;
   flex-shrink: 0;
   white-space: nowrap;
 }
 
 .search-landing-page .filter-chip:hover {
-  background: #e5e7eb;
+  background: #E6E1E2;
 }
 
 .search-landing-page .filter-chip-remove {
@@ -739,11 +739,11 @@
   justify-content: center;
   cursor: pointer;
   border-radius: 50%;
-  background: #d1d5db;
+  background: #E6E1E2;
 }
 
 .search-landing-page .filter-chip-remove:hover {
-  background: #ef4444;
+  background: #B23A3A;
   color: #fff;
 }
 

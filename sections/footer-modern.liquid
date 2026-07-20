@@ -113,14 +113,14 @@
     padding-bottom: 12px;
   }
 
-  /* Social Icons - White with black circular backgrounds */
+  /* Social Icons - white glyph on maroon circle (visible on the black footer) */
   .footer-branded-{{ section.id }} .social-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
-    background: #000000;
+    background: {{ section.settings.accent_color }};
     border-radius: 50%;
   }
 
@@ -131,7 +131,7 @@
   }
 
   .footer-branded-{{ section.id }} .social-icon:hover {
-    background: #333333;
+    background: var(--elora-maroon-deep, #5A0F18);
   }
 
   /* Layout Grid (mobile style on all screens) */
@@ -425,19 +425,19 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background Color",
-      "default": "#F8F9FA"
+      "default": "#111111"
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "Text Color",
-      "default": "#0B1220"
+      "default": "#FFFFFF"
     },
     {
       "type": "color",
       "id": "accent_color",
       "label": "Accent Color (Buttons, Hover)",
-      "default": "#FFBF00"
+      "default": "#7A1520"
     },
     {
       "type": "header",

@@ -1,7 +1,7 @@
 {% comment %}
   Search Sort & Filter Bar Snippet
   Mobile-optimized sticky bottom bar with SORT and FILTER buttons
-  Golden yellow (#FFBF00) primary color theme
+  Golden yellow (#7A1520) primary color theme
 
   Accepts:
   - target_results: {Object} The search object containing filters and sort options
@@ -35,11 +35,11 @@
         <div class="flex items-center justify-between px-5 py-4 shrink-0 bg-white">
           <div>
             <h2 class="font-bold text-gray-900 uppercase tracking-wide" style="font-size: 18px;">Filter</h2>
-            <p class="text-[#FFBF00] font-medium" style="font-size: 12px;" data-filter-count>0 filters applied</p>
+            <p class="text-[#7A1520] font-medium" style="font-size: 12px;" data-filter-count>0 filters applied</p>
           </div>
           <button
             type="button"
-            class="text-[#FFBF00] font-semibold hover:text-[#E5AB00] transition-colors"
+            class="text-[#7A1520] font-semibold hover:text-[#7A1520] transition-colors"
             style="font-size: 14px;"
             data-clear-filters-header
           >
@@ -68,7 +68,7 @@
                   >
                     <span>{{ filter.label }}</span>
                     <span
-                      class="filter-category-count text-[#FFBF00] font-semibold hidden"
+                      class="filter-category-count text-[#7A1520] font-semibold hidden"
                       style="font-size: 11px;"
                       data-category-count="{{ filter.label | handleize }}"
                     ></span>
@@ -87,9 +87,9 @@
             <div class="overflow-y-auto flex-1 overscroll-contain bg-white px-4 py-4">
               {% if target_collection.filters.size == 0 %}
                 <div class="flex flex-col items-center justify-center py-20 px-6 text-center">
-                  <div class="w-24 h-24 bg-[#FFBF00]/10 rounded-full flex items-center justify-center mb-5">
+                  <div class="w-24 h-24 bg-[#7A1520]/10 rounded-full flex items-center justify-center mb-5">
                     <svg
-                      class="w-12 h-12 text-[#FFBF00]"
+                      class="w-12 h-12 text-[#7A1520]"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -162,7 +162,7 @@
                                 <div class="relative flex items-center justify-center shrink-0">
                                   <input
                                     type="checkbox"
-                                    class="filter-checkbox peer w-6 h-6 border-2 border-gray-300 rounded-md checked:bg-[#FFBF00] checked:border-[#FFBF00] appearance-none cursor-pointer transition-all duration-200"
+                                    class="filter-checkbox peer w-6 h-6 border-2 border-gray-300 rounded-md checked:bg-[#7A1520] checked:border-[#7A1520] appearance-none cursor-pointer transition-all duration-200"
                                     data-filter-param="{{ value.param_name }}"
                                     data-filter-value="{{ value.value }}"
                                     data-filter-label="{{ value.label | escape }}"
@@ -220,7 +220,7 @@
                                 >
                                 <input
                                   type="number"
-                                  class="price-min w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg text-base font-normal focus:border-[#FFBF00] focus:ring-2 focus:ring-[#FFBF00]/20 transition-all"
+                                  class="price-min w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg text-base font-normal focus:border-[#7A1520] focus:ring-2 focus:ring-[#7A1520]/20 transition-all"
                                   placeholder="0"
                                   min="0"
                                   max="{{ range_max }}"
@@ -238,7 +238,7 @@
                                 >
                                 <input
                                   type="number"
-                                  class="price-max w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg text-base font-normal focus:border-[#FFBF00] focus:ring-2 focus:ring-[#FFBF00]/20 transition-all"
+                                  class="price-max w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg text-base font-normal focus:border-[#7A1520] focus:ring-2 focus:ring-[#7A1520]/20 transition-all"
                                   placeholder="{{ range_max }}"
                                   min="0"
                                   max="{{ range_max }}"
@@ -269,7 +269,7 @@
           </button>
           <button
             type="button"
-            class="flex-1 py-3.5 bg-[#FFBF00] text-gray-900 rounded-full font-bold hover:bg-[#E5AB00] transition-all active:scale-[0.98] shadow-sm"
+            class="flex-1 py-3.5 bg-[#7A1520] text-gray-900 rounded-full font-bold hover:bg-[#7A1520] transition-all active:scale-[0.98] shadow-sm"
             style="font-size: 15px;"
             data-apply-filters
           >
@@ -300,7 +300,7 @@
 
       <div class="sort-drawer-sheet absolute bottom-0 left-0 right-0 bg-white rounded-t-[28px] shadow-2xl transform transition-transform duration-300">
         <div class="flex justify-center pt-3 pb-1">
-          <div class="w-10 h-1 bg-[#FFBF00] rounded-full"></div>
+          <div class="w-10 h-1 bg-[#7A1520] rounded-full"></div>
         </div>
 
         <div class="px-6 py-4 border-b border-gray-100">
@@ -311,7 +311,7 @@
           <li>
             <button
               type="button"
-              class="sort-option w-full text-left px-6 py-4 hover:bg-[#FFBF00]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99] {% if target_collection.sort_by == 'best-selling' %}bg-[#FFBF00]/10{% endif %}"
+              class="sort-option w-full text-left px-6 py-4 hover:bg-[#7A1520]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99] {% if target_collection.sort_by == 'best-selling' %}bg-[#7A1520]/10{% endif %}"
               data-sort-value="best-selling"
               role="radio"
               aria-checked="{% if target_collection.sort_by == 'best-selling' %}true{% else %}false{% endif %}"
@@ -327,7 +327,7 @@
                 >Popularity</span
               >
               {% if target_collection.sort_by == 'best-selling' %}
-                <svg class="w-6 h-6 text-[#FFBF00]" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-6 h-6 text-[#7A1520]" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                 </svg>
               {% endif %}
@@ -336,7 +336,7 @@
           <li>
             <button
               type="button"
-              class="sort-option w-full text-left px-6 py-4 hover:bg-[#FFBF00]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99] {% if target_collection.sort_by == 'created-descending' %}bg-[#FFBF00]/10{% endif %}"
+              class="sort-option w-full text-left px-6 py-4 hover:bg-[#7A1520]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99] {% if target_collection.sort_by == 'created-descending' %}bg-[#7A1520]/10{% endif %}"
               data-sort-value="created-descending"
               role="radio"
               aria-checked="{% if target_collection.sort_by == 'created-descending' %}true{% else %}false{% endif %}"
@@ -350,7 +350,7 @@
                 >Latest</span
               >
               {% if target_collection.sort_by == 'created-descending' %}
-                <svg class="w-6 h-6 text-[#FFBF00]" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-6 h-6 text-[#7A1520]" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                 </svg>
               {% endif %}
@@ -359,7 +359,7 @@
           <li>
             <button
               type="button"
-              class="sort-option w-full text-left px-6 py-4 hover:bg-[#FFBF00]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99]"
+              class="sort-option w-full text-left px-6 py-4 hover:bg-[#7A1520]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99]"
               data-sort-value="discount-descending"
               role="radio"
               aria-checked="false"
@@ -375,7 +375,7 @@
           <li>
             <button
               type="button"
-              class="sort-option w-full text-left px-6 py-4 hover:bg-[#FFBF00]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99] {% if target_collection.sort_by == 'price-descending' %}bg-[#FFBF00]/10{% endif %}"
+              class="sort-option w-full text-left px-6 py-4 hover:bg-[#7A1520]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99] {% if target_collection.sort_by == 'price-descending' %}bg-[#7A1520]/10{% endif %}"
               data-sort-value="price-descending"
               role="radio"
               aria-checked="{% if target_collection.sort_by == 'price-descending' %}true{% else %}false{% endif %}"
@@ -389,7 +389,7 @@
                 >Price: High to Low</span
               >
               {% if target_collection.sort_by == 'price-descending' %}
-                <svg class="w-6 h-6 text-[#FFBF00]" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-6 h-6 text-[#7A1520]" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                 </svg>
               {% endif %}
@@ -398,7 +398,7 @@
           <li>
             <button
               type="button"
-              class="sort-option w-full text-left px-6 py-4 hover:bg-[#FFBF00]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99] {% if target_collection.sort_by == 'price-ascending' %}bg-[#FFBF00]/10{% endif %}"
+              class="sort-option w-full text-left px-6 py-4 hover:bg-[#7A1520]/5 transition-all duration-150 flex items-center gap-5 group active:scale-[0.99] {% if target_collection.sort_by == 'price-ascending' %}bg-[#7A1520]/10{% endif %}"
               data-sort-value="price-ascending"
               role="radio"
               aria-checked="{% if target_collection.sort_by == 'price-ascending' %}true{% else %}false{% endif %}"
@@ -412,7 +412,7 @@
                 >Price: Low to High</span
               >
               {% if target_collection.sort_by == 'price-ascending' %}
-                <svg class="w-6 h-6 text-[#FFBF00]" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-6 h-6 text-[#7A1520]" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                 </svg>
               {% endif %}
@@ -427,7 +427,7 @@
       <div class="flex items-stretch divide-x divide-gray-200">
         <button
           type="button"
-          class="flex-1 flex flex-col items-center justify-center gap-2 py-4 text-gray-700 hover:text-[#FFBF00] hover:bg-[#FFBF00]/5 transition-all duration-300 active:scale-[0.97] relative group"
+          class="flex-1 flex flex-col items-center justify-center gap-2 py-4 text-gray-700 hover:text-[#7A1520] hover:bg-[#7A1520]/5 transition-all duration-300 active:scale-[0.97] relative group"
           data-open-sort
           aria-label="Open sort options"
         >
@@ -447,7 +447,7 @@
 
         <button
           type="button"
-          class="flex-1 flex flex-col items-center justify-center gap-2 py-4 text-gray-700 hover:text-[#FFBF00] hover:bg-[#FFBF00]/5 transition-all duration-300 active:scale-[0.97] relative group"
+          class="flex-1 flex flex-col items-center justify-center gap-2 py-4 text-gray-700 hover:text-[#7A1520] hover:bg-[#7A1520]/5 transition-all duration-300 active:scale-[0.97] relative group"
           data-open-filter
           aria-label="Open filter options"
         >
@@ -465,7 +465,7 @@
               <circle cx="15" cy="17" r="2" fill="white"/>
             </svg>
             <span
-              class="active-badge absolute -top-1 -right-1 w-6 h-6 bg-[#FFBF00] text-white text-xs font-bold rounded-full items-center justify-center hidden shadow-md"
+              class="active-badge absolute -top-1 -right-1 w-6 h-6 bg-[#7A1520] text-white text-xs font-bold rounded-full items-center justify-center hidden shadow-md"
               data-filter-badge
               >0</span
             >
@@ -532,12 +532,12 @@
       align-items: center;
       gap: 0.5rem;
       padding: 0.5rem 0.875rem;
-      background: linear-gradient(135deg, #fff9e6, #fff4d6);
-      border: 1.5px solid #ffbf00;
+      background: linear-gradient(135deg, #F7EFF0, #F7EFF0);
+      border: 1.5px solid #7A1520;
       border-radius: 9999px;
       font-size: 0.875rem;
       font-weight: 600;
-      color: #1f2937;
+      color: #111111;
     }
     .filter-checkbox {
       position: relative;
@@ -554,9 +554,9 @@
     }
     .filter-category-btn.active {
       background-color: #fff;
-      color: #111827;
+      color: #111111;
       font-weight: 600;
-      border-left-color: #ffbf00;
+      border-left-color: #7A1520;
     }
     /* ===== Price Slider (Dual-Handle) ===== */
     /* Allow slider thumbs to overflow horizontally in scrollable container */
@@ -579,7 +579,7 @@
       left: 10px;
       right: 10px;
       height: 4px;
-      background: #e5e7eb !important;
+      background: #E6E1E2 !important;
       border-radius: 2px;
       transform: translateY(-50%);
       z-index: 1;
@@ -593,7 +593,7 @@
       left: 10px;
       width: calc(100% - 20px); /* Default full width, JS will adjust */
       height: 4px;
-      background: #FFBF00 !important;
+      background: #7A1520 !important;
       border-radius: 2px;
       transform: translateY(-50%);
       z-index: 2;
@@ -627,7 +627,7 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: #FFBF00;
+      background: #7A1520;
       border: 2px solid #fff;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
       cursor: grab;
@@ -646,7 +646,7 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: #FFBF00;
+      background: #7A1520;
       border: 2px solid #fff;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
       cursor: grab;
@@ -698,8 +698,8 @@
       width: 40px;
       height: 40px;
       margin: -20px 0 0 -20px;
-      border: 3px solid #f3f3f3;
-      border-top: 3px solid #ffbf00;
+      border: 3px solid #E6E1E2;
+      border-top: 3px solid #7A1520;
       border-radius: 50%;
       z-index: 11;
       animation: spin 0.8s linear infinite;
@@ -731,7 +731,7 @@
     }
 
     .filter-chip:hover {
-      background: linear-gradient(135deg, #FFF4D6 0%, #FFEAA6 100%);
+      background: linear-gradient(135deg, #F7EFF0 0%, #7A1520 100%);
       transform: translateY(-1px);
       box-shadow: 0 2px 8px rgba(255, 191, 0, 0.2);
     }
@@ -743,13 +743,13 @@
       width: 1.125rem;
       height: 1.125rem;
       border-radius: 9999px;
-      background: #FFBF00;
+      background: #7A1520;
       color: white;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .filter-chip button:hover {
-      background: #E5AB00;
+      background: #7A1520;
       transform: scale(1.15) rotate(90deg);
     }
 
@@ -815,7 +815,7 @@
     }
 
     .overflow-y-auto::-webkit-scrollbar-thumb {
-      background: #d1d5db;
+      background: #E6E1E2;
       border-radius: 10px;
     }
 

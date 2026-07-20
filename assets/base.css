@@ -3732,7 +3732,7 @@ details-disclosure > details {
 /* Wishlist icon styling - Global */
 wishlist-button-product,
 wishlist-button-collection {
-  --icon-stroke: #0B1220 !important;
+  --icon-stroke: #111111 !important;
 
 }
 
@@ -3740,19 +3740,19 @@ wishlist-button-product .wk-icon svg,
 wishlist-button-product .wk-icon svg path,
 wishlist-button-collection .wk-icon svg,
 wishlist-button-collection .wk-icon svg path {
-  stroke: #0B1220 !important;
+  stroke: #111111 !important;
 
 }
 
 
 /* Cart page save-for-later - stroke only, no fill */
 save-for-later {
-  --icon-stroke: #0B1220 !important;
+  --icon-stroke: #111111 !important;
   --icon-fill: transparent !important;
 }
 
 save-for-later .wk-icon svg,
 save-for-later .wk-icon svg path {
-  stroke: #0B1220 !important;
+  stroke: #111111 !important;
   fill: transparent !important;
 }

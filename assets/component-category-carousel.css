@@ -5,7 +5,7 @@
   width: 100%;
   overflow: hidden;
   background: #fff;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #E6E1E2;
 }
 
 .category-carousel-section .container {
@@ -99,7 +99,7 @@
   align-items: center;
   justify-content: center;
   background: radial-gradient(circle, rgba(255, 192, 203, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
-  color: #999;
+  color: #E6E1E2;
   border-radius: 50%;
 }
 
@@ -136,7 +136,7 @@
 .category-subtitle-text {
   font-size: 12px;
   font-weight: 400;
-  color: #333;
+  color: #111111;
   display: block;
   white-space: nowrap;
 }

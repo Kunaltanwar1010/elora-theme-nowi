@@ -34,9 +34,9 @@
       "disabled": true,
       "name": "Homepage tabs",
       "settings": {
-        "button_border_color": "#0b1220",
-        "button_text_color": "#0b1220",
-        "active_bg_color": "#0b1220",
+        "button_border_color": "#111111",
+        "button_text_color": "#111111",
+        "active_bg_color": "#111111",
         "active_text_color": "#ffffff"
       }
     },
@@ -87,9 +87,9 @@
         "bubble_size": 80,
         "label_font_size": 12,
         "subtitle_font_size": 12,
-        "bubble_color": "#ffc0cb",
-        "label_color": "#0b1220",
-        "subtitle_color": "#333333",
+        "bubble_color": "#F7EFF0",
+        "label_color": "#111111",
+        "subtitle_color": "#111111",
         "show_in_all_categories": false,
         "category_only_show_for": "women"
       }
@@ -102,7 +102,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "shopify://collections/men-co-ords",
-            "background_color": "#f5f1e8"
+            "background_color": "#F7EFF0"
           }
         },
         "slide_Wqx68U": {
@@ -110,7 +110,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "shopify://collections/men-shirts",
-            "background_color": "#f5f1e8"
+            "background_color": "#F7EFF0"
           }
         }
       },
@@ -140,7 +140,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "shopify://collections/women-jeans",
-            "background_color": "#f5f1e8"
+            "background_color": "#F7EFF0"
           }
         },
         "slide_4LmLBG": {
@@ -148,7 +148,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "shopify://collections/women-trousers",
-            "background_color": "#f5f1e8"
+            "background_color": "#F7EFF0"
           }
         },
         "slide_jhgwga": {
@@ -156,7 +156,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "shopify://collections/women-night-suits",
-            "background_color": "#f5f1e8"
+            "background_color": "#F7EFF0"
           }
         }
       },
@@ -204,8 +204,8 @@
       "name": "Announcement Bar",
       "settings": {
         "show_announcement": true,
-        "bg_color": "#f5f1e8",
-        "text_color": "#242833",
+        "bg_color": "#F7EFF0",
+        "text_color": "#111111",
         "speed": 10,
         "show_in_all_categories": true,
         "category_only_show_for": "men"
@@ -253,7 +253,7 @@
         "card_gap": 5,
         "title_font_size": 26,
         "title_font_weight": "600",
-        "title_color": "#0b1220",
+        "title_color": "#111111",
         "card_border_radius": 0,
         "overlay_visibility": 0,
         "show_in_all_categories": false,
@@ -273,7 +273,7 @@
         "heading_font_weight": "400",
         "heading_text_transform": "uppercase",
         "heading_alignment": "text-center",
-        "heading_color": "#0b1220",
+        "heading_color": "#111111",
         "show_collection_description": false,
         "products_to_show": 6,
         "columns_mobile": 2,
@@ -328,7 +328,7 @@
         "card_gap": 5,
         "title_font_size": 26,
         "title_font_weight": "600",
-        "title_color": "#0b1220",
+        "title_color": "#111111",
         "card_border_radius": 0,
         "overlay_visibility": 0,
         "show_in_all_categories": false,
@@ -348,7 +348,7 @@
         "heading_font_weight": "600",
         "heading_text_transform": "uppercase",
         "heading_alignment": "text-center",
-        "heading_color": "#0b1220",
+        "heading_color": "#111111",
         "show_collection_description": false,
         "products_to_show": 6,
         "columns_mobile": 2,
@@ -420,7 +420,7 @@
         "card_gap": 15,
         "title_font_size": 26,
         "title_font_weight": "600",
-        "title_color": "#0b1220",
+        "title_color": "#111111",
         "card_border_radius": 15,
         "overlay_visibility": 0,
         "show_in_all_categories": false,
@@ -470,7 +470,7 @@
         "card_gap": 15,
         "title_font_size": 26,
         "title_font_weight": "600",
-        "title_color": "#0b1220",
+        "title_color": "#111111",
         "card_border_radius": 15,
         "overlay_visibility": 0,
         "show_in_all_categories": false,
@@ -490,7 +490,7 @@
         "heading_font_weight": "600",
         "heading_text_transform": "uppercase",
         "heading_alignment": "text-center",
-        "heading_color": "#0b1220",
+        "heading_color": "#111111",
         "show_collection_description": false,
         "products_to_show": 6,
         "columns_mobile": 2,
@@ -537,7 +537,7 @@
         "card_gap": 15,
         "title_font_size": 26,
         "title_font_weight": "600",
-        "title_color": "#0b1220",
+        "title_color": "#111111",
         "card_border_radius": 15,
         "overlay_visibility": 0,
         "show_in_all_categories": false,
@@ -557,7 +557,7 @@
         "heading_font_weight": "600",
         "heading_text_transform": "uppercase",
         "heading_alignment": "text-center",
-        "heading_color": "#0b1220",
+        "heading_color": "#111111",
         "show_collection_description": false,
         "products_to_show": 8,
         "columns_mobile": 2,

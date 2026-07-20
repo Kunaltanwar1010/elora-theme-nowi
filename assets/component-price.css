@@ -103,7 +103,7 @@
   display: inline-block;
   padding: 2px 6px;
   background-color: var(--discount-badge-bg-color, #dcfce7);
-  color: var(--discount-text-color, #166534);
+  color: var(--discount-text-color, #2F7A55);
   border-radius: 4px;
   font-size: var(--discount-text-font-size, 10px);
   font-weight: 600;

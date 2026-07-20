@@ -274,7 +274,7 @@ function showQuickBuyError(message, modal) {
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #ef4444;
+    background-color: #B23A3A;
     color: white;
     padding: 12px 20px;
     border-radius: 8px;
@@ -394,7 +394,7 @@ function showQuickBuyToast(message, type = 'info') {
   toast.textContent = message;
 
   // Error toasts use red, success/info use black
-  const bgColor = type === 'error' ? '#ef4444' : '#111827';
+  const bgColor = type === 'error' ? '#B23A3A' : '#111111';
   toast.style.cssText = `
     position: fixed;
     bottom: 20px;

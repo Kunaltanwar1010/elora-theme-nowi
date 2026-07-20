@@ -43,9 +43,9 @@
   data-coupon-code="{{ coupon_code }}"
   data-modal-id="coupon-modal-{{ unique_id }}"
 >
-  <div class="flex items-center gap-3 bg-white rounded-xl px-4 py-3" style="border: 1.5px solid #e5e7eb;">
+  <div class="flex items-center gap-3 bg-white rounded-xl px-4 py-3" style="border: 1.5px solid #E6E1E2;">
     {%- comment -%} Green % badge {%- endcomment -%}
-    <span class="flex-shrink-0 w-[36px] h-[36px] rounded-full bg-[#16a34a] flex items-center justify-center">
+    <span class="flex-shrink-0 w-[36px] h-[36px] rounded-full bg-[#2F7A55] flex items-center justify-center">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M7.5 11C9.43 11 11 9.43 11 7.5S9.43 4 7.5 4 4 5.57 4 7.5 5.57 11 7.5 11zm0-5C8.33 6 9 6.67 9 7.5S8.33 9 7.5 9 6 8.33 6 7.5 6.67 6 7.5 6zM16.5 13c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zm0 5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5.41 20L4 18.59 18.59 4 20 5.41 5.41 20z" fill="white"/>
       </svg>
@@ -53,10 +53,10 @@
 
     {%- comment -%} Text block {%- endcomment -%}
     <div class="flex-1 min-w-0">
-      <div class="text-[#111827] font-bold text-[14px] uppercase tracking-wide coupon-final-price-line">
+      <div class="text-[#111111] font-bold text-[14px] uppercase tracking-wide coupon-final-price-line">
         GET THIS AT <span class="coupon-final-price">{{- final_price | money_without_trailing_zeros -}}</span>
       </div>
-      <div class="text-[#6b7280] text-[12px]">
+      <div class="text-[#6B6467] text-[12px]">
         Use <span class="coupon-code-text font-semibold">{{ coupon_code }}</span>
       </div>
     </div>
@@ -64,7 +64,7 @@
     {%- comment -%} Copy button {%- endcomment -%}
     <button
       type="button"
-      class="coupon-copy-btn flex-shrink-0 text-[#9ca3af] hover:text-[#6b7280]"
+      class="coupon-copy-btn flex-shrink-0 text-[#E6E1E2] hover:text-[#6B6467]"
       aria-label="Copy coupon code"
       data-coupon-code="{{ coupon_code }}"
     >
@@ -79,7 +79,7 @@
     {%- comment -%} Info button {%- endcomment -%}
     <button
       type="button"
-      class="coupon-info-btn flex-shrink-0 text-[#9ca3af] hover:text-[#6b7280]"
+      class="coupon-info-btn flex-shrink-0 text-[#E6E1E2] hover:text-[#6B6467]"
       aria-label="View coupon terms"
     >
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -111,9 +111,9 @@
           <span class="bullet">•</span
           ><span style="display:inline-flex;align-items:center;gap:6px;"
             >Use code: <strong>{{ coupon_code }}</strong
-            ><button type="button" class="modal-copy-btn" data-coupon-code="{{ coupon_code }}" aria-label="Copy coupon code" style="background:none;border:none;cursor:pointer;padding:2px;color:#9ca3af;display:inline-flex;align-items:center;">
+            ><button type="button" class="modal-copy-btn" data-coupon-code="{{ coupon_code }}" aria-label="Copy coupon code" style="background:none;border:none;cursor:pointer;padding:2px;color:#E6E1E2;display:inline-flex;align-items:center;">
               <svg class="modal-copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" fill="currentColor"/></svg>
-              <svg class="modal-check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:none;color:#16a34a;"><path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="currentColor"/></svg>
+              <svg class="modal-check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:none;color:#2F7A55;"><path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="currentColor"/></svg>
             </button></span
           >
         </li>
@@ -151,12 +151,12 @@ Can be combined with other offers' -%}
   }
   #coupon-modal-{{ unique_id }} .modal-header h3 {
     font-weight: 600;
-    color: #111827;
+    color: #111111;
     font-size: 16px;
     margin: 0;
   }
   #coupon-modal-{{ unique_id }} .modal-header button {
-    color: #9ca3af;
+    color: #E6E1E2;
     background: none;
     border: none;
     cursor: pointer;
@@ -164,7 +164,7 @@ Can be combined with other offers' -%}
   }
   #coupon-modal-{{ unique_id }} .terms-list {
     font-size: 14px;
-    color: #4b5563;
+    color: #6B6467;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -178,24 +178,24 @@ Can be combined with other offers' -%}
     margin-bottom: 0;
   }
   #coupon-modal-{{ unique_id }} .bullet {
-    color: #16a34a;
+    color: #2F7A55;
   }
   #coupon-modal-{{ unique_id }} .got-it-btn {
     margin-top: 16px;
     width: 100%;
     background: transparent;
-    color: #0B1220;
+    color: #111111;
     padding: 12px;
     border-radius: 8px;
     font-weight: 500;
-    border: 2px solid #0B1220;
+    border: 2px solid #111111;
     cursor: pointer;
     font-size: 14px;
   }
   #coupon-modal-{{ unique_id }} .mobile-handle {
     width: 40px;
     height: 4px;
-    background: #d1d5db;
+    background: #E6E1E2;
     border-radius: 2px;
     margin: 0 auto 16px;
   }

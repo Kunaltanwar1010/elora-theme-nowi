@@ -616,9 +616,9 @@ class CollectionSortFilterBar {
 
       // Update background
       if (isActive) {
-        option.classList.add('bg-[#FFBF00]/10')
+        option.classList.add('bg-[#7A1520]/10')
       } else {
-        option.classList.remove('bg-[#FFBF00]/10')
+        option.classList.remove('bg-[#7A1520]/10')
       }
 
       // Update text styling
@@ -639,7 +639,7 @@ class CollectionSortFilterBar {
         if (!checkmark) {
           // Create checkmark icon if it doesn't exist
           checkmark = document.createElement('svg')
-          checkmark.className = 'checkmark-icon w-6 h-6 text-[#FFBF00]'
+          checkmark.className = 'checkmark-icon w-6 h-6 text-[#7A1520]'
           checkmark.setAttribute('fill', 'currentColor')
           checkmark.setAttribute('viewBox', '0 0 20 20')
           checkmark.innerHTML = '<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>'

@@ -4,12 +4,12 @@
   Accepts:
   - product: {Object} Product Liquid object (required)
   - collection: {Object} Collection object for URL context (optional)
-  - title_color: {String} Title text color hex (default: #1F2937)
-  - price_color: {String} Sale price color hex (default: #1F2937)
-  - original_price_color: {String} Original price color hex (default: #6B7280)
-  - discount_bg_color: {String} Discount badge background hex (default: #FFEDD5)
-  - discount_text_color: {String} Discount badge text hex (default: #C2410C)
-  - inline_discount_color: {String} Inline discount text color hex (default: #C2410C)
+  - title_color: {String} Title text color hex (default: #111111)
+  - price_color: {String} Sale price color hex (default: #111111)
+  - original_price_color: {String} Original price color hex (default: #6B6467)
+  - discount_bg_color: {String} Discount badge background hex (default: #F7EFF0)
+  - discount_text_color: {String} Discount badge text hex (default: #7A1520)
+  - inline_discount_color: {String} Inline discount text color hex (default: #7A1520)
   - title_font_size: {Number} Title font size in px (default: 14)
   - title_font_weight: {String} Title font weight (default: 500)
   - price_font_size: {Number} Sale price font size in px (default: 16)
@@ -18,7 +18,7 @@
   - original_price_font_weight: {String} Original price font weight (default: 400)
   - discount_font_size: {Number} Discount badge font size in px (default: 12)
   - enable_quick_buy: {Boolean} Enable quick buy button (default: true)
-  - quick_buy_button_color: {String} Quick buy button background color (default: #111827)
+  - quick_buy_button_color: {String} Quick buy button background color (default: #111111)
   - quick_buy_button_text_color: {String} Quick buy button text color (default: #ffffff)
   - quick_buy_variant_font_size: {Number} Quick buy variant font size (default: 14)
   - border_radius: {Number} Card border radius in px (uses global setting by default)
@@ -38,12 +38,12 @@
     endif
 
     # Set default colors and sizes from global settings if not provided
-    assign title_color = title_color | default: settings.modern_card_title_color | default: '#1F2937'
-    assign price_color = price_color | default: settings.modern_card_price_color | default: '#1F2937'
-    assign original_price_color = original_price_color | default: settings.modern_card_original_price_color | default: '#6B7280'
-    assign discount_bg_color = discount_bg_color | default: settings.modern_card_discount_bg_color | default: '#FFEDD5'
-    assign discount_text_color = discount_text_color | default: settings.modern_card_discount_text_color | default: '#C2410C'
-    assign inline_discount_color = inline_discount_color | default: settings.modern_card_inline_discount_color | default: '#F97316'
+    assign title_color = title_color | default: settings.modern_card_title_color | default: '#111111'
+    assign price_color = price_color | default: settings.modern_card_price_color | default: '#111111'
+    assign original_price_color = original_price_color | default: settings.modern_card_original_price_color | default: '#6B6467'
+    assign discount_bg_color = discount_bg_color | default: settings.modern_card_discount_bg_color | default: '#F7EFF0'
+    assign discount_text_color = discount_text_color | default: settings.modern_card_discount_text_color | default: '#7A1520'
+    assign inline_discount_color = inline_discount_color | default: settings.modern_card_inline_discount_color | default: '#7A1520'
 
     assign title_font_size = title_font_size | default: settings.modern_card_title_font_size | default: 14
     assign title_font_weight = title_font_weight | default: settings.modern_card_title_font_weight | default: '500'
@@ -58,7 +58,7 @@
 
     # Quick buy settings
     assign enable_quick_buy = enable_quick_buy | default: settings.modern_card_enable_quick_buy | default: true
-    assign quick_buy_button_color = quick_buy_button_color | default: settings.modern_card_quick_buy_button_color | default: '#111827'
+    assign quick_buy_button_color = quick_buy_button_color | default: settings.modern_card_quick_buy_button_color | default: '#111111'
     assign quick_buy_button_text_color = quick_buy_button_text_color | default: settings.modern_card_quick_buy_button_text_color | default: '#ffffff'
     assign quick_buy_variant_font_size = quick_buy_variant_font_size | default: settings.modern_card_quick_buy_variant_font_size | default: 14
     assign modal_id = 'QuickBuyModal-' | append: product.id
@@ -120,7 +120,7 @@
         {%- comment -%} Fast Delivery Tag - shown when TAT = 2 {%- endcomment -%}
         {%- assign tat_value = product.metafields.custom.tat.value -%}
         {% if tat_value == 2 %}
-          <div class="absolute top-0 right-0 flex items-center gap-1 pl-4 pr-2 py-1 md:pl-5 md:pr-3 md:py-1.5 text-[#495060]" style="background: #ffd44d; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 8px 50%);">
+          <div class="absolute top-0 right-0 flex items-center gap-1 pl-4 pr-2 py-1 md:pl-5 md:pr-3 md:py-1.5 text-[#6B6467]" style="background: #7A1520; clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 8px 50%);">
             <img src="{{ 'express-delivery.png' | asset_url }}" alt="Express" width="14" height="14" class="w-3.5 h-3.5 md:w-5 md:h-5">
             <span class="font-semibold text-[9px] md:text-lg">Express</span>
           </div>
@@ -167,7 +167,7 @@
           assign cp_final_price = product.price | minus: cp_final_discount
           assign cp_final_price = cp_final_price | divided_by: 100 | times: 100
         -%}
-        <div class="flex items-center gap-1 text-[11px] text-[#16a34a] font-semibold">
+        <div class="flex items-center gap-1 text-[11px] text-[#2F7A55] font-semibold">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.41 11.58L12.41 2.58C12.05 2.22 11.55 2 11 2H4C2.9 2 2 2.9 2 4V11C2 11.55 2.22 12.05 2.59 12.42L11.59 21.42C11.95 21.78 12.45 22 13 22C13.55 22 14.05 21.78 14.41 21.41L21.41 14.41C21.78 14.05 22 13.55 22 13C22 12.45 21.77 11.94 21.41 11.58ZM5.5 7C4.67 7 4 6.33 4 5.5C4 4.67 4.67 4 5.5 4C6.33 4 7 4.67 7 5.5C7 6.33 6.33 7 5.5 7Z" fill="currentColor"/></svg>
           <span>Get it at {{ cp_final_price | money_without_trailing_zeros | split: '.' | first }}</span>
         </div>

@@ -19,7 +19,7 @@
     toast.textContent = message;
     toast.style.cssText =
       'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);' +
-      'background:#111827;color:#fff;padding:8px 20px;border-radius:20px;' +
+      'background:#111111;color:#fff;padding:8px 20px;border-radius:20px;' +
       'font-size:13px;font-weight:500;z-index:1000001;' +
       'opacity:0;transition:opacity ' + FADE_MS + 'ms ease;pointer-events:none;';
     document.body.appendChild(toast);

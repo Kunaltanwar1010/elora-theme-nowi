@@ -28,7 +28,7 @@
     position: sticky;
     top: 0;
     z-index: 30;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #E6E1E2;
   }
 
   /* Left side - Back button + Collection title */
@@ -47,12 +47,12 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    color: #374151;
+    color: #6B6467;
     transition: color 0.2s ease;
   }
 
   .desktop-sort-filter-bar__back:hover {
-    color: #111827;
+    color: #111111;
   }
 
   .desktop-sort-filter-bar__back svg {
@@ -63,7 +63,7 @@
   .desktop-sort-filter-bar__title {
     font-size: 18px;
     font-weight: 600;
-    color: #111827;
+    color: #111111;
     margin: 0;
   }
 
@@ -81,17 +81,17 @@
     gap: 0.5rem;
     padding: 0.625rem 1rem;
     background: white;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #E6E1E2;
     border-radius: 8px;
     font-size: 14px;
     font-weight: 500;
-    color: #374151;
+    color: #6B6467;
     cursor: pointer;
     transition: all 0.2s ease;
   }
 
   .desktop-filter-btn:hover {
-    border-color: #d1d5db;
+    border-color: #E6E1E2;
   }
 
   .desktop-sort-filter-icon {
@@ -104,7 +104,7 @@
     min-width: 18px;
     height: 18px;
     padding: 0 5px;
-    background: #FFBF00;
+    background: #7A1520;
     color: white;
     font-size: 11px;
     font-weight: 700;
@@ -120,7 +120,7 @@
   /* Product count - Right of sort dropdown */
   .desktop-sort-filter-bar__count {
     font-size: 14px;
-    color: #6b7280;
+    color: #6B6467;
     font-weight: 400;
     margin-left: 8px;
     white-space: nowrap;
@@ -147,11 +147,11 @@
     gap: 0.5rem;
     padding: 0.625rem 1rem;
     background: white;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #E6E1E2;
     border-radius: 8px;
     font-size: 14px;
     font-weight: 500;
-    color: #374151;
+    color: #6B6467;
     cursor: pointer;
     transition: all 0.2s ease;
     min-width: 160px;
@@ -159,7 +159,7 @@
   }
 
   .desktop-sort-dropdown__trigger:hover {
-    border-color: #d1d5db;
+    border-color: #E6E1E2;
   }
 
   .desktop-sort-dropdown__trigger svg {
@@ -178,7 +178,7 @@
     right: 0;
     min-width: 220px;
     background: white;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #E6E1E2;
     border-radius: 12px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
     opacity: 0;
@@ -204,7 +204,7 @@
     background: transparent;
     border: none;
     font-size: 15px;
-    color: #374151;
+    color: #6B6467;
     cursor: pointer;
     transition: background 0.15s ease;
     text-align: left;
@@ -215,7 +215,7 @@
   }
 
   .desktop-sort-dropdown__option.is-active {
-    color: #111827;
+    color: #111111;
     font-weight: 600;
   }
 
@@ -223,9 +223,9 @@
     content: '';
     width: 20px;
     height: 20px;
-    border: 2px solid #FFBF00;
+    border: 2px solid #7A1520;
     border-radius: 50%;
-    background: #FFBF00;
+    background: #7A1520;
     box-shadow: inset 0 0 0 3px white;
   }
 
@@ -233,7 +233,7 @@
     content: '';
     width: 20px;
     height: 20px;
-    border: 2px solid #d1d5db;
+    border: 2px solid #E6E1E2;
     border-radius: 50%;
     background: white;
   }
@@ -254,7 +254,7 @@
     width: 340px;
     max-height: calc(100vh - 160px);
     background: white;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #E6E1E2;
     border-radius: 12px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     position: sticky;
@@ -294,7 +294,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1rem;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #E6E1E2;
     background: white;
     flex-shrink: 0;
   }
@@ -305,7 +305,7 @@
     gap: 0.5rem;
     font-size: 15px;
     font-weight: 600;
-    color: #111827;
+    color: #111111;
   }
 
   .desktop-filter-sidebar__title svg {
@@ -323,12 +323,12 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    color: #6b7280;
+    color: #6B6467;
     transition: all 0.15s ease;
   }
 
   .desktop-filter-sidebar__close:hover {
-    color: #111827;
+    color: #111111;
     background: #f3f4f6;
   }
 
@@ -349,7 +349,7 @@
   .desktop-filter-sidebar__nav {
     flex-shrink: 0;
     width: 120px;
-    border-right: 1px solid #e5e7eb;
+    border-right: 1px solid #E6E1E2;
     overflow-y: auto;
     background: #fafafa;
   }
@@ -363,7 +363,7 @@
     border-left: 2px solid transparent;
     font-size: 13px;
     font-weight: 500;
-    color: #6b7280;
+    color: #6B6467;
     cursor: pointer;
     transition: all 0.15s ease;
     text-align: left;
@@ -372,21 +372,21 @@
 
   .desktop-filter-sidebar__category:hover {
     background: white;
-    color: #374151;
+    color: #6B6467;
   }
 
   .desktop-filter-sidebar__category.is-active {
     background: white;
-    color: #111827;
+    color: #111111;
     font-weight: 600;
-    border-left-color: #111827;
+    border-left-color: #111111;
   }
 
   .desktop-filter-sidebar__category-count {
     display: inline-block;
     font-size: 11px;
     font-weight: 600;
-    color: #FFBF00;
+    color: #7A1520;
     margin-left: 4px;
   }
 
@@ -425,7 +425,7 @@
     -webkit-appearance: none;
     width: 18px;
     height: 18px;
-    border: 2px solid #d1d5db;
+    border: 2px solid #E6E1E2;
     border-radius: 50%;
     cursor: pointer;
     flex-shrink: 0;
@@ -434,8 +434,8 @@
   }
 
   .desktop-filter-sidebar__option input[type="checkbox"]:checked {
-    border-color: #FFBF00;
-    background: #FFBF00;
+    border-color: #7A1520;
+    background: #7A1520;
   }
 
   .desktop-filter-sidebar__option input[type="checkbox"]:checked::after {
@@ -453,17 +453,17 @@
   .desktop-filter-sidebar__option-label {
     flex: 1;
     font-size: 14px;
-    color: #374151;
+    color: #6B6467;
   }
 
   .desktop-filter-sidebar__option input[type="checkbox"]:checked + .desktop-filter-sidebar__option-label {
-    color: #111827;
+    color: #111111;
     font-weight: 500;
   }
 
   .desktop-filter-sidebar__option-count {
     font-size: 12px;
-    color: #9ca3af;
+    color: #E6E1E2;
   }
 
   /* Color swatches */
@@ -493,19 +493,19 @@
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    border: 2px solid #e5e7eb;
+    border: 2px solid #E6E1E2;
     transition: all 0.15s ease;
     box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
   }
 
   .desktop-filter-sidebar__color.is-selected .desktop-filter-sidebar__color-swatch {
-    border-color: #FFBF00;
-    box-shadow: 0 0 0 2px white, 0 0 0 4px #FFBF00;
+    border-color: #7A1520;
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #7A1520;
   }
 
   .desktop-filter-sidebar__color-label {
     font-size: 11px;
-    color: #6b7280;
+    color: #6B6467;
     text-align: center;
     max-width: 100%;
     overflow: hidden;
@@ -514,7 +514,7 @@
   }
 
   .desktop-filter-sidebar__color.is-selected .desktop-filter-sidebar__color-label {
-    color: #111827;
+    color: #111111;
     font-weight: 500;
   }
 
@@ -546,7 +546,7 @@
     display: flex;
     align-items: center;
     flex: 1;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #E6E1E2;
     border-radius: 10px;
     padding: 0.625rem 0.75rem;
     background: #fafafa;
@@ -554,14 +554,14 @@
   }
 
   .desktop-filter-sidebar__price-field:focus-within {
-    border-color: #FFBF00;
+    border-color: #7A1520;
     background: white;
     box-shadow: 0 0 0 3px rgba(255, 191, 0, 0.15);
   }
 
   .desktop-filter-sidebar__price-currency {
     font-size: 14px;
-    color: #6b7280;
+    color: #6B6467;
     margin-right: 0.25rem;
   }
 
@@ -571,16 +571,16 @@
     width: 100%;
     font-size: 14px;
     background: transparent;
-    color: #111827;
+    color: #111111;
   }
 
   .desktop-filter-sidebar__price-field input::placeholder {
-    color: #9ca3af;
+    color: #E6E1E2;
   }
 
   .desktop-filter-sidebar__price-separator {
     font-size: 13px;
-    color: #9ca3af;
+    color: #E6E1E2;
     font-weight: 500;
   }
 
@@ -588,7 +588,7 @@
   .desktop-filter-sidebar__footer {
     display: flex;
     padding: 0.75rem 1rem;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid #E6E1E2;
     background: #fafafa;
     flex-shrink: 0;
   }
@@ -597,19 +597,19 @@
     width: 100%;
     padding: 0.5rem 1rem;
     background: white;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #E6E1E2;
     border-radius: 8px;
     font-size: 13px;
     font-weight: 500;
-    color: #6b7280;
+    color: #6B6467;
     cursor: pointer;
     transition: all 0.15s ease;
     text-align: center;
   }
 
   .desktop-filter-sidebar__clear-all:hover {
-    border-color: #d1d5db;
-    color: #111827;
+    border-color: #E6E1E2;
+    color: #111111;
   }
 }
 

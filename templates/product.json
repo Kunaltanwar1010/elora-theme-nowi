@@ -95,7 +95,7 @@
         "delivery_eta_timeline": {
           "type": "delivery_eta_timeline",
           "settings": {
-            "background_color": "#fdf1d4",
+            "background_color": "#F7EFF0",
             "progress_percent": 45,
             "step1_image": "shopify://shop_images/delivery.webp",
             "step2_image": "shopify://shop_images/ready.webp",
@@ -189,7 +189,7 @@
     "17643114901db5fcbf": {
       "type": "apps",
       "custom_css": [
-        "{padding-top: 20px; padding-bottom: 20px; background-color: #f5f1e8; max-width: 920px; margin-left: auto; margin-right: auto; overflow: hidden;}"
+        "{padding-top: 20px; padding-bottom: 20px; background-color: #F7EFF0; max-width: 920px; margin-left: auto; margin-right: auto; overflow: hidden;}"
       ],
       "settings": {
         "include_margins": true
