@@ -12,6 +12,14 @@ Base: Dawn 15.4.0. Dev theme 148035436623. Never push to 147811172431.
 
 ## [Unreleased]
 
+### 2026-07-20 — Reconcile with origin (live Shopify↔GitHub integration) + git-first deploy
+**What:** Discovered this repo's `main` is wired to the dev theme via **Shopify's GitHub integration** — origin/main had advanced **26 `shopify[bot]` auto-commits** ("Update from Shopify…") that our local base (`2c73a18`) predated. Rebased the two local commits (purge + prior build pass) onto `origin/main` and pushed. The build-pass commit collapsed to just the CLAUDE.md/ISSUES.md removal because its theme files were byte-identical to what the bot had already committed — so none of origin's 26 commits were reverted.
+**Files:** git history only (no theme-file content changed beyond what the purge/build-pass commits already recorded).
+**Why:** Local was 26 commits stale; pushing without reconciling would have clobbered live theme-editor work. Verified the 26 bot commits touch **0** of the 103 deleted files, so the purge stays valid.
+**Schema settings added/changed:** none.
+**Verify:** `git log` shows `875ac4c` (purge) + `9608a15` (stale-doc removal) on top of `512d231`. `shopify theme check` on the rebased tree = 0 missing-reference errors. Pushed `512d231..9608a15`.
+**Notes / follow-ups:** **[ADMIN ACTION]** — **Sync is git-first: push to `origin/main` → Shopify pulls into the dev theme.** Do NOT `shopify theme push` (theme-first) — it fights the integration and causes bot-commit churn. Every theme-editor edit also auto-commits back to `origin/main`, so always `git fetch` before starting work. Live theme `elora-theme-101` (#147811172431) is a *separate* theme, not on this branch.
+
 ### 2026-07-20 — Purge dead sections, snippets, and assets
 **What:** Removed 103 unreferenced files — 25 dead sections, 11 orphaned snippets, 67 orphaned assets. Assets folder 225 → 158; sections 75 → 50; snippets 68 → 57.
 **Files:** see the **Deleted files** table below for the full list. Sections were stock-Dawn-never-placed (`image-banner`, `slideshow`, `multicolumn`, `collage`, `newsletter`, `video`, …), `-modern`-superseded (`main-account/addresses/order`, `main-search`), B2B (`bulk-quick-order-list`, `quick-order-list`), and a nowi orphan (`category-bubble-carousel`). Orphaned snippets/assets were the dead stock-header/footer/cart-notification cluster plus leftover food/lifestyle icons from an unrelated theme.
@@ -162,5 +170,7 @@ Keep this current: when a section is added, deleted, or re-wired, update its row
 - Phase 1 audit (`AUDIT.md`) — full read-only map of dead sections/snippets/assets, the nowi two-tab system, wishlist remnants, colour system, performance baseline, and app-embed usage.
 - Phase 2 changelog (`update.md`) created and seeded with the colour-token and section-inventory reference tables.
 - **Phase 2 step 1 complete** — rebranded `package.json`; retired the disabled stock header/footer (+ Swish block) and rewired both section groups; purged 103 dead files (25 sections, 11 snippets, 67 assets). `shopify theme check` shows 0 new missing-reference errors. Inventory table trimmed to the surviving 50 sections.
-**Next:** Phase 2 step 2 — kill the nowi two-tab men/women system (delete `category-detection.js` / `category-nav.js` / `homepage-category-nav` / `category-visibility-wrapper`, strip `category_only_show_for` gating from the keeper sections, remove the render-blocking head script), then step 3 rebuild `index.json` as the women-only Elora homepage.
-**Blocked:** Client decisions still open before their deletions — Razorpay SSO (live on login/register), Wishlink / Vizup / Google-YouTube / Razorpay-Rewards app embeds. Not blocking steps 2–3.
+- **Reconciled with the live Shopify↔GitHub integration** — rebased onto origin's 26 bot commits (0 overlap with deletions, nothing reverted) and pushed git-first (`512d231..9608a15`). Phase 2 step 1 is now on `origin/main`; Shopify pulls it into the dev theme.
+**Next:** (a) confirm store domain `h4f0ch-mr` in Admin, then fix `package.json` `shopify:dev --store=` + PROJECT.md; (b) Phase 2 step 2 — kill the nowi two-tab men/women system (delete `category-detection.js` / `category-nav.js` / `homepage-category-nav` / `category-visibility-wrapper`, strip `category_only_show_for` + `show_in_all_categories` from **both** section schemas **and** saved JSON in index/collection/product/settings_data, remove the render-blocking head script), then step 3 rebuild `index.json` women-only.
+**Blocked:** Client decisions still open — Razorpay SSO (live on login/register), Wishlink / Vizup / Google-YouTube / Razorpay-Rewards app embeds. Store-domain edit awaiting an Admin eyeball. `quick-order-list.js/.css` flagged for the Phase 8 perf pass (shouldn't load globally).
+**Workflow:** git-first (push to origin → Shopify pulls). `git fetch` before every session; never `shopify theme push`.
