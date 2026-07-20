@@ -48,8 +48,8 @@
         "letter_spacing": 0,
         "message_spacing": 25,
         "color_scheme": "scheme-3",
-        "color": "",
-        "bg_color": "",
+        "color": "#FFFFFF",
+        "bg_color": "#7A1520",
         "border_color": ""
       }
     },

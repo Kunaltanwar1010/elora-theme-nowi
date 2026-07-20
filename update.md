@@ -12,6 +12,13 @@ Base: Dawn 15.4.0. Dev theme 148035436623. Never push to 147811172431.
 
 ## [Unreleased]
 
+### 2026-07-20 — Announcement bar text → white (readable on maroon)
+**What:** Announcement text was dark and unreadable on the maroon bar. The section only applies a text colour when the `color` setting is non-blank, and it was blank (setting `color_scheme: scheme-3` alone doesn't push the scheme foreground onto the marquee text).
+**Fix:** set the announcement text `color` to `#FFFFFF` (and bg `#7A1520`) in the live `header-group.json` config, kept the merchant's `scheme-3`, and set the schema defaults (`color` → `#FFFFFF`, `bg_color` → `#7A1520`) so a freshly added announcement bar is white-on-maroon by default.
+**Files:** `sections/announcement-bar-carousel.liquid` (schema defaults), `sections/header-group.json` (live config).
+**Verify:** announcement text is white on the maroon bar.
+**Note:** resolved a merge conflict with a concurrent theme-editor edit (merchant had set `scheme-3`); kept scheme-3 + forced white text. The theme editor had also dropped the social-proof bar from the header group — left as the merchant's current state, not re-added.
+
 ### 2026-07-20 — Announcement marquee: seamless continuous scroll (no gap)
 **What:** The marquee scrolled the whole track off-screen then jumped back, leaving a visible empty gap each loop. Root cause: the track rendered the content 4× but the keyframe translated the *entire* track `-100%`, so everything exited before looping.
 **Fix:** restructured into two identical `.ann-marquee__group` halves (each = content ×6, second `aria-hidden`), set the track to `width: max-content`, and changed the keyframe to `translateX(-50%)` — the animation now advances by exactly one half, so the second half is always covering as the first exits. Continuous right-to-left scroll with no gap.
