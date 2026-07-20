@@ -7,6 +7,19 @@
   occasion collections (Brunch, Date Night, etc.).
 {% endcomment %}
 
+{%- liquid
+  # Adapt card shape to the first card's image aspect ratio (uniform frame so
+  # the row/carousel stays aligned). Falls back to 4:5 when no image is set.
+  assign card_ratio = '4 / 5'
+  for block in section.blocks
+    assign first_img = block.settings.image | default: block.settings.collection.featured_image
+    if first_img != blank
+      assign card_ratio = first_img.aspect_ratio
+      break
+    endif
+  endfor
+-%}
+
 <style>
   #shopify-section-{{ section.id }} .sbc {
     padding: {{ section.settings.padding_y }}px 0;
@@ -42,9 +55,14 @@
     scroll-snap-align: start;
     border-radius: {{ section.settings.corner_radius }}px;
     overflow: hidden;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: {{ card_ratio }};
     display: block;
     background: #FEFAFA;
+  }
+  #shopify-section-{{ section.id }} .sbc__track.is-dragging {
+    scroll-snap-type: none;
+    cursor: grabbing;
+    user-select: none;
   }
   #shopify-section-{{ section.id }} .sbc__card img {
     width: 100%;
@@ -144,6 +162,27 @@
     track.addEventListener('scroll', function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(syncDots); });
     window.addEventListener('resize', function () { buildDots(); syncDots(); });
     buildDots();
+
+    /* Click-and-drag to swipe (mouse only; touch uses native scroll).
+       Guarded to only engage when the track is horizontally scrollable, so it
+       never suppresses card clicks on the desktop grid. */
+    var down = false, startX = 0, startScroll = 0, moved = false;
+    track.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' || track.scrollWidth <= track.clientWidth) return;
+      down = true; moved = false; startX = e.clientX; startScroll = track.scrollLeft;
+      track.classList.add('is-dragging');
+    });
+    track.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - startX;
+      if (Math.abs(dx) > 3) moved = true;
+      track.scrollLeft = startScroll - dx;
+    });
+    function endDrag() { down = false; track.classList.remove('is-dragging'); }
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointerleave', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+    track.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
   })();
 </script>
 
