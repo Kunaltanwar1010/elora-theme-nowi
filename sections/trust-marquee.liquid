@@ -1,0 +1,152 @@
+{%- comment -%}
+  Trust-badge marquee. Continuous CSS-only horizontal scroll (no JS): the block
+  list is rendered twice into two identical groups and the track translates by
+  exactly one group (-50%), so the loop is seamless. Reduced-motion falls back
+  to a static centred row. Uploaded image overrides the preset icon.
+{%- endcomment -%}
+
+{%- liquid
+  assign dir = section.settings.direction
+  assign icon_color = section.settings.icon_color | default: '#7A1520'
+  assign text_color = section.settings.text_color | default: '#7A1520'
+  assign icon_size = section.settings.icon_size | default: 28
+  assign gap = section.settings.gap | default: 48
+  assign speed = section.settings.speed | default: 40
+  assign duration = 6000 | divided_by: speed
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} .tm {
+    background: {{ section.settings.bg_color | default: '#111111' }};
+    padding: {{ section.settings.padding_y | default: 14 }}px 0;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .tm__viewport { display: flex; overflow: hidden; }
+  #shopify-section-{{ section.id }} .tm__track {
+    display: flex;
+    width: max-content;
+    animation: tm-scroll-{{ section.id }} {{ duration }}s linear infinite;
+  }
+  {% if dir == 'rtl' %}#shopify-section-{{ section.id }} .tm__track { animation-direction: reverse; }{% endif %}
+  #shopify-section-{{ section.id }} .tm__group { display: flex; align-items: center; flex-shrink: 0; }
+  #shopify-section-{{ section.id }} .tm__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 {{ gap | divided_by: 2 }}px;
+    color: {{ text_color }};
+    white-space: nowrap;
+  }
+  #shopify-section-{{ section.id }} .tm__item .trust-icon,
+  #shopify-section-{{ section.id }} .tm__item .trust-icon svg { color: {{ icon_color }}; }
+  #shopify-section-{{ section.id }} .tm__img { width: {{ icon_size }}px; height: {{ icon_size }}px; object-fit: contain; }
+  #shopify-section-{{ section.id }} .tm__label { font-size: 14px; font-weight: 600; line-height: 1.2; }
+  #shopify-section-{{ section.id }} .tm__sub { font-size: 11px; opacity: 0.8; display: block; font-weight: 400; }
+  {% if section.settings.pause_on_hover %}
+  #shopify-section-{{ section.id }} .tm:hover .tm__track { animation-play-state: paused; }
+  {% endif %}
+
+  /* Reduced motion: static, centred, no animation */
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .tm__track { animation: none; width: 100%; justify-content: center; flex-wrap: wrap; }
+    #shopify-section-{{ section.id }} .tm__group:nth-child(2) { display: none; }
+    #shopify-section-{{ section.id }} .tm__group { flex-wrap: wrap; justify-content: center; }
+  }
+</style>
+
+{%- capture badges -%}
+  {%- for block in section.blocks -%}
+    <span class="tm__item" {{ block.shopify_attributes }}>
+      {%- if block.settings.icon_image != blank -%}
+        <img class="tm__img" src="{{ block.settings.icon_image | image_url: width: 96 }}" alt="{{ block.settings.label | escape }}" loading="lazy" width="{{ icon_size }}" height="{{ icon_size }}">
+      {%- else -%}
+        {%- render 'trust-icons', icon: block.settings.icon_key, size: icon_size -%}
+      {%- endif -%}
+      <span class="tm__label">
+        {{ block.settings.label }}
+        {%- if block.settings.sublabel != blank -%}<span class="tm__sub">{{ block.settings.sublabel }}</span>{%- endif -%}
+      </span>
+    </span>
+  {%- endfor -%}
+{%- endcapture -%}
+
+<div class="tm">
+  <div class="tm__viewport">
+    <div class="tm__track">
+      <div class="tm__group">{{ badges }}</div>
+      <div class="tm__group" aria-hidden="true">{{ badges }}</div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust Marquee",
+  "tag": "section",
+  "class": "section-trust-marquee",
+  "settings": [
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Direction",
+      "options": [
+        { "value": "ltr", "label": "Right to left" },
+        { "value": "rtl", "label": "Left to right" }
+      ],
+      "default": "ltr"
+    },
+    { "type": "range", "id": "speed", "label": "Speed", "min": 10, "max": 100, "step": 5, "default": 40 },
+    { "type": "checkbox", "id": "pause_on_hover", "label": "Pause on hover", "default": true },
+    { "type": "header", "content": "Appearance" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#111111" },
+    { "type": "color", "id": "icon_color", "label": "Icon colour", "default": "#7A1520" },
+    { "type": "color", "id": "text_color", "label": "Text colour", "default": "#FFFFFF" },
+    { "type": "range", "id": "icon_size", "label": "Icon size", "min": 18, "max": 48, "step": 2, "unit": "px", "default": 28 },
+    { "type": "range", "id": "gap", "label": "Gap between badges", "min": 16, "max": 96, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_y", "label": "Vertical padding", "min": 6, "max": 40, "step": 2, "unit": "px", "default": 14 }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Trust badge",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon_key",
+          "label": "Preset icon",
+          "info": "Used unless you upload an image below.",
+          "options": [
+            { "value": "free_shipping", "label": "Free shipping (truck)" },
+            { "value": "cod", "label": "Cash on delivery (₹)" },
+            { "value": "exchange", "label": "Easy exchange (arrows)" },
+            { "value": "secure_payment", "label": "Secure payment (lock)" },
+            { "value": "quality", "label": "Quality checked (badge)" },
+            { "value": "made_in_india", "label": "Made in India (pin)" },
+            { "value": "support", "label": "24x7 support (headset)" },
+            { "value": "original", "label": "100% original (tag)" }
+          ],
+          "default": "free_shipping"
+        },
+        { "type": "image_picker", "id": "icon_image", "label": "Custom icon (overrides preset)" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Free Shipping" },
+        { "type": "text", "id": "sublabel", "label": "Sub-label (optional)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Marquee",
+      "blocks": [
+        { "type": "badge", "settings": { "icon_key": "free_shipping", "label": "Free Shipping", "sublabel": "On all orders" } },
+        { "type": "badge", "settings": { "icon_key": "cod", "label": "Cash on Delivery" } },
+        { "type": "badge", "settings": { "icon_key": "exchange", "label": "Easy 5-Day Exchange" } },
+        { "type": "badge", "settings": { "icon_key": "secure_payment", "label": "Secure Payments" } },
+        { "type": "badge", "settings": { "icon_key": "quality", "label": "Quality Checked" } },
+        { "type": "badge", "settings": { "icon_key": "made_in_india", "label": "Made in India" } },
+        { "type": "badge", "settings": { "icon_key": "support", "label": "24x7 Support" } },
+        { "type": "badge", "settings": { "icon_key": "original", "label": "100% Original" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
