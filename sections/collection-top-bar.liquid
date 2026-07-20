@@ -122,6 +122,14 @@
     height: 2rem;
     transform: rotate(180deg);
   }
+
+  /* Consistent 24px action icons (search / account / cart) — the tight cart
+     viewBox now fills its box, so it must be explicitly sized here too. */
+  .collection-top-bar .header__icons .header__icon .svg-wrapper svg,
+  .collection-top-bar .header__icons .header__icon svg {
+    width: 24px;
+    height: 24px;
+  }
 </style>
 
 {%- liquid
