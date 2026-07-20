@@ -107,7 +107,7 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Wash Care",
-            "icon": "plant",
+            "icon": "none",
             "content": "<p>1.  Wash with similar colors</p><p>2. Do not bleach</p><p>3. Do not wring</p><p>4. Dry in shade</p><p>5. Tumble dry low</p><p>6. Iron on low heat</p><p>7. Do not iron on print</p>",
             "page": ""
           }
@@ -116,7 +116,7 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Shipping Information",
-            "icon": "plant",
+            "icon": "none",
             "content": "<p>1.  Wash with similar colors</p><p>2. Do not bleach</p><p>3. Do not wring</p><p>4. Dry in shade</p><p>5. Tumble dry low</p><p>6. Iron on low heat</p><p>7. Do not iron on print</p>",
             "page": ""
           }
