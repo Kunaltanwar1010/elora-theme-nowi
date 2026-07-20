@@ -128,53 +128,99 @@
         "image_zoom": "lightbox",
         "hide_variants": true,
         "enable_video_looping": true,
-        "padding_top": 0,
-        "padding_bottom": 0
+        "padding_top": 20,
+        "padding_bottom": 20
       }
     },
-    "apps_Yr4RRX": {
-      "type": "apps",
-      "custom_css": [],
-      "name": "judge.me",
-      "settings": {
-        "include_margins": true
-      }
-    },
-    "rich_text_7zQ8xR": {
-      "type": "rich-text",
+    "trust_marquee_MqF38j": {
+      "type": "trust-marquee",
       "blocks": {
-        "heading_HezNrH": {
-          "type": "heading",
+        "badge_Uxrwii": {
+          "type": "badge",
           "settings": {
-            "heading": "Shop with Us",
-            "heading_size": "h2"
+            "icon_key": "free_shipping",
+            "label": "Free Shipping",
+            "sublabel": "On all orders"
+          }
+        },
+        "badge_RBCW7n": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "cod",
+            "label": "Cash on Delivery",
+            "sublabel": ""
+          }
+        },
+        "badge_m9QY8X": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "exchange",
+            "label": "Easy 5-Day Exchange",
+            "sublabel": ""
+          }
+        },
+        "badge_btFTya": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "secure_payment",
+            "label": "Secure Payments",
+            "sublabel": ""
+          }
+        },
+        "badge_pf4kHQ": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "quality",
+            "label": "Quality Checked",
+            "sublabel": ""
+          }
+        },
+        "badge_peJadz": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "made_in_india",
+            "label": "Made in India",
+            "sublabel": ""
+          }
+        },
+        "badge_LbTx7X": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "support",
+            "label": "24x7 Support",
+            "sublabel": ""
+          }
+        },
+        "badge_GFNG6f": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "original",
+            "label": "100% Original",
+            "sublabel": ""
           }
         }
       },
       "block_order": [
-        "heading_HezNrH"
+        "badge_Uxrwii",
+        "badge_RBCW7n",
+        "badge_m9QY8X",
+        "badge_btFTya",
+        "badge_pf4kHQ",
+        "badge_peJadz",
+        "badge_LbTx7X",
+        "badge_GFNG6f"
       ],
-      "custom_css": [
-        ".rich-text__heading {font-size: 22px !important; font-weight: 700 !important; letter-spacing: 0.08em !important;}",
-        "@media screen and (max-width: 749px) {.rich-text__heading {font-size: 20px !important; }}"
-      ],
-      "name": "t:sections.rich-text.presets.name",
+      "name": "Trust Marquee",
       "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "",
-        "full_width": true,
-        "padding_top": 16,
-        "padding_bottom": 20
-      }
-    },
-    "17643114901db5fcbf": {
-      "type": "apps",
-      "custom_css": [
-        "{padding-top: 20px; padding-bottom: 20px; background-color: #f7eff0; max-width: 920px; margin-left: auto; margin-right: auto; overflow: hidden;}"
-      ],
-      "settings": {
-        "include_margins": true
+        "direction": "ltr",
+        "speed": 100,
+        "pause_on_hover": true,
+        "bg_color": "#111111",
+        "icon_color": "#FFFFFF",
+        "text_color": "#FFFFFF",
+        "icon_size": 28,
+        "gap": 48,
+        "padding_y": 14
       }
     },
     "related-products": {
@@ -182,21 +228,67 @@
       "settings": {
         "heading": "You may also like",
         "heading_size": "h1",
-        "products_to_show": 10,
-        "columns_desktop": 3,
+        "products_to_show": 8,
+        "columns_desktop": 4,
         "columns_mobile": "2",
         "color_scheme": "scheme-1",
         "enable_quick_buy": true,
         "padding_top": 24,
         "padding_bottom": 20
       }
+    },
+    "testimonials_iJMEYW": {
+      "type": "testimonials",
+      "blocks": {
+        "review_bGtCTH": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "<p>we made this for your Sunday brunch era — and it delivered ✨</p>",
+            "name": "Priya",
+            "city": "Mumbai"
+          }
+        },
+        "review_48MGUX": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "<p>fits like a dream, the quality is unreal for the price 🎀</p>",
+            "name": "Ananya",
+            "city": "Delhi"
+          }
+        },
+        "review_gDN3We": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "<p>wore it on my birthday and felt like the main character ❤️</p>",
+            "name": "Sneha",
+            "city": "Bangalore"
+          }
+        }
+      },
+      "block_order": [
+        "review_bGtCTH",
+        "review_48MGUX",
+        "review_gDN3We"
+      ],
+      "name": "Testimonials",
+      "settings": {
+        "heading": "Loved by 10,000+ girls 💕",
+        "subheading": "obsessed? same.",
+        "heading_color": "#111111",
+        "bg_color": "#F7EFF0",
+        "marquee_tag": "#WearElora",
+        "marquee_speed": 30,
+        "padding_y": 48
+      }
     }
   },
   "order": [
     "main",
-    "apps_Yr4RRX",
-    "rich_text_7zQ8xR",
-    "17643114901db5fcbf",
-    "related-products"
+    "trust_marquee_MqF38j",
+    "related-products",
+    "testimonials_iJMEYW"
   ]
 }
