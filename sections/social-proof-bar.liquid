@@ -1,0 +1,222 @@
+{%- comment -%}
+  Social-proof / customer-count bar. Sits directly below the header on every page
+  (wired globally via header-group.json). Thin (~38px), identical height on mobile
+  and desktop, no layout shift.
+
+  Static (default): shows section.settings.text, centred.
+  Rotating: cross-fades section.settings.text + each "line" block every N seconds.
+  Blocks let trust lines be added later with no code change.
+{%- endcomment -%}
+
+{%- liquid
+  assign layout = section.settings.layout
+  assign show_bar = section.settings.show_bar
+-%}
+
+{%- if show_bar -%}
+<style>
+  #shopify-section-{{ section.id }} .spb {
+    background: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: {{ section.settings.padding_y }}px 16px;
+    text-align: center;
+    font-family: var(--font-body-family, var(--elora-body, inherit));
+    font-size: {{ section.settings.text_size }}px;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    box-sizing: border-box;
+  }
+  #shopify-section-{{ section.id }} .spb,
+  #shopify-section-{{ section.id }} .spb a { color: {{ section.settings.text_color }}; }
+  #shopify-section-{{ section.id }} .spb a { text-decoration: none; }
+  #shopify-section-{{ section.id }} .spb p { margin: 0; display: inline; }
+
+  /* Rotating: stack lines, cross-fade. Fixed track height = no layout shift. */
+  #shopify-section-{{ section.id }} .spb__track {
+    position: relative;
+    width: 100%;
+    display: grid;
+  }
+  #shopify-section-{{ section.id }} .spb__line {
+    grid-area: 1 / 1;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+  #shopify-section-{{ section.id }} .spb__line.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #shopify-section-{{ section.id }} .spb--static .spb__line { opacity: 1; pointer-events: auto; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .spb__line { transition: none; }
+  }
+</style>
+
+<div
+  class="spb {% if layout == 'rotating' %}spb--rotating{% else %}spb--static{% endif %}"
+  {% if layout == 'rotating' %}data-spb-rotate data-interval="{{ section.settings.interval | times: 1000 }}"{% endif %}
+>
+  {%- if section.settings.link != blank and layout != 'rotating' -%}<a href="{{ section.settings.link }}">{%- endif -%}
+  <div class="spb__track">
+    {%- comment -%} static: only the section text; rotating: text + all blocks {%- endcomment -%}
+    {%- if layout == 'rotating' -%}
+      {%- assign i = 0 -%}
+      {%- if section.settings.text != blank -%}
+        <div class="spb__line is-active">{{ section.settings.text }}</div>
+        {%- assign i = 1 -%}
+      {%- endif -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.text != blank -%}
+          <div class="spb__line{% if i == 0 and forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+            {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{{ block.settings.text }}</a>{%- else -%}{{ block.settings.text }}{%- endif -%}
+          </div>
+          {%- assign i = i | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      <div class="spb__line is-active">
+        {{ section.settings.text | default: 'Loved by over 10,000+ customers since 2016' }}
+      </div>
+    {%- endif -%}
+  </div>
+  {%- if section.settings.link != blank and layout != 'rotating' -%}</a>{%- endif -%}
+</div>
+
+{%- if layout == 'rotating' -%}
+<script>
+  (function () {
+    var root = document.getElementById('shopify-section-{{ section.id }}');
+    if (!root) return;
+    var bar = root.querySelector('[data-spb-rotate]');
+    if (!bar) return;
+    var lines = bar.querySelectorAll('.spb__line');
+    if (lines.length < 2) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var interval = parseInt(bar.getAttribute('data-interval'), 10) || 4000;
+    var idx = 0;
+    setInterval(function () {
+      lines[idx].classList.remove('is-active');
+      idx = (idx + 1) % lines.length;
+      lines[idx].classList.add('is-active');
+    }, interval);
+  })();
+</script>
+{%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Social Proof Bar",
+  "tag": "section",
+  "class": "section-social-proof-bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_bar",
+      "label": "Show bar",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "static", "label": "Static (single line)" },
+        { "value": "rotating", "label": "Rotating (cross-fade lines)" }
+      ],
+      "default": "static"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "Loved by over 10,000+ customers since 2016"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link (makes the whole bar clickable — static mode)"
+    },
+    {
+      "type": "range",
+      "id": "interval",
+      "label": "Rotation interval",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 4,
+      "info": "Rotating layout only"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#F7EFF0"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "padding_y",
+      "label": "Vertical padding",
+      "min": 0,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    }
+  ],
+  "blocks": [
+    {
+      "type": "line",
+      "name": "Trust line",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "Free shipping over ₹599"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Social Proof Bar",
+      "settings": {
+        "text": "Loved by over 10,000+ customers since 2016"
+      }
+    }
+  ]
+}
+{% endschema %}

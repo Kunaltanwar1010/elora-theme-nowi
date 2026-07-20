@@ -7,6 +7,37 @@
     'use strict';
 
     // Mobile menu toggle
+    let _drawerLastFocus = null;
+
+    function _drawerFocusables(drawer) {
+        return Array.from(
+            drawer.querySelectorAll('a[href], button:not([disabled]), input, select, [tabindex]:not([tabindex="-1"])')
+        ).filter((el) => el.offsetParent !== null);
+    }
+
+    function _drawerKeydown(e) {
+        const drawer = document.querySelector('.mobile-menu-drawer.open');
+        if (!drawer) return;
+        if (e.key === 'Escape') {
+            window.toggleMobileMenu();
+            return;
+        }
+        if (e.key === 'Tab') {
+            // Trap focus within the open drawer
+            const items = _drawerFocusables(drawer);
+            if (!items.length) return;
+            const first = items[0];
+            const last = items[items.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        }
+    }
+
     window.toggleMobileMenu = function () {
         const drawer = document.querySelector('.mobile-menu-drawer');
         const overlay = document.querySelector('.mobile-menu-overlay');
@@ -16,6 +47,10 @@
         // Prevent body scroll when menu is open
         if (drawer.classList.contains('open')) {
             document.body.style.overflow = 'hidden';
+            _drawerLastFocus = document.activeElement;
+            document.addEventListener('keydown', _drawerKeydown);
+            const first = _drawerFocusables(drawer)[0];
+            if (first) setTimeout(() => first.focus(), 50);
 
             // Initialize Swiper for collections carousel if it exists
             setTimeout(() => {
@@ -33,6 +68,8 @@
             }, 100);
         } else {
             document.body.style.overflow = '';
+            document.removeEventListener('keydown', _drawerKeydown);
+            if (_drawerLastFocus && _drawerLastFocus.focus) _drawerLastFocus.focus();
         }
     };  // Mobile submenu toggle
     window.toggleMobileSubmenu = function (button) {

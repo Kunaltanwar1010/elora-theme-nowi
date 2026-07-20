@@ -23,11 +23,30 @@
   /* Dynamic Liquid-based styles */
   .section-header-custom {
     background-color: {{ section.settings.background_color | default: '#ffffff' }};
-    {% if section.settings.show_line_separator %}border-bottom: 1px solid rgba(0, 0, 0, 0.06);{% endif %}
+    {% if section.settings.show_line_separator %}border-bottom: 1px solid var(--elora-grey-line, #E6E1E2);{% endif %}
   }
 
   .header-custom {
     background-color: {{ section.settings.background_color | default: '#ffffff' }} !important;
+  }
+
+  /* Icons — single consistent colour from schema, inherited via currentColor */
+  .section-header-custom .header__icon { color: {{ section.settings.icon_color | default: '#7A1520' }}; }
+  .section-header-custom .header__icon svg { width: 23px; height: 23px; }
+
+  /* Cart count bubble — maroon fill, white text (hidden when zero via Liquid) */
+  .section-header-custom .cart-count-bubble {
+    background: var(--elora-maroon, #7A1520);
+    color: #FFFFFF;
+  }
+
+  /* Visible maroon focus ring on interactive header controls */
+  .section-header-custom .header__icon:focus-visible,
+  .section-header-custom .header-custom-nav a:focus-visible,
+  .section-header-custom .mobile-menu-toggle:focus-visible {
+    outline: 2px solid var(--elora-maroon, #7A1520);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 </style>
 
@@ -60,16 +79,19 @@
       {% endif %}
     </div>
 
+    {%- assign header_logo = section.settings.logo | default: settings.logo -%}
+
     <!-- MOBILE: Logo (center, hidden on desktop) -->
     <div class="header-custom-logo-mobile">
       <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-        {%- if settings.logo != blank -%}
+        {%- if header_logo != blank -%}
           <img
-            src="{{ settings.logo | image_url: width: 150 }}"
+            src="{{ header_logo | image_url: width: 360 }}"
             alt="{{ shop.name }}"
-            width="{{ settings.logo_width }}"
+            width="{{ section.settings.mobile_logo_width | default: 100 }}"
             height="auto"
             loading="eager"
+            style="width: {{ section.settings.mobile_logo_width | default: 100 }}px; height: auto;"
           >
         {%- else -%}
           <span style="font-size: 18px; font-weight: 600;">{{ shop.name }}</span>
@@ -80,13 +102,14 @@
     <!-- DESKTOP: Logo (left, hidden on mobile) -->
     <div class="header-custom-logo-desktop">
       <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-        {%- if settings.logo != blank -%}
+        {%- if header_logo != blank -%}
           <img
-            src="{{ settings.logo | image_url: width: 200 }}"
+            src="{{ header_logo | image_url: width: 480 }}"
             alt="{{ shop.name }}"
-            width="{{ settings.logo_width }}"
+            width="{{ section.settings.logo_width | default: 120 }}"
             height="auto"
             loading="eager"
+            style="width: {{ section.settings.logo_width | default: 120 }}px; height: auto;"
           >
         {%- else -%}
           <span style="font-size: 20px; font-weight: 600;">{{ shop.name }}</span>
@@ -215,10 +238,12 @@
 </div>
 
 <script>
-  // Initialize sticky header with section ID
+  // Initialize sticky header (hide on scroll-down, reveal on scroll-up) when enabled
+  {% if section.settings.enable_sticky %}
   if (window.initHeaderCustom) {
     window.initHeaderCustom('{{ section.id }}');
   }
+  {% endif %}
 </script>
 
 <!-- Mobile Menu Drawer -->
@@ -478,6 +503,36 @@
     },
     {
       "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image",
+      "info": "Falls back to the theme logo, then the shop name."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Desktop logo width",
+      "min": 60,
+      "max": 240,
+      "step": 5,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "mobile_logo_width",
+      "label": "Mobile logo width",
+      "min": 60,
+      "max": 180,
+      "step": 5,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "header",
       "content": "Localization"
     },
     {
@@ -575,10 +630,23 @@
       "default": "#ffffff"
     },
     {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon Color",
+      "default": "#7A1520"
+    },
+    {
       "type": "checkbox",
       "id": "show_line_separator",
       "label": "Show Bottom Border",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "Sticky header",
+      "default": true,
+      "info": "Hide on scroll down, reveal on scroll up."
     }
   ],
   "presets": [

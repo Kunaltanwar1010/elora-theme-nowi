@@ -94,6 +94,12 @@
     }
   }
 
+  /* Accessibility: stop motion when the user asks for reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .ann-marquee__track { animation: none !important; }
+    #shopify-section-{{ section.id }} .ann-slider__slide { transition: none !important; }
+  }
+
   /* === SLIDER === */
   #shopify-section-{{ section.id }} .ann-slider {
     position: relative;
@@ -384,8 +390,9 @@
         visible[current].classList.add('ann-active');
       }
 
+      var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       function startAutoplay() {
-        if (getVisibleSlides().length > 1) {
+        if (!reduceMotion && getVisibleSlides().length > 1) {
           interval = setInterval(function() { showSlide(current + 1); }, speed);
         }
       }
