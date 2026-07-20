@@ -87,7 +87,7 @@
         "bubble_size": 80,
         "label_font_size": 12,
         "subtitle_font_size": 12,
-        "bubble_color": "#F7EFF0",
+        "bubble_color": "#f7eff0",
         "label_color": "#111111",
         "subtitle_color": "#111111",
         "show_in_all_categories": false,
@@ -102,7 +102,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "shopify://collections/men-co-ords",
-            "background_color": "#F7EFF0"
+            "background_color": "#f7eff0"
           }
         },
         "slide_Wqx68U": {
@@ -110,7 +110,7 @@
           "settings": {
             "media_type": "image",
             "cta_link": "shopify://collections/men-shirts",
-            "background_color": "#F7EFF0"
+            "background_color": "#f7eff0"
           }
         }
       },
@@ -118,7 +118,7 @@
         "slide_PLyg7t",
         "slide_Wqx68U"
       ],
-      "name": "hero-carousel-men",
+      "name": "Hero Section",
       "settings": {
         "loop": true,
         "autoplay_delay": 7000,
@@ -130,53 +130,6 @@
         "hero_height_mobile": 30,
         "show_in_all_categories": false,
         "category_only_show_for": "men"
-      }
-    },
-    "hero_carousel_igxRre": {
-      "type": "hero-carousel",
-      "blocks": {
-        "slide_DHaRwM": {
-          "type": "slide",
-          "settings": {
-            "media_type": "image",
-            "cta_link": "shopify://collections/women-jeans",
-            "background_color": "#F7EFF0"
-          }
-        },
-        "slide_4LmLBG": {
-          "type": "slide",
-          "settings": {
-            "media_type": "image",
-            "cta_link": "shopify://collections/women-trousers",
-            "background_color": "#F7EFF0"
-          }
-        },
-        "slide_jhgwga": {
-          "type": "slide",
-          "settings": {
-            "media_type": "image",
-            "cta_link": "shopify://collections/women-night-suits",
-            "background_color": "#F7EFF0"
-          }
-        }
-      },
-      "block_order": [
-        "slide_DHaRwM",
-        "slide_4LmLBG",
-        "slide_jhgwga"
-      ],
-      "name": "hero-carousel-women",
-      "settings": {
-        "loop": true,
-        "autoplay_delay": 7000,
-        "transition_effect": "fade",
-        "transition_speed": 800,
-        "show_arrows": true,
-        "show_dots": true,
-        "hero_height_desktop": 55,
-        "hero_height_mobile": 24,
-        "show_in_all_categories": false,
-        "category_only_show_for": "women"
       }
     },
     "announcement_bar_heroimage_QTf6m7": {
@@ -204,7 +157,7 @@
       "name": "Announcement Bar",
       "settings": {
         "show_announcement": true,
-        "bg_color": "#F7EFF0",
+        "bg_color": "#f7eff0",
         "text_color": "#111111",
         "speed": 10,
         "show_in_all_categories": true,
@@ -606,7 +559,6 @@
     "homepage_category_nav_Xm9x74",
     "category_carousel_Uz3cQb",
     "hero_carousel_PpWita",
-    "hero_carousel_igxRre",
     "announcement_bar_heroimage_QTf6m7",
     "trending_carousel_nmRwTT",
     "collection_grid_X6WMfM",
