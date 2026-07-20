@@ -9,14 +9,95 @@
  */
 {
   "sections": {
-    "hero": {
+    "social_proof_bar_ApmVwH": {
+      "type": "social-proof-bar",
+      "name": "Social Proof Bar",
+      "settings": {
+        "show_bar": true,
+        "layout": "static",
+        "text": "Loved by over 10,000+ customers since 2016",
+        "link": "",
+        "interval": 4,
+        "bg_color": "#7a1520",
+        "text_color": "#ffffff",
+        "text_size": 13,
+        "padding_y": 8
+      }
+    },
+    "category_carousel_3dcF3q": {
+      "type": "category-carousel",
+      "blocks": {
+        "category_item_4wjtcz": {
+          "type": "category_item",
+          "settings": {
+            "category_image": "shopify://shop_images/levender2.jpg",
+            "category_label": "Jeans",
+            "category_subtitle": "",
+            "category_link": ""
+          }
+        },
+        "category_item_ftWJLq": {
+          "type": "category_item",
+          "settings": {
+            "category_image": "shopify://shop_images/4_0c4337f4-c4bc-414a-858b-f233fbf9736f.jpg",
+            "category_label": "Sweaters",
+            "category_subtitle": "",
+            "category_link": ""
+          }
+        },
+        "category_item_nNbyNb": {
+          "type": "category_item",
+          "settings": {
+            "category_image": "shopify://shop_images/1312251.4_630af4ae-6fe4-4096-b293-fea7e4987e64.jpg",
+            "category_label": "Kurtis & Kurtas",
+            "category_subtitle": "",
+            "category_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_item_4wjtcz",
+        "category_item_ftWJLq",
+        "category_item_nNbyNb"
+      ],
+      "name": "Category Carousel",
+      "settings": {
+        "section_padding_y": 30,
+        "section_padding_x": 20,
+        "card_gap": 20,
+        "bubble_size": 88,
+        "label_font_size": 14,
+        "subtitle_font_size": 12,
+        "bubble_color": "#f7eff0",
+        "label_color": "#000000",
+        "subtitle_color": "#111111"
+      }
+    },
+    "hero_carousel_HbU4x9": {
       "type": "hero-carousel",
       "blocks": {
-        "slide_1": { "type": "slide", "settings": { "media_type": "image", "cta_link": "shopify://collections/women-new-arrivals" } },
-        "slide_2": { "type": "slide", "settings": { "media_type": "image", "cta_link": "shopify://collections/women" } }
+        "slide_M7P87w": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "cta_link": "",
+            "background_color": "#f7eff0"
+          }
+        },
+        "slide_a4QczP": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "cta_link": "",
+            "background_color": "#f7eff0"
+          }
+        }
       },
-      "block_order": ["slide_1", "slide_2"],
-      "name": "Hero",
+      "block_order": [
+        "slide_M7P87w",
+        "slide_a4QczP"
+      ],
+      "name": "Hero Carousel",
       "settings": {
         "loop": true,
         "autoplay_delay": 5000,
@@ -24,122 +105,181 @@
         "transition_speed": 800,
         "show_arrows": true,
         "show_dots": true,
-        "hero_height_desktop": 62,
-        "hero_height_mobile": 52
+        "hero_height_desktop": 70,
+        "hero_height_mobile": 50
       }
     },
-    "best_sellers": {
+    "collection_grid_X6WMfM": {
       "type": "collection-grid",
-      "name": "Best Sellers",
+      "name": "women-collection",
       "settings": {
-        "collection": "women-new-arrivals",
+        "collection": "women",
+        "padding_top": 0,
+        "padding_bottom": 0,
         "show_collection_title": true,
         "custom_title": "Best Sellers",
-        "heading_font_size": 28,
+        "heading_font_size": 26,
+        "heading_font_weight": "400",
         "heading_text_transform": "uppercase",
         "heading_alignment": "text-center",
-        "heading_color": "#7A1520",
+        "heading_color": "#111111",
+        "show_collection_description": false,
         "products_to_show": 6,
         "columns_mobile": 2,
         "columns_desktop": 3,
-        "enable_quick_buy": true,
+        "enable_pagination": false,
+        "enable_infinite_scroll": false,
+        "show_view_all": false,
+        "enable_quick_buy": true
+      }
+    },
+    "collection_grid_rfxcdj": {
+      "type": "collection-grid",
+      "name": "men-collection",
+      "settings": {
+        "collection": "men-best-seller",
+        "padding_top": 5,
+        "padding_bottom": 0,
+        "show_collection_title": true,
+        "custom_title": "Best Sellers",
+        "heading_font_size": 26,
+        "heading_font_weight": "600",
+        "heading_text_transform": "uppercase",
+        "heading_alignment": "text-center",
+        "heading_color": "#111111",
+        "show_collection_description": false,
+        "products_to_show": 6,
+        "columns_mobile": 2,
+        "columns_desktop": 3,
+        "enable_pagination": false,
+        "enable_infinite_scroll": false,
+        "show_view_all": false,
+        "enable_quick_buy": true
+      }
+    },
+    "17682938216cf4a3f4": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "collection_grid_rVrxzf": {
+      "type": "collection-grid",
+      "name": "women-collection-2",
+      "settings": {
+        "collection": "women-new-arrivals",
+        "padding_top": 25,
+        "padding_bottom": 10,
+        "show_collection_title": true,
+        "custom_title": "New Arrivals",
+        "heading_font_size": 26,
+        "heading_font_weight": "600",
+        "heading_text_transform": "uppercase",
+        "heading_alignment": "text-center",
+        "heading_color": "#111111",
+        "show_collection_description": false,
+        "products_to_show": 6,
+        "columns_mobile": 2,
+        "columns_desktop": 3,
+        "enable_pagination": false,
+        "enable_infinite_scroll": false,
         "show_view_all": true,
-        "padding_top": 24,
-        "padding_bottom": 8
+        "enable_quick_buy": true
       }
     },
-    "shop_by_collection": {
-      "type": "shop-by-collection",
-      "blocks": {
-        "c_tops": { "type": "card", "settings": { "collection": "women-tops", "label": "Tops", "link": "shopify://collections/women-tops" } },
-        "c_dresses": { "type": "card", "settings": { "collection": "women", "label": "Dresses", "link": "shopify://collections/women" } },
-        "c_coords": { "type": "card", "settings": { "collection": "women-new-arrivals", "label": "Co-ords", "link": "shopify://collections/women-new-arrivals" } }
-      },
-      "block_order": ["c_tops", "c_dresses", "c_coords"],
-      "name": "Shop by Collection",
-      "settings": { "heading": "Shop by Collection", "heading_color": "#7A1520", "desktop_columns": 3 }
-    },
-    "tops_banner": {
-      "type": "image-banner",
-      "name": "Tops Banner",
-      "settings": { "heading": "Tops", "subheading": "Everyday edits, elevated", "cta_text": "Shop Tops", "cta_link": "shopify://collections/women-tops", "text_position": "middle-center", "overlay_opacity": 35 }
-    },
-    "tops_grid": {
+    "collection_grid_7FW4Nb": {
       "type": "collection-grid",
-      "name": "Tops Grid",
+      "name": "men-collection-2",
       "settings": {
-        "collection": "women-tops", "show_collection_title": true, "custom_title": "Tops",
-        "heading_font_size": 26, "heading_text_transform": "uppercase", "heading_alignment": "text-center", "heading_color": "#7A1520",
-        "products_to_show": 8, "columns_mobile": 2, "columns_desktop": 3, "enable_quick_buy": true, "show_view_all": true
+        "collection": "men-new-arrivals",
+        "padding_top": 15,
+        "padding_bottom": 0,
+        "show_collection_title": true,
+        "custom_title": "New Arrivals",
+        "heading_font_size": 26,
+        "heading_font_weight": "600",
+        "heading_text_transform": "uppercase",
+        "heading_alignment": "text-center",
+        "heading_color": "#111111",
+        "show_collection_description": false,
+        "products_to_show": 8,
+        "columns_mobile": 2,
+        "columns_desktop": 3,
+        "enable_pagination": false,
+        "enable_infinite_scroll": false,
+        "show_view_all": true,
+        "enable_quick_buy": true
       }
     },
-    "dresses_banner": {
-      "type": "image-banner",
-      "name": "Dresses Banner",
-      "settings": { "heading": "Dresses", "subheading": "From brunch to date night", "cta_text": "Shop Dresses", "cta_link": "shopify://collections/women", "text_position": "middle-center", "overlay_opacity": 35 }
-    },
-    "dresses_grid": {
-      "type": "collection-grid",
-      "name": "Dresses Grid",
+    "17701894643cc1d05d": {
+      "type": "apps",
+      "custom_css": [],
       "settings": {
-        "collection": "women", "show_collection_title": true, "custom_title": "Dresses",
-        "heading_font_size": 26, "heading_text_transform": "uppercase", "heading_alignment": "text-center", "heading_color": "#7A1520",
-        "products_to_show": 8, "columns_mobile": 2, "columns_desktop": 3, "enable_quick_buy": true, "show_view_all": true
+        "include_margins": true
       }
     },
-    "coords_banner": {
-      "type": "image-banner",
-      "name": "Co-ords Banner",
-      "settings": { "heading": "Co-ords", "subheading": "Two pieces, one statement", "cta_text": "Shop Co-ords", "cta_link": "shopify://collections/women-new-arrivals", "text_position": "middle-center", "overlay_opacity": 35 }
-    },
-    "coords_grid": {
-      "type": "collection-grid",
-      "name": "Co-ords Grid",
-      "settings": {
-        "collection": "women-new-arrivals", "show_collection_title": true, "custom_title": "Co-ords",
-        "heading_font_size": 26, "heading_text_transform": "uppercase", "heading_alignment": "text-center", "heading_color": "#7A1520",
-        "products_to_show": 8, "columns_mobile": 2, "columns_desktop": 3, "enable_quick_buy": true, "show_view_all": true
-      }
-    },
-    "testimonials": {
-      "type": "testimonials",
+    "watch_and_buy_Hr7i73": {
+      "type": "watch-and-buy",
       "blocks": {
-        "r1": { "type": "review", "settings": { "stars": 5, "quote": "Obsessed with the fit and fabric. Delivery was quick too!", "name": "Ananya", "city": "Mumbai" } },
-        "r2": { "type": "review", "settings": { "stars": 5, "quote": "The co-ord set is even prettier in person. Will order again.", "name": "Ishita", "city": "Delhi" } },
-        "r3": { "type": "review", "settings": { "stars": 5, "quote": "Great quality for the price and the exchange was hassle-free.", "name": "Sara", "city": "Bengaluru" } }
+        "reel_ypC3bB": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_YNgE3K": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_DJAQg6": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_HHzyFc": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_JhaYxH": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        }
       },
-      "block_order": ["r1", "r2", "r3"],
-      "name": "Testimonials",
-      "settings": { "heading": "What Our Customers Say", "heading_color": "#7A1520" }
-    },
-    "trust_marquee": {
-      "type": "trust-marquee",
-      "blocks": {
-        "b1": { "type": "badge", "settings": { "icon_key": "free_shipping", "label": "Free Shipping" } },
-        "b2": { "type": "badge", "settings": { "icon_key": "cod", "label": "Cash on Delivery" } },
-        "b3": { "type": "badge", "settings": { "icon_key": "exchange", "label": "Easy 5-Day Exchange" } },
-        "b4": { "type": "badge", "settings": { "icon_key": "secure_payment", "label": "Secure Payments" } },
-        "b5": { "type": "badge", "settings": { "icon_key": "quality", "label": "Quality Checked" } },
-        "b6": { "type": "badge", "settings": { "icon_key": "made_in_india", "label": "Made in India" } },
-        "b7": { "type": "badge", "settings": { "icon_key": "support", "label": "24x7 Support" } },
-        "b8": { "type": "badge", "settings": { "icon_key": "original", "label": "100% Original" } }
-      },
-      "block_order": ["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8"],
-      "name": "Trust Marquee",
-      "settings": { "direction": "ltr", "speed": 40, "bg_color": "#111111", "text_color": "#FFFFFF", "icon_color": "#7A1520" }
+      "block_order": [
+        "reel_ypC3bB",
+        "reel_YNgE3K",
+        "reel_DJAQg6",
+        "reel_HHzyFc",
+        "reel_JhaYxH"
+      ],
+      "name": "Watch & Buy",
+      "settings": {
+        "heading": "Watch & Buy 🎬",
+        "heading_color": "#111111",
+        "bg_color": "#FDF7F5",
+        "cta_color": "#7A1520",
+        "cta_text_color": "#FFFFFF",
+        "padding_y": 40
+      }
     }
   },
   "order": [
-    "hero",
-    "best_sellers",
-    "shop_by_collection",
-    "tops_banner",
-    "tops_grid",
-    "dresses_banner",
-    "dresses_grid",
-    "coords_banner",
-    "coords_grid",
-    "testimonials",
-    "trust_marquee"
+    "social_proof_bar_ApmVwH",
+    "category_carousel_3dcF3q",
+    "hero_carousel_HbU4x9",
+    "collection_grid_X6WMfM",
+    "collection_grid_rfxcdj",
+    "17682938216cf4a3f4",
+    "collection_grid_rVrxzf",
+    "collection_grid_7FW4Nb",
+    "17701894643cc1d05d",
+    "watch_and_buy_Hr7i73"
   ]
 }
