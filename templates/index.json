@@ -24,55 +24,6 @@
         "padding_y": 8
       }
     },
-    "category_carousel_3dcF3q": {
-      "type": "category-carousel",
-      "blocks": {
-        "category_item_4wjtcz": {
-          "type": "category_item",
-          "settings": {
-            "category_image": "shopify://shop_images/levender2.jpg",
-            "category_label": "Jeans",
-            "category_subtitle": "",
-            "category_link": ""
-          }
-        },
-        "category_item_ftWJLq": {
-          "type": "category_item",
-          "settings": {
-            "category_image": "shopify://shop_images/4_0c4337f4-c4bc-414a-858b-f233fbf9736f.jpg",
-            "category_label": "Sweaters",
-            "category_subtitle": "",
-            "category_link": ""
-          }
-        },
-        "category_item_nNbyNb": {
-          "type": "category_item",
-          "settings": {
-            "category_image": "shopify://shop_images/1312251.4_630af4ae-6fe4-4096-b293-fea7e4987e64.jpg",
-            "category_label": "Kurtis & Kurtas",
-            "category_subtitle": "",
-            "category_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "category_item_4wjtcz",
-        "category_item_ftWJLq",
-        "category_item_nNbyNb"
-      ],
-      "name": "Category Carousel",
-      "settings": {
-        "section_padding_y": 30,
-        "section_padding_x": 20,
-        "card_gap": 20,
-        "bubble_size": 88,
-        "label_font_size": 14,
-        "subtitle_font_size": 12,
-        "bubble_color": "#f7eff0",
-        "label_color": "#000000",
-        "subtitle_color": "#111111"
-      }
-    },
     "hero_carousel_HbU4x9": {
       "type": "hero-carousel",
       "blocks": {
@@ -109,6 +60,55 @@
         "hero_height_mobile": 50
       }
     },
+    "category_carousel_3dcF3q": {
+      "type": "category-carousel",
+      "blocks": {
+        "category_item_4wjtcz": {
+          "type": "category_item",
+          "settings": {
+            "category_image": "shopify://shop_images/levender2.jpg",
+            "category_label": "Tops",
+            "category_subtitle": "",
+            "category_link": ""
+          }
+        },
+        "category_item_ftWJLq": {
+          "type": "category_item",
+          "settings": {
+            "category_image": "shopify://shop_images/4_0c4337f4-c4bc-414a-858b-f233fbf9736f.jpg",
+            "category_label": "Dresses",
+            "category_subtitle": "",
+            "category_link": ""
+          }
+        },
+        "category_item_nNbyNb": {
+          "type": "category_item",
+          "settings": {
+            "category_image": "shopify://shop_images/1312251.4_630af4ae-6fe4-4096-b293-fea7e4987e64.jpg",
+            "category_label": "Coords",
+            "category_subtitle": "",
+            "category_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_item_4wjtcz",
+        "category_item_ftWJLq",
+        "category_item_nNbyNb"
+      ],
+      "name": "Category Carousel",
+      "settings": {
+        "section_padding_y": 10,
+        "section_padding_x": 0,
+        "card_gap": 20,
+        "bubble_size": 72,
+        "label_font_size": 14,
+        "subtitle_font_size": 12,
+        "bubble_color": "#f7eff0",
+        "label_color": "#000000",
+        "subtitle_color": "#111111"
+      }
+    },
     "collection_grid_nwgRzE": {
       "type": "collection-grid",
       "name": "Collection Grid",
@@ -118,7 +118,7 @@
         "padding_bottom": 20,
         "show_collection_title": true,
         "custom_title": "Bestsellers",
-        "heading_font_size": 32,
+        "heading_font_size": 24,
         "heading_font_weight": "700",
         "heading_text_transform": "",
         "heading_alignment": "text-left",
@@ -331,8 +331,8 @@
   },
   "order": [
     "social_proof_bar_ApmVwH",
-    "category_carousel_3dcF3q",
     "hero_carousel_HbU4x9",
+    "category_carousel_3dcF3q",
     "collection_grid_nwgRzE",
     "shop_by_collection_hp4q7t",
     "hero_carousel_jmCeKb",
