@@ -32,7 +32,7 @@
           "settings": {
             "media_type": "image",
             "desktop_image": "shopify://shop_images/1_79d2253d-4da0-4bcf-bdf5-bbbe5430e12b.png",
-            "cta_link": "",
+            "cta_link": "shopify://collections",
             "background_color": "#fefafa"
           }
         },
