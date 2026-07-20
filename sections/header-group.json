@@ -49,7 +49,7 @@
         "message_spacing": 25,
         "color_scheme": "scheme-3",
         "color": "#ffffff",
-        "bg_color": "",
+        "bg_color": "#000000",
         "border_color": ""
       }
     },
