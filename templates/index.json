@@ -77,7 +77,7 @@
         "category_item_ERzwwn"
       ],
       "custom_css": [
-        ".category-carousel-image {border: 1px solid black;}"
+        "/* .category-carousel-image {border: 1px solid black;} */"
       ],
       "name": "Category Carousel-women",
       "settings": {
@@ -92,81 +92,6 @@
         "subtitle_color": "#333333",
         "show_in_all_categories": false,
         "category_only_show_for": "women"
-      }
-    },
-    "category_carousel_iyX3Ne": {
-      "type": "category-carousel",
-      "blocks": {
-        "category_item_JrR8GE": {
-          "type": "category_item",
-          "settings": {
-            "category_label": "T shirt",
-            "category_subtitle": "",
-            "category_link": "shopify://collections/men-tshirts"
-          }
-        },
-        "category_item_rFTeJg": {
-          "type": "category_item",
-          "settings": {
-            "category_label": "Korean Pants",
-            "category_subtitle": "",
-            "category_link": "shopify://collections/men-korean-pants"
-          }
-        },
-        "category_item_GnTJXB": {
-          "type": "category_item",
-          "settings": {
-            "category_label": "Co-ords",
-            "category_subtitle": "",
-            "category_link": "shopify://collections/men-co-ords"
-          }
-        },
-        "category_item_HEmGLc": {
-          "type": "category_item",
-          "settings": {
-            "category_label": "Denim",
-            "category_subtitle": "",
-            "category_link": "shopify://collections/men-denim"
-          }
-        },
-        "category_item_ePCCKd": {
-          "type": "category_item",
-          "settings": {
-            "category_label": "Jackets",
-            "category_subtitle": "",
-            "category_link": "shopify://collections/men-jackets"
-          }
-        },
-        "category_item_DaPyxK": {
-          "type": "category_item",
-          "settings": {
-            "category_label": "Shirts",
-            "category_subtitle": "",
-            "category_link": "shopify://collections/men-shirts"
-          }
-        }
-      },
-      "block_order": [
-        "category_item_JrR8GE",
-        "category_item_rFTeJg",
-        "category_item_GnTJXB",
-        "category_item_HEmGLc",
-        "category_item_ePCCKd",
-        "category_item_DaPyxK"
-      ],
-      "name": "Category Carousel-men",
-      "settings": {
-        "section_padding_y": 10,
-        "section_padding_x": 0,
-        "card_gap": 0,
-        "bubble_size": 72,
-        "label_font_size": 12,
-        "subtitle_font_size": 12,
-        "bubble_color": "#ffc0cb",
-        "label_color": "#0b1220",
-        "subtitle_color": "#333333",
-        "show_in_all_categories": false,
-        "category_only_show_for": "men"
       }
     },
     "hero_carousel_PpWita": {
@@ -680,7 +605,6 @@
   "order": [
     "homepage_category_nav_Xm9x74",
     "category_carousel_Uz3cQb",
-    "category_carousel_iyX3Ne",
     "hero_carousel_PpWita",
     "hero_carousel_igxRre",
     "announcement_bar_heroimage_QTf6m7",
