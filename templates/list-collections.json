@@ -11,6 +11,7 @@
   "sections": {
     "main": {
       "type": "main-list-collections",
+      "disabled": true,
       "settings": {
         "title": "Collections",
         "sort": "alphabetical",
@@ -18,9 +19,52 @@
         "columns_desktop": 3,
         "columns_mobile": "2"
       }
+    },
+    "shop_by_collection_crpy4K": {
+      "type": "shop-by-collection",
+      "blocks": {
+        "card_EjL4pc": {
+          "type": "card",
+          "settings": {
+            "collection": "",
+            "label": "Tops",
+            "link": ""
+          }
+        },
+        "card_Wdi3qH": {
+          "type": "card",
+          "settings": {
+            "collection": "",
+            "label": "Dresses",
+            "link": ""
+          }
+        },
+        "card_xzeK4t": {
+          "type": "card",
+          "settings": {
+            "collection": "",
+            "label": "Co-ords",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_EjL4pc",
+        "card_Wdi3qH",
+        "card_xzeK4t"
+      ],
+      "name": "Shop by Collection",
+      "settings": {
+        "heading": "Shop by Collection",
+        "heading_color": "#111111",
+        "desktop_columns": 3,
+        "corner_radius": 16,
+        "padding_y": 40
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "shop_by_collection_crpy4K"
   ]
 }
