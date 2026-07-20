@@ -2049,6 +2049,23 @@ a.product__text {
   .product__media-wrapper > wishlist-button-product {
     display: none !important;
   }
+
+  /* Force Add to Cart + Buy it now to exactly equal widths. Shopify's dynamic
+     checkout element ships an intrinsic max-width that shrinks Buy it now
+     narrower than Add to cart — strip it so both flex items share the row. */
+  .product-form__buttons .product-form__submit,
+  .product-form__buttons .shopify-payment-button {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+  .product-form__buttons .shopify-payment-button,
+  .product-form__buttons .shopify-payment-button shopify-accelerated-checkout,
+  .product-form__buttons .shopify-payment-button shopify-buy-it-now-button,
+  .product-form__buttons .shopify-payment-button__button {
+    width: 100% !important;
+    max-width: none !important;
+  }
 }
 
 /* ===========================================
