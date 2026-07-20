@@ -46,7 +46,6 @@
           "type": "category_item",
           "disabled": true,
           "settings": {
-            "category_image": "shopify://shop_images/23.jpg",
             "category_label": "Korean Pants",
             "category_subtitle": "",
             "category_link": "shopify://collections/dresses"
@@ -55,7 +54,6 @@
         "category_item_xgKmWj": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/24.jpg",
             "category_label": "Denims",
             "category_subtitle": "",
             "category_link": "shopify://collections/women-jeans"
@@ -64,7 +62,6 @@
         "category_item_8tb8A3": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/1xuilc80_4787538df8c14c89a07c3cc88afced09_287722e8-5544-4aba-a7e7-3208b3725cdd.jpg",
             "category_label": "Korean Pants",
             "category_subtitle": "",
             "category_link": "shopify://collections/women-korean-pants"
@@ -73,7 +70,6 @@
         "category_item_NEcaAb": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/28.jpg",
             "category_label": "Loungewear",
             "category_subtitle": "",
             "category_link": "shopify://collections/night-suits"
@@ -82,7 +78,6 @@
         "category_item_GMgg7n": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/qmxmkpGS_e1332294daa24c3686bf3c32d6125571.jpg",
             "category_label": "Trousers",
             "category_subtitle": "",
             "category_link": "shopify://collections/women-trousers"
@@ -91,7 +86,6 @@
         "category_item_yEJqpA": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/25.jpg",
             "category_label": "Tops & Blouses",
             "category_subtitle": "",
             "category_link": "shopify://collections/women-tops"
@@ -100,7 +94,6 @@
         "category_item_iGUyzx": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/26.jpg",
             "category_label": "Knitwear",
             "category_subtitle": "",
             "category_link": "shopify://collections/women-sweaters"
@@ -109,7 +102,6 @@
         "category_item_ERzwwn": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/27.jpg",
             "category_label": "Jackets & Coats",
             "category_subtitle": "",
             "category_link": "shopify://collections/jackets"
@@ -119,7 +111,6 @@
           "type": "category_item",
           "disabled": true,
           "settings": {
-            "category_image": "shopify://shop_images/29.jpg",
             "category_label": "Sweatshirts",
             "category_subtitle": "",
             "category_link": "shopify://collections/women-sweatshirts"
@@ -158,7 +149,6 @@
         "category_item_JrR8GE": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/0k4hjBym_f31f262cc42b4fa9902d1dacf1062883.jpg",
             "category_label": "T shirt",
             "category_subtitle": "",
             "category_link": "shopify://collections/men-tshirts"
@@ -167,7 +157,6 @@
         "category_item_rFTeJg": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/33.jpg",
             "category_label": "Korean Pants",
             "category_subtitle": "",
             "category_link": "shopify://collections/men-korean-pants"
@@ -176,7 +165,6 @@
         "category_item_GnTJXB": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/iQYIz56p_e140ac5825c64cdeab552359055cf62e_daee1cd1-9c86-48a0-a5ba-596fc6c25966.jpg",
             "category_label": "Co-ords",
             "category_subtitle": "",
             "category_link": "shopify://collections/men-co-ords"
@@ -185,7 +173,6 @@
         "category_item_HEmGLc": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/8odMqm7s_2e5cd34028b9471fa318c7f7a27715b9.jpg",
             "category_label": "Denim",
             "category_subtitle": "",
             "category_link": "shopify://collections/men-denim"
@@ -194,7 +181,6 @@
         "category_item_ePCCKd": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/30.jpg",
             "category_label": "Jackets",
             "category_subtitle": "",
             "category_link": "shopify://collections/men-jackets"
@@ -203,7 +189,6 @@
         "category_item_DaPyxK": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/31.jpg",
             "category_label": "Shirts",
             "category_subtitle": "",
             "category_link": "shopify://collections/men-shirts"
@@ -240,8 +225,6 @@
           "type": "slide",
           "settings": {
             "media_type": "image",
-            "desktop_image": "shopify://shop_images/10.webp",
-            "mobile_image": "shopify://shop_images/10.webp",
             "cta_link": "shopify://collections/men-co-ords",
             "background_color": "#f5f1e8"
           }
@@ -250,8 +233,6 @@
           "type": "slide",
           "settings": {
             "media_type": "image",
-            "desktop_image": "shopify://shop_images/11.webp",
-            "mobile_image": "shopify://shop_images/11.webp",
             "cta_link": "shopify://collections/men-shirts",
             "background_color": "#f5f1e8"
           }
@@ -282,8 +263,6 @@
           "type": "slide",
           "settings": {
             "media_type": "image",
-            "desktop_image": "shopify://shop_images/8.webp",
-            "mobile_image": "shopify://shop_images/8.webp",
             "cta_link": "shopify://collections/women-jeans",
             "background_color": "#f5f1e8"
           }
@@ -292,8 +271,6 @@
           "type": "slide",
           "settings": {
             "media_type": "image",
-            "desktop_image": "shopify://shop_images/9.webp",
-            "mobile_image": "shopify://shop_images/9.webp",
             "cta_link": "shopify://collections/women-trousers",
             "background_color": "#f5f1e8"
           }
@@ -302,8 +279,6 @@
           "type": "slide",
           "settings": {
             "media_type": "image",
-            "desktop_image": "shopify://shop_images/7.webp",
-            "mobile_image": "shopify://shop_images/7.webp",
             "cta_link": "shopify://collections/women-night-suits",
             "background_color": "#f5f1e8"
           }
@@ -366,7 +341,6 @@
         "trending_card_icmnbV": {
           "type": "trending_card",
           "settings": {
-            "card_image": "shopify://shop_images/3.webp",
             "card_title": "",
             "card_link": "shopify://collections/women-jeans",
             "button_text": "Shop Now"
@@ -375,7 +349,6 @@
         "trending_card_8Ct7Xj": {
           "type": "trending_card",
           "settings": {
-            "card_image": "shopify://shop_images/2.webp",
             "card_title": "",
             "card_link": "shopify://collections/women-night-suits",
             "button_text": "SHOP NOW"
@@ -384,7 +357,6 @@
         "trending_card_jA7qWj": {
           "type": "trending_card",
           "settings": {
-            "card_image": "shopify://shop_images/1.webp",
             "card_title": "",
             "card_link": "shopify://collections/women-trousers",
             "button_text": "Shop Now"
@@ -416,7 +388,7 @@
       "type": "collection-grid",
       "name": "women-collection",
       "settings": {
-        "collection": "women",
+        "collection": "co-ords",
         "padding_top": 0,
         "padding_bottom": 0,
         "show_collection_title": true,
@@ -427,246 +399,35 @@
         "heading_alignment": "text-center",
         "heading_color": "#0b1220",
         "show_collection_description": false,
-        "products_to_show": 6,
+        "products_to_show": 4,
         "columns_mobile": 2,
-        "columns_desktop": 3,
+        "columns_desktop": 4,
         "enable_pagination": false,
         "enable_infinite_scroll": false,
-        "show_view_all": false,
+        "show_view_all": true,
         "enable_quick_buy": true,
         "show_in_all_categories": false,
         "category_only_show_for": "women"
       }
     },
-    "trending_carousel_RN7WQh": {
-      "type": "trending-carousel",
-      "blocks": {
-        "trending_card_JWazdU": {
-          "type": "trending_card",
-          "settings": {
-            "card_image": "shopify://shop_images/6.webp",
-            "card_title": "",
-            "card_link": "shopify://collections/men-co-ords",
-            "button_text": "SHOP NOW"
-          }
-        },
-        "trending_card_WPKWj9": {
-          "type": "trending_card",
-          "settings": {
-            "card_image": "shopify://shop_images/5.webp",
-            "card_title": "",
-            "card_link": "shopify://collections/men-resort-shirt",
-            "button_text": "SHOP NOW"
-          }
-        },
-        "trending_card_GwYBUd": {
-          "type": "trending_card",
-          "settings": {
-            "card_image": "shopify://shop_images/4.webp",
-            "card_title": "",
-            "card_link": "shopify://collections/men-korean-pants",
-            "button_text": "SHOP NOW"
-          }
-        }
-      },
-      "block_order": [
-        "trending_card_JWazdU",
-        "trending_card_WPKWj9",
-        "trending_card_GwYBUd"
-      ],
-      "name": "winter-wear-men",
-      "settings": {
-        "hide_section": false,
-        "section_title": "Celebrate in style",
-        "section_padding_y": 30,
-        "section_padding_x": 15,
-        "card_gap": 5,
-        "title_font_size": 26,
-        "title_font_weight": "600",
-        "title_color": "#0b1220",
-        "card_border_radius": 0,
-        "overlay_visibility": 0,
-        "show_in_all_categories": false,
-        "category_only_show_for": "men"
-      }
-    },
-    "collection_grid_rfxcdj": {
+    "collection_grid_ciHex8": {
       "type": "collection-grid",
-      "name": "men-collection",
+      "name": "women-collection",
       "settings": {
-        "collection": "men-best-seller",
-        "padding_top": 5,
+        "collection": "tops",
+        "padding_top": 0,
         "padding_bottom": 0,
         "show_collection_title": true,
         "custom_title": "Best Sellers",
         "heading_font_size": 26,
-        "heading_font_weight": "600",
+        "heading_font_weight": "400",
         "heading_text_transform": "uppercase",
         "heading_alignment": "text-center",
         "heading_color": "#0b1220",
         "show_collection_description": false,
-        "products_to_show": 6,
+        "products_to_show": 4,
         "columns_mobile": 2,
-        "columns_desktop": 3,
-        "enable_pagination": false,
-        "enable_infinite_scroll": false,
-        "show_view_all": false,
-        "enable_quick_buy": true,
-        "show_in_all_categories": false,
-        "category_only_show_for": "men"
-      }
-    },
-    "17682938216cf4a3f4": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_ugc_media_grid_VbfRDx": {
-          "type": "shopify://apps/judge-me-reviews/blocks/ugc_media_grid/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "disabled": true,
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_ugc_media_grid_VbfRDx"
-      ],
-      "settings": {
-        "include_margins": true
-      }
-    },
-    "trending_carousel_yyDWyf": {
-      "type": "trending-carousel",
-      "blocks": {
-        "trending_card_79j3QU": {
-          "type": "trending_card",
-          "settings": {
-            "card_image": "shopify://shop_images/Untitled-11.jpg",
-            "card_title": "",
-            "card_link": "shopify://collections/jackets",
-            "button_text": "SHOP NOW"
-          }
-        },
-        "trending_card_xqMiA8": {
-          "type": "trending_card",
-          "settings": {
-            "card_image": "shopify://shop_images/20.jpg",
-            "card_title": "",
-            "card_link": "shopify://collections/skirts",
-            "button_text": "SHOP NOW"
-          }
-        },
-        "trending_card_QwxwLH": {
-          "type": "trending_card",
-          "disabled": true,
-          "settings": {
-            "card_image": "shopify://shop_images/c13.jpg",
-            "card_title": "",
-            "card_link": "shopify://collections/women-sweaters",
-            "button_text": "SHOP NOW"
-          }
-        },
-        "trending_card_Yqny6t": {
-          "type": "trending_card",
-          "settings": {
-            "card_image": "shopify://shop_images/34.jpg",
-            "card_title": "",
-            "card_link": "shopify://collections/night-suits",
-            "button_text": "SHOP NOW"
-          }
-        }
-      },
-      "block_order": [
-        "trending_card_79j3QU",
-        "trending_card_xqMiA8",
-        "trending_card_QwxwLH",
-        "trending_card_Yqny6t"
-      ],
-      "disabled": true,
-      "name": "Trending-carousel-women",
-      "settings": {
-        "hide_section": false,
-        "section_title": "Trending Now",
-        "section_padding_y": 35,
-        "section_padding_x": 15,
-        "card_gap": 15,
-        "title_font_size": 26,
-        "title_font_weight": "600",
-        "title_color": "#0b1220",
-        "card_border_radius": 15,
-        "overlay_visibility": 0,
-        "show_in_all_categories": false,
-        "category_only_show_for": "women"
-      }
-    },
-    "trending_carousel_jKwTrm": {
-      "type": "trending-carousel",
-      "blocks": {
-        "trending_card_LqUjLm": {
-          "type": "trending_card",
-          "settings": {
-            "card_image": "shopify://shop_images/JAN5.jpg",
-            "card_title": "",
-            "card_link": "shopify://collections/women-under-499",
-            "button_text": "SHOP NOW"
-          }
-        },
-        "trending_card_jEQLtq": {
-          "type": "trending_card",
-          "settings": {
-            "card_image": "shopify://shop_images/JAN6.jpg",
-            "card_title": "",
-            "card_link": "shopify://collections/women-under-999",
-            "button_text": "SHOP NOW"
-          }
-        },
-        "trending_card_KrjQHe": {
-          "type": "trending_card",
-          "settings": {
-            "card_image": "shopify://shop_images/JAN7.jpg",
-            "card_title": "",
-            "card_link": "shopify://collections/women-under-1499",
-            "button_text": "SHOP NOW"
-          }
-        }
-      },
-      "block_order": [
-        "trending_card_LqUjLm",
-        "trending_card_jEQLtq",
-        "trending_card_KrjQHe"
-      ],
-      "disabled": true,
-      "name": "SHOP BY PRICE",
-      "settings": {
-        "hide_section": false,
-        "section_title": "SHOP BY PRICE",
-        "section_padding_y": 35,
-        "section_padding_x": 15,
-        "card_gap": 15,
-        "title_font_size": 26,
-        "title_font_weight": "600",
-        "title_color": "#0b1220",
-        "card_border_radius": 15,
-        "overlay_visibility": 0,
-        "show_in_all_categories": false,
-        "category_only_show_for": "women"
-      }
-    },
-    "collection_grid_rVrxzf": {
-      "type": "collection-grid",
-      "name": "women-collection-2",
-      "settings": {
-        "collection": "women-new-arrivals",
-        "padding_top": 25,
-        "padding_bottom": 10,
-        "show_collection_title": true,
-        "custom_title": "New Arrivals",
-        "heading_font_size": 26,
-        "heading_font_weight": "600",
-        "heading_text_transform": "uppercase",
-        "heading_alignment": "text-center",
-        "heading_color": "#0b1220",
-        "show_collection_description": false,
-        "products_to_show": 6,
-        "columns_mobile": 2,
-        "columns_desktop": 3,
+        "columns_desktop": 4,
         "enable_pagination": false,
         "enable_infinite_scroll": false,
         "show_view_all": true,
@@ -681,7 +442,6 @@
         "trending_card_headcP": {
           "type": "trending_card",
           "settings": {
-            "card_image": "shopify://shop_images/b4.jpg",
             "card_title": "",
             "card_link": "shopify://collections/men-jackets",
             "button_text": "SHOP NOW"
@@ -690,7 +450,6 @@
         "trending_card_xjWPyf": {
           "type": "trending_card",
           "settings": {
-            "card_image": "shopify://shop_images/b1.jpg",
             "card_title": "",
             "card_link": "shopify://collections/men",
             "button_text": "SHOP NOW"
@@ -770,18 +529,6 @@
     },
     "17701894643cc1d05d": {
       "type": "apps",
-      "blocks": {
-        "vizup_videos_videos_block_8a7MFe": {
-          "type": "shopify://apps/vizup-videos/blocks/videos-block/eaecaa7b-ab6b-40ae-8ddf-50daa867f3eb",
-          "settings": {
-            "videoc_widget_id": "",
-            "custom_css": ""
-          }
-        }
-      },
-      "block_order": [
-        "vizup_videos_videos_block_8a7MFe"
-      ],
       "custom_css": [],
       "settings": {
         "include_margins": true
@@ -797,12 +544,7 @@
     "announcement_bar_heroimage_QTf6m7",
     "trending_carousel_nmRwTT",
     "collection_grid_X6WMfM",
-    "trending_carousel_RN7WQh",
-    "collection_grid_rfxcdj",
-    "17682938216cf4a3f4",
-    "trending_carousel_yyDWyf",
-    "trending_carousel_jKwTrm",
-    "collection_grid_rVrxzf",
+    "collection_grid_ciHex8",
     "trending_carousel_xnBLaj",
     "collection_grid_7FW4Nb",
     "rich_text_APrcUf",
