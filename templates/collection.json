@@ -75,9 +75,7 @@
         "enable_pagination": false,
         "enable_infinite_scroll": true,
         "show_view_all": false,
-        "enable_quick_buy": false,
-        "show_in_all_categories": true,
-        "category_only_show_for": "men"
+        "enable_quick_buy": false
       }
     },
     "collection_sort_filter_bar_xqtEnT": {
