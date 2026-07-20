@@ -378,6 +378,97 @@
         "cta_text_color": "#FFFFFF",
         "padding_y": 20
       }
+    },
+    "trust_marquee_wQnNeU": {
+      "type": "trust-marquee",
+      "blocks": {
+        "badge_f8EYgG": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "free_shipping",
+            "label": "Free Shipping",
+            "sublabel": "On all orders"
+          }
+        },
+        "badge_8yzgf9": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "cod",
+            "label": "Cash on Delivery",
+            "sublabel": ""
+          }
+        },
+        "badge_k6wnCe": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "exchange",
+            "label": "Easy 5-Day Exchange",
+            "sublabel": ""
+          }
+        },
+        "badge_JCxtBW": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "secure_payment",
+            "label": "Secure Payments",
+            "sublabel": ""
+          }
+        },
+        "badge_WLe4gL": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "quality",
+            "label": "Quality Checked",
+            "sublabel": ""
+          }
+        },
+        "badge_dtwxHa": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "made_in_india",
+            "label": "Made in India",
+            "sublabel": ""
+          }
+        },
+        "badge_7zGtXd": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "support",
+            "label": "24x7 Support",
+            "sublabel": ""
+          }
+        },
+        "badge_3aap4M": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "original",
+            "label": "100% Original",
+            "sublabel": ""
+          }
+        }
+      },
+      "block_order": [
+        "badge_f8EYgG",
+        "badge_8yzgf9",
+        "badge_k6wnCe",
+        "badge_JCxtBW",
+        "badge_WLe4gL",
+        "badge_dtwxHa",
+        "badge_7zGtXd",
+        "badge_3aap4M"
+      ],
+      "name": "Trust Marquee",
+      "settings": {
+        "direction": "ltr",
+        "speed": 40,
+        "pause_on_hover": true,
+        "bg_color": "#7A1520",
+        "icon_color": "#FFFFFF",
+        "text_color": "#FFFFFF",
+        "icon_size": 28,
+        "gap": 48,
+        "padding_y": 14
+      }
     }
   },
   "order": [
@@ -392,6 +483,7 @@
     "collection_grid_Eg6EKF",
     "hero_carousel_C8W8LQ",
     "collection_grid_7jD3zF",
-    "watch_and_buy_cyXECP"
+    "watch_and_buy_cyXECP",
+    "trust_marquee_wQnNeU"
   ]
 }
