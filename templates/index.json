@@ -175,19 +175,157 @@
         "padding_y": 40
       }
     },
-    "image_banner_bjc4w4": {
-      "type": "image-banner",
-      "name": "Image Banner",
+    "hero_carousel_jmCeKb": {
+      "type": "hero-carousel",
+      "blocks": {
+        "slide_eNhcFG": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "cta_link": "",
+            "background_color": "#f7eff0"
+          }
+        }
+      },
+      "block_order": [
+        "slide_eNhcFG"
+      ],
+      "name": "Hero Carousel",
       "settings": {
-        "height_desktop": 60,
-        "height_mobile": 50,
-        "heading": "",
-        "subheading": "",
-        "cta_text": "Shop now",
-        "cta_link": "",
-        "text_position": "middle-center",
-        "text_color": "#FFFFFF",
-        "overlay_opacity": 35
+        "loop": true,
+        "autoplay_delay": 5000,
+        "transition_effect": "fade",
+        "transition_speed": 800,
+        "show_arrows": true,
+        "show_dots": true,
+        "hero_height_desktop": 70,
+        "hero_height_mobile": 50
+      }
+    },
+    "collection_grid_gabFfm": {
+      "type": "collection-grid",
+      "name": "Collection Grid",
+      "settings": {
+        "collection": "tops",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "show_collection_title": true,
+        "custom_title": "Tops",
+        "heading_font_size": 32,
+        "heading_font_weight": "700",
+        "heading_text_transform": "",
+        "heading_alignment": "text-center",
+        "heading_color": "#111111",
+        "show_collection_description": false,
+        "products_to_show": 4,
+        "columns_mobile": 2,
+        "columns_desktop": 4,
+        "enable_pagination": false,
+        "enable_infinite_scroll": false,
+        "show_view_all": true,
+        "enable_quick_buy": true
+      }
+    },
+    "hero_carousel_nMWYUX": {
+      "type": "hero-carousel",
+      "blocks": {
+        "slide_UG6ppR": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "cta_link": "",
+            "background_color": "#f7eff0"
+          }
+        }
+      },
+      "block_order": [
+        "slide_UG6ppR"
+      ],
+      "name": "Hero Carousel",
+      "settings": {
+        "loop": true,
+        "autoplay_delay": 5000,
+        "transition_effect": "fade",
+        "transition_speed": 800,
+        "show_arrows": true,
+        "show_dots": true,
+        "hero_height_desktop": 70,
+        "hero_height_mobile": 50
+      }
+    },
+    "collection_grid_Eg6EKF": {
+      "type": "collection-grid",
+      "name": "Collection Grid",
+      "settings": {
+        "collection": "dresses",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "show_collection_title": true,
+        "custom_title": "Dresses",
+        "heading_font_size": 32,
+        "heading_font_weight": "700",
+        "heading_text_transform": "",
+        "heading_alignment": "text-center",
+        "heading_color": "#111111",
+        "show_collection_description": false,
+        "products_to_show": 4,
+        "columns_mobile": 2,
+        "columns_desktop": 4,
+        "enable_pagination": false,
+        "enable_infinite_scroll": false,
+        "show_view_all": true,
+        "enable_quick_buy": true
+      }
+    },
+    "hero_carousel_C8W8LQ": {
+      "type": "hero-carousel",
+      "blocks": {
+        "slide_yWDrQd": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "cta_link": "",
+            "background_color": "#f7eff0"
+          }
+        }
+      },
+      "block_order": [
+        "slide_yWDrQd"
+      ],
+      "name": "Hero Carousel",
+      "settings": {
+        "loop": true,
+        "autoplay_delay": 5000,
+        "transition_effect": "fade",
+        "transition_speed": 800,
+        "show_arrows": true,
+        "show_dots": true,
+        "hero_height_desktop": 70,
+        "hero_height_mobile": 50
+      }
+    },
+    "collection_grid_7jD3zF": {
+      "type": "collection-grid",
+      "name": "Collection Grid",
+      "settings": {
+        "collection": "co-ords",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "show_collection_title": true,
+        "custom_title": "Co-ords",
+        "heading_font_size": 32,
+        "heading_font_weight": "700",
+        "heading_text_transform": "",
+        "heading_alignment": "text-center",
+        "heading_color": "#111111",
+        "show_collection_description": false,
+        "products_to_show": 4,
+        "columns_mobile": 2,
+        "columns_desktop": 4,
+        "enable_pagination": false,
+        "enable_infinite_scroll": false,
+        "show_view_all": true,
+        "enable_quick_buy": true
       }
     }
   },
@@ -197,6 +335,11 @@
     "hero_carousel_HbU4x9",
     "collection_grid_nwgRzE",
     "shop_by_collection_hp4q7t",
-    "image_banner_bjc4w4"
+    "hero_carousel_jmCeKb",
+    "collection_grid_gabFfm",
+    "hero_carousel_nMWYUX",
+    "collection_grid_Eg6EKF",
+    "hero_carousel_C8W8LQ",
+    "collection_grid_7jD3zF"
   ]
 }
