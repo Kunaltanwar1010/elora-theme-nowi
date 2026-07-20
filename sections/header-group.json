@@ -39,7 +39,7 @@
         "show_top_border": false,
         "show_bottom_border": false,
         "padding": 10,
-        "slider_speed": 7,
+        "slider_speed": 8,
         "show_arrows": false,
         "marquee_speed": 100,
         "direction": "ticker-ltr",
