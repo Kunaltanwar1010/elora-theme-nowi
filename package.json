@@ -1,19 +1,11 @@
 {
-  "name": "nowi-shopify",
+  "name": "elora-theme",
   "version": "1.0.0",
-  "description": "",
-  "homepage": "https://github.com/nowi-tech/nowi-shopify#readme",
-  "bugs": {
-    "url": "https://github.com/nowi-tech/nowi-shopify/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nowi-tech/nowi-shopify.git"
-  },
-  "license": "ISC",
+  "description": "Elora — women's western-wear D2C Shopify theme (Dawn 15.4.0 fork)",
+  "license": "UNLICENSED",
+  "private": true,
   "author": "",
   "type": "commonjs",
-  "main": "index.js",
   "scripts": {
     "build": "npx @tailwindcss/cli -i ./src/input.css -o ./assets/tailwind.css --minify",
     "tailwind:watch": "npx @tailwindcss/cli -i ./src/input.css -o ./assets/tailwind.css --watch",
