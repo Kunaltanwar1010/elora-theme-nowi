@@ -158,7 +158,7 @@
         "gallery_layout": "columns",
         "mobile_thumbnails": "show",
         "media_position": "left",
-        "image_zoom": "lightbox",
+        "image_zoom": "hover",
         "hide_variants": true,
         "enable_video_looping": true,
         "padding_top": 20,
