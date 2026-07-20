@@ -1,3 +1,21 @@
+{%- liquid
+  # For "adapt to image": use the first slide's image dimensions to set the
+  # carousel aspect ratio, so the image shows uncropped instead of being
+  # cover-cropped to a fixed vh height.
+  assign first_desktop = null
+  assign first_mobile = null
+  for block in section.blocks
+    if first_desktop == null and block.settings.desktop_image != blank
+      assign first_desktop = block.settings.desktop_image
+    endif
+    if first_mobile == null and block.settings.mobile_image != blank
+      assign first_mobile = block.settings.mobile_image
+    endif
+  endfor
+  if first_mobile == null
+    assign first_mobile = first_desktop
+  endif
+-%}
 <div class="hero-carousel-wrapper" id="hero-carousel-{{ section.id }}">
   <div class="swiper hero-swiper hero-swiper-{{ section.id }}">
     <div class="swiper-wrapper">
@@ -89,7 +107,12 @@
 <style>
   #hero-carousel-{{ section.id }} {
     width: 100%;
-    height: {{ section.settings.hero_height_desktop }}vh;
+    {%- if section.settings.adapt_to_image and first_desktop -%}
+      aspect-ratio: {{ first_desktop.aspect_ratio }};
+      height: auto;
+    {%- else -%}
+      height: {{ section.settings.hero_height_desktop }}vh;
+    {%- endif -%}
   }
 
   #hero-carousel-{{ section.id }} .hero-swiper,
@@ -101,7 +124,12 @@
 
   @media screen and (max-width: 749px) {
     #hero-carousel-{{ section.id }} {
-      height: {{ section.settings.hero_height_mobile }}vh;
+      {%- if section.settings.adapt_to_image and first_mobile -%}
+        aspect-ratio: {{ first_mobile.aspect_ratio }};
+        height: auto;
+      {%- else -%}
+        height: {{ section.settings.hero_height_mobile }}vh;
+      {%- endif -%}
     }
   }
 </style>
@@ -260,13 +288,20 @@
       "default": true
     },
     {
+      "type": "checkbox",
+      "id": "adapt_to_image",
+      "label": "Adapt height to image",
+      "default": true,
+      "info": "Sizes the carousel to the first slide's image aspect ratio (no cropping). Turn off to use the fixed heights below."
+    },
+    {
       "type": "range",
       "id": "hero_height_desktop",
       "min": 30,
       "max": 100,
       "step": 5,
       "unit": "vh",
-      "label": "Height on desktop",
+      "label": "Height on desktop (when adapt is off)",
       "default": 70
     },
     {
@@ -276,7 +311,7 @@
       "max": 100,
       "step": 2,
       "unit": "vh",
-      "label": "Height on mobile",
+      "label": "Height on mobile (when adapt is off)",
       "default": 50
     }
   ],
