@@ -41,7 +41,7 @@
         "padding": 10,
         "slider_speed": 8,
         "show_arrows": false,
-        "marquee_speed": 100,
+        "marquee_speed": 50,
         "direction": "ticker-ltr",
         "text_caps": false,
         "text_size": 100,
