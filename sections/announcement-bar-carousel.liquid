@@ -65,9 +65,16 @@
     overflow: hidden;
   }
   #shopify-section-{{ section.id }} .ann-marquee__track {
-    display: inline-flex;
+    display: flex;
+    width: max-content;
     animation: ann-scroll-{{ section.id }} {{ marquee_duration }}s linear infinite;
-    min-width: 100%;
+  }
+  /* Two identical halves; the animation moves by exactly one half (-50%),
+     so the loop is seamless — no gap, always scrolling. */
+  #shopify-section-{{ section.id }} .ann-marquee__group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
   }
   {% if direction == 'ticker-rtl' %}
     #shopify-section-{{ section.id }} .ann-marquee__track { animation-direction: reverse; }
@@ -84,7 +91,7 @@
   }
   @keyframes ann-scroll-{{ section.id }} {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    100% { transform: translateX(-50%); }
   }
 
   /* Faster marquee on mobile */
@@ -309,10 +316,12 @@
     {%- if layout == 'marquee' -%}
       <div class="ann-marquee">
         <div class="ann-marquee__track">
-          {{ block_contents }}
-          {{ block_contents }}
-          {{ block_contents }}
-          {{ block_contents }}
+          <div class="ann-marquee__group">
+            {{ block_contents }}{{ block_contents }}{{ block_contents }}{{ block_contents }}{{ block_contents }}{{ block_contents }}
+          </div>
+          <div class="ann-marquee__group" aria-hidden="true">
+            {{ block_contents }}{{ block_contents }}{{ block_contents }}{{ block_contents }}{{ block_contents }}{{ block_contents }}
+          </div>
         </div>
       </div>
     {%- else -%}

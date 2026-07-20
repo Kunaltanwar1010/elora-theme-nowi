@@ -12,6 +12,12 @@ Base: Dawn 15.4.0. Dev theme 148035436623. Never push to 147811172431.
 
 ## [Unreleased]
 
+### 2026-07-20 — Announcement marquee: seamless continuous scroll (no gap)
+**What:** The marquee scrolled the whole track off-screen then jumped back, leaving a visible empty gap each loop. Root cause: the track rendered the content 4× but the keyframe translated the *entire* track `-100%`, so everything exited before looping.
+**Fix:** restructured into two identical `.ann-marquee__group` halves (each = content ×6, second `aria-hidden`), set the track to `width: max-content`, and changed the keyframe to `translateX(-50%)` — the animation now advances by exactly one half, so the second half is always covering as the first exits. Continuous right-to-left scroll with no gap.
+**Files:** `sections/announcement-bar-carousel.liquid`
+**Verify:** announcement bar scrolls continuously with no pause/gap; hover still pauses; reduced-motion still stops it.
+
 ### 2026-07-20 — Fix cart icon size + left/right whitespace (root-caused)
 **What:** Two visual fixes reported after Phase 4.
 **Cart icon:** it rendered much smaller/thinner than search & account. Root cause: `icon-cart.svg` / `icon-cart-empty.svg` use `viewBox="0 0 40 40"` but the cart glyph only occupies the middle ~19 units (x14.5–30.5, y12–28.5), while `icon-search`/`icon-account` use a tight `viewBox="0 0 18 19"`. So at the same 23px box the cart drew at ~40% size with a proportionally thinner stroke. Fix: retarget both cart viewBoxes to `13 11 19 19` — the glyph now fills the box (and stroke 1÷19 ≈ search's 1÷18) so it matches everywhere the cart appears (header, cart-icon-bubble, collection-top-bar), no CSS hacks.
