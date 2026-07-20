@@ -20,6 +20,7 @@
     },
     "collection_top_bar_4VeaEd": {
       "type": "collection-top-bar",
+      "disabled": true,
       "name": "Collection Top Bar",
       "settings": {
         "collection_handle": "",
