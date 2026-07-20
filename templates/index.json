@@ -40,6 +40,21 @@
         "active_text_color": "#ffffff"
       }
     },
+    "social_proof_bar_ApmVwH": {
+      "type": "social-proof-bar",
+      "name": "Social Proof Bar",
+      "settings": {
+        "show_bar": true,
+        "layout": "static",
+        "text": "Loved by over 10,000+ customers since 2016",
+        "link": "",
+        "interval": 4,
+        "bg_color": "#7A1520",
+        "text_color": "#FFFFFF",
+        "text_size": 13,
+        "padding_y": 8
+      }
+    },
     "category_carousel_Uz3cQb": {
       "type": "category-carousel",
       "blocks": {
@@ -552,21 +567,6 @@
       "custom_css": [],
       "settings": {
         "include_margins": true
-      }
-    },
-    "social_proof_bar_ApmVwH": {
-      "type": "social-proof-bar",
-      "name": "Social Proof Bar",
-      "settings": {
-        "show_bar": true,
-        "layout": "static",
-        "text": "Loved by over 10,000+ customers since 2016",
-        "link": "",
-        "interval": 4,
-        "bg_color": "#F7EFF0",
-        "text_color": "#111111",
-        "text_size": 13,
-        "padding_y": 8
       }
     }
   },
