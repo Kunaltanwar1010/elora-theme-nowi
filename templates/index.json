@@ -460,7 +460,7 @@
       "name": "Trust Marquee",
       "settings": {
         "direction": "ltr",
-        "speed": 40,
+        "speed": 100,
         "pause_on_hover": true,
         "bg_color": "#7A1520",
         "icon_color": "#FFFFFF",
