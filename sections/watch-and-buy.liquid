@@ -32,6 +32,13 @@
     padding: 0 1.5rem 0.5rem;
   }
   #shopify-section-{{ section.id }} .wnb__track::-webkit-scrollbar { display: none; }
+  @media (min-width: 750px) { #shopify-section-{{ section.id }} .wnb__track { cursor: grab; } }
+  #shopify-section-{{ section.id }} .wnb__track.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+    user-select: none;
+  }
   #shopify-section-{{ section.id }} .wnb__wrap {
     position: relative;
     max-width: var(--page-width);
@@ -264,6 +271,28 @@
       if (atEnd()) { track.scrollTo({ left: 0, behavior: 'smooth' }); }
       else { track.scrollBy({ left: reelStep(), behavior: 'smooth' }); }
     });
+
+    /* Click-and-drag to swipe (mouse only; touch uses native scroll) */
+    if (track) {
+      var down = false, startX = 0, startScroll = 0, moved = false;
+      track.addEventListener('pointerdown', function(e) {
+        if (e.pointerType !== 'mouse') return;
+        down = true; moved = false; startX = e.clientX; startScroll = track.scrollLeft;
+        track.classList.add('is-dragging');
+      });
+      track.addEventListener('pointermove', function(e) {
+        if (!down) return;
+        var dx = e.clientX - startX;
+        if (Math.abs(dx) > 3) moved = true;
+        track.scrollLeft = startScroll - dx;
+      });
+      function endDrag() { down = false; track.classList.remove('is-dragging'); }
+      track.addEventListener('pointerup', endDrag);
+      track.addEventListener('pointerleave', endDrag);
+      track.addEventListener('pointercancel', endDrag);
+      /* Suppress the video sound-toggle / link click that follows a drag */
+      track.addEventListener('click', function(e) { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+    }
   })();
 </script>
 
