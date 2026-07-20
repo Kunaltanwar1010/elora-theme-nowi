@@ -379,6 +379,63 @@
         "padding_y": 20
       }
     },
+    "testimonials_dteQgw": {
+      "type": "testimonials",
+      "blocks": {
+        "review_PmbK88": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "<p>we made this for your Sunday brunch era — and it delivered ✨</p>",
+            "name": "Priya",
+            "city": "Mumbai"
+          }
+        },
+        "review_xEjXje": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "<p>we made this for your Sunday brunch era — and it delivered ✨</p>",
+            "name": "Priya",
+            "city": "Mumbai"
+          }
+        },
+        "review_TVWmrC": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "<p>fits like a dream, the quality is unreal for the price 🎀</p>",
+            "name": "Ananya",
+            "city": "Delhi"
+          }
+        },
+        "review_NwairR": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "<p>wore it on my birthday and felt like the main character ❤️</p>",
+            "name": "Sneha",
+            "city": "Bangalore"
+          }
+        }
+      },
+      "block_order": [
+        "review_PmbK88",
+        "review_xEjXje",
+        "review_TVWmrC",
+        "review_NwairR"
+      ],
+      "name": "Testimonials",
+      "settings": {
+        "heading": "Loved by 10,000+ girls 💕",
+        "subheading": "obsessed? same.",
+        "heading_color": "#111111",
+        "bg_color": "#F7EFF0",
+        "marquee_tag": "#WearElora",
+        "marquee_speed": 30,
+        "padding_y": 48
+      }
+    },
     "trust_marquee_wQnNeU": {
       "type": "trust-marquee",
       "blocks": {
@@ -484,6 +541,7 @@
     "hero_carousel_C8W8LQ",
     "collection_grid_7jD3zF",
     "watch_and_buy_cyXECP",
+    "testimonials_dteQgw",
     "trust_marquee_wQnNeU"
   ]
 }
