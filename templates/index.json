@@ -639,6 +639,7 @@
         "badge_7zGtXd",
         "badge_3aap4M"
       ],
+      "disabled": true,
       "name": "Trust Marquee",
       "settings": {
         "direction": "ltr",
