@@ -25,47 +25,6 @@
         "padding_y": 8
       }
     },
-    "hero_carousel_HbU4x9": {
-      "type": "hero-carousel",
-      "blocks": {
-        "slide_a4QczP": {
-          "type": "slide",
-          "settings": {
-            "media_type": "image",
-            "desktop_image": "shopify://shop_images/2.png",
-            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
-            "cta_link": "shopify://collections",
-            "background_color": "#fefafa"
-          }
-        },
-        "slide_M7P87w": {
-          "type": "slide",
-          "settings": {
-            "media_type": "image",
-            "desktop_image": "shopify://shop_images/1_79d2253d-4da0-4bcf-bdf5-bbbe5430e12b.png",
-            "mobile_image": "shopify://shop_images/1_9ef0f5a5-c4b6-47f5-aaf9-3660b489e925.png",
-            "cta_link": "shopify://collections",
-            "background_color": "#fefafa"
-          }
-        }
-      },
-      "block_order": [
-        "slide_a4QczP",
-        "slide_M7P87w"
-      ],
-      "name": "Hero Carousel",
-      "settings": {
-        "loop": true,
-        "autoplay_delay": 5000,
-        "transition_effect": "fade",
-        "transition_speed": 800,
-        "show_arrows": true,
-        "show_dots": false,
-        "adapt_to_image": true,
-        "hero_height_desktop": 70,
-        "hero_height_mobile": 50
-      }
-    },
     "category_carousel_3dcF3q": {
       "type": "category-carousel",
       "blocks": {
@@ -115,6 +74,47 @@
         "subtitle_color": "#111111"
       }
     },
+    "hero_carousel_HbU4x9": {
+      "type": "hero-carousel",
+      "blocks": {
+        "slide_a4QczP": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "desktop_image": "shopify://shop_images/2.png",
+            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
+            "cta_link": "shopify://collections",
+            "background_color": "#fefafa"
+          }
+        },
+        "slide_M7P87w": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "desktop_image": "shopify://shop_images/1_79d2253d-4da0-4bcf-bdf5-bbbe5430e12b.png",
+            "mobile_image": "shopify://shop_images/1_9ef0f5a5-c4b6-47f5-aaf9-3660b489e925.png",
+            "cta_link": "shopify://collections",
+            "background_color": "#fefafa"
+          }
+        }
+      },
+      "block_order": [
+        "slide_a4QczP",
+        "slide_M7P87w"
+      ],
+      "name": "Hero Carousel",
+      "settings": {
+        "loop": true,
+        "autoplay_delay": 5000,
+        "transition_effect": "fade",
+        "transition_speed": 800,
+        "show_arrows": true,
+        "show_dots": false,
+        "adapt_to_image": true,
+        "hero_height_desktop": 70,
+        "hero_height_mobile": 50
+      }
+    },
     "collection_grid_nwgRzE": {
       "type": "collection-grid",
       "name": "Collection Grid",
@@ -137,6 +137,57 @@
         "enable_infinite_scroll": false,
         "show_view_all": true,
         "enable_quick_buy": true
+      }
+    },
+    "watch_and_buy_cyXECP": {
+      "type": "watch-and-buy",
+      "blocks": {
+        "reel_WNyRmx": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_BDEGM3": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_zQbn8h": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_EXWBkF": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_W8PJrQ": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "reel_WNyRmx",
+        "reel_BDEGM3",
+        "reel_zQbn8h",
+        "reel_EXWBkF",
+        "reel_W8PJrQ"
+      ],
+      "name": "Watch & Buy",
+      "settings": {
+        "heading": "Watch & Buy",
+        "heading_color": "#111111",
+        "bg_color": "#fdf7f5",
+        "cta_color": "#111111",
+        "cta_text_color": "#ffffff",
+        "padding_y": 20
       }
     },
     "shop_by_collection_hp4q7t": {
@@ -349,57 +400,6 @@
         "enable_quick_buy": true
       }
     },
-    "watch_and_buy_cyXECP": {
-      "type": "watch-and-buy",
-      "blocks": {
-        "reel_WNyRmx": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_BDEGM3": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_zQbn8h": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_EXWBkF": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_W8PJrQ": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        }
-      },
-      "block_order": [
-        "reel_WNyRmx",
-        "reel_BDEGM3",
-        "reel_zQbn8h",
-        "reel_EXWBkF",
-        "reel_W8PJrQ"
-      ],
-      "name": "Watch & Buy",
-      "settings": {
-        "heading": "Watch & Buy",
-        "heading_color": "#111111",
-        "bg_color": "#fdf7f5",
-        "cta_color": "#111111",
-        "cta_text_color": "#ffffff",
-        "padding_y": 20
-      }
-    },
     "testimonials_dteQgw": {
       "type": "testimonials",
       "blocks": {
@@ -604,6 +604,7 @@
     "category_carousel_3dcF3q",
     "hero_carousel_HbU4x9",
     "collection_grid_nwgRzE",
+    "watch_and_buy_cyXECP",
     "shop_by_collection_hp4q7t",
     "hero_carousel_jmCeKb",
     "collection_grid_gabFfm",
@@ -611,7 +612,6 @@
     "collection_grid_Eg6EKF",
     "hero_carousel_C8W8LQ",
     "collection_grid_7jD3zF",
-    "watch_and_buy_cyXECP",
     "testimonials_dteQgw",
     "trust_marquee_wQnNeU"
   ]
