@@ -190,6 +190,30 @@
         "padding_y": 20
       }
     },
+    "collection_grid_7eXbKc": {
+      "type": "collection-grid",
+      "name": "Collection Grid",
+      "settings": {
+        "collection": "bestsellers",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "show_collection_title": true,
+        "custom_title": "New Arrivals",
+        "heading_font_size": 28,
+        "heading_font_weight": "700",
+        "heading_text_transform": "",
+        "heading_alignment": "text-left",
+        "heading_color": "#111111",
+        "show_collection_description": false,
+        "products_to_show": 8,
+        "columns_mobile": 2,
+        "columns_desktop": 4,
+        "enable_pagination": false,
+        "enable_infinite_scroll": false,
+        "show_view_all": true,
+        "enable_quick_buy": true
+      }
+    },
     "shop_by_collection_hp4q7t": {
       "type": "shop-by-collection",
       "blocks": {
@@ -605,6 +629,7 @@
     "hero_carousel_HbU4x9",
     "collection_grid_nwgRzE",
     "watch_and_buy_cyXECP",
+    "collection_grid_7eXbKc",
     "shop_by_collection_hp4q7t",
     "hero_carousel_jmCeKb",
     "collection_grid_gabFfm",
