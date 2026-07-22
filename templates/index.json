@@ -430,6 +430,30 @@
         "enable_quick_buy": true
       }
     },
+    "collection_grid_aMJLNL": {
+      "type": "collection-grid",
+      "name": "Collection Grid",
+      "settings": {
+        "collection": "bestsellers",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "show_collection_title": true,
+        "custom_title": "Price Drop",
+        "heading_font_size": 28,
+        "heading_font_weight": "700",
+        "heading_text_transform": "",
+        "heading_alignment": "text-left",
+        "heading_color": "#111111",
+        "show_collection_description": false,
+        "products_to_show": 8,
+        "columns_mobile": 2,
+        "columns_desktop": 4,
+        "enable_pagination": false,
+        "enable_infinite_scroll": false,
+        "show_view_all": true,
+        "enable_quick_buy": true
+      }
+    },
     "testimonials_dteQgw": {
       "type": "testimonials",
       "blocks": {
@@ -643,6 +667,7 @@
     "collection_grid_Eg6EKF",
     "hero_carousel_C8W8LQ",
     "collection_grid_7jD3zF",
+    "collection_grid_aMJLNL",
     "testimonials_dteQgw",
     "trust_marquee_wQnNeU"
   ]
