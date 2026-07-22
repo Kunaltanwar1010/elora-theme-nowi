@@ -11,6 +11,7 @@
   "sections": {
     "social_proof_bar_ApmVwH": {
       "type": "social-proof-bar",
+      "disabled": true,
       "name": "Social Proof Bar",
       "settings": {
         "show_bar": true,
@@ -144,6 +145,7 @@
         "card_DDALTE": {
           "type": "card",
           "settings": {
+            "show_card": true,
             "collection": "tops",
             "label": "",
             "link": ""
@@ -152,6 +154,7 @@
         "card_frwytk": {
           "type": "card",
           "settings": {
+            "show_card": true,
             "collection": "dresses",
             "label": "Dresses",
             "link": ""
@@ -160,6 +163,7 @@
         "card_LH894U": {
           "type": "card",
           "settings": {
+            "show_card": true,
             "collection": "co-ords",
             "label": "Co-ords",
             "link": ""
@@ -597,8 +601,8 @@
   },
   "order": [
     "social_proof_bar_ApmVwH",
-    "hero_carousel_HbU4x9",
     "category_carousel_3dcF3q",
+    "hero_carousel_HbU4x9",
     "collection_grid_nwgRzE",
     "shop_by_collection_hp4q7t",
     "hero_carousel_jmCeKb",
