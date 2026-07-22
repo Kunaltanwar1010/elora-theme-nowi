@@ -279,6 +279,7 @@
       "block_order": [
         "slide_eNhcFG"
       ],
+      "disabled": true,
       "name": "Hero Carousel",
       "settings": {
         "loop": true,
@@ -294,6 +295,7 @@
     },
     "collection_grid_gabFfm": {
       "type": "collection-grid",
+      "disabled": true,
       "name": "Collection Grid",
       "settings": {
         "collection": "tops",
@@ -333,6 +335,7 @@
       "block_order": [
         "slide_UG6ppR"
       ],
+      "disabled": true,
       "name": "Hero Carousel",
       "settings": {
         "loop": true,
@@ -348,6 +351,7 @@
     },
     "collection_grid_Eg6EKF": {
       "type": "collection-grid",
+      "disabled": true,
       "name": "Collection Grid",
       "settings": {
         "collection": "dresses",
@@ -387,6 +391,7 @@
       "block_order": [
         "slide_yWDrQd"
       ],
+      "disabled": true,
       "name": "Hero Carousel",
       "settings": {
         "loop": true,
@@ -402,6 +407,7 @@
     },
     "collection_grid_7jD3zF": {
       "type": "collection-grid",
+      "disabled": true,
       "name": "Collection Grid",
       "settings": {
         "collection": "co-ords",
@@ -522,7 +528,7 @@
       ],
       "name": "Testimonials",
       "settings": {
-        "heading": "Loved by 10,000+ girls",
+        "heading": "Loved by 10,000+ customers",
         "subheading": "obsessed? same.",
         "heading_color": "#111111",
         "bg_color": "#ffffff",
