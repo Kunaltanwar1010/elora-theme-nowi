@@ -18,6 +18,20 @@ function openQuickBuyModal(modalId, event) {
     // Auto-select first available option for each option group if none selected
     initializeQuickBuyOptions(modal);
 
+    // Block Buy it now (Razorpay payment button) until a size is chosen
+    const payWrap = modal.querySelector('.quick-buy-payment-button');
+    if (payWrap && !payWrap.dataset.sizeGuard) {
+      payWrap.dataset.sizeGuard = '1';
+      payWrap.addEventListener('click', function (e) {
+        if (!quickBuySizeSatisfied(modal)) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          showQuickBuySizeMsg(modal, true);
+        }
+      }, true);
+    }
+    syncQuickBuyLock(modal);
+
     // Add click outside to close
     modal.addEventListener('click', handleModalBackdropClick);
   }
@@ -32,6 +46,17 @@ function initializeQuickBuyOptions(modal) {
   let needsUpdate = false;
 
   optionGroups.forEach(group => {
+    // Never auto-select size — the shopper must choose it explicitly
+    if (group.hasAttribute('data-size-group')) {
+      const preselected = group.querySelector('.quick-buy-option-btn.selected');
+      if (preselected) {
+        preselected.classList.remove('selected');
+        const chk = preselected.querySelector('.quick-buy-check');
+        if (chk) chk.remove();
+      }
+      return;
+    }
+
     const selectedBtn = group.querySelector('.quick-buy-option-btn.selected');
 
     // If no option is selected, select the first available one
@@ -116,6 +141,13 @@ function selectQuickBuyOption(button, productId) {
 
   // Update variant selection
   updateQuickBuyVariant(productId);
+
+  // Clear the "select a size" prompt once a size is chosen
+  const modalEl = button.closest('.quick-buy-modal-overlay');
+  if (modalEl) {
+    if (quickBuySizeSatisfied(modalEl)) showQuickBuySizeMsg(modalEl, false);
+    syncQuickBuyLock(modalEl);
+  }
 }
 
 // Update variant based on selected options
@@ -423,9 +455,34 @@ function showQuickBuyToast(message, type = 'info') {
 }
 
 // Add to cart functionality
+// True if the modal has no size option, or a size has been chosen
+function quickBuySizeSatisfied(modal) {
+  const sizeGroup = modal && modal.querySelector('[data-size-group]');
+  if (!sizeGroup) return true;
+  return !!sizeGroup.querySelector('.quick-buy-option-btn.selected');
+}
+
+function showQuickBuySizeMsg(modal, show) {
+  const msg = modal && modal.querySelector('.quick-buy-size-msg');
+  if (msg) msg.hidden = !show;
+}
+
+// Grey-out + block the Buy it now button until a size is picked (covers the
+// case where the payment button renders in an iframe our click guard can't reach)
+function syncQuickBuyLock(modal) {
+  const payWrap = modal && modal.querySelector('.quick-buy-payment-button');
+  if (payWrap) payWrap.classList.toggle('size-locked', !quickBuySizeSatisfied(modal));
+}
+
 function addToCartQuickBuy(productId, modalId) {
   const modal = document.getElementById(modalId);
   if (!modal) return;
+
+  // Require a size first
+  if (!quickBuySizeSatisfied(modal)) {
+    showQuickBuySizeMsg(modal, true);
+    return;
+  }
 
   const variantInput = modal.querySelector('.quick-buy-variant-id');
   const addBtn = modal.querySelector('.quick-buy-add-btn');

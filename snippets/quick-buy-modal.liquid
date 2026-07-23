@@ -61,7 +61,14 @@
       {%- unless product.has_only_default_variant -%}
         <div class="quick-buy-variants">
           {%- for option in product.options_with_values -%}
-            <div class="quick-buy-option-group" data-option-index="{{ forloop.index0 }}">
+            {%- liquid
+              assign og_name = option.name | downcase
+              assign is_size_group = false
+              if og_name == 'size' or og_name == 'sizes'
+                assign is_size_group = true
+              endif
+            -%}
+            <div class="quick-buy-option-group" data-option-index="{{ forloop.index0 }}"{% if is_size_group %} data-size-group{% endif %}>
               <label class="quick-buy-option-label" style="font-size: {{ variant_font_size }}px;">
                 {{ option.name }}
               </label>
@@ -121,6 +128,8 @@
           {%- endfor -%}
         </div>
       {%- endunless -%}
+
+      <p class="quick-buy-size-msg" role="alert" hidden>Please select a size to proceed.</p>
 
       {%- if use_buy_now -%}
         {%- comment -%} Buy Now button with Razorpay express checkout {%- endcomment -%}
