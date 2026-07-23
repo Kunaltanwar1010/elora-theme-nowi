@@ -133,7 +133,7 @@
         "heading_alignment": "text-left",
         "heading_color": "#111111",
         "show_collection_description": false,
-        "products_to_show": 50,
+        "products_to_show": 8,
         "columns_mobile": 2,
         "columns_desktop": 4,
         "enable_pagination": true,
