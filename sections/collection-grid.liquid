@@ -16,10 +16,12 @@
 
   assign card_gap = settings.modern_card_gap | default: 16
 
-  # Same reveal-on-scroll animation the rest of the theme uses
+  # Reveal-on-scroll. Must be fade-in, NOT slide-in: slide-in puts a transform on
+  # the <li>, which makes it the containing block for the card's position:fixed
+  # quick-buy overlay — that breaks the modal and adds phantom scroll overflow.
   assign card_anim = ''
   if settings.animations_reveal_on_scroll
-    assign card_anim = 'scroll-trigger animate--slide-in'
+    assign card_anim = 'scroll-trigger animate--fade-in'
   endif
 
   # Storefront grid/carousel toggle needs the carousel markup in both states
@@ -474,7 +476,10 @@
 
   .cg-track {
     display: flex;
+    align-items: flex-start;
     overflow-x: auto;
+    /* clips any stray child overflow so the wheel never scrolls the track vertically */
+    overflow-y: hidden;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     /* stops the swipe from triggering browser back-navigation */
