@@ -10,7 +10,23 @@ function openQuickBuyModal(modalId, event) {
     event.stopPropagation();
   }
 
-  const modal = document.getElementById(modalId);
+  // Repeated cart-recommendation loads can leave several copies of a modal in
+  // the DOM. getElementById returns the first, which is often a copy still
+  // nested inside the cart drawer — and the drawer's slide-in transform traps
+  // that copy's position:fixed so it opens invisibly. Keep one copy, on <body>.
+  const copies = document.querySelectorAll('[id="' + modalId + '"]');
+  let modal = null;
+  copies.forEach((m) => {
+    if (m.parentElement === document.body) modal = m;
+  });
+  if (!modal) modal = copies[0] || null;
+  copies.forEach((m) => {
+    if (m !== modal) m.remove();
+  });
+  if (modal && modal.parentElement !== document.body) {
+    document.body.appendChild(modal);
+  }
+
   if (modal) {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
