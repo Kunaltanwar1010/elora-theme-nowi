@@ -818,6 +818,63 @@
       {{ product | structured_data }}
     </script>
 
+    {%- comment -%}
+      Require a size before add-to-cart. Turns off Shopify's auto-selected size,
+      and blocks the form submit (desktop + cloned mobile button share one form)
+      until a size is chosen, showing a red prompt instead.
+    {%- endcomment -%}
+    <style>
+      #shopify-section-{{ section.id }} .size-required-msg {
+        color: #C0392B;
+        font-size: 1.3rem;
+        font-weight: 500;
+        margin: 0.8rem 0 0;
+      }
+    </style>
+    <script>
+      (function () {
+        var section = document.getElementById('shopify-section-{{ section.id }}');
+        var form = document.getElementById('product-form-{{ section.id }}');
+        var sizeGroup = section && section.querySelector('[data-size-option]');
+        if (!form || !sizeGroup) return;
+
+        var radios = sizeGroup.querySelectorAll('input[type="radio"]');
+        var select = sizeGroup.querySelector('select');
+
+        /* Turn off auto-selected size */
+        if (radios.length) {
+          radios.forEach(function (r) { r.checked = false; });
+        } else if (select) {
+          select.selectedIndex = -1;
+        }
+
+        var msg = document.createElement('p');
+        msg.className = 'size-required-msg';
+        msg.setAttribute('role', 'alert');
+        msg.hidden = true;
+        msg.textContent = 'Please select a size to continue.';
+        sizeGroup.insertAdjacentElement('afterend', msg);
+
+        function sizeChosen() {
+          if (radios.length) return Array.prototype.some.call(radios, function (r) { return r.checked; });
+          if (select) return select.selectedIndex >= 0 && !!select.value;
+          return true;
+        }
+
+        sizeGroup.addEventListener('change', function () { if (sizeChosen()) msg.hidden = true; });
+
+        /* Capture phase: runs before product-form.js's submit handler on the same form */
+        form.addEventListener('submit', function (e) {
+          if (!sizeChosen()) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            msg.hidden = false;
+            sizeGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, true);
+      })();
+    </script>
+
     {%- comment -%} Mobile: Fixed button bar - hybrid approach {%- endcomment -%}
     <script>
       (function() {

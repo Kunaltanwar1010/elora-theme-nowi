@@ -120,7 +120,12 @@ function selectQuickBuyOption(button, productId) {
 
 // Update variant based on selected options
 function updateQuickBuyVariant(productId) {
-  const modal = document.querySelector(`[data-product-id="${productId}"]`);
+  // Target the modal by its unique id — several other elements on the page
+  // (product cards, recommendation cards, main product) also carry
+  // data-product-id, and modals are appended to <body>, so a bare
+  // [data-product-id] selector would match one of those instead.
+  const modal = document.getElementById(`QuickBuyModal-${productId}`)
+    || document.querySelector(`.quick-buy-modal-overlay[data-product-id="${productId}"]`);
   if (!modal) return;
 
   const variantsJson = document.getElementById(`QuickBuyVariants-${productId}`);

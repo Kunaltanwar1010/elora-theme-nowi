@@ -35,7 +35,7 @@
         endif
       -%}
       {%- if picker_type == 'swatch' -%}
-        <fieldset class="js product-form__input product-form__input--swatch">
+        <fieldset class="js product-form__input product-form__input--swatch"{% if is_size_option %} data-size-option{% endif %}>
           <legend class="form__label">
             <span>
               {{ option.name }}:
@@ -55,7 +55,7 @@
           %}
         </fieldset>
       {%- elsif picker_type == 'button' -%}
-        <fieldset class="js product-form__input product-form__input--pill">
+        <fieldset class="js product-form__input product-form__input--pill"{% if is_size_option %} data-size-option{% endif %}>
           <legend class="form__label">
             <span>{{ option.name }}</span>
             {%- if is_size_option and block.settings.show_size_guide != false -%}
@@ -70,7 +70,7 @@
           %}
         </fieldset>
       {%- else -%}
-        <div class="product-form__input product-form__input--dropdown">
+        <div class="product-form__input product-form__input--dropdown"{% if is_size_option %} data-size-option{% endif %}>
           <label class="form__label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
             <span>{{ option.name }}</span>
             {%- if is_size_option and block.settings.show_size_guide != false -%}
