@@ -16,6 +16,12 @@
 
   assign card_gap = settings.modern_card_gap | default: 16
 
+  # Same reveal-on-scroll animation the rest of the theme uses
+  assign card_anim = ''
+  if settings.animations_reveal_on_scroll
+    assign card_anim = 'scroll-trigger animate--slide-in'
+  endif
+
   # Storefront grid/carousel toggle needs the carousel markup in both states
   assign show_layout_toggle = section.settings.show_layout_toggle
   assign use_carousel_markup = false
@@ -50,11 +56,15 @@
 
 {{ 'component-quick-buy.css' | asset_url | stylesheet_tag }}
 {{ 'component-collection-product-card-modern.css' | asset_url | stylesheet_tag }}
-{{ 'component-desktop-sort-filter.css' | asset_url | stylesheet_tag }}
-{%- comment -%} Collection scripts (moved from global theme.liquid — only needed on collection/search pages) {%- endcomment -%}
-<script src="{{ 'collection-filter-ajax.js' | asset_url }}" defer="defer"></script>
-<script src="{{ 'collection-filter-ui.js' | asset_url }}" defer="defer"></script>
-<script src="{{ 'infinite-scroll.js' | asset_url }}" defer="defer"></script>
+{%- comment -%} Filter + infinite scroll assets only where they are actually used {%- endcomment -%}
+{%- if is_collection_page -%}
+  {{ 'component-desktop-sort-filter.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'collection-filter-ajax.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'collection-filter-ui.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{%- if enable_infinite_scroll -%}
+  <script src="{{ 'infinite-scroll.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
 <div class="collection-grid-section px-4" data-section-id="{{ section.id }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
   <div class="max-w-8xl mx-auto" style="max-width: var(--page-width);">
@@ -186,7 +196,7 @@
                 role="list"
                 data-infinite-scroll-container>
                 {% for product in target_collection.products %}
-                  <li>
+                  <li class="{{ card_anim }}" style="--animation-order: {{ forloop.index }};">
                     {% render 'collection-product-card-modern',
                       product: product,
                       collection: target_collection,
@@ -238,7 +248,7 @@
               style="display: grid; grid-template-columns: repeat({{ columns_mobile }}, minmax(0, 1fr)); gap: {{ settings.modern_card_gap | default: 16 }}px;"
               role="list">
               {% for product in target_collection.products %}
-                <li>
+                <li class="{{ card_anim }}" style="--animation-order: {{ forloop.index }};">
                   {% render 'collection-product-card-modern',
                     product: product,
                     collection: target_collection,
@@ -295,7 +305,7 @@
             style="{% if use_carousel_markup %}--cg-cols: {{ columns_mobile }}; --cg-cols-desktop: {{ columns_desktop }}; --cg-gap: {{ card_gap }}px; gap: {{ card_gap }}px;{% else %}display: grid; grid-template-columns: repeat({{ columns_mobile }}, minmax(0, 1fr)); gap: {{ card_gap }}px;{% endif %}"
             role="list">
             {% for product in target_collection.products limit: products_to_show %}
-              <li>
+              <li class="{{ card_anim }}" style="--animation-order: {{ forloop.index }};">
                 {% render 'collection-product-card-modern',
                   product: product,
                   collection: target_collection,
@@ -323,6 +333,7 @@
             <button type="button" class="cg-arrow cg-arrow--next" aria-label="Next">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
+            <div class="cg-progress" role="presentation"><span class="cg-progress-bar"></span></div>
           </div>{% endif %}
 
           {% if section.settings.show_view_all and target_collection.products_count > products_to_show %}
@@ -412,7 +423,30 @@
     margin: 0;
     list-style: none;
   }
-  .cg-carousel.is-grid .cg-arrow { display: none; }
+  .cg-carousel.is-grid .cg-arrow,
+  .cg-carousel.is-grid .cg-progress { display: none; }
+
+  /* Swipe progress bar */
+  .cg-progress {
+    position: relative;
+    width: min(90%, 360px);
+    height: 4px;
+    border-radius: 3px;
+    background: var(--elora-grey-line, #E6E1E2);
+    margin: 1.4rem auto 0;
+    overflow: hidden;
+  }
+  .cg-progress[hidden] { display: none; }
+  .cg-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    border-radius: 3px;
+    background: var(--elora-maroon, #111111);
+    will-change: width;
+  }
 
   .cg-toggle {
     display: flex;
@@ -443,6 +477,8 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    /* stops the swipe from triggering browser back-navigation */
+    overscroll-behavior-x: contain;
     scrollbar-width: none;
     padding-bottom: 0.5rem;
     margin: 0;
@@ -531,6 +567,26 @@
     });
     track.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
 
+    /* Swipe progress bar */
+    var progress = wrap.querySelector('.cg-progress');
+    var bar = progress && progress.querySelector('.cg-progress-bar');
+    var raf;
+    function syncProgress() {
+      var max = track.scrollWidth - track.clientWidth;
+      if (max < 5) { progress.hidden = true; return; }
+      progress.hidden = false;
+      /* fills left-to-right: empty at the start, full at the end */
+      bar.style.width = (track.scrollLeft / max) * 100 + '%';
+    }
+    if (bar) {
+      track.addEventListener('scroll', function () {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(syncProgress);
+      }, { passive: true });
+      window.addEventListener('resize', syncProgress, { passive: true });
+      syncProgress();
+    }
+
     /* Grid / carousel toggle */
     wrap.querySelectorAll('.cg-toggle-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
@@ -539,6 +595,7 @@
         track.classList.toggle('cg-track', carousel);
         track.classList.toggle('cg-grid', !carousel);
         if (!carousel) track.scrollLeft = 0;
+        if (bar) syncProgress();
         wrap.querySelectorAll('.cg-toggle-btn').forEach(function (b) { b.classList.toggle('is-active', b === btn); });
         try { localStorage.setItem('cg-layout-{{ section.id }}', btn.dataset.layout); } catch (e) {}
       });
