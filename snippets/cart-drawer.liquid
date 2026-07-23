@@ -185,9 +185,21 @@
                         modal.remove();
                       }
                     });
+                    // Move each modal OUT to <body>. The drawer slides in via a
+                    // CSS transform, which makes a nested position:fixed modal
+                    // position against the drawer and trap its z-index inside the
+                    // drawer's stacking context — so it opens but sits behind/clipped.
+                    // (getElementById always finds the still-nested node, so the old
+                    //  "if not in document" check never moved anything.)
                     const modals = recommendationsContainer.querySelectorAll('.quick-buy-modal-overlay');
                     modals.forEach(modal => {
-                      if (!document.getElementById(modal.id)) document.body.appendChild(modal);
+                      const existing = document.getElementById(modal.id);
+                      if (existing && existing !== modal) {
+                        // An open copy already lives on <body>; drop this fresh duplicate
+                        modal.remove();
+                      } else {
+                        document.body.appendChild(modal);
+                      }
                     });
 
                     this.style.display = '';
