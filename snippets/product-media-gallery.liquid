@@ -42,6 +42,43 @@
   endif
 -%}
 
+{%- comment -%} Circular overlay arrows on the mobile gallery slider {%- endcomment -%}
+{%- if media_count > 1 -%}
+<style>
+  #GalleryViewer-{{ section.id }} { position: relative; }
+  #GalleryViewer-{{ section.id }} .slider-counter { display: none !important; }
+  #GalleryViewer-{{ section.id }} .slider-button .svg-wrapper { display: flex; }
+  #GalleryViewer-{{ section.id }} .slider-button svg { width: 14px; height: auto; }
+  /* Desktop uses the columns grid, not a slider — no arrows there */
+  @media screen and (max-width: 749px) {
+    #GalleryViewer-{{ section.id }} .slider-buttons {
+      display: flex !important;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      transform: translateY(-50%);
+      justify-content: space-between;
+      padding: 0 1.2rem;
+      pointer-events: none;
+      z-index: 2;
+      margin: 0;
+    }
+    #GalleryViewer-{{ section.id }} .slider-button {
+      pointer-events: auto;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #111111;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+    #GalleryViewer-{{ section.id }} .slider-button:not([disabled]):hover { background: #000000; }
+    #GalleryViewer-{{ section.id }} .slider-button[disabled] { opacity: 0; pointer-events: none; }
+  }
+</style>
+{%- endif -%}
+
 <media-gallery
   id="MediaGallery-{{ section.id }}"
   role="region"
