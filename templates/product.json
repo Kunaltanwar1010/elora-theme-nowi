@@ -52,7 +52,9 @@
           "type": "variant_picker",
           "settings": {
             "picker_type": "button",
-            "swatch_shape": "circle"
+            "swatch_shape": "circle",
+            "show_size_guide": true,
+            "size_guide_label": "Size Guide"
           }
         },
         "quantity_selector": {
