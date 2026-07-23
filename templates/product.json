@@ -317,7 +317,7 @@
       ],
       "name": "Testimonials",
       "settings": {
-        "heading": "Loved by 10,000+ girls 💕",
+        "heading": "Loved by 10,000+ customers",
         "subheading": "obsessed? same.",
         "heading_color": "#111111",
         "bg_color": "#f7eff0",
@@ -367,9 +367,12 @@
         "reel_kTU49y",
         "reel_z6yLPa"
       ],
+      "custom_css": [
+        ".wnb__heading{font-size: 28px;}"
+      ],
       "name": "Watch & Buy",
       "settings": {
-        "heading": "Watch & Buy",
+        "heading": "SHOP THE STYLE",
         "heading_color": "#111111",
         "bg_color": "#ffffff",
         "cta_color": "#111111",
