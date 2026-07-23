@@ -245,6 +245,7 @@
         "badge_LbTx7X",
         "badge_GFNG6f"
       ],
+      "disabled": true,
       "name": "Trust Marquee",
       "settings": {
         "direction": "ltr",
