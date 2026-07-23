@@ -89,7 +89,35 @@
     text-transform: uppercase;
     margin: 0;
   }
+  {%- comment -%} Grid + collage layouts: no horizontal scroll on any breakpoint {%- endcomment -%}
+  #shopify-section-{{ section.id }} .sbc--grid .sbc__track,
+  #shopify-section-{{ section.id }} .sbc--collage .sbc__track {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.mobile_columns | default: 2 }}, 1fr);
+    overflow: visible;
+  }
+  #shopify-section-{{ section.id }} .sbc--grid .sbc__card,
+  #shopify-section-{{ section.id }} .sbc--collage .sbc__card { flex: none; }
+  #shopify-section-{{ section.id }} .sbc--grid .sbc__dots,
+  #shopify-section-{{ section.id }} .sbc--collage .sbc__dots { display: none; }
+
+  {%- comment -%} Collage: first card is the hero — full width on mobile, 2x2 on desktop {%- endcomment -%}
+  #shopify-section-{{ section.id }} .sbc--collage .sbc__card:first-child {
+    grid-column: span {{ section.settings.mobile_columns | default: 2 }};
+    aspect-ratio: 16 / 10;
+  }
+
   @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .sbc--grid .sbc__track,
+    #shopify-section-{{ section.id }} .sbc--collage .sbc__track {
+      grid-template-columns: repeat({{ section.settings.desktop_columns }}, 1fr);
+    }
+    #shopify-section-{{ section.id }} .sbc--collage .sbc__card:first-child {
+      grid-column: span 2;
+      grid-row: span 2;
+      aspect-ratio: auto;
+      height: 100%;
+    }
     #shopify-section-{{ section.id }} .sbc__wrap { padding: 0 5rem; }
     #shopify-section-{{ section.id }} .sbc__track {
       display: grid;
@@ -101,7 +129,7 @@
   }
 </style>
 
-<div class="sbc">
+<div class="sbc sbc--{{ section.settings.layout | default: 'carousel' }}">
   {%- if section.settings.heading != blank -%}
     <h2 class="sbc__heading">{{ section.settings.heading }}</h2>
   {%- endif -%}
@@ -205,6 +233,28 @@
       "id": "heading_color",
       "label": "Heading color",
       "default": "#111111"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "carousel", "label": "Swipeable (mobile carousel, desktop grid)" },
+        { "value": "grid", "label": "Grid" },
+        { "value": "collage", "label": "Collage grid (first card is the hero)" }
+      ],
+      "default": "carousel"
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Mobile columns",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2",
+      "info": "Grid and collage layouts only."
     },
     {
       "type": "range",
