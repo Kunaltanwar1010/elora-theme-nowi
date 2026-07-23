@@ -15,7 +15,7 @@
       "type": "footer-modern",
       "name": "Footer Branded",
       "settings": {
-        "bg_color": "#111111",
+        "bg_color": "#343434",
         "text_color": "#ffffff",
         "accent_color": "#ffffff",
         "logo_width": 100,
