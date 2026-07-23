@@ -120,6 +120,9 @@
       "name": "Collection Grid",
       "settings": {
         "collection": "bestsellers",
+        "layout": "carousel",
+        "show_layout_toggle": false,
+        "show_product_count": true,
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
@@ -133,7 +136,7 @@
         "products_to_show": 8,
         "columns_mobile": 2,
         "columns_desktop": 4,
-        "enable_pagination": false,
+        "enable_pagination": true,
         "enable_infinite_scroll": false,
         "show_view_all": true,
         "enable_quick_buy": true
@@ -195,6 +198,9 @@
       "name": "Collection Grid",
       "settings": {
         "collection": "bestsellers",
+        "layout": "carousel",
+        "show_layout_toggle": false,
+        "show_product_count": true,
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
@@ -208,7 +214,7 @@
         "products_to_show": 8,
         "columns_mobile": 2,
         "columns_desktop": 4,
-        "enable_pagination": false,
+        "enable_pagination": true,
         "enable_infinite_scroll": false,
         "show_view_all": true,
         "enable_quick_buy": true
@@ -299,6 +305,9 @@
       "name": "Collection Grid",
       "settings": {
         "collection": "tops",
+        "layout": "grid",
+        "show_layout_toggle": false,
+        "show_product_count": false,
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
@@ -355,6 +364,9 @@
       "name": "Collection Grid",
       "settings": {
         "collection": "dresses",
+        "layout": "grid",
+        "show_layout_toggle": false,
+        "show_product_count": false,
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
@@ -411,6 +423,9 @@
       "name": "Collection Grid",
       "settings": {
         "collection": "co-ords",
+        "layout": "grid",
+        "show_layout_toggle": false,
+        "show_product_count": false,
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
@@ -435,6 +450,9 @@
       "name": "Collection Grid",
       "settings": {
         "collection": "bestsellers",
+        "layout": "grid",
+        "show_layout_toggle": false,
+        "show_product_count": false,
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
