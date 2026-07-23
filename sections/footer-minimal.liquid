@@ -1,0 +1,228 @@
+{% comment %}
+  Footer Minimal — link columns with a hairline rule under each heading and a
+  copyright line at the bottom right. No currency/country selector, no
+  newsletter, no social icons. One block per column, each pointing at a menu.
+{% endcomment %}
+
+<style>
+  #shopify-section-{{ section.id }} .fmin {
+    background: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  }
+  #shopify-section-{{ section.id }} .fmin__inner {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  #shopify-section-{{ section.id }} .fmin__cols {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns }}, minmax(0, 1fr));
+    gap: 3.2rem 4rem;
+  }
+  #shopify-section-{{ section.id }} .fmin__title {
+    font-size: {{ section.settings.heading_font_size }}px;
+    font-weight: 500;
+    margin: 0;
+    padding-bottom: 2.4rem;
+    border-bottom: 1px solid {{ section.settings.rule_color }};
+    color: {{ section.settings.text_color }};
+  }
+  #shopify-section-{{ section.id }} .fmin__list {
+    list-style: none;
+    margin: 2.4rem 0 0;
+    padding: 0;
+  }
+  #shopify-section-{{ section.id }} .fmin__list li + li { margin-top: 1.4rem; }
+  #shopify-section-{{ section.id }} .fmin__link {
+    font-size: {{ section.settings.link_font_size }}px;
+    color: {{ section.settings.text_color }};
+    text-decoration: none;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+  }
+  #shopify-section-{{ section.id }} .fmin__link:hover { opacity: 1; text-decoration: underline; }
+  #shopify-section-{{ section.id }} .fmin__text {
+    font-size: {{ section.settings.link_font_size }}px;
+    margin: 2.4rem 0 0;
+    opacity: 0.85;
+    line-height: 1.7;
+  }
+  #shopify-section-{{ section.id }} .fmin__bottom {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1.6rem;
+    margin-top: {{ section.settings.bottom_gap }}px;
+    font-size: {{ section.settings.link_font_size }}px;
+    opacity: 0.85;
+  }
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} .fmin__cols { grid-template-columns: 1fr; gap: 2.8rem; }
+    #shopify-section-{{ section.id }} .fmin__bottom { justify-content: flex-start; }
+  }
+</style>
+
+<div class="fmin">
+  <div class="fmin__inner">
+    <div class="fmin__cols">
+      {%- for block in section.blocks -%}
+        <div {{ block.shopify_attributes }}>
+          {%- if block.settings.heading != blank -%}
+            <h2 class="fmin__title">{{ block.settings.heading }}</h2>
+          {%- endif -%}
+
+          {%- if block.settings.menu != blank -%}
+            <ul class="fmin__list">
+              {%- for link in linklists[block.settings.menu].links -%}
+                <li><a class="fmin__link" href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+
+          {%- if block.settings.text != blank -%}
+            <div class="fmin__text">{{ block.settings.text }}</div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="fmin__bottom">
+      <span>&copy; {{ section.settings.copyright | default: shop.name }} {{ 'now' | date: '%Y' }}</span>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Footer Minimal",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "rule_color",
+      "label": "Divider line",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "copyright",
+      "label": "Copyright name",
+      "info": "Leave empty to use the store name. The year is added automatically."
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Heading size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "link_font_size",
+      "label": "Link size",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "bottom_gap",
+      "label": "Space above copyright",
+      "min": 16,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Link column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Quick Links"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "info": "Optional. Shown under the links — use for an address or a short line."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Footer Minimal",
+      "blocks": [
+        { "type": "column", "settings": { "heading": "Quick Links" } },
+        { "type": "column", "settings": { "heading": "Customer Support" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
