@@ -126,7 +126,7 @@
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
-        "custom_title": "Bestsellers",
+        "custom_title": "BESTSELLERS",
         "heading_font_size": 28,
         "heading_font_weight": "700",
         "heading_text_transform": "",
@@ -183,6 +183,9 @@
         "reel_EXWBkF",
         "reel_W8PJrQ"
       ],
+      "custom_css": [
+        ".wnb__heading {font-size: 28px;}"
+      ],
       "name": "Watch & Buy",
       "settings": {
         "heading": "Watch & Buy",
@@ -204,7 +207,7 @@
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
-        "custom_title": "New Arrivals",
+        "custom_title": "NEW ARRIVALS",
         "heading_font_size": 28,
         "heading_font_weight": "700",
         "heading_text_transform": "",
@@ -456,7 +459,7 @@
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
-        "custom_title": "Price Drop",
+        "custom_title": "PRICE DROP",
         "heading_font_size": 28,
         "heading_font_weight": "700",
         "heading_text_transform": "",
@@ -567,6 +570,9 @@
         "review_UFWLBR",
         "review_TVWmrC",
         "review_NwairR"
+      ],
+      "custom_css": [
+        ".tsm__heading {font-size: 24px;}"
       ],
       "name": "Testimonials",
       "settings": {
