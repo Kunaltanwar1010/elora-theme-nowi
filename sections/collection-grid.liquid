@@ -6,6 +6,25 @@
   assign enable_pagination = section.settings.enable_pagination
   assign enable_infinite_scroll = section.settings.enable_infinite_scroll
 
+  # Carousel mode reuses the "no pagination" branch below
+  assign is_carousel = false
+  if section.settings.layout == 'carousel'
+    assign is_carousel = true
+    assign enable_pagination = false
+    assign enable_infinite_scroll = false
+  endif
+
+  assign card_gap = settings.modern_card_gap | default: 16
+
+  # Storefront grid/carousel toggle needs the carousel markup in both states
+  assign show_layout_toggle = section.settings.show_layout_toggle
+  assign use_carousel_markup = false
+  if is_carousel or show_layout_toggle
+    assign use_carousel_markup = true
+    assign enable_pagination = false
+    assign enable_infinite_scroll = false
+  endif
+
   if collection_handle != blank
     assign target_collection = collections[collection_handle]
   else
@@ -48,6 +67,12 @@
           {{ display_title }}
         </h2>
       {% endif %}
+    {% endif %}
+
+    {% if section.settings.show_product_count and target_collection %}
+      <p class="cg-count {{ heading_alignment }}">
+        {{ target_collection.products_count }} {{ target_collection.products_count | pluralize: 'product', 'products' }}
+      </p>
     {% endif %}
 
     {% if section.settings.show_collection_description and target_collection.description != blank %}
@@ -252,8 +277,22 @@
             No products found in this collection.
           </p>
         {% else %}
-          <ul class="grid cols-desktop-{{ columns_desktop }}"
-            style="display: grid; grid-template-columns: repeat({{ columns_mobile }}, minmax(0, 1fr)); gap: {{ settings.modern_card_gap | default: 16 }}px;"
+          {% if use_carousel_markup %}<div class="cg-carousel{% unless is_carousel %} is-grid{% endunless %}">
+            {% if show_layout_toggle %}
+              <div class="cg-toggle" role="group" aria-label="Layout">
+                <button type="button" class="cg-toggle-btn{% unless is_carousel %} is-active{% endunless %}" data-layout="grid" aria-label="Grid view">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
+                </button>
+                <button type="button" class="cg-toggle-btn{% if is_carousel %} is-active{% endif %}" data-layout="carousel" aria-label="Carousel view">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 6h4v12H2V6zm6 0h8v12H8V6zm10 0h4v12h-4V6z"/></svg>
+                </button>
+              </div>
+            {% endif %}
+            <button type="button" class="cg-arrow cg-arrow--prev" aria-label="Previous">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>{% endif %}
+          <ul class="{% if use_carousel_markup %}{% if is_carousel %}cg-track{% else %}cg-grid{% endif %}{% else %}grid cols-desktop-{{ columns_desktop }}{% endif %}"
+            style="{% if use_carousel_markup %}--cg-cols: {{ columns_mobile }}; --cg-cols-desktop: {{ columns_desktop }}; --cg-gap: {{ card_gap }}px; gap: {{ card_gap }}px;{% else %}display: grid; grid-template-columns: repeat({{ columns_mobile }}, minmax(0, 1fr)); gap: {{ card_gap }}px;{% endif %}"
             role="list">
             {% for product in target_collection.products limit: products_to_show %}
               <li>
@@ -280,6 +319,11 @@
               </li>
             {% endfor %}
           </ul>
+          {% if use_carousel_markup %}
+            <button type="button" class="cg-arrow cg-arrow--next" aria-label="Next">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>{% endif %}
 
           {% if section.settings.show_view_all and target_collection.products_count > products_to_show %}
             <div class="text-center mt-8">
@@ -353,6 +397,92 @@
     display: none;
   }
 
+  /* Product count line */
+  .cg-count {
+    font-size: 1.3rem;
+    color: #6B6467;
+    margin: -1rem 0 1.2rem;
+  }
+
+  /* Carousel mode */
+  .cg-carousel { position: relative; }
+  .cg-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cg-cols), minmax(0, 1fr));
+    margin: 0;
+    list-style: none;
+  }
+  .cg-carousel.is-grid .cg-arrow { display: none; }
+
+  .cg-toggle {
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
+    margin-bottom: 1rem;
+  }
+  .cg-toggle-btn {
+    width: 32px; height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--elora-grey-line, #E6E1E2);
+    border-radius: 6px;
+    background: #fff;
+    color: #6B6467;
+    cursor: pointer;
+    padding: 0;
+  }
+  .cg-toggle-btn.is-active {
+    background: var(--elora-maroon, #111111);
+    border-color: var(--elora-maroon, #111111);
+    color: #fff;
+  }
+
+  .cg-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.5rem;
+    margin: 0;
+    list-style: none;
+  }
+  .cg-track::-webkit-scrollbar { display: none; }
+  .cg-track > li {
+    /* one extra gap subtracted on mobile so the next card peeks */
+    flex: 0 0 calc((100% - (var(--cg-gap) * var(--cg-cols))) / var(--cg-cols));
+    scroll-snap-align: start;
+  }
+  .cg-track.is-dragging { scroll-snap-type: none; cursor: grabbing; user-select: none; }
+  .cg-arrow {
+    display: none;
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    border: none;
+    color: var(--elora-maroon, #111111);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 3;
+  }
+  .cg-arrow--prev { left: -18px; }
+  .cg-arrow--next { right: -18px; }
+
+  @media (min-width: 768px) {
+    .cg-grid { grid-template-columns: repeat(var(--cg-cols-desktop), minmax(0, 1fr)); }
+    .cg-track { cursor: grab; }
+    .cg-track > li {
+      flex: 0 0 calc((100% - (var(--cg-gap) * (var(--cg-cols-desktop) - 1))) / var(--cg-cols-desktop));
+    }
+    .cg-arrow { display: flex; }
+  }
+
   /* Loading state for AJAX filtering */
   .collection.loading {
     opacity: 0.5;
@@ -361,6 +491,68 @@
   }
 
 </style>
+
+{% if use_carousel_markup %}
+<script>
+  (function () {
+    var section = document.getElementById('shopify-section-{{ section.id }}');
+    var wrap = section && section.querySelector('.cg-carousel');
+    var track = wrap && wrap.querySelector('ul');
+    if (!track) return;
+
+    function step() {
+      var item = track.querySelector('li');
+      return item ? item.getBoundingClientRect().width + {{ card_gap }} : 300;
+    }
+    section.querySelector('.cg-arrow--prev').addEventListener('click', function () {
+      if (track.scrollLeft <= 5) track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' });
+      else track.scrollBy({ left: -step(), behavior: 'smooth' });
+    });
+    section.querySelector('.cg-arrow--next').addEventListener('click', function () {
+      if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 5) track.scrollTo({ left: 0, behavior: 'smooth' });
+      else track.scrollBy({ left: step(), behavior: 'smooth' });
+    });
+
+    /* Click-and-drag on desktop; touch uses native scroll */
+    var down = false, startX = 0, startScroll = 0, moved = false;
+    track.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      down = true; moved = false; startX = e.clientX; startScroll = track.scrollLeft;
+      track.classList.add('is-dragging');
+    });
+    track.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - startX;
+      if (Math.abs(dx) > 3) moved = true;
+      track.scrollLeft = startScroll - dx;
+    });
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(function (ev) {
+      track.addEventListener(ev, function () { down = false; track.classList.remove('is-dragging'); });
+    });
+    track.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+
+    /* Grid / carousel toggle */
+    wrap.querySelectorAll('.cg-toggle-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var carousel = btn.dataset.layout === 'carousel';
+        wrap.classList.toggle('is-grid', !carousel);
+        track.classList.toggle('cg-track', carousel);
+        track.classList.toggle('cg-grid', !carousel);
+        if (!carousel) track.scrollLeft = 0;
+        wrap.querySelectorAll('.cg-toggle-btn').forEach(function (b) { b.classList.toggle('is-active', b === btn); });
+        try { localStorage.setItem('cg-layout-{{ section.id }}', btn.dataset.layout); } catch (e) {}
+      });
+    });
+    try {
+      var saved = localStorage.getItem('cg-layout-{{ section.id }}');
+      if (saved) {
+        var savedBtn = wrap.querySelector('.cg-toggle-btn[data-layout="' + saved + '"]');
+        if (savedBtn && !savedBtn.classList.contains('is-active')) savedBtn.click();
+      }
+    } catch (e) {}
+  })();
+</script>
+{% endif %}
 
 {% schema %}
 {
@@ -374,6 +566,30 @@
       "id": "collection",
       "label": "Collection",
       "info": "Select a collection to display. Leave empty to use the current collection on collection pages."
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "grid", "label": "Grid" },
+        { "value": "carousel", "label": "Carousel (swipe + arrows)" }
+      ],
+      "default": "grid",
+      "info": "Carousel shows one row of products with arrows and swipe. Pagination and infinite scroll are ignored in this mode."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_layout_toggle",
+      "label": "Show grid / carousel toggle button",
+      "default": false,
+      "info": "Lets shoppers switch views. Starts in the layout chosen above; the choice is remembered. Pagination and infinite scroll are ignored when this is on."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_count",
+      "label": "Show product count",
+      "default": false
     },
     {
       "type": "range",
