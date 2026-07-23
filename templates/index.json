@@ -188,7 +188,7 @@
       ],
       "name": "Watch & Buy",
       "settings": {
-        "heading": "Shop By Style",
+        "heading": "SHOP BY STYLE",
         "heading_color": "#111111",
         "bg_color": "#fdf7f5",
         "cta_color": "#111111",
@@ -461,7 +461,7 @@
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
-        "custom_title": "PRICE DROP",
+        "custom_title": "SHOP THE SALE",
         "heading_font_size": 28,
         "heading_font_weight": "700",
         "heading_text_transform": "",
