@@ -268,6 +268,7 @@
         "heading_color": "#111111",
         "layout": "collage",
         "mobile_columns": "2",
+        "card_ratio": "3 / 4",
         "desktop_columns": 3,
         "corner_radius": 16,
         "padding_y": 20

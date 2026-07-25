@@ -37,9 +37,9 @@
       ],
       "name": "Footer Minimal",
       "settings": {
-        "bg_color": "#111111",
-        "text_color": "#FFFFFF",
-        "rule_color": "#FFFFFF",
+        "bg_color": "#343434",
+        "text_color": "#ffffff",
+        "rule_color": "#ffffff",
         "columns": 3,
         "copyright": "Elora Clocset",
         "heading_font_size": 16,
