@@ -99,17 +99,19 @@
     overflow: visible;
   }
 
-  {%- comment -%} Collage layout: one row — 1 big card + 2 beside it, every breakpoint {%- endcomment -%}
+  {%- comment -%} Collage layout: 2 rows — 1 big card on top, 2 cards below {%- endcomment -%}
   #shopify-section-{{ section.id }} .sbc--collage .sbc__track {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    grid-auto-rows: clamp(13rem, 34vw, 28rem);
+    grid-template-columns: 1fr 1fr;
     overflow: visible;
   }
   #shopify-section-{{ section.id }} .sbc--collage .sbc__card {
     flex: none;
-    aspect-ratio: auto;
-    height: 100%;
+    aspect-ratio: {{ card_ratio }};
+  }
+  #shopify-section-{{ section.id }} .sbc--collage .sbc__card:first-child {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 10;
   }
 
   #shopify-section-{{ section.id }} .sbc--grid .sbc__card { flex: none; }
