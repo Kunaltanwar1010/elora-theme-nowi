@@ -92,39 +92,43 @@
     text-transform: uppercase;
     margin: 0;
   }
-  {%- comment -%} Grid + collage layouts: no horizontal scroll on any breakpoint {%- endcomment -%}
-  #shopify-section-{{ section.id }} .sbc--grid .sbc__track,
-  #shopify-section-{{ section.id }} .sbc--collage .sbc__track {
+  {%- comment -%} Grid layout: uniform columns, no horizontal scroll {%- endcomment -%}
+  #shopify-section-{{ section.id }} .sbc--grid .sbc__track {
     display: grid;
     grid-template-columns: repeat({{ section.settings.mobile_columns | default: 2 }}, 1fr);
     overflow: visible;
   }
-  #shopify-section-{{ section.id }} .sbc--grid .sbc__card,
-  #shopify-section-{{ section.id }} .sbc--collage .sbc__card { flex: none; }
+
+  {%- comment -%} Collage layout: one row — 1 big card + 2 beside it, every breakpoint {%- endcomment -%}
+  #shopify-section-{{ section.id }} .sbc--collage .sbc__track {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-auto-rows: clamp(13rem, 34vw, 28rem);
+    overflow: visible;
+  }
+  #shopify-section-{{ section.id }} .sbc--collage .sbc__card {
+    flex: none;
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .sbc--grid .sbc__card { flex: none; }
   #shopify-section-{{ section.id }} .sbc--grid .sbc__dots,
   #shopify-section-{{ section.id }} .sbc--collage .sbc__dots { display: none; }
 
-  {%- comment -%} Collage: uniform portrait cards on mobile; first card becomes a 2x2 hero on desktop {%- endcomment -%}
-
   @media (min-width: 750px) {
-    #shopify-section-{{ section.id }} .sbc--grid .sbc__track,
-    #shopify-section-{{ section.id }} .sbc--collage .sbc__track {
+    #shopify-section-{{ section.id }} .sbc--grid .sbc__track {
       grid-template-columns: repeat({{ section.settings.desktop_columns }}, 1fr);
     }
-    #shopify-section-{{ section.id }} .sbc--collage .sbc__card:first-child {
-      grid-column: span 2;
-      grid-row: span 2;
-      aspect-ratio: auto;
-      height: 100%;
-    }
     #shopify-section-{{ section.id }} .sbc__wrap { padding: 0 5rem; }
-    #shopify-section-{{ section.id }} .sbc__track {
+    {%- comment -%} Carousel becomes a plain grid on desktop {%- endcomment -%}
+    #shopify-section-{{ section.id }} .sbc--carousel .sbc__track {
       display: grid;
       grid-template-columns: repeat({{ section.settings.desktop_columns }}, 1fr);
       overflow: visible;
     }
-    #shopify-section-{{ section.id }} .sbc__card { flex: none; }
-    #shopify-section-{{ section.id }} .sbc__dots { display: none; }
+    #shopify-section-{{ section.id }} .sbc--carousel .sbc__card { flex: none; }
+    #shopify-section-{{ section.id }} .sbc--carousel .sbc__dots { display: none; }
   }
 </style>
 
