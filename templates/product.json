@@ -382,7 +382,9 @@
     },
     "related-products": {
       "type": "related-products",
-      "custom_css": [],
+      "custom_css": [
+        ".related-products__heading {font-size: 28px;}"
+      ],
       "settings": {
         "heading": "Must-Have Styles",
         "heading_size": "h1",
@@ -391,7 +393,7 @@
         "columns_mobile": "2",
         "color_scheme": "scheme-1",
         "enable_quick_buy": true,
-        "padding_top": 24,
+        "padding_top": 20,
         "padding_bottom": 20
       }
     }
