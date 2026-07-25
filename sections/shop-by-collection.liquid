@@ -8,18 +8,21 @@
 {% endcomment %}
 
 {%- liquid
-  # Adapt card shape to the first card's image aspect ratio (uniform frame so
-  # the row/carousel stays aligned). Falls back to 4:5 when no image is set.
-  assign card_ratio = '4 / 5'
-  for block in section.blocks
-    unless block.settings.show_card == false
-      assign first_img = block.settings.image | default: block.settings.collection.featured_image
-      if first_img != blank
-        assign card_ratio = first_img.aspect_ratio
-        break
-      endif
-    endunless
-  endfor
+  # Card shape. Portrait by default so every collection card is the same size,
+  # regardless of the source image. 'adapt' falls back to the first image's ratio.
+  assign card_ratio = section.settings.card_ratio | default: '3 / 4'
+  if card_ratio == 'adapt'
+    assign card_ratio = '4 / 5'
+    for block in section.blocks
+      unless block.settings.show_card == false
+        assign first_img = block.settings.image | default: block.settings.collection.featured_image
+        if first_img != blank
+          assign card_ratio = first_img.aspect_ratio
+          break
+        endif
+      endunless
+    endfor
+  endif
 -%}
 
 <style>
@@ -101,11 +104,7 @@
   #shopify-section-{{ section.id }} .sbc--grid .sbc__dots,
   #shopify-section-{{ section.id }} .sbc--collage .sbc__dots { display: none; }
 
-  {%- comment -%} Collage: first card is the hero — full width on mobile, 2x2 on desktop {%- endcomment -%}
-  #shopify-section-{{ section.id }} .sbc--collage .sbc__card:first-child {
-    grid-column: span {{ section.settings.mobile_columns | default: 2 }};
-    aspect-ratio: 16 / 10;
-  }
+  {%- comment -%} Collage: uniform portrait cards on mobile; first card becomes a 2x2 hero on desktop {%- endcomment -%}
 
   @media (min-width: 750px) {
     #shopify-section-{{ section.id }} .sbc--grid .sbc__track,
@@ -255,6 +254,19 @@
       ],
       "default": "2",
       "info": "Grid and collage layouts only."
+    },
+    {
+      "type": "select",
+      "id": "card_ratio",
+      "label": "Card shape",
+      "options": [
+        { "value": "3 / 4", "label": "Portrait" },
+        { "value": "4 / 5", "label": "Portrait (tall)" },
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "16 / 10", "label": "Landscape" },
+        { "value": "adapt", "label": "Match first image" }
+      ],
+      "default": "3 / 4"
     },
     {
       "type": "range",
