@@ -19,7 +19,6 @@
     display: grid;
     grid-template-columns: repeat({{ section.settings.columns }}, minmax(0, 1fr));
     gap: 3.2rem 4rem;
-    text-align: center;
   }
   #shopify-section-{{ section.id }} .fmin__title {
     font-size: {{ section.settings.heading_font_size }}px;
@@ -51,7 +50,7 @@
   }
   #shopify-section-{{ section.id }} .fmin__bottom {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 1.6rem;
     margin-top: {{ section.settings.bottom_gap }}px;
@@ -59,7 +58,8 @@
     opacity: 0.85;
   }
   @media (max-width: 749px) {
-    #shopify-section-{{ section.id }} .fmin__cols { grid-template-columns: 1fr; gap: 2.8rem; }
+    #shopify-section-{{ section.id }} .fmin__cols { grid-template-columns: 1fr; gap: 2.8rem; text-align: center; }
+    #shopify-section-{{ section.id }} .fmin__bottom { justify-content: center; }
   }
 </style>
 
