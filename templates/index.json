@@ -31,28 +31,28 @@
         "category_item_4wjtcz": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/levender2.jpg",
+            "category_image": "shopify://shop_images/243373764_558192995388480_1452689644925456660_n.jpg",
             "category_label": "Tops",
             "category_subtitle": "",
-            "category_link": ""
+            "category_link": "shopify://collections/tops"
           }
         },
         "category_item_ftWJLq": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/4_0c4337f4-c4bc-414a-858b-f233fbf9736f.jpg",
+            "category_image": "shopify://shop_images/87be798557510db7.webp",
             "category_label": "Dresses",
             "category_subtitle": "",
-            "category_link": ""
+            "category_link": "shopify://collections/dresses"
           }
         },
         "category_item_nNbyNb": {
           "type": "category_item",
           "settings": {
-            "category_image": "shopify://shop_images/1312251.4_630af4ae-6fe4-4096-b293-fea7e4987e64.jpg",
+            "category_image": "shopify://shop_images/DAVINASUIT_BLACK_ECOM_CROPPING_PDP_Size_Image3_800x_f42cd2e9-de89-47e1-8392-f008a3213f1a.png",
             "category_label": "Coords",
             "category_subtitle": "",
-            "category_link": ""
+            "category_link": "shopify://collections/co-ords"
           }
         }
       },
