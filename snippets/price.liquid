@@ -31,15 +31,11 @@
   assign money_price_max = price_max | money_without_trailing_zeros
   assign money_compare_at = compare_at_price | money_without_trailing_zeros
   if settings.currency_code_enabled
-    assign money_price = price | money_with_currency | split: '.' | first
-    assign money_price_min = price_min | money_with_currency | split: '.' | first
-    assign money_price_max = price_max | money_with_currency | split: '.' | first
-    assign money_compare_at = compare_at_price | money_with_currency | split: '.' | first
-  else
-    assign money_price = money_price | split: '.' | first
-    assign money_price_min = money_price_min | split: '.' | first
-    assign money_price_max = money_price_max | split: '.' | first
-    assign money_compare_at = money_compare_at | split: '.' | first
+    # replace '.00' (not split on '.') so a currency symbol like "Rs." is preserved
+    assign money_price = price | money_with_currency | replace: '.00', ''
+    assign money_price_min = price_min | money_with_currency | replace: '.00', ''
+    assign money_price_max = price_max | money_with_currency | replace: '.00', ''
+    assign money_compare_at = compare_at_price | money_with_currency | replace: '.00', ''
   endif
 
   if target == product and product.price_varies
