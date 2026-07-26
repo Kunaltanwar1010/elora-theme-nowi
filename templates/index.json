@@ -679,6 +679,48 @@
         "gap": 48,
         "padding_y": 14
       }
+    },
+    "faq_page_cAkxr7": {
+      "type": "faq-page",
+      "blocks": {
+        "category_bq7a3C": {
+          "type": "category",
+          "settings": {
+            "title": "About Us"
+          }
+        },
+        "faq_item_wWjyU8": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your company about?",
+            "answer": "<p>We are dedicated to providing the best products and services.</p>"
+          }
+        },
+        "faq_item_wTktmr": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Where are you located?",
+            "answer": "<p>We operate online and ship across India.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "category_bq7a3C",
+        "faq_item_wWjyU8",
+        "faq_item_wTktmr"
+      ],
+      "name": "FAQ Page",
+      "settings": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Everything you need to know about shopping at Nowi",
+        "show_cta": false,
+        "cta_title": "Still have questions?",
+        "cta_text": "We're here to help! Reach out to our friendly support team.",
+        "cta_button_text": "Contact Support",
+        "cta_link": "mailto:support@nowi.fashion",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
@@ -697,6 +739,7 @@
     "collection_grid_7jD3zF",
     "collection_grid_aMJLNL",
     "testimonials_dteQgw",
-    "trust_marquee_wQnNeU"
+    "trust_marquee_wQnNeU",
+    "faq_page_cAkxr7"
   ]
 }
