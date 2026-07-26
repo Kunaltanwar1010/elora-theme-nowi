@@ -1416,6 +1416,9 @@ a.product__text {
 
   .product-media-container.media-fit-contain.constrain-height .media {
     padding-top: var(--ratio-percent);
+    /* padding-top already sets the exact aspect box; 19vh min-height would
+       add dead space that shows as letterbox under object-fit: contain */
+    min-height: 0;
   }
 
   .product-media-container.media-fit-contain .media > img {
