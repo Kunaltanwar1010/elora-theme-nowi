@@ -1,78 +1,46 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "faq-page",
       "settings": {
         "title": "Frequently Asked Questions",
-        "subtitle": "Everything you need to know about shopping at Nowi",
+        "subtitle": "Everything you need to know about shopping at Elora Closet",
         "show_cta": true,
         "cta_title": "Still have questions?",
         "cta_text": "We're here to help! Reach out to our friendly support team.",
         "cta_button_text": "Contact Support",
-        "cta_link": "mailto:support@nowi.fashion",
+        "cta_link": "/pages/contact",
         "padding_top": 36,
         "padding_bottom": 36
       },
       "blocks": {
-        "category_about": {
-          "type": "category",
-          "settings": {
-            "title": "About Nowi"
-          }
-        },
-        "faq_what_is_nowi": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What is Nowi Fashion?",
-            "answer": "<p>Nowi is an Indian online fashion brand offering trendy, affordable clothing for men and women. We focus on contemporary styles at accessible prices, with over 3,500 products ranging from dresses, tops, and jackets to trousers and co-ord sets.</p>"
-          }
-        },
-        "faq_physical_stores": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Does Nowi have physical stores?",
-            "answer": "<p>Nowi is currently an online-only fashion brand. We focus on providing the best online shopping experience with detailed product photos, size guides, and easy returns. Shop anytime at <a href=\"https://nowi.fashion\">nowi.fashion</a>.</p>"
-          }
-        },
-        "faq_best_sellers": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What are Nowi's best-selling products?",
-            "answer": "<p>Our best sellers include Puffer Jackets (lightweight, stylish, perfect for winter), Co-ord Sets (effortlessly coordinated outfits), Cargo Trousers (functional fashion with multiple pockets), A-line Dresses (flattering fit for all body types), and Cable Knit Sweaters.</p>"
-          }
-        },
-        "faq_price_range": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What is Nowi's price range?",
-            "answer": "<p>We offer affordable fashion for everyone:<br><strong>Budget-friendly:</strong> ₹299 - ₹599<br><strong>Mid-range:</strong> ₹599 - ₹1,299<br><strong>Premium:</strong> ₹1,299 - ₹2,999</p>"
-          }
-        },
         "category_sizing": {
           "type": "category",
           "settings": {
             "title": "Sizing & Fit"
           }
         },
-        "faq_sizes": {
+        "faq_choose_size": {
           "type": "faq_item",
           "settings": {
-            "question": "What sizes does Nowi offer?",
-            "answer": "<p>Nowi offers sizes from XS to XXL across all product categories. Each product page includes a detailed size chart with measurements in inches and centimeters to help you find your perfect fit.</p>"
+            "question": "How do I choose the right size?",
+            "answer": "<p>We recommend checking our Size Guide available on every product page before placing your order. If you're between sizes or need help, feel free to contact us on WhatsApp—we'll be happy to assist you.</p>"
           }
         },
-        "faq_find_size": {
+        "faq_doesnt_fit": {
           "type": "faq_item",
           "settings": {
-            "question": "How do I find my size at Nowi?",
-            "answer": "<p>Each product page has a detailed size chart. Measure yourself and compare with our charts. We offer:<br><strong>Regular Fit:</strong> Comfortable, standard sizing<br><strong>Relaxed Fit:</strong> Loose, easy movement<br><strong>Slim Fit:</strong> Body-hugging, tailored look<br><strong>Oversized:</strong> Trendy, extra room<br><br><em>Tip: When in doubt, size up!</em></p>"
-          }
-        },
-        "faq_exchange_size": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Can I exchange for a different size?",
-            "answer": "<p>Yes! Nowi offers <strong>free size exchanges</strong> within 7 days of delivery. Contact our support team at support@nowi.fashion with your order number and the size you need. We'll arrange the exchange at no extra cost.</p>"
+            "question": "What if the outfit doesn't fit me?",
+            "answer": "<p>No worries! We offer easy size exchanges for eligible products. Simply raise an exchange request within the specified time after delivery, and we'll guide you through the process.</p>"
           }
         },
         "category_shipping": {
@@ -81,45 +49,18 @@
             "title": "Shipping & Delivery"
           }
         },
-        "faq_shipping_cost": {
+        "faq_shipping_time": {
           "type": "faq_item",
           "settings": {
-            "question": "How much does shipping cost?",
-            "answer": "<p><strong>FREE shipping on all orders above ₹599!</strong> For orders below ₹599, a nominal shipping fee applies. We deliver across India (Pan-India delivery).</p>"
-          }
-        },
-        "faq_delivery_time": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How long does delivery take?",
-            "answer": "<p><strong>Standard delivery:</strong> 5-7 business days across India<br><strong>Express delivery:</strong> Available in select metro cities<br><br>You'll receive tracking information via SMS and email once your order ships.</p>"
+            "question": "How long does shipping take?",
+            "answer": "<p>We process all orders within 1–2 business days. Delivery usually takes 3–7 business days, depending on your location. You'll receive a tracking link once your order is shipped.</p>"
           }
         },
         "faq_track_order": {
           "type": "faq_item",
           "settings": {
-            "question": "How do I track my order?",
-            "answer": "<p>Once your order ships, you'll receive a tracking link via SMS and email. You can also track by logging into your Nowi account and viewing order history, or contact our customer support team.</p>"
-          }
-        },
-        "category_payment": {
-          "type": "category",
-          "settings": {
-            "title": "Payment"
-          }
-        },
-        "faq_payment_methods": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What payment methods does Nowi accept?",
-            "answer": "<p>We accept multiple payment methods:<br>• Credit Cards (Visa, Mastercard, Amex)<br>• Debit Cards<br>• UPI (Google Pay, PhonePe, Paytm)<br>• Net Banking<br>• Wallets<br>• Cash on Delivery (COD)</p>"
-          }
-        },
-        "faq_cod": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Does Nowi offer Cash on Delivery (COD)?",
-            "answer": "<p><strong>Yes!</strong> Nowi offers Cash on Delivery across India. Pay in cash when your order arrives at your doorstep. No advance payment needed.</p>"
+            "question": "How can I track my order?",
+            "answer": "<p>Once your order is shipped, we'll send you a tracking link via SMS, WhatsApp, or email. You can use it to check the real-time status of your shipment.</p>"
           }
         },
         "category_returns": {
@@ -128,24 +69,11 @@
             "title": "Returns & Exchanges"
           }
         },
-        "faq_return_policy": {
+        "faq_exchange": {
           "type": "faq_item",
           "settings": {
-            "question": "What is Nowi's return policy?",
-            "answer": "<p>Nowi offers an <strong>easy 7-day return policy</strong>. If you're not satisfied with your purchase, return it within 7 days of delivery. We offer:<br>• Free exchanges<br>• Hassle-free refunds<br><br><em>Items must be unused with original tags attached.</em></p>"
-          }
-        },
-        "category_products": {
-          "type": "category",
-          "settings": {
-            "title": "Products & Quality"
-          }
-        },
-        "faq_materials": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What materials does Nowi use?",
-            "answer": "<p>We use quality fabrics suited for Indian weather:<br><strong>Cotton:</strong> Breathable, comfortable for Indian climate<br><strong>Polyester:</strong> Durable, easy care<br><strong>Linen:</strong> Premium, perfect for summers<br><strong>Denim:</strong> Classic, long-lasting<br><strong>Blended fabrics:</strong> Best of multiple materials<br><br>Material details are listed on each product page.</p>"
+            "question": "Can I exchange my order?",
+            "answer": "<p>Yes, we offer easy size exchanges on eligible products. You can request an exchange within 7 days of delivery, provided the item is unused, unwashed, and has all original tags attached.</p>"
           }
         },
         "category_contact": {
@@ -157,32 +85,20 @@
         "faq_contact": {
           "type": "faq_item",
           "settings": {
-            "question": "How do I contact Nowi customer support?",
-            "answer": "<p><strong>Email:</strong> support@nowi.fashion<br><strong>Hours:</strong> Monday - Saturday, 10 AM - 7 PM IST<br><strong>Instagram:</strong> <a href=\"https://instagram.com/nowi.fashion\">@nowi.fashion</a><br><strong>Facebook:</strong> <a href=\"https://www.facebook.com/profile.php?id=61587018283317\">/nowifashion</a></p>"
+            "question": "How can I contact Elora Closet?",
+            "answer": "<p>You can reach us via WhatsApp, email, or Instagram DM. Our customer support team is available to help with sizing, orders, exchanges, or any other queries.</p>"
           }
         }
       },
       "block_order": [
-        "category_about",
-        "faq_what_is_nowi",
-        "faq_physical_stores",
-        "faq_best_sellers",
-        "faq_price_range",
         "category_sizing",
-        "faq_sizes",
-        "faq_find_size",
-        "faq_exchange_size",
+        "faq_choose_size",
+        "faq_doesnt_fit",
         "category_shipping",
-        "faq_shipping_cost",
-        "faq_delivery_time",
+        "faq_shipping_time",
         "faq_track_order",
-        "category_payment",
-        "faq_payment_methods",
-        "faq_cod",
         "category_returns",
-        "faq_return_policy",
-        "category_products",
-        "faq_materials",
+        "faq_exchange",
         "category_contact",
         "faq_contact"
       ]
