@@ -1421,6 +1421,17 @@ a.product__text {
   .product-media-container.media-fit-contain .media > img {
     object-fit: contain;
   }
+
+  /* Slider height follows the active image (set in media-gallery.js) so short
+     images don't get letterboxed by a taller sibling in the flex row */
+  media-gallery [id^='Slider-Gallery'].media-fit-contain {
+    align-items: flex-start;
+    overflow-y: hidden;
+    transition: height 0.2s ease;
+  }
+  media-gallery [id^='Slider-Gallery'].media-fit-contain .slider__slide {
+    align-self: flex-start;
+  }
 }
 
 @media screen and (min-width: 750px) {

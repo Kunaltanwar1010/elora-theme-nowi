@@ -17,6 +17,9 @@ if (!customElements.get('media-gallery')) {
           this.initializeDots();
         }
 
+        // Size the mobile slider to the active image (no letterboxing)
+        this.initializeMobileHeight();
+
         // Listen for slide changes to update thumbnails (dots are handled by IntersectionObserver)
         if (this.elements.thumbnails) {
           this.elements.viewer.addEventListener('slideChanged', debounce(this.onSlideChanged.bind(this), 500));
@@ -62,6 +65,38 @@ if (!customElements.get('media-gallery')) {
             }, 50);
           });
         }
+      }
+
+      initializeMobileHeight() {
+        const slider = this.elements.viewer.querySelector('[id^="Slider-Gallery"]');
+        if (!slider || !slider.querySelector('.media-fit-contain')) return;
+        slider.classList.add('media-fit-contain');
+
+        const mobile = window.matchMedia('(max-width: 749px)');
+        const slides = slider.querySelectorAll('.slider__slide');
+
+        const apply = () => {
+          if (!mobile.matches) {
+            slider.style.height = '';
+            return;
+          }
+          const width = slides[0]?.offsetWidth || 1;
+          const index = Math.min(Math.round(slider.scrollLeft / width), slides.length - 1);
+          const media = slides[index]?.querySelector('.product-media-container') || slides[index];
+          if (media) slider.style.height = `${media.offsetHeight}px`;
+        };
+
+        let raf;
+        const schedule = () => {
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(apply);
+        };
+        slider.addEventListener('scroll', schedule, { passive: true });
+        window.addEventListener('resize', schedule);
+        slider.querySelectorAll('img').forEach((img) => {
+          if (!img.complete) img.addEventListener('load', schedule, { once: true });
+        });
+        apply();
       }
 
       updateActiveDot(activeIndex) {
