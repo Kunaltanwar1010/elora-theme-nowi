@@ -1408,6 +1408,19 @@ a.product__text {
     /* allow media img element to scale relative to modal-opener/product-media-container */
     position: initial;
   }
+
+  /* Adapt the image to its natural ratio instead of forcing a 3:4 cover-crop */
+  .product-media-container.media-fit-contain {
+    --aspect-ratio: var(--ratio, 0.75);
+  }
+
+  .product-media-container.media-fit-contain.constrain-height .media {
+    padding-top: var(--ratio-percent);
+  }
+
+  .product-media-container.media-fit-contain .media > img {
+    object-fit: contain;
+  }
 }
 
 @media screen and (min-width: 750px) {
