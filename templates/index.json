@@ -402,7 +402,7 @@
         "heading": "LOVED BY 10K+ CUSTOMERS",
         "subheading": "obsessed? same.",
         "heading_color": "#111111",
-        "bg_color": "#FDF7F5",
+        "bg_color": "#fdf7f5",
         "marquee_tag": "#WearElora",
         "marquee_speed": 30,
         "padding_y": 48
@@ -462,6 +462,7 @@
         "faq_exchange",
         "faq_contact"
       ],
+      "disabled": true,
       "name": "FAQ",
       "settings": {
         "title": "Frequently Asked Questions",
