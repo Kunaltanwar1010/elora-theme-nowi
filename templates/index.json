@@ -120,7 +120,7 @@
       "settings": {
         "collection": "bestsellers",
         "layout": "carousel",
-        "show_layout_toggle": true,
+        "show_layout_toggle": false,
         "show_product_count": true,
         "padding_top": 20,
         "padding_bottom": 20,
@@ -129,7 +129,7 @@
         "heading_font_size": 28,
         "heading_font_weight": "700",
         "heading_text_transform": "",
-        "heading_alignment": "text-left",
+        "heading_alignment": "text-center",
         "heading_color": "#111111",
         "show_collection_description": false,
         "products_to_show": 8,
@@ -209,6 +209,7 @@
       "block_order": [
         "slide_eNhcFG"
       ],
+      "disabled": true,
       "name": "Hero Carousel",
       "settings": {
         "loop": true,
@@ -237,7 +238,7 @@
         "heading_font_size": 28,
         "heading_font_weight": "700",
         "heading_text_transform": "",
-        "heading_alignment": "text-left",
+        "heading_alignment": "text-center",
         "heading_color": "#111111",
         "show_collection_description": false,
         "products_to_show": 4,
@@ -266,6 +267,7 @@
       "block_order": [
         "slide_UG6ppR"
       ],
+      "disabled": true,
       "name": "Hero Carousel",
       "settings": {
         "loop": true,
@@ -323,6 +325,7 @@
       "block_order": [
         "slide_yWDrQd"
       ],
+      "disabled": true,
       "name": "Hero Carousel",
       "settings": {
         "loop": true,
