@@ -307,7 +307,7 @@
       "settings": {
         "heading": "SHOP THE STYLE",
         "heading_color": "#111111",
-        "bg_color": "#FDF7F5",
+        "bg_color": "#fdf7f5",
         "cta_color": "#111111",
         "cta_text_color": "#ffffff",
         "padding_y": 32
@@ -374,10 +374,27 @@
         "heading": "Loved by 10,000+ customers",
         "subheading": "obsessed? same.",
         "heading_color": "#111111",
-        "bg_color": "#FDF7F5",
+        "bg_color": "#fdf7f5",
         "marquee_tag": "#WearElora",
         "marquee_speed": 30,
         "padding_y": 20
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "custom_css": [
+        ".related-products__heading {font-size: 28px;}"
+      ],
+      "settings": {
+        "heading": "Must-Have Styles",
+        "heading_size": "h1",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "enable_quick_buy": true,
+        "padding_top": 20,
+        "padding_bottom": 20
       }
     },
     "faq_page_i7d6Q3": {
@@ -436,32 +453,15 @@
       ],
       "name": "FAQ",
       "settings": {
-        "title": "Frequently Asked Questions",
+        "title": "FAQ's",
         "subtitle": "Everything you need to know about shopping at Elora Closet",
         "show_cta": false,
         "cta_title": "",
         "cta_text": "",
         "cta_button_text": "",
         "cta_link": "",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "related-products": {
-      "type": "related-products",
-      "custom_css": [
-        ".related-products__heading {font-size: 28px;}"
-      ],
-      "settings": {
-        "heading": "Must-Have Styles",
-        "heading_size": "h1",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "color_scheme": "scheme-1",
-        "enable_quick_buy": true,
         "padding_top": 20,
-        "padding_bottom": 20
+        "padding_bottom": 36
       }
     }
   },
@@ -470,7 +470,7 @@
     "trust_marquee_MqF38j",
     "watch_and_buy_GE6LtC",
     "testimonials_iJMEYW",
-    "faq_page_i7d6Q3",
-    "related-products"
+    "related-products",
+    "faq_page_i7d6Q3"
   ]
 }
