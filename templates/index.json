@@ -141,6 +141,57 @@
         "enable_quick_buy": true
       }
     },
+    "watch_and_buy_cyXECP": {
+      "type": "watch-and-buy",
+      "blocks": {
+        "reel_WNyRmx": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_BDEGM3": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_zQbn8h": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_EXWBkF": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        },
+        "reel_W8PJrQ": {
+          "type": "reel",
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "reel_WNyRmx",
+        "reel_BDEGM3",
+        "reel_zQbn8h",
+        "reel_EXWBkF",
+        "reel_W8PJrQ"
+      ],
+      "name": "Watch & Buy",
+      "settings": {
+        "heading": "Shop By Style",
+        "heading_color": "#111111",
+        "bg_color": "#fdf7f5",
+        "cta_color": "#111111",
+        "cta_text_color": "#ffffff",
+        "padding_y": 20
+      }
+    },
     "shop_by_collection_hp4q7t": {
       "type": "shop-by-collection",
       "blocks": {
@@ -364,57 +415,6 @@
         "enable_infinite_scroll": false,
         "show_view_all": true,
         "enable_quick_buy": true
-      }
-    },
-    "watch_and_buy_cyXECP": {
-      "type": "watch-and-buy",
-      "blocks": {
-        "reel_WNyRmx": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_BDEGM3": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_zQbn8h": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_EXWBkF": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_W8PJrQ": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        }
-      },
-      "block_order": [
-        "reel_WNyRmx",
-        "reel_BDEGM3",
-        "reel_zQbn8h",
-        "reel_EXWBkF",
-        "reel_W8PJrQ"
-      ],
-      "name": "Watch & Buy",
-      "settings": {
-        "heading": "Watch & Buy",
-        "heading_color": "#111111",
-        "bg_color": "#fdf7f5",
-        "cta_color": "#111111",
-        "cta_text_color": "#ffffff",
-        "padding_y": 20
       }
     },
     "testimonials_dteQgw": {
@@ -689,6 +689,7 @@
     "hero_carousel_HbU4x9",
     "category_carousel_3dcF3q",
     "collection_grid_nwgRzE",
+    "watch_and_buy_cyXECP",
     "shop_by_collection_hp4q7t",
     "hero_carousel_jmCeKb",
     "collection_grid_gabFfm",
@@ -696,7 +697,6 @@
     "collection_grid_Eg6EKF",
     "hero_carousel_C8W8LQ",
     "collection_grid_7jD3zF",
-    "watch_and_buy_cyXECP",
     "testimonials_dteQgw",
     "faq_home_elora",
     "trust_marquee_wQnNeU"
