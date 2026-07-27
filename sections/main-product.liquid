@@ -792,7 +792,7 @@
     {%- endfor -%}
 
     {%- comment -%} Size Guide Modal {%- endcomment -%}
-    {% render 'size-guide-modal', product: product, section_id: section.id %}
+    {% render 'size-guide-modal', product: product, section_id: section.id, women_image: section.settings.size_chart_image_women, men_image: section.settings.size_chart_image_men %}
 
     {%- if product.media.size > 0 -%}
       <script src="{{ 'product-modal.js' | asset_url }}" defer="defer"></script>
@@ -2568,6 +2568,24 @@
     }
   ],
   "settings": [
+    {
+      "type": "header",
+      "content": "Size guide images"
+    },
+    {
+      "type": "paragraph",
+      "content": "Shown in the Size Guide popup. Leave empty to use the theme's built-in size-chart images. The women's / men's image is chosen automatically from the product's target-gender; both show when gender is not set."
+    },
+    {
+      "type": "image_picker",
+      "id": "size_chart_image_women",
+      "label": "Women's size chart"
+    },
+    {
+      "type": "image_picker",
+      "id": "size_chart_image_men",
+      "label": "Men's size chart"
+    },
     {
       "type": "checkbox",
       "id": "enable_sticky_info",

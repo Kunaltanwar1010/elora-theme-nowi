@@ -3,6 +3,86 @@
 {{ 'component-quick-buy.css' | asset_url | stylesheet_tag }}
 {%- comment -%} quick-buy.js loaded globally in theme.liquid {%- endcomment -%}
 
+{%- liquid
+  assign is_carousel = false
+  if section.settings.layout == 'carousel'
+    assign is_carousel = true
+  endif
+  assign card_gap = settings.modern_card_gap | default: 15
+-%}
+
+{%- if is_carousel -%}
+<style>
+  /* Carousel — mirrors the collection-grid swipe design */
+  #shopify-section-{{ section.id }} .cg-carousel { position: relative; }
+  #shopify-section-{{ section.id }} .cg-track {
+    display: flex;
+    align-items: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding-bottom: 0.5rem;
+    margin: 0;
+    list-style: none;
+  }
+  #shopify-section-{{ section.id }} .cg-track::-webkit-scrollbar { display: none; }
+  #shopify-section-{{ section.id }} .cg-track > li {
+    flex: 0 0 calc((100% - (var(--cg-gap) * var(--cg-cols))) / var(--cg-cols));
+    scroll-snap-align: start;
+  }
+  #shopify-section-{{ section.id }} .cg-track.is-dragging { scroll-snap-type: none; cursor: grabbing; user-select: none; }
+  #shopify-section-{{ section.id }} .cg-arrow {
+    display: none;
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    border: none;
+    color: var(--elora-maroon, #111111);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 3;
+  }
+  #shopify-section-{{ section.id }} .cg-arrow--prev { left: -18px; }
+  #shopify-section-{{ section.id }} .cg-arrow--next { right: -18px; }
+  #shopify-section-{{ section.id }} .cg-progress {
+    position: relative;
+    width: min(90%, 360px);
+    height: 4px;
+    border-radius: 3px;
+    background: var(--elora-grey-line, #E6E1E2);
+    margin: 1.4rem auto 0;
+    overflow: hidden;
+  }
+  #shopify-section-{{ section.id }} .cg-progress[hidden] { display: none; }
+  #shopify-section-{{ section.id }} .cg-progress-bar {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 0;
+    border-radius: 3px;
+    background: var(--elora-maroon, #111111);
+    will-change: width;
+  }
+  @media (min-width: 768px) {
+    #shopify-section-{{ section.id }} .cg-track { cursor: grab; }
+    #shopify-section-{{ section.id }} .cg-track > li {
+      flex: 0 0 calc((100% - (var(--cg-gap) * (var(--cg-cols-desktop) - 1))) / var(--cg-cols-desktop));
+    }
+    #shopify-section-{{ section.id }} .cg-arrow { display: flex; }
+    /* the grid !important rule from the base section must not fight the flex track */
+    #shopify-section-{{ section.id }} .related-products .product-grid.cg-track { grid-template-columns: none !important; }
+  }
+</style>
+{%- endif -%}
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -37,10 +117,14 @@
       <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
         {{ section.settings.heading }}
       </h2>
+      {% if is_carousel %}<div class="cg-carousel">
+        <button type="button" class="cg-arrow cg-arrow--prev" aria-label="Previous">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>{% endif %}
       <ul
-        class="product-grid"
+        class="product-grid{% if is_carousel %} cg-track{% endif %}"
         role="list"
-        style="display: grid; grid-template-columns: repeat({{ section.settings.columns_mobile }}, minmax(0, 1fr)); gap: {{ settings.modern_card_gap | default: 15 }}px;"
+        style="{% if is_carousel %}--cg-cols: {{ section.settings.columns_mobile }}; --cg-cols-desktop: {{ section.settings.columns_desktop }}; --cg-gap: {{ card_gap }}px; gap: {{ card_gap }}px;{% else %}display: grid; grid-template-columns: repeat({{ section.settings.columns_mobile }}, minmax(0, 1fr)); gap: {{ card_gap }}px;{% endif %}"
       >
         {% for recommendation in recommendations.products %}
           <li>
@@ -66,6 +150,13 @@
           </li>
         {% endfor %}
       </ul>
+      {% if is_carousel %}
+        <button type="button" class="cg-arrow cg-arrow--next" aria-label="Next">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="cg-progress" role="presentation"><span class="cg-progress-bar"></span></div>
+      </div>
+      {% endif %}
     {% else %}
       <div class="related-products__loader">
         <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
@@ -81,6 +172,86 @@
     {% endif %}
   </product-recommendations>
 </div>
+
+{%- if is_carousel -%}
+<script>
+  (function () {
+    var section = document.getElementById('shopify-section-{{ section.id }}');
+    if (!section) return;
+    var host = section.querySelector('product-recommendations');
+    if (!host) return;
+    var gap = {{ card_gap }};
+
+    function initCarousel(wrap) {
+      if (!wrap || wrap.dataset.cgInit) return;
+      var track = wrap.querySelector('.cg-track');
+      if (!track) return;
+      wrap.dataset.cgInit = '1';
+
+      function step() {
+        var item = track.querySelector('li');
+        return item ? item.getBoundingClientRect().width + gap : 300;
+      }
+      var prev = wrap.querySelector('.cg-arrow--prev');
+      var next = wrap.querySelector('.cg-arrow--next');
+      prev && prev.addEventListener('click', function () {
+        if (track.scrollLeft <= 5) track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' });
+        else track.scrollBy({ left: -step(), behavior: 'smooth' });
+      });
+      next && next.addEventListener('click', function () {
+        if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 5) track.scrollTo({ left: 0, behavior: 'smooth' });
+        else track.scrollBy({ left: step(), behavior: 'smooth' });
+      });
+
+      /* click-and-drag on desktop; touch uses native scroll */
+      var down = false, startX = 0, startScroll = 0, moved = false;
+      track.addEventListener('pointerdown', function (e) {
+        if (e.pointerType !== 'mouse') return;
+        down = true; moved = false; startX = e.clientX; startScroll = track.scrollLeft;
+        track.classList.add('is-dragging');
+      });
+      track.addEventListener('pointermove', function (e) {
+        if (!down) return;
+        var dx = e.clientX - startX;
+        if (Math.abs(dx) > 3) moved = true;
+        track.scrollLeft = startScroll - dx;
+      });
+      ['pointerup', 'pointerleave', 'pointercancel'].forEach(function (ev) {
+        track.addEventListener(ev, function () { down = false; track.classList.remove('is-dragging'); });
+      });
+      track.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+
+      /* swipe progress bar */
+      var progress = wrap.querySelector('.cg-progress');
+      var bar = progress && progress.querySelector('.cg-progress-bar');
+      var raf;
+      function syncProgress() {
+        var max = track.scrollWidth - track.clientWidth;
+        if (max < 5) { progress.hidden = true; return; }
+        progress.hidden = false;
+        bar.style.width = (track.scrollLeft / max) * 100 + '%';
+      }
+      if (bar) {
+        track.addEventListener('scroll', function () {
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(syncProgress);
+        }, { passive: true });
+        window.addEventListener('resize', syncProgress, { passive: true });
+        syncProgress();
+      }
+    }
+
+    /* recommendations load asynchronously, so watch for the carousel to appear */
+    var existing = host.querySelector('.cg-carousel');
+    if (existing) { initCarousel(existing); return; }
+    var obs = new MutationObserver(function () {
+      var wrap = host.querySelector('.cg-carousel');
+      if (wrap) { obs.disconnect(); initCarousel(wrap); }
+    });
+    obs.observe(host, { childList: true, subtree: true });
+  })();
+</script>
+{%- endif -%}
 
 {% schema %}
 {
@@ -159,6 +330,17 @@
           "label": "t:sections.related-products.settings.columns_mobile.options__2.label"
         }
       ]
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "grid", "label": "Grid" },
+        { "value": "carousel", "label": "Carousel (swipe + arrows)" }
+      ],
+      "default": "grid",
+      "info": "Carousel shows one swipeable row with arrows, matching the collection grid carousel."
     },
     {
       "type": "color_scheme",
