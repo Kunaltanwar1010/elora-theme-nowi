@@ -182,6 +182,9 @@
         "reel_EXWBkF",
         "reel_W8PJrQ"
       ],
+      "custom_css": [
+        ".wnb__heading{font-size: 28px;}"
+      ],
       "name": "Watch & Buy",
       "settings": {
         "heading": "Shop By Style",
