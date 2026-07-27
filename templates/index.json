@@ -11,6 +11,7 @@
   "sections": {
     "social_proof_bar_ApmVwH": {
       "type": "social-proof-bar",
+      "disabled": true,
       "name": "Social Proof Bar",
       "settings": {
         "show_bar": true,
@@ -22,47 +23,6 @@
         "text_color": "#ffffff",
         "text_size": 13,
         "padding_y": 8
-      }
-    },
-    "hero_carousel_HbU4x9": {
-      "type": "hero-carousel",
-      "blocks": {
-        "slide_a4QczP": {
-          "type": "slide",
-          "settings": {
-            "media_type": "image",
-            "desktop_image": "shopify://shop_images/2.png",
-            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
-            "cta_link": "shopify://collections",
-            "background_color": "#fefafa"
-          }
-        },
-        "slide_M7P87w": {
-          "type": "slide",
-          "settings": {
-            "media_type": "image",
-            "desktop_image": "shopify://shop_images/1_79d2253d-4da0-4bcf-bdf5-bbbe5430e12b.png",
-            "mobile_image": "shopify://shop_images/1_9ef0f5a5-c4b6-47f5-aaf9-3660b489e925.png",
-            "cta_link": "shopify://collections",
-            "background_color": "#fefafa"
-          }
-        }
-      },
-      "block_order": [
-        "slide_a4QczP",
-        "slide_M7P87w"
-      ],
-      "name": "Hero Carousel",
-      "settings": {
-        "loop": true,
-        "autoplay_delay": 5000,
-        "transition_effect": "fade",
-        "transition_speed": 800,
-        "show_arrows": true,
-        "show_dots": false,
-        "adapt_to_image": true,
-        "hero_height_desktop": 70,
-        "hero_height_mobile": 50
       }
     },
     "category_carousel_3dcF3q": {
@@ -112,6 +72,47 @@
         "bubble_color": "#fefafa",
         "label_color": "#000000",
         "subtitle_color": "#111111"
+      }
+    },
+    "hero_carousel_HbU4x9": {
+      "type": "hero-carousel",
+      "blocks": {
+        "slide_a4QczP": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "desktop_image": "shopify://shop_images/2.png",
+            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
+            "cta_link": "shopify://collections",
+            "background_color": "#fefafa"
+          }
+        },
+        "slide_M7P87w": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "desktop_image": "shopify://shop_images/1_79d2253d-4da0-4bcf-bdf5-bbbe5430e12b.png",
+            "mobile_image": "shopify://shop_images/1_9ef0f5a5-c4b6-47f5-aaf9-3660b489e925.png",
+            "cta_link": "shopify://collections",
+            "background_color": "#fefafa"
+          }
+        }
+      },
+      "block_order": [
+        "slide_a4QczP",
+        "slide_M7P87w"
+      ],
+      "name": "Hero Carousel",
+      "settings": {
+        "loop": true,
+        "autoplay_delay": 5000,
+        "transition_effect": "fade",
+        "transition_speed": 800,
+        "show_arrows": true,
+        "show_dots": false,
+        "adapt_to_image": true,
+        "hero_height_desktop": 70,
+        "hero_height_mobile": 50
       }
     },
     "collection_grid_nwgRzE": {
@@ -183,7 +184,7 @@
         "reel_W8PJrQ"
       ],
       "custom_css": [
-        ".wnb__heading{font-size: 28px;}"
+        ".wnb__heading {font-size: 28px;}"
       ],
       "name": "Watch & Buy",
       "settings": {
@@ -273,149 +274,29 @@
         "padding_y": 20
       }
     },
-    "hero_carousel_jmCeKb": {
-      "type": "hero-carousel",
-      "blocks": {
-        "slide_eNhcFG": {
-          "type": "slide",
-          "settings": {
-            "media_type": "image",
-            "desktop_image": "shopify://shop_images/2.png",
-            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
-            "cta_link": "",
-            "background_color": "#fefafa"
-          }
-        }
-      },
-      "block_order": [
-        "slide_eNhcFG"
-      ],
-      "disabled": true,
-      "name": "Hero Carousel",
-      "settings": {
-        "loop": true,
-        "autoplay_delay": 5000,
-        "transition_effect": "fade",
-        "transition_speed": 800,
-        "show_arrows": true,
-        "show_dots": true,
-        "adapt_to_image": true,
-        "hero_height_desktop": 70,
-        "hero_height_mobile": 50
-      }
-    },
-    "hero_carousel_nMWYUX": {
-      "type": "hero-carousel",
-      "blocks": {
-        "slide_UG6ppR": {
-          "type": "slide",
-          "settings": {
-            "media_type": "image",
-            "desktop_image": "shopify://shop_images/2.png",
-            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
-            "cta_link": "",
-            "background_color": "#fefafa"
-          }
-        }
-      },
-      "block_order": [
-        "slide_UG6ppR"
-      ],
-      "disabled": true,
-      "name": "Hero Carousel",
-      "settings": {
-        "loop": true,
-        "autoplay_delay": 5500,
-        "transition_effect": "fade",
-        "transition_speed": 800,
-        "show_arrows": true,
-        "show_dots": true,
-        "adapt_to_image": true,
-        "hero_height_desktop": 70,
-        "hero_height_mobile": 50
-      }
-    },
-    "collection_grid_Eg6EKF": {
+    "collection_grid_aQCBn9": {
       "type": "collection-grid",
       "name": "Collection Grid",
       "settings": {
-        "collection": "dresses",
-        "layout": "grid",
+        "collection": "shop-the-sale",
+        "layout": "carousel",
         "show_layout_toggle": false,
-        "show_product_count": false,
+        "show_product_count": true,
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
-        "custom_title": "Dresses",
+        "custom_title": "Shop The Sale",
         "heading_font_size": 28,
         "heading_font_weight": "700",
         "heading_text_transform": "",
-        "heading_alignment": "text-left",
+        "heading_alignment": "text-center",
         "heading_color": "#111111",
         "show_collection_description": false,
-        "products_to_show": 4,
+        "products_to_show": 50,
         "columns_mobile": 2,
         "columns_desktop": 4,
-        "enable_pagination": false,
-        "enable_infinite_scroll": false,
-        "show_view_all": true,
-        "enable_quick_buy": true
-      }
-    },
-    "hero_carousel_C8W8LQ": {
-      "type": "hero-carousel",
-      "blocks": {
-        "slide_yWDrQd": {
-          "type": "slide",
-          "settings": {
-            "media_type": "image",
-            "desktop_image": "shopify://shop_images/2.png",
-            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
-            "cta_link": "",
-            "background_color": "#fefafa"
-          }
-        }
-      },
-      "block_order": [
-        "slide_yWDrQd"
-      ],
-      "disabled": true,
-      "name": "Hero Carousel",
-      "settings": {
-        "loop": true,
-        "autoplay_delay": 5000,
-        "transition_effect": "fade",
-        "transition_speed": 800,
-        "show_arrows": true,
-        "show_dots": true,
-        "adapt_to_image": true,
-        "hero_height_desktop": 70,
-        "hero_height_mobile": 50
-      }
-    },
-    "collection_grid_7jD3zF": {
-      "type": "collection-grid",
-      "name": "Collection Grid",
-      "settings": {
-        "collection": "co-ords",
-        "layout": "grid",
-        "show_layout_toggle": false,
-        "show_product_count": false,
-        "padding_top": 20,
-        "padding_bottom": 20,
-        "show_collection_title": true,
-        "custom_title": "Co-ords",
-        "heading_font_size": 28,
-        "heading_font_weight": "700",
-        "heading_text_transform": "",
-        "heading_alignment": "text-left",
-        "heading_color": "#111111",
-        "show_collection_description": false,
-        "products_to_show": 4,
-        "columns_mobile": 2,
-        "columns_desktop": 4,
-        "enable_pagination": false,
-        "enable_infinite_scroll": false,
+        "enable_pagination": true,
+        "enable_infinite_scroll": true,
         "show_view_all": true,
         "enable_quick_buy": true
       }
@@ -593,115 +474,18 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "trust_marquee_wQnNeU": {
-      "type": "trust-marquee",
-      "blocks": {
-        "badge_f8EYgG": {
-          "type": "badge",
-          "settings": {
-            "icon_key": "free_shipping",
-            "label": "Free Shipping",
-            "sublabel": "On all orders"
-          }
-        },
-        "badge_8yzgf9": {
-          "type": "badge",
-          "settings": {
-            "icon_key": "cod",
-            "label": "Cash on Delivery",
-            "sublabel": ""
-          }
-        },
-        "badge_k6wnCe": {
-          "type": "badge",
-          "settings": {
-            "icon_key": "exchange",
-            "label": "Easy 5-Day Exchange",
-            "sublabel": ""
-          }
-        },
-        "badge_JCxtBW": {
-          "type": "badge",
-          "settings": {
-            "icon_key": "secure_payment",
-            "label": "Secure Payments",
-            "sublabel": ""
-          }
-        },
-        "badge_WLe4gL": {
-          "type": "badge",
-          "settings": {
-            "icon_key": "quality",
-            "label": "Quality Checked",
-            "sublabel": ""
-          }
-        },
-        "badge_dtwxHa": {
-          "type": "badge",
-          "settings": {
-            "icon_key": "made_in_india",
-            "label": "Made in India",
-            "sublabel": ""
-          }
-        },
-        "badge_7zGtXd": {
-          "type": "badge",
-          "settings": {
-            "icon_key": "support",
-            "label": "24x7 Support",
-            "sublabel": ""
-          }
-        },
-        "badge_3aap4M": {
-          "type": "badge",
-          "settings": {
-            "icon_key": "original",
-            "label": "100% Original",
-            "sublabel": ""
-          }
-        }
-      },
-      "block_order": [
-        "badge_f8EYgG",
-        "badge_8yzgf9",
-        "badge_k6wnCe",
-        "badge_JCxtBW",
-        "badge_WLe4gL",
-        "badge_dtwxHa",
-        "badge_7zGtXd",
-        "badge_3aap4M"
-      ],
-      "disabled": true,
-      "name": "Trust Marquee",
-      "settings": {
-        "direction": "ltr",
-        "speed": 100,
-        "pause_on_hover": true,
-        "bg_color": "#111111",
-        "icon_color": "#ffffff",
-        "text_color": "#ffffff",
-        "icon_size": 28,
-        "gap": 48,
-        "padding_y": 14
-      }
     }
   },
   "order": [
     "social_proof_bar_ApmVwH",
-    "hero_carousel_HbU4x9",
     "category_carousel_3dcF3q",
+    "hero_carousel_HbU4x9",
     "collection_grid_nwgRzE",
     "watch_and_buy_cyXECP",
     "collection_grid_gabFfm",
     "shop_by_collection_hp4q7t",
-    "hero_carousel_jmCeKb",
-    "hero_carousel_nMWYUX",
-    "collection_grid_Eg6EKF",
-    "hero_carousel_C8W8LQ",
-    "collection_grid_7jD3zF",
+    "collection_grid_aQCBn9",
     "testimonials_dteQgw",
-    "faq_home_elora",
-    "trust_marquee_wQnNeU"
+    "faq_home_elora"
   ]
 }
