@@ -192,6 +192,33 @@
         "padding_y": 20
       }
     },
+    "collection_grid_gabFfm": {
+      "type": "collection-grid",
+      "name": "Collection Grid",
+      "settings": {
+        "collection": "tops",
+        "layout": "carousel",
+        "show_layout_toggle": false,
+        "show_product_count": true,
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "show_collection_title": true,
+        "custom_title": "New In",
+        "heading_font_size": 28,
+        "heading_font_weight": "700",
+        "heading_text_transform": "",
+        "heading_alignment": "text-center",
+        "heading_color": "#111111",
+        "show_collection_description": false,
+        "products_to_show": 50,
+        "columns_mobile": 2,
+        "columns_desktop": 4,
+        "enable_pagination": true,
+        "enable_infinite_scroll": true,
+        "show_view_all": true,
+        "enable_quick_buy": true
+      }
+    },
     "shop_by_collection_hp4q7t": {
       "type": "shop-by-collection",
       "blocks": {
@@ -272,33 +299,6 @@
         "adapt_to_image": true,
         "hero_height_desktop": 70,
         "hero_height_mobile": 50
-      }
-    },
-    "collection_grid_gabFfm": {
-      "type": "collection-grid",
-      "name": "Collection Grid",
-      "settings": {
-        "collection": "tops",
-        "layout": "grid",
-        "show_layout_toggle": false,
-        "show_product_count": false,
-        "padding_top": 20,
-        "padding_bottom": 20,
-        "show_collection_title": true,
-        "custom_title": "Tops",
-        "heading_font_size": 28,
-        "heading_font_weight": "700",
-        "heading_text_transform": "",
-        "heading_alignment": "text-center",
-        "heading_color": "#111111",
-        "show_collection_description": false,
-        "products_to_show": 4,
-        "columns_mobile": 2,
-        "columns_desktop": 4,
-        "enable_pagination": false,
-        "enable_infinite_scroll": false,
-        "show_view_all": true,
-        "enable_quick_buy": true
       }
     },
     "hero_carousel_nMWYUX": {
@@ -690,9 +690,9 @@
     "category_carousel_3dcF3q",
     "collection_grid_nwgRzE",
     "watch_and_buy_cyXECP",
+    "collection_grid_gabFfm",
     "shop_by_collection_hp4q7t",
     "hero_carousel_jmCeKb",
-    "collection_grid_gabFfm",
     "hero_carousel_nMWYUX",
     "collection_grid_Eg6EKF",
     "hero_carousel_C8W8LQ",
