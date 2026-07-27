@@ -105,6 +105,16 @@
   margin-top: 1.2rem;
 }
 
+.delivery-info__result {
+  margin-top: 1rem;
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+
+.delivery-info__result[hidden] {
+  display: none;
+}
+
 .delivery-info__item {
   display: flex;
   align-items: flex-start;

@@ -60,12 +60,24 @@
         <div class="size-guide-modal__divider"></div>
       {%- endif -%}
 
+      {%- liquid
+        if women_image != blank
+          assign women_src = women_image | image_url: width: 800
+        else
+          assign women_src = 'size-chart-women.webp' | asset_url
+        endif
+        if men_image != blank
+          assign men_src = men_image | image_url: width: 800
+        else
+          assign men_src = 'size-chart-men.webp' | asset_url
+        endif
+      -%}
       {%- if show_both -%}
         <div class="size-guide-modal__image-wrapper">
           <div class="size-guide-modal__section">
             <h3 class="size-guide-modal__subtitle">Women's Measuring Guide</h3>
             <img
-              src="{{ 'size-chart-women.webp' | asset_url }}"
+              src="{{ women_src }}"
               alt="Women's Size Guide"
               loading="lazy"
               width="800"
@@ -76,7 +88,7 @@
           <div class="size-guide-modal__section">
             <h3 class="size-guide-modal__subtitle">Men's Measuring Guide</h3>
             <img
-              src="{{ 'size-chart-men.webp' | asset_url }}"
+              src="{{ men_src }}"
               alt="Men's Size Guide"
               loading="lazy"
               width="800"
@@ -86,11 +98,15 @@
           </div>
         </div>
       {%- else -%}
-        {%- assign size_chart_image = 'size-chart-' | append: gender | append: '.webp' -%}
+        {%- if gender == 'men' -%}
+          {%- assign size_chart_src = men_src -%}
+        {%- else -%}
+          {%- assign size_chart_src = women_src -%}
+        {%- endif -%}
         <div class="size-guide-modal__image-wrapper">
           <h3 class="size-guide-modal__subtitle">How to Measure</h3>
           <img
-            src="{{ size_chart_image | asset_url }}"
+            src="{{ size_chart_src }}"
             alt="Size Guide for {{ gender | capitalize }}"
             loading="lazy"
             width="800"
