@@ -55,7 +55,7 @@
             "swatch_shape": "circle",
             "show_size_guide": true,
             "size_guide_label": "Size Guide",
-            "size_chart_image_women": "shopify://shop_images/WhatsApp_Image_2026-07-27_at_15.45.30.jpg"
+            "size_chart_image": "shopify://shop_images/WhatsApp_Image_2026-07-27_at_15.45.30.jpg"
           }
         },
         "quantity_selector": {
