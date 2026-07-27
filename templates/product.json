@@ -380,23 +380,6 @@
         "padding_y": 20
       }
     },
-    "related-products": {
-      "type": "related-products",
-      "custom_css": [
-        ".related-products__heading {font-size: 28px;}"
-      ],
-      "settings": {
-        "heading": "Must-Have Styles",
-        "heading_size": "h1",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "color_scheme": "scheme-1",
-        "enable_quick_buy": true,
-        "padding_top": 20,
-        "padding_bottom": 20
-      }
-    },
     "faq_page_i7d6Q3": {
       "type": "faq-page",
       "blocks": {
@@ -456,12 +439,29 @@
         "title": "Frequently Asked Questions",
         "subtitle": "Everything you need to know about shopping at Elora Closet",
         "show_cta": false,
-        "cta_title": "Still have questions?",
-        "cta_text": "We're here to help! Reach out to our friendly support team.",
-        "cta_button_text": "Contact Support",
-        "cta_link": "/pages/contact",
+        "cta_title": "",
+        "cta_text": "",
+        "cta_button_text": "",
+        "cta_link": "",
         "padding_top": 36,
         "padding_bottom": 36
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "custom_css": [
+        ".related-products__heading {font-size: 28px;}"
+      ],
+      "settings": {
+        "heading": "Must-Have Styles",
+        "heading_size": "h1",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "enable_quick_buy": true,
+        "padding_top": 20,
+        "padding_bottom": 20
       }
     }
   },
