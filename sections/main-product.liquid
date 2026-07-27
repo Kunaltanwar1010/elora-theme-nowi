@@ -793,17 +793,15 @@
 
     {%- comment -%} Size Guide Modal {%- endcomment -%}
     {%- liquid
-      assign sg_women_image = null
-      assign sg_men_image = null
+      assign sg_image = null
       for sg_block in section.blocks
         if sg_block.type == 'variant_picker'
-          assign sg_women_image = sg_block.settings.size_chart_image_women
-          assign sg_men_image = sg_block.settings.size_chart_image_men
+          assign sg_image = sg_block.settings.size_chart_image
           break
         endif
       endfor
     -%}
-    {% render 'size-guide-modal', product: product, section_id: section.id, women_image: sg_women_image, men_image: sg_men_image %}
+    {% render 'size-guide-modal', product: product, section_id: section.id, size_chart_image: sg_image %}
 
     {%- if product.media.size > 0 -%}
       <script src="{{ 'product-modal.js' | asset_url }}" defer="defer"></script>
@@ -1249,17 +1247,12 @@
         },
         {
           "type": "paragraph",
-          "content": "Size chart images shown in the popup. Leave empty to use the theme's built-in images. Women's / men's is chosen from the product's target-gender; both show when gender is not set."
+          "content": "Size chart image shown in the popup. Leave empty to use the theme's built-in image."
         },
         {
           "type": "image_picker",
-          "id": "size_chart_image_women",
-          "label": "Women's size chart"
-        },
-        {
-          "type": "image_picker",
-          "id": "size_chart_image_men",
-          "label": "Men's size chart"
+          "id": "size_chart_image",
+          "label": "Size chart image"
         }
       ]
     },
