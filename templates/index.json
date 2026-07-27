@@ -502,7 +502,7 @@
         "instafeed_app_block_3TDziY"
       ],
       "settings": {
-        "include_margins": true
+        "include_margins": false
       }
     }
   },
