@@ -271,7 +271,7 @@
       "name": "Hero Carousel",
       "settings": {
         "loop": true,
-        "autoplay_delay": 5000,
+        "autoplay_delay": 5500,
         "transition_effect": "fade",
         "transition_speed": 800,
         "show_arrows": true,
