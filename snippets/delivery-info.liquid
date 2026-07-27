@@ -63,6 +63,9 @@
     </button>
   </div>
 
+  {%- comment -%} Result line — always shown after a check, independent of COD {%- endcomment -%}
+  <div class="delivery-info__result" id="delivery-result-{{ block.id }}" hidden></div>
+
   {%- comment -%} Delivery Details {%- endcomment -%}
   <div class="delivery-info__details">
     {%- comment -%} Free Delivery Info {%- endcomment -%}
@@ -151,6 +154,18 @@
       // You can integrate with actual COD check API here
       if (codMessageEl) {
         codMessageEl.innerHTML = '<strong style=\"color: #2F7A55;\">{{ block.settings.cod_available_text | default: 'Cash on Delivery available' | escape }}</strong> for this pincode';
+      }
+
+      // Always show a visible delivery estimate (works even when COD line is hidden)
+      const resultEl = document.getElementById('delivery-result-{{ block.id }}');
+      if (resultEl) {
+        const fmt = (n) => {
+          const d = new Date();
+          d.setDate(d.getDate() + n);
+          return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+        };
+        resultEl.innerHTML = '<strong style=\"color:#2F7A55;\">Delivery to ' + pincode + ':</strong> ' + fmt({{ min_delivery_days }}) + ' – ' + fmt({{ max_delivery_days }});
+        resultEl.hidden = false;
       }
 
       // Restore button state
