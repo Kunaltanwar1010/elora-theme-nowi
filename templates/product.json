@@ -388,9 +388,10 @@
       "settings": {
         "heading": "Must-Have Styles",
         "heading_size": "h1",
-        "products_to_show": 8,
-        "columns_desktop": 4,
+        "products_to_show": 10,
+        "columns_desktop": 6,
         "columns_mobile": "2",
+        "layout": "carousel",
         "color_scheme": "scheme-1",
         "enable_quick_buy": true,
         "padding_top": 20,
