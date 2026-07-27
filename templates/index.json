@@ -147,6 +147,7 @@
         "card_DDALTE": {
           "type": "card",
           "settings": {
+            "show_card": true,
             "collection": "tops",
             "label": "",
             "link": ""
@@ -155,6 +156,7 @@
         "card_frwytk": {
           "type": "card",
           "settings": {
+            "show_card": true,
             "collection": "dresses",
             "label": "Dresses",
             "link": ""
@@ -163,6 +165,7 @@
         "card_LH894U": {
           "type": "card",
           "settings": {
+            "show_card": true,
             "collection": "co-ords",
             "label": "Co-ords",
             "link": ""
@@ -181,6 +184,9 @@
       "settings": {
         "heading": "Shop by Collection",
         "heading_color": "#111111",
+        "layout": "carousel",
+        "mobile_columns": "2",
+        "card_ratio": "3 / 4",
         "desktop_columns": 3,
         "corner_radius": 16,
         "padding_y": 20
@@ -221,6 +227,9 @@
       "name": "Collection Grid",
       "settings": {
         "collection": "tops",
+        "layout": "grid",
+        "show_layout_toggle": false,
+        "show_product_count": false,
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
@@ -275,6 +284,9 @@
       "name": "Collection Grid",
       "settings": {
         "collection": "dresses",
+        "layout": "grid",
+        "show_layout_toggle": false,
+        "show_product_count": false,
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
@@ -329,6 +341,9 @@
       "name": "Collection Grid",
       "settings": {
         "collection": "co-ords",
+        "layout": "grid",
+        "show_layout_toggle": false,
+        "show_product_count": false,
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
@@ -506,6 +521,73 @@
         "padding_y": 48
       }
     },
+    "faq_home_elora": {
+      "type": "faq-page",
+      "blocks": {
+        "faq_choose_size": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I choose the right size?",
+            "answer": "<p>We recommend checking our Size Guide available on every product page before placing your order. If you’re between sizes or need help, feel free to contact us on WhatsApp—we’ll be happy to assist you.</p>"
+          }
+        },
+        "faq_doesnt_fit": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What if the outfit doesn't fit me?",
+            "answer": "<p>No worries! We offer easy size exchanges for eligible products. Simply raise an exchange request within the specified time after delivery, and we'll guide you through the process.</p>"
+          }
+        },
+        "faq_shipping_time": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>We process all orders within 1–2 business days. Delivery usually takes 3–7 business days, depending on your location. You'll receive a tracking link once your order is shipped.</p>"
+          }
+        },
+        "faq_track_order": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How can I track my order?",
+            "answer": "<p>Once your order is shipped, we'll send you a tracking link via SMS, WhatsApp, or email. You can use it to check the real-time status of your shipment.</p>"
+          }
+        },
+        "faq_exchange": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I exchange my order?",
+            "answer": "<p>Yes, we offer easy size exchanges on eligible products. You can request an exchange within 7 days of delivery, provided the item is unused, unwashed, and has all original tags attached.</p>"
+          }
+        },
+        "faq_contact": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How can I contact Elora Closet?",
+            "answer": "<p>You can reach us via WhatsApp, email, or Instagram DM. Our customer support team is available to help with sizing, orders, exchanges, or any other queries.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_choose_size",
+        "faq_doesnt_fit",
+        "faq_shipping_time",
+        "faq_track_order",
+        "faq_exchange",
+        "faq_contact"
+      ],
+      "name": "FAQ",
+      "settings": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Everything you need to know about shopping at Elora Closet",
+        "show_cta": false,
+        "cta_title": "Still have questions?",
+        "cta_text": "We're here to help! Reach out to our friendly support team.",
+        "cta_button_text": "Contact Support",
+        "cta_link": "/pages/contact",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "trust_marquee_wQnNeU": {
       "type": "trust-marquee",
       "blocks": {
@@ -584,6 +666,7 @@
         "badge_7zGtXd",
         "badge_3aap4M"
       ],
+      "disabled": true,
       "name": "Trust Marquee",
       "settings": {
         "direction": "ltr",
@@ -595,93 +678,6 @@
         "icon_size": 28,
         "gap": 48,
         "padding_y": 14
-      }
-    },
-    "faq_home_elora": {
-      "type": "faq-page",
-      "blocks": {
-        "category_sizing": {
-          "type": "category",
-          "settings": { "title": "Sizing & Fit" }
-        },
-        "faq_choose_size": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How do I choose the right size?",
-            "answer": "<p>We recommend checking our Size Guide available on every product page before placing your order. If you're between sizes or need help, feel free to contact us on WhatsApp—we'll be happy to assist you.</p>"
-          }
-        },
-        "faq_doesnt_fit": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What if the outfit doesn't fit me?",
-            "answer": "<p>No worries! We offer easy size exchanges for eligible products. Simply raise an exchange request within the specified time after delivery, and we'll guide you through the process.</p>"
-          }
-        },
-        "category_shipping": {
-          "type": "category",
-          "settings": { "title": "Shipping & Delivery" }
-        },
-        "faq_shipping_time": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How long does shipping take?",
-            "answer": "<p>We process all orders within 1–2 business days. Delivery usually takes 3–7 business days, depending on your location. You'll receive a tracking link once your order is shipped.</p>"
-          }
-        },
-        "faq_track_order": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How can I track my order?",
-            "answer": "<p>Once your order is shipped, we'll send you a tracking link via SMS, WhatsApp, or email. You can use it to check the real-time status of your shipment.</p>"
-          }
-        },
-        "category_returns": {
-          "type": "category",
-          "settings": { "title": "Returns & Exchanges" }
-        },
-        "faq_exchange": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Can I exchange my order?",
-            "answer": "<p>Yes, we offer easy size exchanges on eligible products. You can request an exchange within 7 days of delivery, provided the item is unused, unwashed, and has all original tags attached.</p>"
-          }
-        },
-        "category_contact": {
-          "type": "category",
-          "settings": { "title": "Contact Us" }
-        },
-        "faq_contact": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How can I contact Elora Closet?",
-            "answer": "<p>You can reach us via WhatsApp, email, or Instagram DM. Our customer support team is available to help with sizing, orders, exchanges, or any other queries.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "category_sizing",
-        "faq_choose_size",
-        "faq_doesnt_fit",
-        "category_shipping",
-        "faq_shipping_time",
-        "faq_track_order",
-        "category_returns",
-        "faq_exchange",
-        "category_contact",
-        "faq_contact"
-      ],
-      "name": "FAQ",
-      "settings": {
-        "title": "Frequently Asked Questions",
-        "subtitle": "Everything you need to know about shopping at Elora Closet",
-        "show_cta": true,
-        "cta_title": "Still have questions?",
-        "cta_text": "We're here to help! Reach out to our friendly support team.",
-        "cta_button_text": "Contact Support",
-        "cta_link": "/pages/contact",
-        "padding_top": 36,
-        "padding_bottom": 36
       }
     }
   },

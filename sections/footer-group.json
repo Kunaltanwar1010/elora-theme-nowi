@@ -40,7 +40,7 @@
         "bg_color": "#343434",
         "text_color": "#ffffff",
         "rule_color": "#ffffff",
-        "columns": 4,
+        "columns": 2,
         "copyright": "Elora Clocset",
         "heading_font_size": 16,
         "link_font_size": 13,
