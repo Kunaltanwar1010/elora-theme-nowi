@@ -113,21 +113,32 @@
     padding-bottom: 12px;
   }
 
-  /* Social Icons - dark glyph on white circle (visible on the black footer) */
+  /* Social icons — one centered row, same on mobile and desktop */
+  .footer-branded-{{ section.id }} .footer-social {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: {{ section.settings.social_icon_gap }}px;
+  }
+
   .footer-branded-{{ section.id }} .social-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    color: {{ section.settings.text_color }};
+    {%- if section.settings.social_icon_style == 'circle' %}
+    width: {{ section.settings.social_icon_size | plus: 20 }}px;
+    height: {{ section.settings.social_icon_size | plus: 20 }}px;
     background: {{ section.settings.accent_color }};
+    color: {{ section.settings.bg_color }};
     border-radius: 50%;
+    {%- endif %}
   }
 
   .footer-branded-{{ section.id }} .social-icon svg {
-    width: 20px;
-    height: 20px;
-    fill: {{ section.settings.bg_color }};
+    width: {{ section.settings.social_icon_size }}px;
+    height: {{ section.settings.social_icon_size }}px;
   }
 
   .footer-branded-{{ section.id }} .social-icon:hover {
@@ -183,17 +194,6 @@
     color: {{ section.settings.accent_color }};
   }
 
-  /* Social icons - show in brand column, hide in bottom bar */
-  .footer-branded-{{ section.id }} .footer-bottom-social {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-  }
-
-  /* Always hide social icons in bottom bar (only shown in brand column) */
-  .footer-branded-{{ section.id }} .footer-bottom-content .footer-bottom-social {
-    display: none;
-  }
 </style>
 
 <footer class="footer-branded-{{ section.id }}">
