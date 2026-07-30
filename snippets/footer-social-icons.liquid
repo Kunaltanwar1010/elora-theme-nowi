@@ -1,0 +1,36 @@
+{% comment %}
+  Footer social icons.
+
+  Renders one link per network that has a URL. Each network reads its section setting
+  first (`social_twitter`, `social_facebook`, …) and falls back to the global
+  Theme settings > Social media links, so filling in either one is enough.
+
+  Icons come from the theme's existing assets/icon-<network>.svg, which are all
+  fill="currentColor" — colour is set by `color` on the link.
+{% endcomment %}
+
+{%- liquid
+  assign networks = 'twitter,facebook,pinterest,instagram,youtube,tiktok,snapchat' | split: ','
+-%}
+
+<div class="footer-social">
+  {%- for network in networks -%}
+    {%- liquid
+      assign section_key = 'social_' | append: network
+      assign global_key = 'social_' | append: network | append: '_link'
+      assign url = section.settings[section_key] | default: settings[global_key]
+      assign icon = 'icon-' | append: network | append: '.svg'
+    -%}
+    {%- if url != blank -%}
+      <a
+        href="{{ url }}"
+        class="social-icon"
+        target="_blank"
+        rel="noopener"
+        aria-label="{{ network | capitalize }}"
+      >
+        {{- icon | inline_asset_content -}}
+      </a>
+    {%- endif -%}
+  {%- endfor -%}
+</div>
