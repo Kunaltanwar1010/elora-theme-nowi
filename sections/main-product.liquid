@@ -545,6 +545,36 @@
                     show_current: block.settings.show_current
                   %}
                 </div>
+              {%- when 'trust_icons' -%}
+                <div
+                  class="pdp-trust"
+                  style="--pdp-trust-icon-height: {{ block.settings.icon_height }}px; --pdp-trust-font-size: {{ block.settings.label_font_size }}px; --pdp-trust-gap: {{ block.settings.column_gap }}px;"
+                  {{ block.shopify_attributes }}
+                >
+                  {%- for i in (1..4) -%}
+                    {%- liquid
+                      assign image_key = 'icon_' | append: i | append: '_image'
+                      assign url_key = 'icon_' | append: i | append: '_url'
+                      assign label_key = 'icon_' | append: i | append: '_label'
+                      assign image = block.settings[image_key]
+                      assign image_url = block.settings[url_key]
+                      assign label = block.settings[label_key]
+                    -%}
+                    {%- if image != blank or image_url != blank -%}
+                      <div class="pdp-trust__item">
+                        <img
+                          src="{% if image != blank %}{{ image | image_url: width: 240 }}{% else %}{{ image_url }}{% endif %}"
+                          alt="{{ label | escape }}"
+                          loading="lazy"
+                          class="pdp-trust__icon"
+                        >
+                        {%- if label != blank -%}
+                          <span class="pdp-trust__label">{{ label }}</span>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
               {%- when 'buy_buttons' -%}
                 {%- render 'buy-buttons',
                   block: block,
