@@ -1016,6 +1016,16 @@
                 if (razorpayBtn) razorpayBtn.click();
               });
             }
+
+            // Only show the sticky bar once the inline buttons have scrolled out of view.
+            {%- if section.settings.sticky_bar_after_buttons %}
+            if ('IntersectionObserver' in window) {
+              fixedContainer.classList.add('is-hidden');
+              new IntersectionObserver(function (entries) {
+                fixedContainer.classList.toggle('is-hidden', entries[0].isIntersecting);
+              }, { threshold: 0 }).observe(originalButtons);
+            }
+            {%- endif %}
             return;
           } else {
             return;
