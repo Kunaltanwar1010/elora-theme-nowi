@@ -67,6 +67,14 @@
             "show_gift_card_recipient": false
           }
         },
+        "trust_icons": {
+          "type": "trust_icons",
+          "settings": {
+            "icon_height": 64,
+            "label_font_size": 13,
+            "column_gap": 12
+          }
+        },
         "delivery_info": {
           "type": "delivery_info",
           "settings": {
@@ -130,6 +138,7 @@
         "variant_picker",
         "quantity_selector",
         "buy_buttons",
+        "trust_icons",
         "delivery_info",
         "delivery_eta_timeline",
         "desc_accordion",
