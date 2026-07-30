@@ -53,6 +53,36 @@
     opacity: 0.85;
     line-height: 1.7;
   }
+  /* Social icons — one centered row, same on mobile and desktop */
+  #shopify-section-{{ section.id }} .footer-social {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: {{ section.settings.social_icon_gap }}px;
+    margin-top: {{ section.settings.social_gap_top }}px;
+  }
+  #shopify-section-{{ section.id }} .social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: {{ section.settings.text_color }};
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+    {%- if section.settings.social_icon_style == 'circle' %}
+    width: {{ section.settings.social_icon_size | plus: 20 }}px;
+    height: {{ section.settings.social_icon_size | plus: 20 }}px;
+    background: {{ section.settings.text_color }};
+    color: {{ section.settings.bg_color }};
+    border-radius: 50%;
+    {%- endif %}
+  }
+  #shopify-section-{{ section.id }} .social-icon svg {
+    width: {{ section.settings.social_icon_size }}px;
+    height: {{ section.settings.social_icon_size }}px;
+  }
+  #shopify-section-{{ section.id }} .social-icon:hover { opacity: 1; }
+
   #shopify-section-{{ section.id }} .fmin__bottom {
     display: flex;
     justify-content: center;
@@ -90,6 +120,10 @@
         </div>
       {%- endfor -%}
     </div>
+
+    {%- if section.settings.show_social -%}
+      {% render 'footer-social-icons' %}
+    {%- endif -%}
 
     <div class="fmin__bottom">
       <span>&copy; {{ section.settings.copyright | default: shop.name }} {{ 'now' | date: '%Y' }}</span>
