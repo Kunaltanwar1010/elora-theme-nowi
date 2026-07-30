@@ -98,6 +98,14 @@
     color: var(--subtitle-color);
     white-space: nowrap;
   }
+
+  {% unless section.settings.show_on_desktop %}
+    @media (min-width: 990px) {
+      #shopify-section-{{ section.id }} .category-carousel-section {
+        display: none;
+      }
+    }
+  {% endunless %}
 </style>
 
 <section class="category-carousel-section">
@@ -176,6 +184,13 @@
 {
   "name": "Category Carousel",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_on_desktop",
+      "label": "Show on desktop",
+      "default": true,
+      "info": "Uncheck to show this section on mobile only (hidden at 990px and up)."
+    },
     {
       "type": "header",
       "content": "Spacing"
