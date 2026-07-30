@@ -11,50 +11,11 @@
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
-    "footer_minimal_eP4pEh": {
-      "type": "footer-minimal",
-      "blocks": {
-        "column_aJAbnq": {
-          "type": "column",
-          "settings": {
-            "heading": "Quick Links",
-            "menu": "main-menu",
-            "text": ""
-          }
-        },
-        "column_EnA9eY": {
-          "type": "column",
-          "settings": {
-            "heading": "Customer Support",
-            "menu": "footer",
-            "text": ""
-          }
-        }
-      },
-      "block_order": [
-        "column_aJAbnq",
-        "column_EnA9eY"
-      ],
-      "name": "Footer Minimal",
-      "settings": {
-        "bg_color": "#343434",
-        "text_color": "#ffffff",
-        "rule_color": "#ffffff",
-        "columns": 2,
-        "copyright": "Elora Clocset",
-        "heading_font_size": 16,
-        "link_font_size": 13,
-        "padding_top": 64,
-        "padding_bottom": 48,
-        "bottom_gap": 96
-      }
-    },
     "footer_modern_wHHnWL": {
       "type": "footer-modern",
-      "disabled": true,
       "name": "Footer Branded",
       "settings": {
-        "bg_color": "#343434",
+        "bg_color": "#111111",
         "text_color": "#ffffff",
         "accent_color": "#ffffff",
         "logo_width": 100,
@@ -76,7 +37,6 @@
     }
   },
   "order": [
-    "footer_minimal_eP4pEh",
     "footer_modern_wHHnWL"
   ]
 }

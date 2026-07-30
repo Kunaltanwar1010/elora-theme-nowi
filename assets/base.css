@@ -171,8 +171,8 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   }
 
   .page-width--narrow {
-    max-width: var(--page-width);
-    padding: 0;
+    max-width: 72rem;
+    padding: 0 1.5rem;
   }
 
   .page-width-desktop {
@@ -3240,6 +3240,36 @@ details-disclosure > details {
   margin-bottom: 0;
 }
 
+/* Tailwind preflight (`*{margin:0}`) zeroes rich-text rhythm — restore it. */
+.rte p,
+.rte ul,
+.rte ol,
+.rte dl,
+.rte table,
+.rte blockquote,
+.rte hr {
+  margin: 0 0 1.6rem;
+}
+
+.rte h1,
+.rte h2,
+.rte h3,
+.rte h4,
+.rte h5,
+.rte h6 {
+  margin: 4rem 0 1.2rem;
+}
+
+.rte h2 + h3,
+.rte h3 + h4,
+.rte h4 + h5 {
+  margin-top: 2rem;
+}
+
+.rte li {
+  margin-bottom: 0.6rem;
+}
+
 .rte table {
   table-layout: fixed;
 }
@@ -3265,8 +3295,16 @@ details-disclosure > details {
 
 .rte ul,
 .rte ol {
-  list-style-position: inside;
+  list-style-position: outside;
   padding-left: 2rem;
+}
+
+.rte ul {
+  list-style-type: disc;
+}
+
+.rte ol {
+  list-style-type: decimal;
 }
 
 .rte li {

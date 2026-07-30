@@ -26,8 +26,7 @@
         "card_EjL4pc": {
           "type": "card",
           "settings": {
-            "show_card": true,
-            "collection": "tops",
+            "collection": "",
             "label": "Tops",
             "link": ""
           }
@@ -35,8 +34,7 @@
         "card_Wdi3qH": {
           "type": "card",
           "settings": {
-            "show_card": true,
-            "collection": "dresses",
+            "collection": "",
             "label": "Dresses",
             "link": ""
           }
@@ -44,8 +42,7 @@
         "card_xzeK4t": {
           "type": "card",
           "settings": {
-            "show_card": true,
-            "collection": "co-ords",
+            "collection": "",
             "label": "Co-ords",
             "link": ""
           }
@@ -56,16 +53,10 @@
         "card_Wdi3qH",
         "card_xzeK4t"
       ],
-      "custom_css": [
-        ".sbc__heading{font-size: 28px;}"
-      ],
       "name": "Shop by Collection",
       "settings": {
         "heading": "Shop by Collection",
         "heading_color": "#111111",
-        "layout": "carousel",
-        "mobile_columns": "2",
-        "card_ratio": "3 / 4",
         "desktop_columns": 3,
         "corner_radius": 16,
         "padding_y": 40

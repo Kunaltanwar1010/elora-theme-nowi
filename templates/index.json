@@ -11,18 +11,58 @@
   "sections": {
     "social_proof_bar_ApmVwH": {
       "type": "social-proof-bar",
-      "disabled": true,
       "name": "Social Proof Bar",
       "settings": {
         "show_bar": true,
         "layout": "static",
-        "text": "Loved by over 10,000+ customers since 2025",
+        "text": "Loved by over 10,000+ customers since 2016",
         "link": "",
         "interval": 4,
-        "bg_color": "#404040",
+        "bg_color": "#111111",
         "text_color": "#ffffff",
         "text_size": 13,
         "padding_y": 8
+      }
+    },
+    "hero_carousel_HbU4x9": {
+      "type": "hero-carousel",
+      "blocks": {
+        "slide_a4QczP": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "desktop_image": "shopify://shop_images/2.png",
+            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
+            "cta_link": "shopify://collections",
+            "background_color": "#fefafa"
+          }
+        },
+        "slide_M7P87w": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "desktop_image": "shopify://shop_images/1_79d2253d-4da0-4bcf-bdf5-bbbe5430e12b.png",
+            "mobile_image": "shopify://shop_images/1_9ef0f5a5-c4b6-47f5-aaf9-3660b489e925.png",
+            "cta_link": "shopify://collections",
+            "background_color": "#fefafa"
+          }
+        }
+      },
+      "block_order": [
+        "slide_a4QczP",
+        "slide_M7P87w"
+      ],
+      "name": "Hero Carousel",
+      "settings": {
+        "loop": true,
+        "autoplay_delay": 5000,
+        "transition_effect": "fade",
+        "transition_speed": 800,
+        "show_arrows": true,
+        "show_dots": false,
+        "adapt_to_image": true,
+        "hero_height_desktop": 70,
+        "hero_height_mobile": 50
       }
     },
     "category_carousel_3dcF3q": {
@@ -74,33 +114,94 @@
         "subtitle_color": "#111111"
       }
     },
-    "hero_carousel_HbU4x9": {
+    "collection_grid_nwgRzE": {
+      "type": "collection-grid",
+      "name": "Collection Grid",
+      "settings": {
+        "collection": "bestsellers",
+        "layout": "carousel",
+        "show_layout_toggle": true,
+        "show_product_count": true,
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "show_collection_title": true,
+        "custom_title": "Bestsellers",
+        "heading_font_size": 28,
+        "heading_font_weight": "700",
+        "heading_text_transform": "",
+        "heading_alignment": "text-left",
+        "heading_color": "#111111",
+        "show_collection_description": false,
+        "products_to_show": 8,
+        "columns_mobile": 2,
+        "columns_desktop": 4,
+        "enable_pagination": false,
+        "enable_infinite_scroll": false,
+        "show_view_all": true,
+        "enable_quick_buy": true
+      }
+    },
+    "shop_by_collection_hp4q7t": {
+      "type": "shop-by-collection",
+      "blocks": {
+        "card_DDALTE": {
+          "type": "card",
+          "settings": {
+            "collection": "tops",
+            "label": "",
+            "link": ""
+          }
+        },
+        "card_frwytk": {
+          "type": "card",
+          "settings": {
+            "collection": "dresses",
+            "label": "Dresses",
+            "link": ""
+          }
+        },
+        "card_LH894U": {
+          "type": "card",
+          "settings": {
+            "collection": "co-ords",
+            "label": "Co-ords",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_DDALTE",
+        "card_frwytk",
+        "card_LH894U"
+      ],
+      "custom_css": [
+        ".sbc__heading {font-size: 28px;}"
+      ],
+      "name": "Shop by Collection",
+      "settings": {
+        "heading": "Shop by Collection",
+        "heading_color": "#111111",
+        "desktop_columns": 3,
+        "corner_radius": 16,
+        "padding_y": 20
+      }
+    },
+    "hero_carousel_jmCeKb": {
       "type": "hero-carousel",
       "blocks": {
-        "slide_a4QczP": {
+        "slide_eNhcFG": {
           "type": "slide",
           "settings": {
             "media_type": "image",
             "desktop_image": "shopify://shop_images/2.png",
             "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
-            "cta_link": "shopify://collections",
-            "background_color": "#fefafa"
-          }
-        },
-        "slide_M7P87w": {
-          "type": "slide",
-          "settings": {
-            "media_type": "image",
-            "desktop_image": "shopify://shop_images/1_79d2253d-4da0-4bcf-bdf5-bbbe5430e12b.png",
-            "mobile_image": "shopify://shop_images/1_9ef0f5a5-c4b6-47f5-aaf9-3660b489e925.png",
-            "cta_link": "shopify://collections",
+            "cta_link": "",
             "background_color": "#fefafa"
           }
         }
       },
       "block_order": [
-        "slide_a4QczP",
-        "slide_M7P87w"
+        "slide_eNhcFG"
       ],
       "name": "Hero Carousel",
       "settings": {
@@ -109,31 +210,136 @@
         "transition_effect": "fade",
         "transition_speed": 800,
         "show_arrows": true,
-        "show_dots": false,
+        "show_dots": true,
         "adapt_to_image": true,
         "hero_height_desktop": 70,
         "hero_height_mobile": 50
       }
     },
-    "collection_grid_nwgRzE": {
+    "collection_grid_gabFfm": {
       "type": "collection-grid",
       "name": "Collection Grid",
       "settings": {
-        "collection": "bestsellers",
-        "layout": "carousel",
-        "show_layout_toggle": false,
-        "show_product_count": true,
+        "collection": "tops",
         "padding_top": 20,
         "padding_bottom": 20,
         "show_collection_title": true,
-        "custom_title": "BESTSELLERS",
+        "custom_title": "Tops",
         "heading_font_size": 28,
         "heading_font_weight": "700",
         "heading_text_transform": "",
-        "heading_alignment": "text-center",
+        "heading_alignment": "text-left",
         "heading_color": "#111111",
         "show_collection_description": false,
-        "products_to_show": 8,
+        "products_to_show": 4,
+        "columns_mobile": 2,
+        "columns_desktop": 4,
+        "enable_pagination": false,
+        "enable_infinite_scroll": false,
+        "show_view_all": true,
+        "enable_quick_buy": true
+      }
+    },
+    "hero_carousel_nMWYUX": {
+      "type": "hero-carousel",
+      "blocks": {
+        "slide_UG6ppR": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "desktop_image": "shopify://shop_images/2.png",
+            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
+            "cta_link": "",
+            "background_color": "#fefafa"
+          }
+        }
+      },
+      "block_order": [
+        "slide_UG6ppR"
+      ],
+      "name": "Hero Carousel",
+      "settings": {
+        "loop": true,
+        "autoplay_delay": 5000,
+        "transition_effect": "fade",
+        "transition_speed": 800,
+        "show_arrows": true,
+        "show_dots": true,
+        "adapt_to_image": true,
+        "hero_height_desktop": 70,
+        "hero_height_mobile": 50
+      }
+    },
+    "collection_grid_Eg6EKF": {
+      "type": "collection-grid",
+      "name": "Collection Grid",
+      "settings": {
+        "collection": "dresses",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "show_collection_title": true,
+        "custom_title": "Dresses",
+        "heading_font_size": 28,
+        "heading_font_weight": "700",
+        "heading_text_transform": "",
+        "heading_alignment": "text-left",
+        "heading_color": "#111111",
+        "show_collection_description": false,
+        "products_to_show": 4,
+        "columns_mobile": 2,
+        "columns_desktop": 4,
+        "enable_pagination": false,
+        "enable_infinite_scroll": false,
+        "show_view_all": true,
+        "enable_quick_buy": true
+      }
+    },
+    "hero_carousel_C8W8LQ": {
+      "type": "hero-carousel",
+      "blocks": {
+        "slide_yWDrQd": {
+          "type": "slide",
+          "settings": {
+            "media_type": "image",
+            "desktop_image": "shopify://shop_images/2.png",
+            "mobile_image": "shopify://shop_images/2_b484ac37-2db2-498d-b593-518f8d88bc6b.png",
+            "cta_link": "",
+            "background_color": "#fefafa"
+          }
+        }
+      },
+      "block_order": [
+        "slide_yWDrQd"
+      ],
+      "name": "Hero Carousel",
+      "settings": {
+        "loop": true,
+        "autoplay_delay": 5000,
+        "transition_effect": "fade",
+        "transition_speed": 800,
+        "show_arrows": true,
+        "show_dots": true,
+        "adapt_to_image": true,
+        "hero_height_desktop": 70,
+        "hero_height_mobile": 50
+      }
+    },
+    "collection_grid_7jD3zF": {
+      "type": "collection-grid",
+      "name": "Collection Grid",
+      "settings": {
+        "collection": "co-ords",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "show_collection_title": true,
+        "custom_title": "Co-ords",
+        "heading_font_size": 28,
+        "heading_font_weight": "700",
+        "heading_text_transform": "",
+        "heading_alignment": "text-left",
+        "heading_color": "#111111",
+        "show_collection_description": false,
+        "products_to_show": 4,
         "columns_mobile": 2,
         "columns_desktop": 4,
         "enable_pagination": false,
@@ -183,122 +389,14 @@
         "reel_EXWBkF",
         "reel_W8PJrQ"
       ],
-      "custom_css": [
-        ".wnb__heading {font-size: 28px;}"
-      ],
       "name": "Watch & Buy",
       "settings": {
-        "heading": "SHOP BY STYLE",
+        "heading": "Watch & Buy",
         "heading_color": "#111111",
         "bg_color": "#fdf7f5",
         "cta_color": "#111111",
         "cta_text_color": "#ffffff",
         "padding_y": 20
-      }
-    },
-    "collection_grid_gabFfm": {
-      "type": "collection-grid",
-      "name": "Collection Grid",
-      "settings": {
-        "collection": "tops",
-        "layout": "carousel",
-        "show_layout_toggle": false,
-        "show_product_count": true,
-        "padding_top": 20,
-        "padding_bottom": 20,
-        "show_collection_title": true,
-        "custom_title": "NEW IN",
-        "heading_font_size": 28,
-        "heading_font_weight": "700",
-        "heading_text_transform": "",
-        "heading_alignment": "text-center",
-        "heading_color": "#111111",
-        "show_collection_description": false,
-        "products_to_show": 50,
-        "columns_mobile": 2,
-        "columns_desktop": 4,
-        "enable_pagination": true,
-        "enable_infinite_scroll": true,
-        "show_view_all": true,
-        "enable_quick_buy": true
-      }
-    },
-    "shop_by_collection_hp4q7t": {
-      "type": "shop-by-collection",
-      "blocks": {
-        "card_DDALTE": {
-          "type": "card",
-          "settings": {
-            "show_card": true,
-            "collection": "tops",
-            "label": "",
-            "link": ""
-          }
-        },
-        "card_frwytk": {
-          "type": "card",
-          "settings": {
-            "show_card": true,
-            "collection": "dresses",
-            "label": "Dresses",
-            "link": ""
-          }
-        },
-        "card_LH894U": {
-          "type": "card",
-          "settings": {
-            "show_card": true,
-            "collection": "co-ords",
-            "label": "Co-ords",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "card_DDALTE",
-        "card_frwytk",
-        "card_LH894U"
-      ],
-      "custom_css": [
-        ".sbc__heading {font-size: 28px;}"
-      ],
-      "name": "Shop by Collection",
-      "settings": {
-        "heading": "SHOP BY COLLECTION",
-        "heading_color": "#111111",
-        "layout": "carousel",
-        "mobile_columns": "2",
-        "card_ratio": "3 / 4",
-        "desktop_columns": 3,
-        "corner_radius": 16,
-        "padding_y": 20
-      }
-    },
-    "collection_grid_aQCBn9": {
-      "type": "collection-grid",
-      "name": "Collection Grid",
-      "settings": {
-        "collection": "shop-the-sale",
-        "layout": "carousel",
-        "show_layout_toggle": false,
-        "show_product_count": true,
-        "padding_top": 20,
-        "padding_bottom": 20,
-        "show_collection_title": true,
-        "custom_title": "SHOP THE SALE",
-        "heading_font_size": 28,
-        "heading_font_weight": "700",
-        "heading_text_transform": "",
-        "heading_alignment": "text-center",
-        "heading_color": "#111111",
-        "show_collection_description": false,
-        "products_to_show": 50,
-        "columns_mobile": 2,
-        "columns_desktop": 4,
-        "enable_pagination": true,
-        "enable_infinite_scroll": true,
-        "show_view_all": true,
-        "enable_quick_buy": true
       }
     },
     "testimonials_dteQgw": {
@@ -399,23 +497,118 @@
       ],
       "name": "Testimonials",
       "settings": {
-        "heading": "LOVED BY 10K+ CUSTOMERS",
+        "heading": "Loved by 10,000+ girls",
         "subheading": "obsessed? same.",
         "heading_color": "#111111",
-        "bg_color": "#fdf7f5",
+        "bg_color": "#ffffff",
         "marquee_tag": "#WearElora",
         "marquee_speed": 30,
         "padding_y": 48
       }
     },
+    "trust_marquee_wQnNeU": {
+      "type": "trust-marquee",
+      "blocks": {
+        "badge_f8EYgG": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "free_shipping",
+            "label": "Free Shipping",
+            "sublabel": "On all orders"
+          }
+        },
+        "badge_8yzgf9": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "cod",
+            "label": "Cash on Delivery",
+            "sublabel": ""
+          }
+        },
+        "badge_k6wnCe": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "exchange",
+            "label": "Easy 5-Day Exchange",
+            "sublabel": ""
+          }
+        },
+        "badge_JCxtBW": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "secure_payment",
+            "label": "Secure Payments",
+            "sublabel": ""
+          }
+        },
+        "badge_WLe4gL": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "quality",
+            "label": "Quality Checked",
+            "sublabel": ""
+          }
+        },
+        "badge_dtwxHa": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "made_in_india",
+            "label": "Made in India",
+            "sublabel": ""
+          }
+        },
+        "badge_7zGtXd": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "support",
+            "label": "24x7 Support",
+            "sublabel": ""
+          }
+        },
+        "badge_3aap4M": {
+          "type": "badge",
+          "settings": {
+            "icon_key": "original",
+            "label": "100% Original",
+            "sublabel": ""
+          }
+        }
+      },
+      "block_order": [
+        "badge_f8EYgG",
+        "badge_8yzgf9",
+        "badge_k6wnCe",
+        "badge_JCxtBW",
+        "badge_WLe4gL",
+        "badge_dtwxHa",
+        "badge_7zGtXd",
+        "badge_3aap4M"
+      ],
+      "name": "Trust Marquee",
+      "settings": {
+        "direction": "ltr",
+        "speed": 100,
+        "pause_on_hover": true,
+        "bg_color": "#111111",
+        "icon_color": "#ffffff",
+        "text_color": "#ffffff",
+        "icon_size": 28,
+        "gap": 48,
+        "padding_y": 14
+      }
+    },
     "faq_home_elora": {
       "type": "faq-page",
       "blocks": {
+        "category_sizing": {
+          "type": "category",
+          "settings": { "title": "Sizing & Fit" }
+        },
         "faq_choose_size": {
           "type": "faq_item",
           "settings": {
             "question": "How do I choose the right size?",
-            "answer": "<p>We recommend checking our Size Guide available on every product page before placing your order. If you’re between sizes or need help, feel free to contact us on WhatsApp—we’ll be happy to assist you.</p>"
+            "answer": "<p>We recommend checking our Size Guide available on every product page before placing your order. If you're between sizes or need help, feel free to contact us on WhatsApp—we'll be happy to assist you.</p>"
           }
         },
         "faq_doesnt_fit": {
@@ -424,6 +617,10 @@
             "question": "What if the outfit doesn't fit me?",
             "answer": "<p>No worries! We offer easy size exchanges for eligible products. Simply raise an exchange request within the specified time after delivery, and we'll guide you through the process.</p>"
           }
+        },
+        "category_shipping": {
+          "type": "category",
+          "settings": { "title": "Shipping & Delivery" }
         },
         "faq_shipping_time": {
           "type": "faq_item",
@@ -439,12 +636,20 @@
             "answer": "<p>Once your order is shipped, we'll send you a tracking link via SMS, WhatsApp, or email. You can use it to check the real-time status of your shipment.</p>"
           }
         },
+        "category_returns": {
+          "type": "category",
+          "settings": { "title": "Returns & Exchanges" }
+        },
         "faq_exchange": {
           "type": "faq_item",
           "settings": {
             "question": "Can I exchange my order?",
             "answer": "<p>Yes, we offer easy size exchanges on eligible products. You can request an exchange within 7 days of delivery, provided the item is unused, unwashed, and has all original tags attached.</p>"
           }
+        },
+        "category_contact": {
+          "type": "category",
+          "settings": { "title": "Contact Us" }
         },
         "faq_contact": {
           "type": "faq_item",
@@ -455,19 +660,22 @@
         }
       },
       "block_order": [
+        "category_sizing",
         "faq_choose_size",
         "faq_doesnt_fit",
+        "category_shipping",
         "faq_shipping_time",
         "faq_track_order",
+        "category_returns",
         "faq_exchange",
+        "category_contact",
         "faq_contact"
       ],
-      "disabled": true,
       "name": "FAQ",
       "settings": {
         "title": "Frequently Asked Questions",
         "subtitle": "Everything you need to know about shopping at Elora Closet",
-        "show_cta": false,
+        "show_cta": true,
         "cta_title": "Still have questions?",
         "cta_text": "We're here to help! Reach out to our friendly support team.",
         "cta_button_text": "Contact Support",
@@ -475,48 +683,23 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "1785159595b16998ce": {
-      "type": "apps",
-      "blocks": {
-        "instafeed_app_block_3TDziY": {
-          "type": "shopify://apps/instafeed/blocks/app-block/c447db20-095d-4a10-9725-b5977662c9d5",
-          "settings": {
-            "title": "",
-            "title_color": "",
-            "title_size_v2": 0,
-            "alignment": "center",
-            "instafeed_margin_top": 0,
-            "instafeed_margin_bottom": 0,
-            "instafeed_margin_sides": 0,
-            "show_instagram_link": false,
-            "link_alignment": "left",
-            "link_color": "#000000",
-            "background_color": "",
-            "feed_id": "",
-            "html_area": ""
-          }
-        }
-      },
-      "block_order": [
-        "instafeed_app_block_3TDziY"
-      ],
-      "settings": {
-        "include_margins": false
-      }
     }
   },
   "order": [
     "social_proof_bar_ApmVwH",
-    "category_carousel_3dcF3q",
     "hero_carousel_HbU4x9",
+    "category_carousel_3dcF3q",
     "collection_grid_nwgRzE",
-    "watch_and_buy_cyXECP",
-    "collection_grid_gabFfm",
     "shop_by_collection_hp4q7t",
-    "collection_grid_aQCBn9",
+    "hero_carousel_jmCeKb",
+    "collection_grid_gabFfm",
+    "hero_carousel_nMWYUX",
+    "collection_grid_Eg6EKF",
+    "hero_carousel_C8W8LQ",
+    "collection_grid_7jD3zF",
+    "watch_and_buy_cyXECP",
     "testimonials_dteQgw",
     "faq_home_elora",
-    "1785159595b16998ce"
+    "trust_marquee_wQnNeU"
   ]
 }

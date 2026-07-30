@@ -12,6 +12,41 @@
   }
 }
 
+/* Page body: same type rhythm as the home/PDP sections */
+.main-page-content {
+  max-width: 68rem;
+  font-size: 1.6rem;
+  line-height: 1.75;
+}
+
+.main-page-content h2 {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  letter-spacing: 0.01em;
+}
+
+.main-page-content h3 {
+  font-size: clamp(1.6rem, 2.5vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.main-page-content h4,
+.main-page-content h5,
+.main-page-content h6 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* Lead paragraph */
+.main-page-content > p:first-child {
+  font-size: 1.8rem;
+  line-height: 1.7;
+  margin-bottom: 2.4rem;
+  color: rgba(var(--color-foreground), 0.85);
+}
+
 .page-placeholder-wrapper {
   display: flex;
   justify-content: center;
