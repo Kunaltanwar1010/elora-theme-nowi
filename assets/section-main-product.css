@@ -2315,3 +2315,14 @@ a.product__text {
   font-size: var(--pdp-trust-font-size, 13px);
   line-height: 1.3;
 }
+
+/* Sticky bar slides away while the inline buy buttons are on screen */
+.product-form__buttons-fixed-mobile {
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.product-form__buttons-fixed-mobile.is-hidden {
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+}
