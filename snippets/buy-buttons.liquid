@@ -60,7 +60,44 @@
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
         {%- endif -%}
 
-        <div class="product-form__buttons">
+        {%- if block.settings.show_quantity_inline -%}
+          <label class="form__label product-form__quantity-label" for="Quantity-Inline-{{ section_id }}">
+            {{ 'products.product.quantity.label' | t }}
+          </label>
+        {%- endif -%}
+
+        <div class="product-form__buttons{% if block.settings.show_quantity_inline %} product-form__buttons--with-qty{% endif %}">
+          {%- if block.settings.show_quantity_inline -%}
+            <quantity-input class="quantity product-form__quantity-inline" data-url="{{ product.url }}" data-section="{{ section_id }}">
+              <button class="quantity__button" name="minus" type="button">
+                <span class="visually-hidden">
+                  {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
+                </span>
+                <span class="svg-wrapper">{{- 'icon-minus.svg' | inline_asset_content -}}</span>
+              </button>
+              <input
+                class="quantity__input"
+                type="number"
+                name="quantity"
+                id="Quantity-Inline-{{ section_id }}"
+                min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
+                  max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                  data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                {% endif %}
+                step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
+                value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+              >
+              <button class="quantity__button" name="plus" type="button">
+                <span class="visually-hidden">
+                  {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
+                </span>
+                <span class="svg-wrapper">{{- 'icon-plus.svg' | inline_asset_content -}}</span>
+              </button>
+            </quantity-input>
+          {%- endif -%}
+
           {%- liquid
             assign check_against_inventory = true
             if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'

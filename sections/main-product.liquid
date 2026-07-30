@@ -894,7 +894,7 @@
           if (window.innerWidth > MOBILE_BREAKPOINT) return;
           if (document.querySelector('.product-form__buttons-fixed-mobile')) return;
 
-          const originalButtons = document.querySelector('.product-form__buttons');
+          const originalButtons = document.querySelector('#shopify-section-{{ section.id }} .product-form__buttons');
           const originalSubmit = originalButtons?.querySelector('.product-form__submit');
           const outOfStockButton = originalButtons?.querySelector('.product-form__out-of-stock');
 
@@ -1002,7 +1002,7 @@
           const fixedContainer = document.querySelector('.product-form__buttons-fixed-mobile');
           if (fixedContainer) {
             fixedContainer.remove();
-            const originalButtons = document.querySelector('.product-form__buttons');
+            const originalButtons = document.querySelector('#shopify-section-{{ section.id }} .product-form__buttons');
             if (originalButtons) {
               delete originalButtons.dataset.mobileFixed;
             }
@@ -1020,7 +1020,7 @@
         }
 
         // Watch for variant changes (when button state changes)
-        const originalButtonsContainer = document.querySelector('.product-form__buttons');
+        const originalButtonsContainer = document.querySelector('#shopify-section-{{ section.id }} .product-form__buttons');
         if (originalButtonsContainer) {
           const variantObserver = new MutationObserver(function(mutations) {
             // Check if the buttons structure changed (e.g., sold out state changed)
@@ -1047,7 +1047,7 @@
             const fixedContainer = document.querySelector('.product-form__buttons-fixed-mobile');
             if (window.innerWidth > MOBILE_BREAKPOINT && fixedContainer) {
               fixedContainer.remove();
-              const originalButtons = document.querySelector('.product-form__buttons');
+              const originalButtons = document.querySelector('#shopify-section-{{ section.id }} .product-form__buttons');
               if (originalButtons) {
                 delete originalButtons.dataset.mobileFixed;
               }
