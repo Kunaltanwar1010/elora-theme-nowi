@@ -2262,29 +2262,36 @@ a.product__text {
   gap: 1rem;
 }
 
-.product-form__buttons--with-qty .product-form__quantity-inline {
-  flex: 0 0 auto;
-  width: 12rem;
+/* The desktop "equal widths" block above uses !important on
+   `.product-form__buttons .shopify-payment-button`, so these need matching
+   specificity plus !important to put Buy it now on its own row. */
+.product-form__buttons.product-form__buttons--with-qty .product-form__quantity-inline {
+  flex: 0 0 12rem !important;
+  max-width: 12rem !important;
   min-height: 4.6rem;
 }
 
-.product-form__buttons--with-qty .product-form__submit,
-.product-form__buttons--with-qty .product-form__out-of-stock {
-  flex: 1 1 0;
-  width: auto;
-  min-width: 0;
+.product-form__buttons.product-form__buttons--with-qty .product-form__submit,
+.product-form__buttons.product-form__buttons--with-qty .product-form__out-of-stock {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
   min-height: 4.6rem;
   margin: 0;
 }
 
 /* Buy it now drops to its own full-width row */
-.product-form__buttons--with-qty .shopify-payment-button {
-  flex: 1 0 100%;
+.product-form__buttons.product-form__buttons--with-qty .shopify-payment-button {
+  flex: 1 0 100% !important;
+  max-width: none !important;
   margin: 0;
 }
 
-.product-form__buttons--with-qty .shopify-payment-button__button--unbranded {
+.product-form__buttons.product-form__buttons--with-qty .shopify-payment-button__button--unbranded,
+.product-form__buttons.product-form__buttons--with-qty .shopify-payment-button__button {
   min-height: 4.6rem;
+  width: 100% !important;
 }
 
 /* Trust icons */
