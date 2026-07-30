@@ -202,10 +202,3 @@
     font-size: 14px;
   }
 }
-
-/* Hide category carousel on desktop */
-@media (min-width: 990px) {
-  .category-carousel-section {
-    display: none;
-  }
-}
