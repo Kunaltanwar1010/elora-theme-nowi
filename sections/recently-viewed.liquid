@@ -1,0 +1,249 @@
+{% comment %}
+  Recently viewed products.
+
+  Mirrors the related-products layout (same CSS, same card snippet). Product IDs are
+  kept in localStorage by the PDP itself; the grid is then filled by fetching this same
+  section through the Search rendering API with an `id:` query.
+{% endcomment %}
+
+{{ 'section-related-products.css' | asset_url | stylesheet_tag }}
+{{ 'component-collection-product-card-modern.css' | asset_url | stylesheet_tag }}
+{{ 'component-quick-buy.css' | asset_url | stylesheet_tag }}
+{%- comment -%} quick-buy.js loaded globally in theme.liquid {%- endcomment -%}
+
+{%- assign card_gap = settings.modern_card_gap | default: 15 -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    #shopify-section-{{ section.id }} .related-products .product-grid {
+      grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr)) !important;
+    }
+  }
+{%- endstyle -%}
+
+{%- comment -%}
+  Rendered through the Search API (?section_id=…): emit only the cards, which the PDP
+  copy of this section lifts into its own grid.
+{%- endcomment -%}
+{%- if search.performed -%}
+  {%- for item in search.results -%}
+    {%- if item.object_type == 'product' -%}
+      <li data-pid="{{ item.id }}">
+        {% render 'collection-product-card-modern',
+          product: item,
+          title_color: settings.modern_card_title_color,
+          title_font_size: settings.modern_card_title_font_size,
+          title_font_weight: settings.modern_card_title_font_weight,
+          price_color: settings.modern_card_price_color,
+          price_font_size: settings.modern_card_price_font_size,
+          price_font_weight: settings.modern_card_price_font_weight,
+          original_price_color: settings.modern_card_original_price_color,
+          original_price_font_size: settings.modern_card_original_price_font_size,
+          discount_bg_color: settings.modern_card_discount_bg_color,
+          discount_text_color: settings.modern_card_discount_text_color,
+          inline_discount_color: settings.modern_card_inline_discount_color,
+          discount_font_size: settings.modern_card_discount_font_size,
+          enable_quick_buy: section.settings.enable_quick_buy,
+          quick_buy_button_color: settings.modern_card_quick_buy_button_color,
+          quick_buy_button_text_color: settings.modern_card_quick_buy_button_text_color,
+          quick_buy_variant_font_size: settings.modern_card_quick_buy_variant_font_size
+        %}
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+{%- else -%}
+  <div class="color-{{ section.settings.color_scheme }} gradient">
+    <div
+      class="related-products page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+      data-recently-viewed
+      hidden
+    >
+      <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
+        {{ section.settings.heading }}
+      </h2>
+      <ul
+        class="product-grid"
+        role="list"
+        style="display: grid; grid-template-columns: repeat({{ section.settings.columns_mobile }}, minmax(0, 1fr)); gap: {{ card_gap }}px;"
+      ></ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var KEY = 'elora:recently-viewed';
+      var MAX_STORED = 20;
+      var LIMIT = {{ section.settings.products_to_show }};
+      var currentId = {{ product.id | default: 0 | json }};
+
+      function read() {
+        try {
+          var stored = JSON.parse(localStorage.getItem(KEY));
+          return Array.isArray(stored) ? stored.filter(function (id) { return typeof id === 'number'; }) : [];
+        } catch (e) {
+          return [];
+        }
+      }
+
+      var ids = read();
+
+      /* Record this product first, so the list survives even when the grid stays empty. */
+      if (currentId) {
+        var next = [currentId].concat(ids.filter(function (id) { return id !== currentId; }));
+        try {
+          localStorage.setItem(KEY, JSON.stringify(next.slice(0, MAX_STORED)));
+        } catch (e) {}
+      }
+
+      var wanted = ids.filter(function (id) { return id !== currentId; }).slice(0, LIMIT);
+      if (!wanted.length) return;
+
+      var wrap = document.querySelector('#shopify-section-{{ section.id }} [data-recently-viewed]');
+      if (!wrap) return;
+      var grid = wrap.querySelector('.product-grid');
+
+      var query = wanted
+        .map(function (id) { return 'id:' + id; })
+        .join(' OR ');
+      var url =
+        '{{ routes.search_url }}?section_id={{ section.id }}&type=product&q=' + encodeURIComponent(query);
+
+      fetch(url)
+        .then(function (res) { return res.ok ? res.text() : Promise.reject(res.status); })
+        .then(function (html) {
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          var cards = Array.prototype.slice.call(doc.querySelectorAll('li[data-pid]'));
+          if (!cards.length) return;
+
+          /* Search returns relevance order; restore most-recently-viewed-first. */
+          cards.sort(function (a, b) {
+            return wanted.indexOf(parseInt(a.dataset.pid, 10)) - wanted.indexOf(parseInt(b.dataset.pid, 10));
+          });
+          cards.forEach(function (card) { grid.appendChild(card); });
+          wrap.hidden = false;
+        })
+        .catch(function () {
+          /* leave the section hidden */
+        });
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Recently viewed",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows products this visitor viewed earlier. It stays hidden until they have viewed something else, so it looks empty in the theme editor and on a first visit."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Recently viewed",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" },
+        { "value": "hxl", "label": "Extra large" },
+        { "value": "hxxl", "label": "Extra extra large" }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4,
+      "label": "Maximum products to show"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "Number of columns on desktop"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "default": "2",
+      "label": "Number of columns on mobile",
+      "options": [
+        { "value": "1", "label": "1 column" },
+        { "value": "2", "label": "2 columns" }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Quick Buy"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_buy",
+      "default": true,
+      "label": "Enable quick buy button",
+      "info": "Shows a shopping bag icon on product images. Colors are controlled in Theme Settings > Modern Product Card."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recently viewed"
+    }
+  ]
+}
+{% endschema %}

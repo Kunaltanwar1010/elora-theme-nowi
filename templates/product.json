@@ -52,10 +52,7 @@
           "type": "variant_picker",
           "settings": {
             "picker_type": "button",
-            "swatch_shape": "circle",
-            "show_size_guide": true,
-            "size_guide_label": "Size Guide",
-            "size_chart_image": "shopify://shop_images/WhatsApp_Image_2026-07-27_at_15.45.30.jpg"
+            "swatch_shape": "circle"
           }
         },
         "quantity_selector": {
@@ -110,16 +107,7 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Wash Care",
-            "icon": "none",
-            "content": "<p>1.  Wash with similar colors</p><p>2. Do not bleach</p><p>3. Do not wring</p><p>4. Dry in shade</p><p>5. Tumble dry low</p><p>6. Iron on low heat</p><p>7. Do not iron on print</p>",
-            "page": ""
-          }
-        },
-        "collapsible_tab_gzD8tR": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Shipping Information",
-            "icon": "none",
+            "icon": "plant",
             "content": "<p>1.  Wash with similar colors</p><p>2. Do not bleach</p><p>3. Do not wring</p><p>4. Dry in shade</p><p>5. Tumble dry low</p><p>6. Iron on low heat</p><p>7. Do not iron on print</p>",
             "page": ""
           }
@@ -146,7 +134,6 @@
         "delivery_eta_timeline",
         "desc_accordion",
         "collapsible_tab_CxFnbi",
-        "collapsible_tab_gzD8tR",
         "share"
       ],
       "custom_css": [
@@ -164,7 +151,7 @@
         "image_zoom": "lightbox",
         "hide_variants": true,
         "enable_video_looping": true,
-        "padding_top": 0,
+        "padding_top": 20,
         "padding_bottom": 20
       }
     },
@@ -246,7 +233,6 @@
         "badge_LbTx7X",
         "badge_GFNG6f"
       ],
-      "disabled": true,
       "name": "Trust Marquee",
       "settings": {
         "direction": "ltr",
@@ -258,60 +244,6 @@
         "icon_size": 28,
         "gap": 48,
         "padding_y": 14
-      }
-    },
-    "watch_and_buy_GE6LtC": {
-      "type": "watch-and-buy",
-      "blocks": {
-        "reel_3gTA7j": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_PNRVTH": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_GADCWQ": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_kTU49y": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        },
-        "reel_z6yLPa": {
-          "type": "reel",
-          "settings": {
-            "product": ""
-          }
-        }
-      },
-      "block_order": [
-        "reel_3gTA7j",
-        "reel_PNRVTH",
-        "reel_GADCWQ",
-        "reel_kTU49y",
-        "reel_z6yLPa"
-      ],
-      "custom_css": [
-        ".wnb__heading {font-size: 28px;}"
-      ],
-      "name": "Watch & Buy",
-      "settings": {
-        "heading": "SHOP THE STYLE",
-        "heading_color": "#111111",
-        "bg_color": "#fdf7f5",
-        "cta_color": "#111111",
-        "cta_text_color": "#ffffff",
-        "padding_y": 32
       }
     },
     "testimonials_iJMEYW": {
@@ -372,107 +304,101 @@
       ],
       "name": "Testimonials",
       "settings": {
-        "heading": "Loved by 10,000+ customers",
+        "heading": "Loved by 10,000+ girls 💕",
         "subheading": "obsessed? same.",
         "heading_color": "#111111",
-        "bg_color": "#fdf7f5",
+        "bg_color": "#f7eff0",
         "marquee_tag": "#WearElora",
         "marquee_speed": 30,
-        "padding_y": 20
+        "padding_y": 48
       }
     },
-    "related-products": {
-      "type": "related-products",
-      "custom_css": [
-        ".related-products__heading {font-size: 28px;}"
-      ],
-      "settings": {
-        "heading": "Must-Have Styles",
-        "heading_size": "h1",
-        "products_to_show": 10,
-        "columns_desktop": 6,
-        "columns_mobile": "2",
-        "layout": "carousel",
-        "color_scheme": "scheme-1",
-        "enable_quick_buy": true,
-        "padding_top": 20,
-        "padding_bottom": 20
-      }
-    },
-    "faq_page_i7d6Q3": {
-      "type": "faq-page",
+    "watch_and_buy_GE6LtC": {
+      "type": "watch-and-buy",
       "blocks": {
-        "faq_item_NH36AR": {
-          "type": "faq_item",
+        "reel_3gTA7j": {
+          "type": "reel",
           "settings": {
-            "question": "How do I choose the right size?",
-            "answer": "<p>We recommend checking our Size Guide available on every product page before placing your order. If you’re between sizes or need help, feel free to contact us on WhatsApp—we’ll be happy to assist you.</p>"
+            "product": ""
           }
         },
-        "faq_item_QDDJQJ": {
-          "type": "faq_item",
+        "reel_PNRVTH": {
+          "type": "reel",
           "settings": {
-            "question": "What if the outfit doesn't fit me?",
-            "answer": "<p>No worries! We offer easy size exchanges for eligible products. Simply raise an exchange request within the specified time after delivery, and we'll guide you through the process.</p>"
+            "product": ""
           }
         },
-        "faq_item_8pY3HD": {
-          "type": "faq_item",
+        "reel_GADCWQ": {
+          "type": "reel",
           "settings": {
-            "question": "How long does shipping take?",
-            "answer": "<p>We process all orders within 1–2 business days. Delivery usually takes 3–7 business days, depending on your location. You'll receive a tracking link once your order is shipped.</p>"
+            "product": ""
           }
         },
-        "faq_item_G3e4B3": {
-          "type": "faq_item",
+        "reel_kTU49y": {
+          "type": "reel",
           "settings": {
-            "question": "How can I track my order?",
-            "answer": "<p>Once your order is shipped, we'll send you a tracking link via SMS, WhatsApp, or email. You can use it to check the real-time status of your shipment.</p>"
+            "product": ""
           }
         },
-        "faq_item_PiydFw": {
-          "type": "faq_item",
+        "reel_z6yLPa": {
+          "type": "reel",
           "settings": {
-            "question": "Can I exchange my order?",
-            "answer": "<p>Yes, we offer easy size exchanges on eligible products. You can request an exchange within 7 days of delivery, provided the item is unused, unwashed, and has all original tags attached.</p>"
-          }
-        },
-        "faq_item_D66BCA": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How can I contact Elora Closet?",
-            "answer": "<p>You can reach us via WhatsApp, email, or Instagram DM. Our customer support team is available to help with sizing, orders, exchanges, or any other queries.</p>"
+            "product": ""
           }
         }
       },
       "block_order": [
-        "faq_item_NH36AR",
-        "faq_item_QDDJQJ",
-        "faq_item_8pY3HD",
-        "faq_item_G3e4B3",
-        "faq_item_PiydFw",
-        "faq_item_D66BCA"
+        "reel_3gTA7j",
+        "reel_PNRVTH",
+        "reel_GADCWQ",
+        "reel_kTU49y",
+        "reel_z6yLPa"
       ],
-      "name": "FAQ",
+      "name": "Watch & Buy",
       "settings": {
-        "title": "FAQ's",
-        "subtitle": "Everything you need to know about shopping at Elora Closet",
-        "show_cta": false,
-        "cta_title": "",
-        "cta_text": "",
-        "cta_button_text": "",
-        "cta_link": "",
-        "padding_top": 20,
-        "padding_bottom": 36
+        "heading": "Watch & Buy",
+        "heading_color": "#111111",
+        "bg_color": "#ffffff",
+        "cta_color": "#111111",
+        "cta_text_color": "#ffffff",
+        "padding_y": 40
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h1",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "enable_quick_buy": true,
+        "padding_top": 24,
+        "padding_bottom": 20
+      }
+    },
+    "recently_viewed": {
+      "type": "recently-viewed",
+      "settings": {
+        "heading": "Recently viewed",
+        "heading_size": "h1",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "enable_quick_buy": true,
+        "padding_top": 24,
+        "padding_bottom": 20
       }
     }
   },
   "order": [
     "main",
     "trust_marquee_MqF38j",
-    "watch_and_buy_GE6LtC",
     "testimonials_iJMEYW",
+    "watch_and_buy_GE6LtC",
     "related-products",
-    "faq_page_i7d6Q3"
+    "recently_viewed"
   ]
 }
