@@ -1332,6 +1332,138 @@
           "default": true,
           "label": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.label",
           "info": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.info"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_quantity_inline",
+          "default": true,
+          "label": "Show quantity next to Add to cart",
+          "info": "Puts the quantity stepper and Add to cart on one row, with Buy it now full width underneath. Turn off the separate Quantity selector block when this is on."
+        }
+      ]
+    },
+    {
+      "type": "trust_icons",
+      "name": "Trust icons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Up to 4 icons in a row. Upload an image, or leave the image empty to use the Image URL instead. Icons render at a fixed height so mismatched source images still line up."
+        },
+        {
+          "type": "range",
+          "id": "icon_height",
+          "label": "Icon height",
+          "min": 32,
+          "max": 120,
+          "step": 4,
+          "unit": "px",
+          "default": 64
+        },
+        {
+          "type": "range",
+          "id": "label_font_size",
+          "label": "Label font size",
+          "min": 10,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 13
+        },
+        {
+          "type": "range",
+          "id": "column_gap",
+          "label": "Space between icons",
+          "min": 0,
+          "max": 40,
+          "step": 2,
+          "unit": "px",
+          "default": 12
+        },
+        {
+          "type": "header",
+          "content": "Icon 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_1_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "icon_1_url",
+          "label": "Image URL",
+          "default": "https://westo.in/cdn/shop/files/1_28e0a47d-a5ae-4875-8264-ae80de26ee35.png?v=1777375588"
+        },
+        {
+          "type": "text",
+          "id": "icon_1_label",
+          "label": "Label",
+          "default": "Premium Quality"
+        },
+        {
+          "type": "header",
+          "content": "Icon 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_2_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "icon_2_url",
+          "label": "Image URL",
+          "default": "https://westo.in/cdn/shop/files/cod_5.png?v=1778049842"
+        },
+        {
+          "type": "text",
+          "id": "icon_2_label",
+          "label": "Label",
+          "default": "COD Available"
+        },
+        {
+          "type": "header",
+          "content": "Icon 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_3_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "icon_3_url",
+          "label": "Image URL",
+          "default": "https://westo.in/cdn/shop/files/3_8af97fa8-2d24-467b-9c25-286de5635185.png?v=1777375588"
+        },
+        {
+          "type": "text",
+          "id": "icon_3_label",
+          "label": "Label",
+          "default": "Secure Payments"
+        },
+        {
+          "type": "header",
+          "content": "Icon 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_4_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "icon_4_url",
+          "label": "Image URL",
+          "default": "https://westo.in/cdn/shop/files/2_459d59f4-cfd0-415a-aed4-67449ff623ed.png?v=1777375588"
+        },
+        {
+          "type": "text",
+          "id": "icon_4_label",
+          "label": "Label",
+          "default": "25K happy Customers"
         }
       ]
     },
@@ -2631,6 +2763,13 @@
       "id": "enable_sticky_info",
       "default": true,
       "label": "t:sections.main-product.settings.enable_sticky_info.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_bar_after_buttons",
+      "default": true,
+      "label": "Show sticky bar only after scrolling past the buttons",
+      "info": "Mobile only. When off, the sticky Add to cart bar is visible for the whole page."
     },
     {
       "type": "color_scheme",
