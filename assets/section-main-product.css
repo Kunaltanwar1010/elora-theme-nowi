@@ -2279,6 +2279,7 @@ a.product__text {
   max-width: none !important;
   min-height: 4.6rem;
   margin: 0;
+  white-space: nowrap;
 }
 
 /* Buy it now drops to its own full-width row */
