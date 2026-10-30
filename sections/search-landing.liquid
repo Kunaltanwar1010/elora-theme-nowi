@@ -85,12 +85,7 @@
             {% endif %}
 
             <!-- Desktop Inline Sort/Filter Bar - Sticky on scroll -->
-            {% render 'desktop-sort-filter-bar',
-              has_filters: search.filters.size > 0,
-              title: 'Search Results',
-              show_back_button: true,
-              current_sort: search.sort_by
-            %}
+            {% render 'desktop-sort-filter-bar', has_filters: search.filters.size, title: 'Search Results', show_back_button: true, current_sort: search.sort_by %}
 
             <!-- Desktop Filter Layout - Sidebar + Grid -->
             <div class="desktop-filter-layout">
@@ -349,3 +344,20 @@
     };
   })();
 </script>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {% render 'desktop-sort-filter-bar',
+                  has_filters: search.filters.size > 0,
+                  title: 'Search Results',
+                  show_back_button: true,
+                  current_sort: search.sort_by
+                %}
+  to: "{% render 'desktop-sort-filter-bar', has_filters: search.filters.size, title:
+    'Search Results', show_back_button: true, current_sort: search.sort_by %}"
+  position: 3655..3806
+{% endcomment %}

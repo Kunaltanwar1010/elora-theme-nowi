@@ -164,12 +164,7 @@
 
           <!-- Desktop Inline Sort/Filter Bar - Sticky on scroll -->
           {% if is_collection_page %}
-            {% render 'desktop-sort-filter-bar',
-              has_filters: target_collection.filters.size > 0,
-              title: target_collection.title,
-              show_back_button: true,
-              current_sort: target_collection.sort_by
-            %}
+            {% render 'desktop-sort-filter-bar', has_filters: target_collection.filters.size, title: target_collection.title, show_back_button: true, current_sort: target_collection.sort_by %}
           {% endif %}
 
           <!-- Desktop Filter Layout - Sidebar + Grid -->
@@ -822,3 +817,21 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {% render 'desktop-sort-filter-bar',
+                  has_filters: target_collection.filters.size > 0,
+                  title: target_collection.title,
+                  show_back_button: true,
+                  current_sort: target_collection.sort_by
+                %}
+  to: "{% render 'desktop-sort-filter-bar', has_filters: target_collection.filters.size,
+    title: target_collection.title, show_back_button: true, current_sort: target_collection.sort_by
+    %}"
+  position: 6624..6804
+{% endcomment %}
